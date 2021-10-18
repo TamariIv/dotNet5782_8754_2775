@@ -10,7 +10,7 @@ namespace DAL
     {
         class DataSource
         {
-
+            internal Drone
         }
     }
 }
