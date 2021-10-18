@@ -11,6 +11,7 @@ namespace DAL
         enum WeightCategories { heavy, medium, light}
 
         enum DroneStatus { maintenance, available, delivery}
+        enum Priorities { regular, rapid, emergency }
     }
     //class Enums
     //{
