@@ -12,8 +12,8 @@ namespace DAL
         {
             public int Id { get; set; }
             public string Model { get; set; }
-            //public WeightCategories MaxWeight;
-            //public DroneStatus Status;
+            public WeightCategories MaxWeight;
+            public DroneStatus Status;
             public double Battery { get; set; }
         }
     }
