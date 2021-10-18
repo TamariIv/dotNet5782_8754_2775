@@ -8,9 +8,9 @@ namespace DAL
 {
     namespace DO
     {
-        enum WeightCategories { heavy, medium, light}
-        enum DroneStatus { maintenance, available, delivery}
-        enum Priorities { regular, rapid, emergency }
+        public enum WeightCategories { heavy, medium, light}
+        public enum DroneStatus { maintenance, available, delivery}
+        public enum Priorities { regular, rapid, emergency }
     }
     //class Enums
     //{
