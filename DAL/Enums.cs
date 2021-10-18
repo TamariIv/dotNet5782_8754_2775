@@ -9,6 +9,7 @@ namespace DAL
     namespace DO
     {
         enum WeightCategories { heavy, medium, light}
+        enum Priorities { regular, rapid, emergency }
     }
     class Enums
     {
