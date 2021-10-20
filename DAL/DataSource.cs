@@ -11,10 +11,10 @@ namespace DAL
     {
         public class DataSource
         {
-            internal List<Drone> Drones;
+            internal static List<Drone> Drones;
             internal static List<Station> Stations;
-            internal List<Customer> Customers;
-            internal List<Parcel> Parcels;
+            internal static List<Customer> Customers;
+            internal static List<Parcel> Parcels;
 
 
             public static Random r = new Random();
@@ -36,23 +36,40 @@ namespace DAL
                     Station s = new Station();
                     s.Id = r.Next(10000, 10000);
                     s.Name = r.Next(10000, 100000);
-                    s.Lonitude = r.NextDouble() + r.Next(-180, 80);
-                    s.Lattitude = r.NextDouble() + r.Next(-90, 90);
-                    s.CahrgeSlots = r.Next(1, 6);
+                    s.Longitude = r.NextDouble() + r.Next(-180, 80);
+                    s.Latitude = r.NextDouble() + r.Next(-90, 90);
+                    s.ChargeSlots = r.Next(1, 6);
                     Stations.Add(s);
                 }
                
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++) //initialize drone
                 {
-                    Drone D = new Drone();
-                    D.Id = r.Next(1001, 10000); 
-                    D.Model = (r.Next(11, 100)).ToString().ToUpper() + (r.Next(111,999)).ToString(); // for example: SE503
-                    D.MaxWeight = (WeightCategories)r.Next(3);
-                    Drones.Add(D);
+                    Drone d = new Drone();
+                    d.Id = r.Next(1001, 10000); 
+                    d.Model = (r.Next(65, 91)).ToString() + (r.Next(111,999)).ToString(); // for example: SE503
+                    d.MaxWeight = (WeightCategories)r.Next(3);
+                    Drones.Add(d);
+                }
+
+                string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
+                string[] firstDigits = { "050", "052", "054" };
+                for (int i = 0; i < 10; i++)
+                {
+                    Customer c = new Customer();
+                    c.Id = r.Next(100000000, 1000000000);
+                    c.Name = namesArray[i];
+                    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
+                    for (int j = 0; j < 7; j++)
+                    {
+                        c.Phone += (r.Next(0, 11)).ToString();
+                    }
+                    c.Latitude = r.NextDouble() + r.Next(-90, 90);
+                    c.Longitude = r.NextDouble() + r.Next(-180, 80);
                 }
 
             }
         }
+
     }
 }
 

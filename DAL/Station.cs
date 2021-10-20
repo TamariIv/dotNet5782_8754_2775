@@ -12,9 +12,9 @@ namespace DAL
         {
             public int Id;
             public int Name;
-            public double Lonitude;
-            public double Lattitude;
-            public int CahrgeSlots;
+            public double Longitude;
+            public double Latitude;
+            public int ChargeSlots;
         }
     }
 
