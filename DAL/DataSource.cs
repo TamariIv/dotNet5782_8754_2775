@@ -9,7 +9,7 @@ namespace DAL
 {
     namespace DalObject
     {
-        class DataSource
+       public class DataSource
         {
             internal List<Object> Drones;
             internal List<Object> Station;
