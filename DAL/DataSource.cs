@@ -9,7 +9,7 @@ namespace DAL
 {
     namespace DalObject
     {
-       public class DataSource
+        public class DataSource
         {
             internal List<Object> Drones;
             internal List<Object> Station;
@@ -24,6 +24,10 @@ namespace DAL
                 //internal static int Parcel_i = 0;
                 //internal static int ParcelNum = 0;
                 internal int ParcelId;
+            }
+            public static void Initialize()
+            {
+
             }
         }
 
