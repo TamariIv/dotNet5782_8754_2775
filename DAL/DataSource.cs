@@ -25,6 +25,8 @@ namespace DAL
                 //internal static int ParcelNum = 0;
                 internal int ParcelId;
             }
+
+
         }
 
 
