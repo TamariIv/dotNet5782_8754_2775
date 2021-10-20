@@ -9,18 +9,15 @@ namespace DAL
 {
     namespace DalObject
     {
-        class DataSource
+       public class DataSource
         {
-            internal Drone
+             internal class Config
+            {
+
+            }
+
         }
 
-        internal class Config
-        {
-            internal static int Drone_i = 0;
-            internal static int Station_i = 0;
-            internal static int Customer_i = 0;
-            internal static int Parcel_i = 0;
-            internal static int ParcelNum = 0;
-        }
+       
     }
 }
