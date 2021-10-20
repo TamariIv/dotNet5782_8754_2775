@@ -11,10 +11,12 @@ namespace DAL
     {
         public class DataSource
         {
-            internal List<Object> Drones;
-            internal List<Object> Station;
-            internal List<Object> Customers;
-            internal List<Object> Parcels;
+            internal static List<Object> Drones;
+            internal static List<Object> Stations;
+            internal static List<Object> Customers;
+            internal static List<Object> Parcels;
+
+            public static Random r = new Random();
 
             internal class Config
             {
@@ -27,10 +29,17 @@ namespace DAL
             }
             public static void Initialize()
             {
+                for (int i = 0; i < 5; i++)
+                {
+                    Drone D = new Drone();
+                    D.Id = r.Next(1001, 10000); 
+                    D.Model = (r.Next(11, 100)).ToString().ToUpper() + (r.Next(111,999)).ToString(); // for example: SE503
+                    D.MaxWeight = (WeightCategories)r.Next(3);
+                    Drones.Add(D);
+                }
 
             }
         }
-
-
     }
 }
+
