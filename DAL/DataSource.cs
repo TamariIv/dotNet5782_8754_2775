@@ -11,7 +11,7 @@ namespace DAL
     {
         class DataSource
         {
-
+            internal Drone
         }
 
         internal class Config
