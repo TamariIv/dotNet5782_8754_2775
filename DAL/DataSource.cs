@@ -16,36 +16,51 @@ namespace DAL
             internal static List<Customer> Customers;
             internal static List<Parcel> Parcels;
 
-
             public static Random r = new Random();
 
             internal class Config
-            {
-                //internal static int Drone_i = 0;
-                //internal static int Station_i = 0;
-                //internal static int Customer_i = 0;
-                //internal static int Parcel_i = 0;
-                //internal static int ParcelNum = 0;
-                internal int ParcelId;
-
+            {        
+                internal int ParcelId = 1000000; ///the first parcel num. (and than it rises in one)
             }
+
             public static void Initialize()
             {   ///initialize the list of the stations:
                 Station s = new Station();
-                s.Id = r.Next(10000, 100000); //id number with 5 digits
-                s.Name = "East Jerusalem";
-                s.Longitude = 31.772683666786808; 
-                s.Latitude = 35.246193383752214;
+                s.Id = r.Next(10000, 100000); ///id number with 5 digits
+                s.Name = "Pisgat Zeev";
+                s.Longitude = 31.831146861430444;
+                s.Latitude = 35.24263233548004;
                 s.CahrgeSlots = r.Next(11);
                 Stations.Add(s);
 
                 s = new Station();
                 s.Id = r.Next(10000, 100000);
-                s.Name = "Center Jerusalem";
-                s.Longitude = 31.760491395848746;
-                s.Latitude = 35.191162492863846;
+                s.Name = "Givat Shaul";
+                s.Longitude = 31.79083501738606;
+                s.Latitude = 35.19514418203499;
                 s.CahrgeSlots = r.Next(11);
                 Stations.Add(s);
+
+                //for (int i = 0; i < 10; i++)
+                //{
+                //    Parcel p = new Parcel();
+                //    p.Id=
+
+                //}
+
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    Customer c = new Customer();
+                //    c.Id = r.Next(100000000, 1000000000);
+                //    c.Name = namesArray[i];
+                //    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
+                //    for (int j = 0; j < 7; j++)
+                //    {
+                //        c.Phone += (r.Next(0, 11)).ToString();
+                //    }
+                //    c.Latitude = r.NextDouble() + r.Next(-90, 90);
+                //    c.Longitude = r.NextDouble() + r.Next(-180, 80);
+                //}
 
 
             }
