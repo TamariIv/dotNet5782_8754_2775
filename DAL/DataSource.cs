@@ -11,10 +11,10 @@ namespace DAL
     {
         public class DataSource
         {
-            internal List<Drone> Drones;
+            internal static List<Drone> Drones;
             internal static List<Station> Stations;
-            internal List<Customer> Customers;
-            internal List<Parcel> Parcels;
+            internal static List<Customer> Customers;
+            internal static List<Parcel> Parcels;
 
 
             public static Random r = new Random();
@@ -30,18 +30,25 @@ namespace DAL
 
             }
             public static void Initialize()
-            {
-                for (int i = 0; i < 2; i++) //initialize station
-                {
-                    Station s = new Station();
-                    s.Id = r.Next(10000, 10000);
-                    s.Name = r.Next(10000, 100000);
-                    s.Lonitude = r.NextDouble() + r.Next(-180, 80);
-                    s.Lattitude = r.NextDouble() + r.Next(-90, 90);
-                    s.CahrgeSlots = r.Next(1, 6);
-                    Stations.Add(s);
-                }
-               
+            {   ///initialize the list of the stations:
+                Station s = new Station();
+                s.Id = r.Next(10000, 100000); //id number with 5 digits
+                s.Name = "East Jerusalem";
+                s.Longitude = 31.772683666786808; 
+                s.Latitude = 35.246193383752214;
+                s.CahrgeSlots = r.Next(11);
+                Stations.Add(s);
+
+                s = new Station();
+                s.Id = r.Next(10000, 100000);
+                s.Name = "Center Jerusalem";
+                s.Longitude = 31.760491395848746;
+                s.Latitude = 35.191162492863846;
+                s.CahrgeSlots = r.Next(11);
+                Stations.Add(s);
+
+
+
                 for (int i = 0; i < 5; i++)
                 {
                     Drone D = new Drone();
