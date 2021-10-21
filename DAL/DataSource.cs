@@ -48,18 +48,9 @@ namespace DAL
                 Stations.Add(s);
 
 
-
-                for (int i = 0; i < 5; i++)
-                {
-                    Drone D = new Drone();
-                    D.Id = r.Next(1001, 10000); 
-                    D.Model = (r.Next(11, 100)).ToString().ToUpper() + (r.Next(111,999)).ToString(); // for example: SE503
-                    D.MaxWeight = (WeightCategories)r.Next(3);
-                    Drones.Add(D);
-                }
-
             }
         }
+
     }
 }
 
