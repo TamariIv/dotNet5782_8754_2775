@@ -61,10 +61,10 @@ namespace DAL
                     bool flag = false;
                     for (int j = 0; j < Drones.Count && flag; j++)
                     {
-                        if (Drones.ElementAt(i).Status.Equals("available"))
+                        if (Drones[j].Status.Equals("available"))
                         {
                             p.DroneId = Drones.ElementAt(i).Id;
-                            Drones.ElementAt(i).Status = (DroneStatus)2;
+                           // Drones[j].Status = (DroneStatus)2;
                             flag = true;
                         }
                     }
