@@ -48,6 +48,18 @@ namespace DAL
 
                 }
 
+                for (int i = 0; i < 5; i++) //initialize drone
+                {
+                    Drone d = new Drone();
+                    d.Id = r.Next(1001, 10000);
+                    d.Model = (r.Next(65, 91)).ToString() + (r.Next(111, 999)).ToString(); // for example: SE503
+                    d.MaxWeight = (WeightCategories)r.Next(3);
+                    Drones.Add(d);
+                }
+
+
+                string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
+                string[] firstDigits = { "050", "052", "054" };
                 for (int i = 0; i < 5; i++)
                 {
                     Customer c = new Customer();
