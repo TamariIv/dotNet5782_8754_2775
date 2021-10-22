@@ -48,19 +48,31 @@ namespace DAL
 
                 //}
 
-                //for (int i = 0; i < 5; i++)
-                //{
-                //    Customer c = new Customer();
-                //    c.Id = r.Next(100000000, 1000000000);
-                //    c.Name = namesArray[i];
-                //    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
-                //    for (int j = 0; j < 7; j++)
-                //    {
-                //        c.Phone += (r.Next(0, 11)).ToString();
-                //    }
-                //    c.Latitude = r.NextDouble() + r.Next(-90, 90);
-                //    c.Longitude = r.NextDouble() + r.Next(-180, 80);
-                //}
+                for (int i = 0; i < 5; i++) //initialize drone
+                {
+                    Drone d = new Drone();
+                    d.Id = r.Next(1001, 10000);
+                    d.Model = (r.Next(65, 91)).ToString() + (r.Next(111, 999)).ToString(); // for example: SE503
+                    d.MaxWeight = (WeightCategories)r.Next(3);
+                    Drones.Add(d);
+                }
+
+
+                string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
+                string[] firstDigits = { "050", "052", "054" };
+                for (int i = 0; i < 5; i++)
+                {
+                    Customer c = new Customer();
+                    c.Id = r.Next(100000000, 1000000000);
+                    c.Name = namesArray[i];
+                    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
+                    for (int j = 0; j < 7; j++)
+                    {
+                        c.Phone += (r.Next(0, 11)).ToString();
+                    }
+                    c.Latitude = r.NextDouble() + r.Next(-90, 90);
+                    c.Longitude = r.NextDouble() + r.Next(-180, 80);
+                }
 
 
             }
