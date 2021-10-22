@@ -41,26 +41,26 @@ namespace DAL
                 s.CahrgeSlots = r.Next(11);
                 Stations.Add(s);
 
-                //for (int i = 0; i < 10; i++)
-                //{
-                //    Parcel p = new Parcel();
-                //    p.Id=
+                for (int i = 0; i < 10; i++)
+                {
+                    Parcel p = new Parcel();
+                    p.Id =
 
-                //}
+                }
 
-                //for (int i = 0; i < 5; i++)
-                //{
-                //    Customer c = new Customer();
-                //    c.Id = r.Next(100000000, 1000000000);
-                //    c.Name = namesArray[i];
-                //    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
-                //    for (int j = 0; j < 7; j++)
-                //    {
-                //        c.Phone += (r.Next(0, 11)).ToString();
-                //    }
-                //    c.Latitude = r.NextDouble() + r.Next(-90, 90);
-                //    c.Longitude = r.NextDouble() + r.Next(-180, 80);
-                //}
+                for (int i = 0; i < 5; i++)
+                {
+                    Customer c = new Customer();
+                    c.Id = r.Next(100000000, 1000000000);
+                    c.Name = namesArray[i];
+                    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
+                    for (int j = 0; j < 7; j++)
+                    {
+                        c.Phone += (r.Next(0, 11)).ToString();
+                    }
+                    c.Latitude = r.NextDouble() + r.Next(-90, 90);
+                    c.Longitude = r.NextDouble() + r.Next(-180, 80);
+                }
 
 
             }
