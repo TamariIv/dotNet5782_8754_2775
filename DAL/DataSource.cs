@@ -58,7 +58,18 @@ namespace DAL
                     //p.PickedUp = start.AddDays(r.Next(range));
                     //start = DateTime.Today;
                     //p.Delivered = (p.PickedUp - (DateTime)r.Next(15));
-                    p.DroneId
+                    bool flag = false;
+                    for (int j = 0; j < Drones.Count && flag; j++)
+                    {
+                        if (Drones.ElementAt(i).Status.Equals("available"))
+                        {
+                            p.DroneId = Drones.ElementAt(i).Id;
+                            Drones.ElementAt(i).Status = (DroneStatus)2;
+                            flag = true;
+                        }
+                    }
+                    if (!flag)
+                        p.DroneId = 0;
                 }
 
                 for (int i = 0; i < 5; i++) //initialize drone
@@ -81,7 +92,7 @@ namespace DAL
                     Customer c = new Customer();
                     c.Id = r.Next(100000000, 1000000000);
                     c.Name = namesArray[i] + " " + familyNameArray[i % 3];
-                    c.Phone = firstDigits[r.Next(3)] + r.Next(1111111, 10000000);
+                    c.Phone = firstDigits[r.Next(3)];
                     for (int j = 0; j < 7; j++)
                     {
                         c.Phone += (r.Next(0, 11)).ToString();
