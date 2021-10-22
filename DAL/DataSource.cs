@@ -22,11 +22,13 @@ namespace DAL
             {        
                 internal int ParcelId = 1000000; ///the first parcel num. (and than it rises in one)
             }
+
             /// <summary>
             /// initialize the lists 
             /// </summary>
             public static void Initialize()
-            {   //initialize stations
+            {   
+                //initialize stations
                 Station s = new Station();
                 s.Id = r.Next(10000, 100000); //id number with 5 digits
                 s.Name = "Pisgat Zeev";
@@ -43,14 +45,14 @@ namespace DAL
                 s.CahrgeSlots = r.Next(11);
                 Stations.Add(s);
 
+                //initialize parcels
                 for (int i = 0; i < 10; i++)
                 {
-
                     Parcel p = new Parcel();
                     p.Id = r.Next(100000, 1000000);
                     p.SenderId = r.Next(10000000, 100000000); //buisness number
                     int temp = r.Next(0, Customers.Count()); //random number between 0 - length of the customers list as index for TargetId
-                    p.TargetId = Customers.ElementAt(temp).Id; //the ID of the cutomer
+                    p.TargetId = Customers[temp].Id; //the ID of the cutomer
                     p.Weight = (WeightCategories)r.Next(3);
                     p.Priority = (Priorities)r.Next(3);
                     //DateTime start = new DateTime(2020, 1, 1);
@@ -58,21 +60,11 @@ namespace DAL
                     //p.PickedUp = start.AddDays(r.Next(range));
                     //start = DateTime.Today;
                     //p.Delivered = (p.PickedUp - (DateTime)r.Next(15));
-                    bool flag = false;
-                    for (int j = 0; j < Drones.Count && flag; j++)
-                    {
-                        if (Drones[j].Status.Equals("available"))
-                        {
-                            p.DroneId = Drones.ElementAt(i).Id;
-                           // Drones[j].Status = (DroneStatus)2;
-                            flag = true;
-                        }
-                    }
-                    if (!flag)
-                        p.DroneId = 0;
+                    p.DroneId = Drones[i % Drones.Count()].Id;
                 }
 
-                for (int i = 0; i < 5; i++) //initialize drone
+                //initialize drones
+                for (int i = 0; i < 5; i++) 
                 {
                     Drone d = new Drone();
                     d.Id = r.Next(1001, 10000);
@@ -83,7 +75,7 @@ namespace DAL
                     Drones.Add(d);
                 }
 
-                //initialize customer
+                //initialize customers
                 string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
                 string[] familyNameArray = { "Cohen", "Levi", "Ysrael" };
                 string[] firstDigits = { "050", "052", "054" };
