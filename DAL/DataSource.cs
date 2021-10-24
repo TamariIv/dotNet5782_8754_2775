@@ -20,7 +20,7 @@ namespace DAL
 
             internal class Config
             {        
-                internal int ParcelId = 1000000; ///the first parcel num. (and than it rises in one)
+                internal static int ParcelId = 1000000; ///the first parcel num. (and than it rises in one)
             }
 
             /// <summary>
@@ -49,18 +49,19 @@ namespace DAL
                 for (int i = 0; i < 10; i++)
                 {
                     Parcel p = new Parcel();
-                    p.Id = r.Next(100000, 1000000);
+                    p.Id = Config.ParcelId++; 
                     p.SenderId = r.Next(10000000, 100000000); //buisness number
                     int temp = r.Next(0, Customers.Count()); //random number between 0 - length of the customers list as index for TargetId
                     p.TargetId = Customers[temp].Id; //the ID of the cutomer
                     p.Weight = (WeightCategories)r.Next(3);
                     p.Priority = (Priorities)r.Next(3);
-                    //DateTime start = new DateTime(2020, 1, 1);
-                    //int range = (DateTime.Today - start).Days;
-                    //p.PickedUp = start.AddDays(r.Next(range));
-                    //start = DateTime.Today;
-                    //p.Delivered = (p.PickedUp - (DateTime)r.Next(15));
-                    p.DroneId = Drones[i % Drones.Count()].Id;
+                    DateTime start = new DateTime(2020, 1, 1);
+                    int range = (DateTime.Today - start).Days;
+                    p.Delivered = start.AddDays(r.Next(range));
+                    range = (p.Delivered - start).Days;
+                    p.PickedUp = 
+                    p.DroneId = 0;
+                    Parcels.Add(p);
                 }
 
                 //initialize drones
@@ -77,7 +78,7 @@ namespace DAL
 
                 //initialize customers
                 string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
-                string[] familyNameArray = { "Cohen", "Levi", "Ysrael" };
+                string[] familyNameArray = { "Cohen", "Levi", "Israel" };
                 string[] firstDigits = { "050", "052", "054" };
                 for (int i = 0; i < 5; i++)
                 {
@@ -91,6 +92,7 @@ namespace DAL
                     }
                     c.Latitude = 35 + r.NextDouble(); 
                     c.Longitude = 31 + r.NextDouble();
+                    Customers.Add(c);
                 }
 
 
