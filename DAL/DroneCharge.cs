@@ -10,7 +10,7 @@ namespace DAL
     {
       public struct DroneCharge
         {
-            public int DroveId;
+            public int DroneId;
             public int StationId;
 
         }

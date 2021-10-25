@@ -11,10 +11,11 @@ namespace DAL
     {
         public class DataSource
         {
-            internal static List<Drone> Drones = new List<Drone>;
-            internal static List<Station> Stations = new List<Station>;
-            internal static List<Customer> Customers = new List<Customer>;
-            internal static List<Parcel> Parcels = new List<Parcel>;
+            internal static List<Drone> Drones = new List<Drone>();
+            internal static List<Station> Stations = new List<Station>();
+            internal static List<Customer> Customers = new List<Customer>();
+            internal static List<Parcel> Parcels = new List<Parcel>();
+            internal static List<DroneCharge> DronesBeingCharged = new List<DroneCharge>();
 
             public static Random r = new Random();
 
@@ -55,11 +56,11 @@ namespace DAL
                     p.TargetId = Customers[temp].Id; //the ID of the cutomer
                     p.Weight = (WeightCategories)r.Next(3);
                     p.Priority = (Priorities)r.Next(3);
-                    DateTime start = new DateTime(2020, 1, 1);
-                    int range = (DateTime.Today - start).Days;
-                    p.Delivered = start.AddDays(r.Next(range));
-                    range = (p.Delivered - start).Days;
-                    p.PickedUp = 
+                    //DateTime start = new DateTime(2020, 1, 1);
+                    //int range = (DateTime.Today - start).Days;
+                    //p.Delivered = start.AddDays(r.Next(range));
+                    //range = (p.Delivered - start).Days;
+                    //p.PickedUp = 
                     p.DroneId = 0;
                     Parcels.Add(p);
                 }

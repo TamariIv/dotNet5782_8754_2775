@@ -86,7 +86,7 @@ namespace DAL
             //{
 
             //}
-            
+
             //public static List<Station> AvailableCharger()
             //{
 
@@ -101,9 +101,9 @@ namespace DAL
                 s.Longitude = _longitude;
                 s.Latitude = _latitude;
                 s.CahrgeSlots = _chargeSlots;
-                Stations.Add(s);
+                DataSource.Stations.Add(s);
             }
-            
+
 
             public static void AddDrone(int _id, string _model, WeightCategories _maxWeight, DroneStatus _status, double _battery)
             {
@@ -113,16 +113,85 @@ namespace DAL
                 d.MaxWeight = _maxWeight;
                 d.Status = _status;
                 d.Battery = _battery;
-                Drones.Add(d);
+                DataSource.Drones.Add(d);
+            }
+
+
+            public static void NewCustomer(int _id, string _name, string _phone, double _longitude, double _latitude)
+            {
+                Customer c = new Customer();
+                c.Id = _id;
+                c.Name = _name;
+                c.Phone = _phone;
+                c.Latitude = _latitude;
+                c.Longitude = _longitude;
+                DataSource.Customers.Add(c);
+            }
+
+            public static void NewParcel(int _id, int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _prioritie)
+            {
+                Parcel p = new Parcel();
+                p.Id = _id;
+                p.SenderId = _senderId;
+                p.TargetId = _targetId;
+                p.Weight = _maxWeight;
+                p.Priority = _prioritie;
+                p.DroneId = 0;
+                DataSource.Parcels.Add(p);
+            }
+
+            public static void MatchDroneToParcel(Parcel p, Drone d)
+            {
+                p.DroneId = d.Id;
+                p.Scheduled = DateTime.Now;
+                d.Status = (DroneStatus)2;
+
+            //    int i = 0;
+            //    while (DataSource.Drones[i].Status != (DroneStatus)1 || DataSource.Drones[i].Battery == 0)
+            //        i++;
+            //    if (DataSource.Drones[i].Status == (DroneStatus)1 && DataSource.Drones[i].Battery != 0)
+            //    {
+            //        p.DroneId = DataSource.Drones[i].Id;
+            //        //DataSource.Drones[i].Status = (DroneStatus)2;
+            //        //date??
+            //        //GetDrones()[i].Status = (DroneStatus)2;
+            //        DAL.DO.Drone tmp = DataSource.Drones[i];
+            //        tmp.Status = (DroneStatus)2;
+            //        DataSource.Drones[i] = tmp;
+            //    }
+            }
+
+            public static void PickUpParcel(Parcel p)
+            {
+                p.PickedUp = DateTime.Now;
+            }
+
+            public static void ParcelDelivered(Parcel p)
+            {
+                p.Delivered = DateTime.Now;
+            }
+
+            public static void SendDroneToCharge(Drone d, Station s)
+            {
+                d.Status = (DroneStatus)0;
+                s.CahrgeSlots--;
+                DroneCharge dc = new DroneCharge();
+                dc.DroneId = d.Id;
+                dc.StationId = s.Id;
+            }
+
+            public static void SendDroneFromStation(Drone d, Station s)
+            {
+                s.CahrgeSlots++;
+                d.Status = (DroneStatus)1;
+                d.Battery = 100;
             }
         }
-           
-        
-       
+
 
 
     }
 
-    
-   
+
+
 }
