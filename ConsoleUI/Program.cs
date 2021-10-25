@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DAL.DO;
 using DAL.DalObject;
 
@@ -15,39 +19,43 @@ namespace ConsoleUI
             Console.WriteLine("Press 5 to stop");
 
             int choice = int.Parse(Console.ReadLine());
-            switch (choice)
+            while (choice != 5)
             {
-                case 1:
-                    {
-                        //חלק של תמרי
-                        //בפנים יש עוד קייס
-                        break;
-                    }
-                case 2:
-                    {
+                switch (choice)
+                {
+                    case 1:
+                        {
+                            //חלק של תמרי
+                            //בפנים יש עוד קייס
+                            break;
+                        }
+                    case 2:
+                        {
 
-                        //חלק של תמרי
-                        //בפנים יש עוד קייס
-                        break;
-                    }
-                case 3:
-                    {
-                        PrintSpecificItem();
-                        break;
-                    }
-                case 4:
-                    {
+                            //חלק של תמרי
+                            //בפנים יש עוד קייס
+                            break;
+                        }
+                    case 3:
+                        {
+                            PrintSpecificItem();
+                            break;
+                        }
+                    case 4:
+                        {
+                            PrintSpecificList();
+                            break;
+                        }
+                    case 5:
+                        {
+                            //exit
+                            break;
+                        }
 
+                    default:
                         break;
-                    }
-                case 5:
-                    {
-                        break;
-                    }
-
-                default:
-                    break;
-            }          
+                }
+            }
 
         }
         public static void PrintSpecificItem()
@@ -100,10 +108,73 @@ namespace ConsoleUI
         }
         public static void PrintSpecificList()
         {
-            //Console.WriteLine("press 1 to view details of a specific station");
-            //Console.WriteLine("press 2 to view details of a specific drone");
-            //Console.WriteLine("press 3 to view details of a specific customer");
-            //Console.WriteLine("press 4 to view details of a specific parcel");
+            Console.WriteLine("press 1 to view the list of base stations");
+            Console.WriteLine("press 2 to view the list of the drones");
+            Console.WriteLine("press 3 to view the list of the cutomers");
+            Console.WriteLine("press 4 to view the list of the parcels");
+            Console.WriteLine("press 5 to view the list of the parcels without drones");
+            Console.WriteLine("press 6 to view the list of the stations with available charge slots");
+
+            int option = int.Parse(Console.ReadLine());
+            switch (option)
+            {
+                case 1:
+                    {
+                        List<Station> stations = DalObject.GetStations();
+                        foreach (var item in stations)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        List<Drone> drones = DalObject.GetDrones();
+                        foreach (var item in drones)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        List<Customer> customers = DalObject.GetCustomers();
+                        foreach (var item in customers)
+                        {
+                            item.ToString();
+                        }
+                        break;                  
+                    }
+                case 4:
+                    {
+                        List<Parcel> parcels = DalObject.GetParcels();
+                        foreach (var item in parcels)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 5:
+                    {
+                        List<Parcel> parcelsWithoutDrones = DalObject.ParcelWithoutDrone();
+                        foreach (var item in parcelsWithoutDrones)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 6:
+                    {
+                        List<Station> availableChargers = DalObject.AvailableCharger();
+                        foreach (var item in availableChargers)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
 
