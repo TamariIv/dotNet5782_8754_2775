@@ -165,7 +165,7 @@ namespace DAL
                 DataSource.Customers.Add(c);
             }
 
-            public static int NewParcel(int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _prioritie)
+            public static int NewParcel(int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _priority)
             {
                 Parcel p = new Parcel();
                 p.Id = DataSource.Config.ParcelId;

@@ -29,6 +29,7 @@ namespace ConsoleUI
                             case 1:
                                 {
                                     ReceiveParcel();
+                                    break;
                                 }
 
 
