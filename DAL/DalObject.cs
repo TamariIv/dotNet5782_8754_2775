@@ -63,22 +63,42 @@ namespace DAL
 
             public static List<Station> GetStations()
             {
-                return DataSource.Stations;
+                List<Station> copyStations = new List<Station>();
+                for (int i = 0; i < DataSource.Stations.Count; i++)
+                {
+                    copyStations.Add(DataSource.Stations[i]);
+                }
+                return copyStations;
             }
 
             public static List<Drone> GetDrones()
             {
-                return DataSource.Drones;
+                List<Drone> copyDrones = new List<Drone>();
+                for (int i = 0; i < DataSource.Drones.Count; i++)
+                {
+                    copyDrones.Add(DataSource.Drones[i]);
+                }
+                return copyDrones;
             }
 
             public static List<Customer> GetCustomers()
             {
-                return DataSource.Customers;
+                List<Customer> copyCustomers = new List<Customer>();
+                for (int i = 0; i < DataSource.Customers.Count; i++)
+                {
+                    copyCustomers.Add(DataSource.Customers[i]);
+                }
+                return copyCustomers;
             }
 
             public static List<Parcel> GetParcels()
             {
-                return DataSource.Parcels;
+                List<Parcel> copyParcels = new List<Parcel>();
+                for (int i = 0; i < DataSource.Parcels.Count; i++)
+                {
+                    copyParcels.Add(DataSource.Parcels[i]);
+                }
+                return copyParcels;
             }
 
             /// <summary>
@@ -145,14 +165,14 @@ namespace DAL
                 DataSource.Customers.Add(c);
             }
 
-            public static void NewParcel(int _id, int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _prioritie)
+            public static void NewParcel(int _id, int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _priority)
             {
                 Parcel p = new Parcel();
                 p.Id = _id;
                 p.SenderId = _senderId;
                 p.TargetId = _targetId;
                 p.Weight = _maxWeight;
-                p.Priority = _prioritie;
+                p.Priority = _priority;
                 p.DroneId = 0;
                 DataSource.Parcels.Add(p);
             }
