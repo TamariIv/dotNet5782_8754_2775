@@ -31,6 +31,7 @@ namespace ConsoleUI
                                     ReceiveParcel();
                                 }
 
+
                         }
                         break;
                     }
@@ -61,7 +62,6 @@ namespace ConsoleUI
 
             void ReceiveParcel()
             {
-                Parcel p = new Parcel();
                 int senderId, targetId;
                 WeightCategories weight;
                 Priorities priority;
