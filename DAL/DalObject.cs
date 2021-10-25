@@ -81,16 +81,33 @@ namespace DAL
                 return DataSource.Parcels;
             }
 
+            /// <summary>
+            /// search the parcels without drones in the Parcels list
+            /// </summary>
+            /// <returns> list that contains the parcels without drone </returns>
+            public static List<Parcel> ParcelWithoutDrone()
+            {
+                List<Parcel> ParcelsWithoutDrone = new List<Parcel>();
+                for (int i = 0; i < DataSource.Parcels.Count; i++)
+                {
+                    if (DataSource.Parcels[i].DroneId == 0)
+                        ParcelsWithoutDrone.Add(DataSource.Parcels[i]);
+                }
+                return ParcelsWithoutDrone;
+            }
 
-            //public static List<Parcel> ParcelWithoutDrone()
-            //{
 
-            //}
 
-            //public static List<Station> AvailableCharger()
-            //{
-
-            //}
+            public static List<Station> AvailableCharger()
+            {
+                List<Station> AvailableChargers = new List<Station>();
+                for (int i = 0; i < DataSource.Stations.Count; i++)
+                {
+                    if (DataSource.Stations[i].ChargeSlots != 0)
+                        AvailableChargers.Add(DataSource.Stations[i]);
+                }
+                return AvailableChargers;
+            }
 
 
             public static void AddStation(int _id, string _name, double _longitude, double _latitude, int _chargeSlots)
@@ -100,7 +117,7 @@ namespace DAL
                 s.Name = _name;
                 s.Longitude = _longitude;
                 s.Latitude = _latitude;
-                s.CahrgeSlots = _chargeSlots;
+                s.ChargeSlots = _chargeSlots;
                 DataSource.Stations.Add(s);
             }
 

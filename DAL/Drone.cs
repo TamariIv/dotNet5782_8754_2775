@@ -15,6 +15,12 @@ namespace DAL
             public WeightCategories MaxWeight { get; set; }
             public DroneStatus Status { get; set; }
             public double Battery { get; set; }
+
+            public override string ToString()
+            {
+                return string.Format("Id is: {0}\n model: {1}\n max weight is: {2}\n status is: {3}\n" +
+                    " battery: {4}\n", Id, Model, MaxWeight, Status, Battery);
+            }
         }
     }
 

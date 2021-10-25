@@ -9,6 +9,7 @@ namespace DAL
 {
     namespace DalObject
     {
+
         public class DataSource
         {
             internal static List<Drone> Drones = new List<Drone>();
@@ -20,13 +21,17 @@ namespace DAL
             public static Random r = new Random();
 
             internal class Config
-            {        
-                internal static int ParcelId = 1000000; ///the first parcel num. (and than it rises in one)
+            {
+                /// <summary>
+                /// the first parcel num. (and than it rises in one)
+                /// </summary>
+                internal static int ParcelId = 1000000; 
             }
 
             /// <summary>
             /// initialize the lists 
             /// </summary>
+            /// 
             public static void Initialize()
             {   
                 //initialize stations
@@ -35,7 +40,7 @@ namespace DAL
                 s.Name = "Pisgat Zeev";
                 s.Longitude = 31.831146861430444;
                 s.Latitude = 35.24263233548004;
-                s.CahrgeSlots = r.Next(11);
+                s.ChargeSlots = r.Next(11);
                 Stations.Add(s);
             
                 s = new Station();
@@ -43,10 +48,9 @@ namespace DAL
                 s.Name = "Givat Shaul";
                 s.Longitude = 31.79083501738606;
                 s.Latitude = 35.19514418203499;
-                s.CahrgeSlots = r.Next(11);
+                s.ChargeSlots = r.Next(11);
                 Stations.Add(s);
-
-                //initialize parcels
+            
                 for (int i = 0; i < 10; i++)
                 {
                     Parcel p = new Parcel();
@@ -56,11 +60,15 @@ namespace DAL
                     p.TargetId = Customers[temp].Id; //the ID of the cutomer
                     p.Weight = (WeightCategories)r.Next(3);
                     p.Priority = (Priorities)r.Next(3);
-                    //DateTime start = new DateTime(2020, 1, 1);
-                    //int range = (DateTime.Today - start).Days;
-                    //p.Delivered = start.AddDays(r.Next(range));
-                    //range = (p.Delivered - start).Days;
-                    //p.PickedUp = 
+                    DateTime start = new DateTime(2020, 1, 1);
+                    int range = (DateTime.Today - start).Days;
+                    p.Delivered = start.AddDays(r.Next(range));
+                    range = (p.Delivered - start).Days;
+                    p.PickedUp = start.AddDays(r.Next(range));
+                    range = (p.PickedUp - start).Days;
+                    p.Scheduled = start.AddDays(r.Next(range));
+                    range = (p.Scheduled - start).Days;
+                    p.Requested = start.AddDays(r.Next(range));
                     p.DroneId = 0;
                     Parcels.Add(p);
                 }
