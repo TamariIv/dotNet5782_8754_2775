@@ -142,14 +142,14 @@ namespace DAL
             }
 
 
-            public static void AddDrone(int _id, string _model, WeightCategories _maxWeight, DroneStatus _status, double _battery)
+            public static void AddDrone(int _id, string _model, WeightCategories _maxWeight/*, DroneStatus _status, double _battery*/)
             {
                 Drone d = new Drone();
                 d.Id = _id;
                 d.Model = _model;
                 d.MaxWeight = _maxWeight;
-                d.Status = _status;
-                d.Battery = _battery;
+                d.Status = (DroneStatus)1/*_status*/;
+                d.Battery = 100/*_battery*/;
                 DataSource.Drones.Add(d);
             }
 

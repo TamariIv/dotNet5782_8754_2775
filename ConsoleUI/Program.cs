@@ -31,6 +31,11 @@ namespace ConsoleUI
                                     ReceiveParcel();
                                     break;
                                 }
+                            case 2:
+                                {
+                                    ReceiveDrone();
+                                    break;
+                                }
 
 
                         }
@@ -63,7 +68,7 @@ namespace ConsoleUI
             }
 
 
-            void ReceiveParcel()
+            static void ReceiveParcel()
             {
                 int senderId, targetId;
                 WeightCategories weight;
@@ -79,6 +84,21 @@ namespace ConsoleUI
                 DalObject.NewParcel(senderId, targetId, weight, priority);
             }
         }
+
+        static void ReceiveDrone()
+        {
+            int id;
+            string model;
+            WeightCategories maxWeight;
+            //DroneStatus status;
+            Console.WriteLine("Enter drone ID: ");
+            id = int.Parse(Console.ReadLine());
+            model = Console.ReadLine();
+            Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
+            maxWeight = (WeightCategories)(int.Parse(Console.ReadLine()) + 1);
+            DalObject.AddDrone(id, model, maxWeight);
+        }
+
         public static void PrintSpecificItem()
         {
             Console.WriteLine("press 1 to view details of a specific station");
