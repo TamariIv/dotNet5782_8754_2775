@@ -103,6 +103,29 @@ namespace DAL
 
             //}
 
+
+            public static void AddStation(int _id, string _name, double _longitude, double _latitude, int _chargeSlots)
+            {
+                Station s = new Station();
+                s.Id = _id;
+                s.Name = _name;
+                s.Longitude = _longitude;
+                s.Latitude = _latitude;
+                s.CahrgeSlots = _chargeSlots;
+                Stations.Add(s);
+            }
+            
+
+            public static void AddDrone(int _id, string _model, WeightCategories _maxWeight, DroneStatus _status, double _battery)
+            {
+                Drone d = new Drone();
+                d.Id = _id;
+                d.Model = _model;
+                d.MaxWeight = _maxWeight;
+                d.Status = _status;
+                d.Battery = _battery;
+                Drones.Add(d);
+            }
         }
            
         

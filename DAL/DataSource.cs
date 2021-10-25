@@ -12,10 +12,10 @@ namespace DAL
 
         public class DataSource
         {
-            internal static List<Drone> Drones;
-            internal static List<Station> Stations;
-            internal static List<Customer> Customers;
-            internal static List<Parcel> Parcels;
+            internal static List<Drone> Drones = new List<Drone>;
+            internal static List<Station> Stations = new List<Station>;
+            internal static List<Customer> Customers = new List<Customer>;
+            internal static List<Parcel> Parcels = new List<Parcel>;
 
             public static Random r = new Random();
 
