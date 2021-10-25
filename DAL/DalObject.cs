@@ -145,16 +145,17 @@ namespace DAL
                 DataSource.Customers.Add(c);
             }
 
-            public static void NewParcel(int _id, int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _prioritie)
+            public static int NewParcel(int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _prioritie)
             {
                 Parcel p = new Parcel();
-                p.Id = _id;
+                p.Id = DataSource.Config.ParcelId;
                 p.SenderId = _senderId;
                 p.TargetId = _targetId;
                 p.Weight = _maxWeight;
                 p.Priority = _prioritie;
                 p.DroneId = 0;
                 DataSource.Parcels.Add(p);
+                return DataSource.Config.ParcelId++;
             }
 
             public static void MatchDroneToParcel(Parcel p, Drone d)

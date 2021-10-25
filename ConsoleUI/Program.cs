@@ -19,8 +19,19 @@ namespace ConsoleUI
             {
                 case 1:
                     {
-                        //חלק של תמרי
-                        //בפנים יש עוד קייס
+                        Console.WriteLine("Press 1 to add parcel");
+                        Console.WriteLine("Press 2 to add drone");
+                        Console.WriteLine("Press 3 to add station");
+                        Console.WriteLine("Press 4 to add parcel");
+                        int Innerhoice = int.Parse(Console.ReadLine());
+                        switch (Innerhoice)
+                        {
+                            case 1:
+                                {
+                                    ReceiveParcel();
+                                }
+
+                        }
                         break;
                     }
                 case 2:
@@ -45,8 +56,25 @@ namespace ConsoleUI
 
                 default:
                     break;
-            }          
+            }
 
+
+            void ReceiveParcel()
+            {
+                Parcel p = new Parcel();
+                int senderId, targetId;
+                WeightCategories weight;
+                Priorities priority;
+                Console.WriteLine("Enter sender ID: ");
+                senderId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter target ID: ");
+                targetId = int.Parse(Console.ReadLine());
+                Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
+                weight = (WeightCategories)(int.Parse(Console.ReadLine()) + 1);
+                Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
+                priority = (Priorities)(int.Parse(Console.ReadLine()) + 1);
+                DalObject.NewParcel(senderId, targetId, weight, priority);
+            }
         }
     }
 }
