@@ -20,6 +20,13 @@ namespace DAL
             public DateTime Scheduled { get; set; }
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
+
+            public override string ToString()
+            {
+                return string.Format("Id is: {0}\n Id of the sender: {1}\n Id of the target: {2}\n Weight is: {3}\n" +
+                    " priority: {4}\n requested date: {5}\n Drone id {6}\n" +
+                    " scheduled date: {7}\n pickedUp date: {8} delivered date: {9}", Id, SenderId, TargetId, Weight, Priority, Requested, DroneId, Scheduled, PickedUp, Delivered);
+            }
         }
     }
    

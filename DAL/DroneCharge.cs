@@ -10,9 +10,13 @@ namespace DAL
     {
       public struct DroneCharge
         {
-            public int DroveId;
+            public int DroneId;
             public int StationId;
 
+            public override string ToString()
+            {
+                return string.Format("Id of drone: {0}\n Id of station: {1}\n" , DroneId , StationId);
+            }
         }
 
     }

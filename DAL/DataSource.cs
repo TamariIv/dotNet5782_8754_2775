@@ -12,10 +12,10 @@ namespace DAL
 
         public class DataSource
         {
-            internal static List<Drone> Drones = new List<Drone>;
-            internal static List<Station> Stations = new List<Station>;
-            internal static List<Customer> Customers = new List<Customer>;
-            internal static List<Parcel> Parcels = new List<Parcel>;
+            internal static List<Drone> Drones = new List<Drone>();
+            internal static List<Station> Stations = new List<Station>();
+            internal static List<Customer> Customers = new List<Customer>();
+            internal static List<Parcel> Parcels = new List<Parcel>();
 
             public static Random r = new Random();
 
@@ -39,7 +39,7 @@ namespace DAL
                 s.Name = "Pisgat Zeev";
                 s.Longitude = 31.831146861430444;
                 s.Latitude = 35.24263233548004;
-                s.CahrgeSlots = r.Next(11);
+                s.ChargeSlots = r.Next(11);
                 Stations.Add(s);
             
                 s = new Station();
@@ -47,7 +47,7 @@ namespace DAL
                 s.Name = "Givat Shaul";
                 s.Longitude = 31.79083501738606;
                 s.Latitude = 35.19514418203499;
-                s.CahrgeSlots = r.Next(11);
+                s.ChargeSlots = r.Next(11);
                 Stations.Add(s);
             
                 for (int i = 0; i < 10; i++)

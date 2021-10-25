@@ -96,12 +96,18 @@ namespace DAL
                 return ParcelsWithoutDrone;
             }
 
-            
-        
-        //public static List<Station> AvailableCharger()
-            //{
 
-            //}
+
+            public static List<Station> AvailableCharger()
+            {
+                List<Station> AvailableChargers = new List<Station>();
+                for (int i = 0; i < DataSource.Stations.Count; i++)
+                {
+                    if (DataSource.Stations[i].ChargeSlots != 0)
+                        AvailableChargers.Add(DataSource.Stations[i]);
+                }
+                return AvailableChargers;
+            }
 
 
             public static void AddStation(int _id, string _name, double _longitude, double _latitude, int _chargeSlots)
@@ -111,8 +117,8 @@ namespace DAL
                 s.Name = _name;
                 s.Longitude = _longitude;
                 s.Latitude = _latitude;
-                s.CahrgeSlots = _chargeSlots;
-                Stations.Add(s);
+                s.ChargeSlots = _chargeSlots;
+                DataSource.Stations.Add(s);
             }
             
 
@@ -124,7 +130,7 @@ namespace DAL
                 d.MaxWeight = _maxWeight;
                 d.Status = _status;
                 d.Battery = _battery;
-                Drones.Add(d);
+                DataSource.Drones.Add(d);
             }
         }
            
