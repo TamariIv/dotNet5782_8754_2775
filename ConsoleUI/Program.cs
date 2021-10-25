@@ -22,7 +22,7 @@ namespace ConsoleUI
                         Console.WriteLine("Press 1 to add parcel");
                         Console.WriteLine("Press 2 to add drone");
                         Console.WriteLine("Press 3 to add station");
-                        Console.WriteLine("Press 4 to add parcel");
+                        Console.WriteLine("Press 4 to add customer");
                         int Innerhoice = int.Parse(Console.ReadLine());
                         switch (Innerhoice)
                         {
@@ -41,7 +41,11 @@ namespace ConsoleUI
                                     ReceiveStation();
                                     break;
                                 }
-
+                            case 4:
+                                {
+                                    ReceiveCustomer();
+                                    break;
+                                }
 
                         }
                         break;
@@ -123,6 +127,24 @@ namespace ConsoleUI
             Console.WriteLine("Enter number of open charging slots: ");
             slots = int.Parse(Console.ReadLine());
             DalObject.AddStation(id, name, longitude, latitude, slots);
+        }
+
+        static void ReceiveCustomer()
+        {
+            int id;
+            string name, phone;
+            double longitude, latitude;
+            Console.WriteLine("Enter customer ID: ");
+            id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter customer name: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Enter phone number: ");
+            phone = Console.ReadLine();
+            Console.WriteLine("Enter customer longitude: ");
+            longitude = double.Parse(Console.ReadLine());
+            Console.WriteLine("Enter customer latitude: ");
+            latitude = double.Parse(Console.ReadLine());
+            DalObject.NewCustomer(id, name, phone, longitude, latitude);
         }
 
         public static void PrintSpecificItem()
