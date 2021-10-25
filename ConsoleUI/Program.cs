@@ -46,15 +46,48 @@ namespace ConsoleUI
                                     ReceiveCustomer();
                                     break;
                                 }
-
+                                
                         }
                         break;
                     }
                 case 2:
                     {
+                        Console.WriteLine("Press 1 to match drone to parcel");
+                        Console.WriteLine("Press 2 to pick up parcel");
+                        Console.WriteLine("Press 3 to deliver parcel to customer");
+                        Console.WriteLine("Press 4 to send drone to charge");
+                        Console.WriteLine("Press 5 to free drone from charging");
+                        int Innerhoice = int.Parse(Console.ReadLine());
+                        switch (Innerhoice)
+                        {
+                            case 1:
+                                {
+                                    DroneToParcel();
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    PickUpParcel();
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    DeliverParcel();
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    SendDroneToStation();
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    FreeDrone();
+                                    break;
+                                }
+                        }
 
-                        //חלק של תמרי
-                        //בפנים יש עוד קייס
+
                         break;
                     }
                 case 3:
@@ -203,6 +236,51 @@ namespace ConsoleUI
             //Console.WriteLine("press 4 to view details of a specific parcel");
         }
 
+        public static void DroneToParcel()
+        {
+            int droneId, parcelId;
+            Console.WriteLine("Enter the ID of the drone you want to send: ");
+            droneId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter ID of the parcel you want to send: ");
+            parcelId = int.Parse(Console.ReadLine());
+            DalObject.MatchDroneToParcel(DalObject.ReturnParcelData(parcelId), DalObject.ReturnDroneData(droneId));
+        }
 
+        public static void PickUpParcel()
+        {
+            int id;
+            Console.WriteLine("Enter the ID of the parcel you want to pick up: ");
+            id = int.Parse(Console.ReadLine());
+            DalObject.PickUpParcel(DalObject.ReturnParcelData(id));
+        }
+
+        public static void DeliverParcel()
+        {
+            int id;
+            Console.WriteLine("Enter the ID of the parcel you want to deliver: ");
+            id = int.Parse(Console.ReadLine());
+            DalObject.ParcelDelivered(DalObject.ReturnParcelData(id));
+        }
+
+        public static void SendDroneToStation()
+        {
+             DalObject.AvailableCharger()
+            int droneId, stationId;
+            Console.WriteLine("Enter the ID of the drone you want to charge: ");
+            droneId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the ID of the station you want to charge in: ");
+            stationId = int.Parse(Console.ReadLine());
+            DalObject.SendDroneToCharge(DalObject.ReturnDroneData(droneId), DalObject.ReturnStationData(stationId));
+        }
+
+        public static void FreeDrone()
+        {
+            int droneId, stationId;
+            Console.WriteLine("Enter the ID of the drone you want to free: ");
+            droneId = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the ID of the charging station: ");
+            stationId = int.Parse(Console.ReadLine());
+            DalObject.SendDroneFromStation(DalObject.ReturnDroneData(droneId), DalObject.ReturnStationData(stationId));
+        }
     }
 }
