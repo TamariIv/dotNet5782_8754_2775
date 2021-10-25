@@ -66,7 +66,8 @@ namespace DAL
                 List<Station> copyStations = new List<Station>();
                 for (int i = 0; i < DataSource.Stations.Count; i++)
                 {
-                    copyStations.Add(DataSource.Stations[i]);
+                    copyStations[i] = DataSource.Stations[i];
+                    //copyStations.Add(DataSource.Stations[i]);
                 }
                 return copyStations;
             }

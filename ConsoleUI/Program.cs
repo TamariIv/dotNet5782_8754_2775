@@ -12,6 +12,8 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            DalObject d = new DalObject();
+
             Console.WriteLine("Press 1 to add an item");
             Console.WriteLine("Press 2 to update an item");
             Console.WriteLine("Press 3 to view details of specific item");
@@ -27,8 +29,8 @@ namespace ConsoleUI
                         Console.WriteLine("Press 2 to add drone");
                         Console.WriteLine("Press 3 to add station");
                         Console.WriteLine("Press 4 to add customer");
-                        int Innerhoice = int.Parse(Console.ReadLine());
-                        switch (Innerhoice)
+                        int innerChoice = int.Parse(Console.ReadLine());
+                        switch (innerChoice)
                         {
                             case 1:
                                 {
@@ -57,33 +59,29 @@ namespace ConsoleUI
                 case 2:
                     {
 
-                            //חלק של תמרי
-                            //בפנים יש עוד קייס
-                            break;
-                        }
-                    case 3:
-                        {
-                            PrintSpecificItem();
-                            break;
-                        }
-                    case 4:
-                        {
-                            PrintSpecificList();
-                            break;
-                        }
-                    case 5:
-                        {
-                            //exit
-                            break;
-                        }
-
-                    default:
+                        //חלק של תמרי
+                        //בפנים יש עוד קייס
                         break;
-                }
+                    }
+                case 3:
+                    {
+                        PrintSpecificItem();
+                        break;
+                    }
+                case 4:
+                    {
+                        PrintSpecificList();
+                        break;
+                    }
+                case 5:
+                    {
+                        //exit
+                        break;
+                    }
+
+                default:
+                    break;
             }
-
-
-            
         }
 
         static void ReceiveParcel()
@@ -238,7 +236,7 @@ namespace ConsoleUI
                         {
                             item.ToString();
                         }
-                        break;                  
+                        break;
                     }
                 case 4:
                     {
@@ -271,7 +269,5 @@ namespace ConsoleUI
                     break;
             }
         }
-
-
     }
 }
