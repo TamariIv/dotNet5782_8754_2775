@@ -331,7 +331,7 @@ namespace ConsoleUI
 
         public static void SendDroneToStation()
         {
-             DalObject.AvailableCharger()
+            DalObject.AvailableCharger();
             int droneId, stationId;
             Console.WriteLine("Enter the ID of the drone you want to charge: ");
             droneId = int.Parse(Console.ReadLine());
