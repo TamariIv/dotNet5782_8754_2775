@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.DO;
-using DAL.DalObject;
+using IDAL.DO;
+using IDAL.DalObject;
 
 namespace ConsoleUI
 {
@@ -21,111 +21,116 @@ namespace ConsoleUI
             Console.WriteLine("Press 5 to stop");
             int choice;
             int.TryParse(Console.ReadLine(), out choice);
-            switch (choice)
+            while (choice!=5)
             {
-                case 1:
-                    {
-                        Console.WriteLine("Press 1 to add parcel");
-                        Console.WriteLine("Press 2 to add drone");
-                        Console.WriteLine("Press 3 to add station");
-                        Console.WriteLine("Press 4 to add customer");
-                        int innerChoice;
-                        int.TryParse(Console.ReadLine(), out innerChoice);
-                        switch (innerChoice)
+                switch (choice)
+                {
+                    case 1:
                         {
-                            case 1:
-                                {
-                                    ReceiveParcel();
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    ReceiveDrone();
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    ReceiveStation();
-                                    break;
-                                }
-                            case 4:
-                                {
-                                    ReceiveCustomer();
-                                    break;
-                                }
+                            Console.WriteLine("Press 1 to add parcel");
+                            Console.WriteLine("Press 2 to add drone");
+                            Console.WriteLine("Press 3 to add station");
+                            Console.WriteLine("Press 4 to add customer");
+                            int innerChoice;
+                            int.TryParse(Console.ReadLine(), out innerChoice);
+                            switch (innerChoice)
+                            {
+                                case 1:
+                                    {
+                                        ReceiveParcel();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        ReceiveDrone();
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        ReceiveStation();
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        ReceiveCustomer();
+                                        break;
+                                    }
 
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case 2:
-                    {
-                        Console.WriteLine("Press 1 to match drone to parcel");
-                        Console.WriteLine("Press 2 to pick up parcel");
-                        Console.WriteLine("Press 3 to deliver parcel to customer");
-                        Console.WriteLine("Press 4 to send drone to charge");
-                        Console.WriteLine("Press 5 to free drone from charging");
-                        int Innerhoice;
-                        int.TryParse(Console.ReadLine(), out Innerhoice);
-                        switch (Innerhoice)
+                    case 2:
                         {
-                            case 1:
-                                {
-                                    DroneToParcel();
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    PickUpParcel();
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    DeliverParcel();
-                                    break;
-                                }
-                            case 4:
-                                {
-                                    SendDroneToStation();
-                                    break;
-                                }
-                            case 5:
-                                {
-                                    FreeDrone();
-                                    break;
-                                }
+                            Console.WriteLine("Press 1 to match drone to parcel");
+                            Console.WriteLine("Press 2 to pick up parcel");
+                            Console.WriteLine("Press 3 to deliver parcel to customer");
+                            Console.WriteLine("Press 4 to send drone to charge");
+                            Console.WriteLine("Press 5 to free drone from charging");
+                            int Innerhoice;
+                            int.TryParse(Console.ReadLine(), out Innerhoice);
+                            switch (Innerhoice)
+                            {
+                                case 1:
+                                    {
+                                        DroneToParcel();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        PickUpParcel();
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        DeliverParcel();
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        SendDroneToStation();
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        FreeDrone();
+                                        break;
+                                    }
+                            }
+
+
+                            break;
+                        }
+                    case 3:
+                        {
+                            PrintSpecificItem();
+                            break;
+                        }
+                    case 4:
+                        {
+                            Console.WriteLine("press 1 to view the list of base stations");
+                            Console.WriteLine("press 2 to view the list of the drones");
+                            Console.WriteLine("press 3 to view the list of the cutomers");
+                            Console.WriteLine("press 4 to view the list of the parcels");
+                            Console.WriteLine("press 5 to view the list of the parcels without drones");
+                            Console.WriteLine("press 6 to view the list of the stations with available charge slots");
+
+                            int option;
+                            int.TryParse(Console.ReadLine(), out option);
+                            PrintSpecificList(option);
+                            break;
+                        }
+                    case 5:
+                        {
+                            //exit
+                            break;
                         }
 
-
+                    default:
                         break;
-                    }
-                case 3:
-                    {
-                        PrintSpecificItem();
-                        break;
-                    }
-                case 4:
-                    {
-                        Console.WriteLine("press 1 to view the list of base stations");
-                        Console.WriteLine("press 2 to view the list of the drones");
-                        Console.WriteLine("press 3 to view the list of the cutomers");
-                        Console.WriteLine("press 4 to view the list of the parcels");
-                        Console.WriteLine("press 5 to view the list of the parcels without drones");
-                        Console.WriteLine("press 6 to view the list of the stations with available charge slots");
-
-                        int option;
-                        int.TryParse(Console.ReadLine(), out option);
-                        PrintSpecificList(option);
-                        break;
-                    }
-                case 5:
-                    {
-                        //exit
-                        break;
-                    }
-
-                default:
-                    break;
+                }
+                int.TryParse(Console.ReadLine(), out choice);
             }
+
         }
 
         static void ReceiveParcel()
@@ -216,7 +221,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the station");
                         id = int.Parse(Console.ReadLine());
                         Station s = DalObject.ReturnStationData(id);
-                        s.ToString();
+                        Console.WriteLine(s);                        
                         break;
                     }
                 case 2:
@@ -224,7 +229,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the drone");
                         id = int.Parse(Console.ReadLine());
                         Drone d = DalObject.ReturnDroneData(id);
-                        d.ToString();
+                        Console.WriteLine(d);
                         break;
                     }
                 case 3:
@@ -232,7 +237,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the customer");
                         id = int.Parse(Console.ReadLine());
                         Customer c = DalObject.ReturnCustomerData(id);
-                        c.ToString();
+                        Console.WriteLine(c);
                         break;
                     }
                 case 4:
@@ -240,7 +245,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the parcel");
                         id = int.Parse(Console.ReadLine());
                         Parcel p = DalObject.ReturnParcelData(id);
-                        p.ToString();
+                        Console.WriteLine(p);
                         break;
                     }
                 default:
@@ -258,7 +263,7 @@ namespace ConsoleUI
                         List<Station> stations = DalObject.GetStations();
                         foreach (var item in stations)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -267,7 +272,7 @@ namespace ConsoleUI
                         List<Drone> drones = DalObject.GetDrones();
                         foreach (var item in drones)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -276,7 +281,7 @@ namespace ConsoleUI
                         List<Customer> customers = DalObject.GetCustomers();
                         foreach (var item in customers)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -285,7 +290,7 @@ namespace ConsoleUI
                         List<Parcel> parcels = DalObject.GetParcels();
                         foreach (var item in parcels)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -294,7 +299,7 @@ namespace ConsoleUI
                         List<Parcel> parcelsWithoutDrones = DalObject.ParcelWithoutDrone();
                         foreach (var item in parcelsWithoutDrones)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -303,7 +308,7 @@ namespace ConsoleUI
                         List<Station> availableChargers = DalObject.AvailableCharger();
                         foreach (var item in availableChargers)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }

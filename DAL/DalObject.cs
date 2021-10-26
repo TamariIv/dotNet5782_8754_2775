@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.DO;
+using IDAL.DO;
 
 
-namespace DAL
+namespace IDAL
 {
     namespace DalObject
     {
@@ -76,8 +76,8 @@ namespace DAL
                 List<Station> copyStations = new List<Station>();
                 for (int i = 0; i < DataSource.Stations.Count(); i++)
                 {
-                    copyStations[i] = DataSource.Stations[i];
-                    //copyStations.Add(DataSource.Stations[i]);
+                    //copyStations[i] = DataSource.Stations[i];
+                    copyStations.Add(DataSource.Stations[i]);
                 }
                 return copyStations;
             }
@@ -194,7 +194,7 @@ namespace DAL
                 p.DroneId = d.Id;
                 p.Scheduled = DateTime.Now;
                 d.Status = (DroneStatus)2;
-
+                
             //    int i = 0;
             //    while (DataSource.Drones[i].Status != (DroneStatus)1 || DataSource.Drones[i].Battery == 0)
             //        i++;
