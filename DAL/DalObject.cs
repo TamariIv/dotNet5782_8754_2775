@@ -219,9 +219,9 @@ namespace DAL
                 dc.StationId = s.Id;
             }
 
-            public static void SendDroneFromStation(Drone d, Station s)
+            public static void SendDroneFromStation(Drone d)
             {
-                //s.CahrgeSlots += 1;
+                s.ChargeSlots++; 
                 d.Status = (DroneStatus)1;
                 d.Battery = 100;
             }

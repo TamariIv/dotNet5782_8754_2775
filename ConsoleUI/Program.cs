@@ -103,7 +103,15 @@ namespace ConsoleUI
                     }
                 case 4:
                     {
-                        PrintSpecificList();
+                        Console.WriteLine("press 1 to view the list of base stations");
+                        Console.WriteLine("press 2 to view the list of the drones");
+                        Console.WriteLine("press 3 to view the list of the cutomers");
+                        Console.WriteLine("press 4 to view the list of the parcels");
+                        Console.WriteLine("press 5 to view the list of the parcels without drones");
+                        Console.WriteLine("press 6 to view the list of the stations with available charge slots");
+
+                        int option = int.Parse(Console.ReadLine());
+                        PrintSpecificList(option);
                         break;
                     }
                 case 5:
@@ -232,16 +240,9 @@ namespace ConsoleUI
 
             }
         }
-        public static void PrintSpecificList()
+        public static void PrintSpecificList(int option)
         {
-            Console.WriteLine("press 1 to view the list of base stations");
-            Console.WriteLine("press 2 to view the list of the drones");
-            Console.WriteLine("press 3 to view the list of the cutomers");
-            Console.WriteLine("press 4 to view the list of the parcels");
-            Console.WriteLine("press 5 to view the list of the parcels without drones");
-            Console.WriteLine("press 6 to view the list of the stations with available charge slots");
 
-            int option = int.Parse(Console.ReadLine());
             switch (option)
             {
                 case 1:
@@ -315,6 +316,7 @@ namespace ConsoleUI
 
         public static void PickUpParcel()
         {
+            PrintSpecificList(5);
             int id;
             Console.WriteLine("Enter the ID of the parcel you want to pick up: ");
             id = int.Parse(Console.ReadLine());
@@ -331,7 +333,7 @@ namespace ConsoleUI
 
         public static void SendDroneToStation()
         {
-             DalObject.AvailableCharger()
+            PrintSpecificList(6);
             int droneId, stationId;
             Console.WriteLine("Enter the ID of the drone you want to charge: ");
             droneId = int.Parse(Console.ReadLine());
@@ -342,12 +344,13 @@ namespace ConsoleUI
 
         public static void FreeDrone()
         {
-            int droneId, stationId;
+
+            int droneId;
             Console.WriteLine("Enter the ID of the drone you want to free: ");
             droneId = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the ID of the charging station: ");
-            stationId = int.Parse(Console.ReadLine());
-            DalObject.SendDroneFromStation(DalObject.ReturnDroneData(droneId), DalObject.ReturnStationData(stationId));
+            //Console.WriteLine("Enter the ID of the charging station: ");
+            //stationId = int.Parse(Console.ReadLine());
+            DalObject.SendDroneFromStation(DalObject.ReturnDroneData(droneId));
         }
     }
 }
