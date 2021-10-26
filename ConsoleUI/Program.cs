@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DAL.DO;
 using DAL.DalObject;
 
@@ -8,6 +12,8 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            DalObject d = new DalObject();
+
             Console.WriteLine("Press 1 to add an item");
             Console.WriteLine("Press 2 to update an item");
             Console.WriteLine("Press 3 to view details of specific item");
@@ -23,8 +29,8 @@ namespace ConsoleUI
                         Console.WriteLine("Press 2 to add drone");
                         Console.WriteLine("Press 3 to add station");
                         Console.WriteLine("Press 4 to add customer");
-                        int Innerhoice = int.Parse(Console.ReadLine());
-                        switch (Innerhoice)
+                        int innerChoice = int.Parse(Console.ReadLine());
+                        switch (innerChoice)
                         {
                             case 1:
                                 {
@@ -97,20 +103,18 @@ namespace ConsoleUI
                     }
                 case 4:
                     {
-
+                        PrintSpecificList();
                         break;
                     }
                 case 5:
                     {
+                        //exit
                         break;
                     }
 
                 default:
                     break;
             }
-
-
-            
         }
 
         static void ReceiveParcel()
@@ -230,10 +234,73 @@ namespace ConsoleUI
         }
         public static void PrintSpecificList()
         {
-            //Console.WriteLine("press 1 to view details of a specific station");
-            //Console.WriteLine("press 2 to view details of a specific drone");
-            //Console.WriteLine("press 3 to view details of a specific customer");
-            //Console.WriteLine("press 4 to view details of a specific parcel");
+            Console.WriteLine("press 1 to view the list of base stations");
+            Console.WriteLine("press 2 to view the list of the drones");
+            Console.WriteLine("press 3 to view the list of the cutomers");
+            Console.WriteLine("press 4 to view the list of the parcels");
+            Console.WriteLine("press 5 to view the list of the parcels without drones");
+            Console.WriteLine("press 6 to view the list of the stations with available charge slots");
+
+            int option = int.Parse(Console.ReadLine());
+            switch (option)
+            {
+                case 1:
+                    {
+                        List<Station> stations = DalObject.GetStations();
+                        foreach (var item in stations)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        List<Drone> drones = DalObject.GetDrones();
+                        foreach (var item in drones)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        List<Customer> customers = DalObject.GetCustomers();
+                        foreach (var item in customers)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        List<Parcel> parcels = DalObject.GetParcels();
+                        foreach (var item in parcels)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 5:
+                    {
+                        List<Parcel> parcelsWithoutDrones = DalObject.ParcelWithoutDrone();
+                        foreach (var item in parcelsWithoutDrones)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                case 6:
+                    {
+                        List<Station> availableChargers = DalObject.AvailableCharger();
+                        foreach (var item in availableChargers)
+                        {
+                            item.ToString();
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         public static void DroneToParcel()
