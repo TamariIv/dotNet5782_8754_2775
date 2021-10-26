@@ -19,8 +19,8 @@ namespace ConsoleUI
             Console.WriteLine("Press 3 to view details of specific item");
             Console.WriteLine("Press 4 to view a list of specific item");
             Console.WriteLine("Press 5 to stop");
-
-            int choice = int.Parse(Console.ReadLine());
+            int choice;
+            int.TryParse(Console.ReadLine(), out choice);
             switch (choice)
             {
                 case 1:
@@ -29,7 +29,8 @@ namespace ConsoleUI
                         Console.WriteLine("Press 2 to add drone");
                         Console.WriteLine("Press 3 to add station");
                         Console.WriteLine("Press 4 to add customer");
-                        int innerChoice = int.Parse(Console.ReadLine());
+                        int innerChoice;
+                        int.TryParse(Console.ReadLine(), out innerChoice);
                         switch (innerChoice)
                         {
                             case 1:
@@ -52,7 +53,7 @@ namespace ConsoleUI
                                     ReceiveCustomer();
                                     break;
                                 }
-                                
+
                         }
                         break;
                     }
@@ -63,7 +64,8 @@ namespace ConsoleUI
                         Console.WriteLine("Press 3 to deliver parcel to customer");
                         Console.WriteLine("Press 4 to send drone to charge");
                         Console.WriteLine("Press 5 to free drone from charging");
-                        int Innerhoice = int.Parse(Console.ReadLine());
+                        int Innerhoice;
+                        int.TryParse(Console.ReadLine(), out Innerhoice);
                         switch (Innerhoice)
                         {
                             case 1:
@@ -110,7 +112,8 @@ namespace ConsoleUI
                         Console.WriteLine("press 5 to view the list of the parcels without drones");
                         Console.WriteLine("press 6 to view the list of the stations with available charge slots");
 
-                        int option = int.Parse(Console.ReadLine());
+                        int option;
+                        int.TryParse(Console.ReadLine(), out option);
                         PrintSpecificList(option);
                         break;
                     }
@@ -131,11 +134,13 @@ namespace ConsoleUI
             WeightCategories weight;
             Priorities priority;
             Console.WriteLine("Enter sender ID: ");
-            senderId = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out senderId);
             Console.WriteLine("Enter target ID: ");
-            targetId = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out targetId);
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            weight = (WeightCategories)(int.Parse(Console.ReadLine()) - 1);
+            int tmp;
+            int.TryParse(Console.ReadLine(), out tmp);
+            weight = (WeightCategories)(tmp - 1);
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
             priority = (Priorities)(int.Parse(Console.ReadLine()) - 1);
             DalObject.NewParcel(senderId, targetId, weight, priority);
@@ -148,11 +153,13 @@ namespace ConsoleUI
             WeightCategories maxWeight;
             //DroneStatus status;
             Console.WriteLine("Enter drone ID: ");
-            id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out id);
             Console.WriteLine("Enter drone model: ");
             model = Console.ReadLine();
             Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            maxWeight = (WeightCategories)(int.Parse(Console.ReadLine()) - 1);
+            int tmp;
+            int.TryParse(Console.ReadLine(), out tmp);
+            maxWeight = (WeightCategories)(tmp - 1);
             DalObject.AddDrone(id, model, maxWeight);
         }
 
@@ -162,20 +169,21 @@ namespace ConsoleUI
             string name;
             double longitude, latitude;
             Console.WriteLine("Enter station ID: ");
-            id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out id);
             Console.WriteLine("Enter station name: ");
             name = Console.ReadLine();
             Console.WriteLine("Enter station longitude: ");
-            longitude = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out longitude);
             Console.WriteLine("Enter station latitude: ");
-            latitude = double.Parse(Console.ReadLine());
+            double.TryParse(Console.ReadLine(), out latitude);
             Console.WriteLine("Enter number of open charging slots: ");
-            slots = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out slots);
             DalObject.AddStation(id, name, longitude, latitude, slots);
         }
 
         static void ReceiveCustomer()
         {
+            // continue to change to tryparse from here
             int id;
             string name, phone;
             double longitude, latitude;
@@ -319,7 +327,7 @@ namespace ConsoleUI
             PrintSpecificList(5);
             int id;
             Console.WriteLine("Enter the ID of the parcel you want to pick up: ");
-            id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out id);
             DalObject.PickUpParcel(DalObject.ReturnParcelData(id));
         }
 
@@ -327,7 +335,7 @@ namespace ConsoleUI
         {
             int id;
             Console.WriteLine("Enter the ID of the parcel you want to deliver: ");
-            id = int.Parse(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out id);
             DalObject.ParcelDelivered(DalObject.ReturnParcelData(id));
         }
 

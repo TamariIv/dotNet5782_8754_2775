@@ -231,9 +231,12 @@ namespace DAL
 
             public static void SendDroneFromStation(Drone d)
             {
+                DroneCharge dc = ReturnDroneCharge(d.Id);
+                Station s = ReturnStationData(dc.StationId);
                 s.ChargeSlots++; 
                 d.Status = (DroneStatus)1;
                 d.Battery = 100;
+                DataSource.DroneCharges.Remove(dc);
             }
         }
 
