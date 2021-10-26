@@ -50,7 +50,25 @@ namespace DAL
                 s.Latitude = 35.19514418203499;
                 s.ChargeSlots = r.Next(11);
                 Stations.Add(s);
-            
+
+                //initialize customers
+                string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
+                string[] familyNameArray = { "Cohen", "Levi", "Israel" };
+                string[] firstDigits = { "050", "052", "054" };
+                for (int i = 0; i < 5; i++)
+                {
+                    Customer c = new Customer();
+                    c.Id = r.Next(100000000, 1000000000);
+                    c.Name = namesArray[i] + " " + familyNameArray[i % 3];
+                    c.Phone = firstDigits[r.Next(3)];
+                    for (int j = 0; j < 7; j++)
+                    {
+                        c.Phone += (r.Next(0, 11)).ToString();
+                    }
+                    c.Latitude = 35 + r.NextDouble();
+                    c.Longitude = 31 + r.NextDouble();
+                    Customers.Add(c);
+                }
                 for (int i = 0; i < 10; i++)
                 {
                     Parcel p = new Parcel();
@@ -74,7 +92,7 @@ namespace DAL
                 }
 
                 //initialize drones
-                for (int i = 0; i < 5; i++) 
+                for (int i = 0; i < 5; i++)
                 {
                     Drone d = new Drone();
                     d.Id = r.Next(1001, 10000);
@@ -83,25 +101,6 @@ namespace DAL
                     d.Status = (DroneStatus)r.Next(3);
                     d.Battery = r.Next(100) + r.NextDouble();
                     Drones.Add(d);
-                }
-
-                //initialize customers
-                string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
-                string[] familyNameArray = { "Cohen", "Levi", "Israel" };
-                string[] firstDigits = { "050", "052", "054" };
-                for (int i = 0; i < 5; i++)
-                {
-                    Customer c = new Customer();
-                    c.Id = r.Next(100000000, 1000000000);
-                    c.Name = namesArray[i] + " " + familyNameArray[i % 3];
-                    c.Phone = firstDigits[r.Next(3)];
-                    for (int j = 0; j < 7; j++)
-                    {
-                        c.Phone += (r.Next(0, 11)).ToString();
-                    }
-                    c.Latitude = 35 + r.NextDouble(); 
-                    c.Longitude = 31 + r.NextDouble();
-                    Customers.Add(c);
                 }
 
 
