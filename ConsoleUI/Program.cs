@@ -21,6 +21,40 @@ namespace ConsoleUI
             Console.WriteLine("Press 5 to stop");
             int choice;
             int.TryParse(Console.ReadLine(), out choice);
+            while (choice != 5)
+            {
+                switch (choice)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Press 1 to add parcel");
+                            Console.WriteLine("Press 2 to add drone");
+                            Console.WriteLine("Press 3 to add station");
+                            Console.WriteLine("Press 4 to add customer");
+                            int innerChoice;
+                            int.TryParse(Console.ReadLine(), out innerChoice);
+                            switch (innerChoice)
+                            {
+                                case 1:
+                                    {
+                                        ReceiveParcel();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        ReceiveDrone();
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        ReceiveStation();
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        ReceiveCustomer();
+                                        break;
+                                    }
             while (choice!=5)
             {
                 switch (choice)
