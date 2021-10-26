@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.DO;
-using DAL.DalObject;
+using DalObject;
 
 namespace ConsoleUI
 {
