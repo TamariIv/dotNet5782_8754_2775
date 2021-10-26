@@ -342,12 +342,10 @@ namespace ConsoleUI
 
         public static void FreeDrone()
         {
-            int droneId, stationId;
+            int droneId;
             Console.WriteLine("Enter the ID of the drone you want to free: ");
             droneId = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the ID of the charging station: ");
-            stationId = int.Parse(Console.ReadLine());
-            DalObject.SendDroneFromStation(DalObject.ReturnDroneData(droneId), DalObject.ReturnStationData(stationId));
+            DalObject.SendDroneFromStation(DalObject.ReturnDroneData(droneId));
         }
     }
 }
