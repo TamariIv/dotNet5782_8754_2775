@@ -135,9 +135,9 @@ namespace ConsoleUI
             Console.WriteLine("Enter target ID: ");
             targetId = int.Parse(Console.ReadLine());
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            weight = (WeightCategories)(int.Parse(Console.ReadLine()) + 1);
+            weight = (WeightCategories)(int.Parse(Console.ReadLine()) - 1);
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
-            priority = (Priorities)(int.Parse(Console.ReadLine()) + 1);
+            priority = (Priorities)(int.Parse(Console.ReadLine()) - 1);
             DalObject.NewParcel(senderId, targetId, weight, priority);
         }
 
@@ -152,7 +152,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter drone model: ");
             model = Console.ReadLine();
             Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            maxWeight = (WeightCategories)(int.Parse(Console.ReadLine()) + 1);
+            maxWeight = (WeightCategories)(int.Parse(Console.ReadLine()) - 1);
             DalObject.AddDrone(id, model, maxWeight);
         }
 
@@ -344,12 +344,9 @@ namespace ConsoleUI
 
         public static void FreeDrone()
         {
-
             int droneId;
             Console.WriteLine("Enter the ID of the drone you want to free: ");
             droneId = int.Parse(Console.ReadLine());
-            //Console.WriteLine("Enter the ID of the charging station: ");
-            //stationId = int.Parse(Console.ReadLine());
             DalObject.SendDroneFromStation(DalObject.ReturnDroneData(droneId));
         }
     }

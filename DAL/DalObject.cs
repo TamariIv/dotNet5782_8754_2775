@@ -53,18 +53,28 @@ namespace DAL
             public static Parcel ReturnParcelData(int idNumber) //search the parcel by idNumber and return it
             {
                 Parcel p = new Parcel();
-                for (int i = 0; i < DataSource.Parcels.Count; i++)
+                for (int i = 0; i < DataSource.Parcels.Count(); i++)
                 {
                     if (DataSource.Parcels[i].Id == idNumber)
                         p = DataSource.Parcels[i];
                 }
                 return p;
             }
+            public static DroneCharge ReturnDroneCharge(int idNumber)
+            {
+                DroneCharge d = new DroneCharge();
+                for (int i = 0; i < DataSource.DroneCharges.Count(); i++)
+                {
+                    if (DataSource.DroneCharges[i].DroneId == idNumber)
+                        d = DataSource.DroneCharges[i];
+                }
+                return d;
+            }
 
             public static List<Station> GetStations()
             {
                 List<Station> copyStations = new List<Station>();
-                for (int i = 0; i < DataSource.Stations.Count; i++)
+                for (int i = 0; i < DataSource.Stations.Count(); i++)
                 {
                     copyStations[i] = DataSource.Stations[i];
                     //copyStations.Add(DataSource.Stations[i]);
@@ -213,7 +223,7 @@ namespace DAL
             public static void SendDroneToCharge(Drone d, Station s)
             {
                 d.Status = (DroneStatus)0;
-                //s.CahrgeSlots--;
+                s.ChargeSlots--;
                 DroneCharge dc = new DroneCharge();
                 dc.DroneId = d.Id;
                 dc.StationId = s.Id;
