@@ -15,7 +15,7 @@ namespace DAL
 
             public override string ToString()
             {
-                return string.Format("Id of drone: {0}\n Id of station: {1}\n" , DroneId , StationId);
+                return string.Format("Id of drone: {0}\nId of station: {1}\n" , DroneId , StationId);
             }
         }
 

@@ -18,8 +18,7 @@ namespace DAL
 
             public override string ToString()
             {
-                return string.Format("Id is: {0}\n Name of customer: {1}\n Phone number: {2}\n longitude is: {3}\n" +
-                    " latitude: {4}\n", Id, Name, Phone,Longitude, Latitude);
+                return string.Format("Id is: {0}\nName of customer: {1}\nPhone number: {2}\nlongitude is: {3}\nlatitude: {4}\n", Id, Name, Phone,Longitude, Latitude);
             }
         }
 
