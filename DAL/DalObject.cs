@@ -190,9 +190,7 @@ namespace DalObject
         public static void MatchDroneToParcel(Parcel p, Drone d)
         {
             p.DroneId = d.Id;
-            p.Scheduled = DateTime.Now.Date;
-            d.Status = (DroneStatus)2;
-
+            p.Scheduled = DateTime.Now;
             //    int i = 0;
             //    while (DataSource.Drones[i].Status != (DroneStatus)1 || DataSource.Drones[i].Battery == 0)
             //        i++;
@@ -210,17 +208,17 @@ namespace DalObject
 
         public static void PickUpParcel(Parcel p)
         {
-            p.PickedUp = DateTime.Now.Date;
+            p.PickedUp = DateTime.Now;
         }
 
         public static void ParcelDelivered(Parcel p)
         {
-            p.Delivered = DateTime.Now.Date;
+            p.Delivered = DateTime.Now;
         }
 
         public static void SendDroneToCharge(Drone d, Station s)
         {
-            d.Status = (DroneStatus)0;
+            d.Status = DroneStatus.maintenance;
             s.ChargeSlots--;
             DroneCharge dc = new DroneCharge();
             dc.DroneId = d.Id;
@@ -232,7 +230,7 @@ namespace DalObject
             DroneCharge dc = ReturnDroneCharge(d.Id);
             Station s = ReturnStationData(dc.StationId);
             s.ChargeSlots++;
-            d.Status = (DroneStatus)1;
+            d.Status = DroneStatus.available;
             d.Battery = 100;
             DataSource.DroneCharges.Remove(dc);
         }
