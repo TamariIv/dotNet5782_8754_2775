@@ -23,8 +23,7 @@ namespace IDAL
 
             public override string ToString()
             {
-                return string.Format("Id is: {0}\nId of the sender: {1}\nId of the target: {2}\nWeight is: {3}\npriority: {4}\n requested date: {5}\n Drone id {6}\n" +
-                    " scheduled date: {7}\npickedUp date: {8} \ndelivered date: {9}", Id, SenderId, TargetId, Weight, Priority, Requested, DroneId, Scheduled, PickedUp, Delivered);
+                return string.Format("Id is: {0}\nId of the sender: {1}\nId of the target: {2}\nWeight is: {3}\npriority: {4}\nrequested date: {5}\nDrone id {6}\nscheduled date: {7}\npickedUp date: {8} \ndelivered date: {9}", Id, SenderId, TargetId, Weight, Priority, Requested.ToString("dd/MM/yyyy"), DroneId, Scheduled.ToString("dd/MM/yyyy"), PickedUp.ToString("dd/MM/yyyy"), Delivered.ToString("dd/MM/yyyy"));
             }
         }
     }

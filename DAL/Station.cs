@@ -10,11 +10,11 @@ namespace IDAL
     {
         public struct Station
         {
-            public int Id;
-            public string Name;
-            public double Longitude;
-            public double Latitude;
-            public int ChargeSlots;
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+            public int ChargeSlots { get; set; }
 
             public override string ToString()
             {
