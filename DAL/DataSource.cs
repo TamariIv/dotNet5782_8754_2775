@@ -44,7 +44,7 @@ namespace DalObject
         private static void createStation()
         {
             Station s = new Station();
-            s.Id = r.Next(10000, 100000); //id number with 5 digits
+            s.Id = r.Next(10000, 100000); 
             s.Name = "Pisgat Zeev";
             s.Longitude = 31.831146;
             s.Latitude = 35.242632;
@@ -86,20 +86,16 @@ namespace DalObject
             {
                 Parcel p = new Parcel();
                 p.Id = Config.ParcelId++;
-                p.SenderId = r.Next(10000000, 100000000); //buisness number
-                int temp = r.Next(0, Customers.Count()); //random number between 0 - length of the customers list as index for TargetId
-                p.TargetId = Customers[temp].Id; //the ID of the cutomer
+                p.SenderId = r.Next(100000000, 1000000000);
+                p.TargetId = r.Next(100000000, 1000000000);
                 p.Weight = (WeightCategories)r.Next(3);
                 p.Priority = (Priorities)r.Next(3);
-                DateTime start = new DateTime(2020, 1, 1);
+                DateTime start = new DateTime(2021, 1, 1);
                 int range = (DateTime.Today - start).Days;
-                p.Delivered = start.AddDays(r.Next(range));
-                range = (p.Delivered - start).Days;
-                p.PickedUp = start.AddDays(r.Next(range));
-                range = (p.PickedUp - start).Days;
-                p.Scheduled = start.AddDays(r.Next(range));
-                range = (p.Scheduled - start).Days;
                 p.Requested = start.AddDays(r.Next(range));
+                p.Scheduled = p.Requested.AddHours(r.Next(1, 8));
+                p.PickedUp = p.Scheduled.AddMinutes(r.Next(20,180));
+                p.Delivered = p.PickedUp.AddMinutes(r.Next(20, 90));
                 p.DroneId = 0;
                 Parcels.Add(p);
             }
@@ -114,7 +110,7 @@ namespace DalObject
                 d.Model = ((char)(r.Next(65, 91))) + (r.Next(111, 999)).ToString(); // for example: S503
                 d.MaxWeight = (WeightCategories)r.Next(3);
                 d.Status = DroneStatus.available;
-                d.Battery = r.Next(100) + r.NextDouble();
+                d.Battery = 100;
                 Drones.Add(d);
             }
 
