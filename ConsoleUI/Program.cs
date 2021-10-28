@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.DO;
-using DalObject;
+using IDAL.DO;
+using IDAL.DalObject;
 
 namespace ConsoleUI
 {
@@ -22,6 +22,40 @@ namespace ConsoleUI
             int choice;
             int.TryParse(Console.ReadLine(), out choice);
             while (choice != 5)
+            {
+                switch (choice)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Press 1 to add parcel");
+                            Console.WriteLine("Press 2 to add drone");
+                            Console.WriteLine("Press 3 to add station");
+                            Console.WriteLine("Press 4 to add customer");
+                            int innerChoice;
+                            int.TryParse(Console.ReadLine(), out innerChoice);
+                            switch (innerChoice)
+                            {
+                                case 1:
+                                    {
+                                        ReceiveParcel();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        ReceiveDrone();
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        ReceiveStation();
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        ReceiveCustomer();
+                                        break;
+                                    }
+            while (choice!=5)
             {
                 switch (choice)
                 {
@@ -130,6 +164,7 @@ namespace ConsoleUI
                 }
                 int.TryParse(Console.ReadLine(), out choice);
             }
+
         }
 
         static void ReceiveParcel()
@@ -220,7 +255,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the station");
                         id = int.Parse(Console.ReadLine());
                         Station s = DalObject.ReturnStationData(id);
-                        s.ToString();
+                        Console.WriteLine(s);                        
                         break;
                     }
                 case 2:
@@ -228,7 +263,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the drone");
                         id = int.Parse(Console.ReadLine());
                         Drone d = DalObject.ReturnDroneData(id);
-                        d.ToString();
+                        Console.WriteLine(d);
                         break;
                     }
                 case 3:
@@ -236,7 +271,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the customer");
                         id = int.Parse(Console.ReadLine());
                         Customer c = DalObject.ReturnCustomerData(id);
-                        c.ToString();
+                        Console.WriteLine(c);
                         break;
                     }
                 case 4:
@@ -244,7 +279,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the parcel");
                         id = int.Parse(Console.ReadLine());
                         Parcel p = DalObject.ReturnParcelData(id);
-                        p.ToString();
+                        Console.WriteLine(p);
                         break;
                     }
                 default:
@@ -262,7 +297,7 @@ namespace ConsoleUI
                         List<Station> stations = DalObject.GetStations();
                         foreach (var item in stations)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -271,7 +306,7 @@ namespace ConsoleUI
                         List<Drone> drones = DalObject.GetDrones();
                         foreach (var item in drones)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -280,7 +315,7 @@ namespace ConsoleUI
                         List<Customer> customers = DalObject.GetCustomers();
                         foreach (var item in customers)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -289,7 +324,7 @@ namespace ConsoleUI
                         List<Parcel> parcels = DalObject.GetParcels();
                         foreach (var item in parcels)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -298,7 +333,7 @@ namespace ConsoleUI
                         List<Parcel> parcelsWithoutDrones = DalObject.ParcelWithoutDrone();
                         foreach (var item in parcelsWithoutDrones)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
@@ -307,7 +342,7 @@ namespace ConsoleUI
                         List<Station> availableChargers = DalObject.AvailableCharger();
                         foreach (var item in availableChargers)
                         {
-                            item.ToString();
+                            Console.WriteLine(item);
                         }
                         break;
                     }
