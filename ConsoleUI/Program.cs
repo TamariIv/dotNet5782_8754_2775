@@ -55,44 +55,10 @@ namespace ConsoleUI
                                         ReceiveCustomer();
                                         break;
                                     }
-            while (choice!=5)
-            {
-                switch (choice)
-                {
-                    case 1:
-                        {
-                            Console.WriteLine("Press 1 to add parcel");
-                            Console.WriteLine("Press 2 to add drone");
-                            Console.WriteLine("Press 3 to add station");
-                            Console.WriteLine("Press 4 to add customer");
-                            int innerChoice;
-                            int.TryParse(Console.ReadLine(), out innerChoice);
-                            switch (innerChoice)
-                            {
-                                case 1:
-                                    {
-                                        ReceiveParcel();
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        ReceiveDrone();
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        ReceiveStation();
-                                        break;
-                                    }
-                                case 4:
-                                    {
-                                        ReceiveCustomer();
-                                        break;
-                                    }
-
                             }
                             break;
                         }
+
                     case 2:
                         {
                             Console.WriteLine("Press 1 to match drone to parcel");
@@ -130,8 +96,6 @@ namespace ConsoleUI
                                         break;
                                     }
                             }
-
-
                             break;
                         }
                     case 3:
@@ -255,7 +219,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter ID of the station");
                         id = int.Parse(Console.ReadLine());
                         Station s = DalObject.ReturnStationData(id);
-                        Console.WriteLine(s);                        
+                        Console.WriteLine(s);
                         break;
                     }
                 case 2:
@@ -358,7 +322,10 @@ namespace ConsoleUI
             droneId = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter ID of the parcel you want to send: ");
             parcelId = int.Parse(Console.ReadLine());
+
+
             DalObject.MatchDroneToParcel(DalObject.ReturnParcelData(parcelId), DalObject.ReturnDroneData(droneId));
+
         }
 
         public static void PickUpParcel()
@@ -398,3 +365,4 @@ namespace ConsoleUI
         }
     }
 }
+

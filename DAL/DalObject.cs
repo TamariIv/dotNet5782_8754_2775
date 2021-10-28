@@ -31,7 +31,7 @@ namespace IDAL
             public static Drone ReturnDroneData(int idNumber) //search the drone by idNumber and return it
             {
                 Drone d = new Drone();
-                for (int i = 0; i < DataSource.Drones.Count; i++)
+                for (int i = 0; i < DataSource.Drones.Count(); i++)
                 {
                     if (DataSource.Drones[i].Id == idNumber)
                         d = DataSource.Drones[i];
@@ -52,6 +52,7 @@ namespace IDAL
 
             public static Parcel ReturnParcelData(int idNumber) //search the parcel by idNumber and return it
             {
+
                 Parcel p = new Parcel();
                 for (int i = 0; i < DataSource.Parcels.Count(); i++)
                 {
@@ -195,20 +196,20 @@ namespace IDAL
                 p.DroneId = d.Id;
                 p.Scheduled = DateTime.Now;
                 d.Status = (DroneStatus)2;
-                
-            //    int i = 0;
-            //    while (DataSource.Drones[i].Status != (DroneStatus)1 || DataSource.Drones[i].Battery == 0)
-            //        i++;
-            //    if (DataSource.Drones[i].Status == (DroneStatus)1 && DataSource.Drones[i].Battery != 0)
-            //    {
-            //        p.DroneId = DataSource.Drones[i].Id;
-            //        //DataSource.Drones[i].Status = (DroneStatus)2;
-            //        //date??
-            //        //GetDrones()[i].Status = (DroneStatus)2;
-            //        DAL.DO.Drone tmp = DataSource.Drones[i];
-            //        tmp.Status = (DroneStatus)2;
-            //        DataSource.Drones[i] = tmp;
-            //    }
+
+                //    int i = 0;
+                //    while (DataSource.Drones[i].Status != (DroneStatus)1 || DataSource.Drones[i].Battery == 0)
+                //        i++;
+                //    if (DataSource.Drones[i].Status == (DroneStatus)1 && DataSource.Drones[i].Battery != 0)
+                //    {
+                //        p.DroneId = DataSource.Drones[i].Id;
+                //        //DataSource.Drones[i].Status = (DroneStatus)2;
+                //        //date??
+                //        //GetDrones()[i].Status = (DroneStatus)2;
+                //        DAL.DO.Drone tmp = DataSource.Drones[i];
+                //        tmp.Status = (DroneStatus)2;
+                //        DataSource.Drones[i] = tmp;
+                //    }
             }
 
             public static void PickUpParcel(Parcel p)
@@ -234,7 +235,7 @@ namespace IDAL
             {
                 DroneCharge dc = ReturnDroneCharge(d.Id);
                 Station s = ReturnStationData(dc.StationId);
-                s.ChargeSlots++; 
+                s.ChargeSlots++;
                 d.Status = (DroneStatus)1;
                 d.Battery = 100;
                 DataSource.DroneCharges.Remove(dc);

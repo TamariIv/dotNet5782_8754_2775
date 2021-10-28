@@ -103,9 +103,6 @@ namespace IDAL
                     Drones.Add(d);
                 }
 
-                
-
-
             }
         }
 
