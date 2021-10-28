@@ -73,7 +73,6 @@ namespace DalObject
             List<Station> copyStations = new List<Station>();
             for (int i = 0; i < DataSource.Stations.Count(); i++)
             {
-                //copyStations[i] = DataSource.Stations[i];
                 Station s = DataSource.Stations[i];
                 copyStations.Add(s);
             }
@@ -151,14 +150,14 @@ namespace DalObject
         }
 
 
-        public static void AddDrone(int _id, string _model, WeightCategories _maxWeight/*, DroneStatus _status, double _battery*/)
+        public static void AddDrone(int _id, string _model, WeightCategories _maxWeight)
         {
             Drone d = new Drone();
             d.Id = _id;
             d.Model = _model;
             d.MaxWeight = _maxWeight;
-            d.Status = (DroneStatus)1/*_status*/;
-            d.Battery = 100/*_battery*/;
+            d.Status = DroneStatus.available;
+            d.Battery = 100;
             DataSource.Drones.Add(d);
         }
 
