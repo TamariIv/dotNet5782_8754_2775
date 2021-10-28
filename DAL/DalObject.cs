@@ -255,7 +255,7 @@ namespace DalObject
         {
             Drone newd = d;
             Station news = s;
-            newd.Status = DroneStatus.assigned;
+            newd.Status = DroneStatus.maintenance;
             news.ChargeSlots--;
             DroneCharge dc = new DroneCharge();
             dc.DroneId = newd.Id;

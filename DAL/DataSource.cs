@@ -107,7 +107,7 @@ namespace DalObject
             {
                 Drone d = new Drone();
                 d.Id = r.Next(1001, 10000);
-                d.Model = ((char)(r.Next(65, 91))) + (r.Next(111, 999)).ToString(); // for example: S503
+                d.Model = ((char)(r.Next(65, 91)) + ((char)(r.Next(65, 91)) + (r.Next(111, 999)).ToString())); // for example: SE503
                 d.MaxWeight = (WeightCategories)r.Next(3);
                 d.Status = DroneStatus.available;
                 d.Battery = 100;
