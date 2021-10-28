@@ -17,7 +17,7 @@ namespace DalObject
         public static Station ReturnStationData(int idNumber)  //search the station by idNumber and return it
         {
             Station s = new Station();
-            for (int i = 0; i < DataSource.Stations.Count; i++)
+            for (int i = 0; i < DataSource.Stations.Count(); i++)
             {
                 if (DataSource.Stations[i].Id == idNumber)
                     s = DataSource.Stations[i];
@@ -28,7 +28,7 @@ namespace DalObject
         public static Drone ReturnDroneData(int idNumber) //search the drone by idNumber and return it
         {
             Drone d = new Drone();
-            for (int i = 0; i < DataSource.Drones.Count; i++)
+            for (int i = 0; i < DataSource.Drones.Count(); i++)
             {
                 if (DataSource.Drones[i].Id == idNumber)
                     d = DataSource.Drones[i];
@@ -39,7 +39,7 @@ namespace DalObject
         public static Customer ReturnCustomerData(int idNumber) //search the customer by idNumber and return it
         {
             Customer c = new Customer();
-            for (int i = 0; i < DataSource.Customers.Count; i++)
+            for (int i = 0; i < DataSource.Customers.Count(); i++)
             {
                 if (DataSource.Customers[i].Id == idNumber)
                     c = DataSource.Customers[i];
@@ -83,7 +83,7 @@ namespace DalObject
         public static List<Drone> GetDrones()
         {
             List<Drone> copyDrones = new List<Drone>();
-            for (int i = 0; i < DataSource.Drones.Count; i++)
+            for (int i = 0; i < DataSource.Drones.Count(); i++)
             {
                 copyDrones.Add(DataSource.Drones[i]);
             }
@@ -93,7 +93,7 @@ namespace DalObject
         public static List<Customer> GetCustomers()
         {
             List<Customer> copyCustomers = new List<Customer>();
-            for (int i = 0; i < DataSource.Customers.Count; i++)
+            for (int i = 0; i < DataSource.Customers.Count(); i++)
             {
                 copyCustomers.Add(DataSource.Customers[i]);
             }
@@ -103,7 +103,7 @@ namespace DalObject
         public static List<Parcel> GetParcels()
         {
             List<Parcel> copyParcels = new List<Parcel>();
-            for (int i = 0; i < DataSource.Parcels.Count; i++)
+            for (int i = 0; i < DataSource.Parcels.Count(); i++)
             {
                 copyParcels.Add(DataSource.Parcels[i]);
             }
@@ -117,7 +117,7 @@ namespace DalObject
         public static List<Parcel> ParcelWithoutDrone()
         {
             List<Parcel> ParcelsWithoutDrone = new List<Parcel>();
-            for (int i = 0; i < DataSource.Parcels.Count; i++)
+            for (int i = 0; i < DataSource.Parcels.Count(); i++)
             {
                 if (DataSource.Parcels[i].DroneId == 0)
                     ParcelsWithoutDrone.Add(DataSource.Parcels[i]);
@@ -130,7 +130,7 @@ namespace DalObject
         public static List<Station> AvailableCharger()
         {
             List<Station> AvailableChargers = new List<Station>();
-            for (int i = 0; i < DataSource.Stations.Count; i++)
+            for (int i = 0; i < DataSource.Stations.Count(); i++)
             {
                 if (DataSource.Stations[i].ChargeSlots != 0)
                     AvailableChargers.Add(DataSource.Stations[i]);
@@ -190,7 +190,7 @@ namespace DalObject
         public static void MatchDroneToParcel(Parcel p, Drone d)
         {
             p.DroneId = d.Id;
-            p.Scheduled = DateTime.Now;
+            p.Scheduled = DateTime.Now.Date;
             d.Status = (DroneStatus)2;
 
             //    int i = 0;
@@ -210,12 +210,12 @@ namespace DalObject
 
         public static void PickUpParcel(Parcel p)
         {
-            p.PickedUp = DateTime.Now;
+            p.PickedUp = DateTime.Now.Date;
         }
 
         public static void ParcelDelivered(Parcel p)
         {
-            p.Delivered = DateTime.Now;
+            p.Delivered = DateTime.Now.Date;
         }
 
         public static void SendDroneToCharge(Drone d, Station s)
