@@ -16,46 +16,79 @@ namespace DalObject
         }
         public static Station ReturnStationData(int idNumber)  //search the station by idNumber and return it
         {
-            Station s = new Station();
-            for (int i = 0; i < DataSource.Stations.Count(); i++)
+            foreach (var item in DataSource.Stations)
             {
-                if (DataSource.Stations[i].Id == idNumber)
-                    s = DataSource.Stations[i];
+                if (item.Id == idNumber)
+                    return item;
             }
+            Station s = new Station();
             return s;
+
+            //Station s = new Station();
+            //for (int i = 0; i < DataSource.Stations.Count(); i++)
+            //{
+            //    if (DataSource.Stations[i].Id == idNumber)
+            //        s = DataSource.Stations[i];
+            //}
+            //return s;
         }
 
         public static Drone ReturnDroneData(int idNumber) //search the drone by idNumber and return it
         {
-            Drone d = new Drone();
-            for (int i = 0; i < DataSource.Drones.Count(); i++)
+            foreach (var item in DataSource.Drones)
             {
-                if (DataSource.Drones[i].Id == idNumber)
-                    d = DataSource.Drones[i];
+                if (item.Id == idNumber)
+                    return item;
             }
+            Drone d = new Drone();
             return d;
+
+            //Drone d = new Drone();
+            //for (int i = 0; i < DataSource.Drones.Count(); i++)
+            //{
+            //    if (DataSource.Drones[i].Id == idNumber)
+            //        d = DataSource.Drones[i];
+            //}
+            //return d;
         }
 
         public static Customer ReturnCustomerData(int idNumber) //search the customer by idNumber and return it
         {
-            Customer c = new Customer();
-            for (int i = 0; i < DataSource.Customers.Count(); i++)
+            foreach (var item in DataSource.Customers)
             {
-                if (DataSource.Customers[i].Id == idNumber)
-                    c = DataSource.Customers[i];
+                if (item.Id == idNumber)
+                    return item;
             }
+            Customer c = new Customer();
             return c;
+
+            //Customer c = new Customer();
+            //for (int i = 0; i < DataSource.Customers.Count(); i++)
+            //{
+            //    if (DataSource.Customers[i].Id == idNumber)
+            //        c = DataSource.Customers[i];
+            //}
+            //return c;
         }
 
         public static Parcel ReturnParcelData(int idNumber) //search the parcel by idNumber and return it
         {
-            Parcel p = new Parcel();
-            for (int i = 0; i < DataSource.Parcels.Count(); i++)
+
+            foreach (var item in DataSource.Parcels)
             {
-                if (DataSource.Parcels[i].Id == idNumber)
-                    p = DataSource.Parcels[i];
+                if (item.Id == idNumber)
+                    return item;
             }
+            Parcel p = new Parcel();
             return p;
+
+            //Parcel p = new Parcel();
+            //for (int i = 0; i < DataSource.Parcels.Count(); i++)
+            //{
+            //    if (DataSource.Parcels[i].Id == idNumber)
+            //        p = DataSource.Parcels[i];
+            //}
+            //return p;
         }
         public static DroneCharge ReturnDroneCharge(int idNumber)
         {
@@ -188,40 +221,49 @@ namespace DalObject
 
         public static void MatchDroneToParcel(Parcel p, Drone d)
         {
-            p.DroneId = d.Id;
-            p.Scheduled = DateTime.Now;
-            //    int i = 0;
-            //    while (DataSource.Drones[i].Status != (DroneStatus)1 || DataSource.Drones[i].Battery == 0)
-            //        i++;
-            //    if (DataSource.Drones[i].Status == (DroneStatus)1 && DataSource.Drones[i].Battery != 0)
-            //    {
-            //        p.DroneId = DataSource.Drones[i].Id;
-            //        //DataSource.Drones[i].Status = (DroneStatus)2;
-            //        //date??
-            //        //GetDrones()[i].Status = (DroneStatus)2;
-            //        DAL.DO.Drone tmp = DataSource.Drones[i];
-            //        tmp.Status = (DroneStatus)2;
-            //        DataSource.Drones[i] = tmp;
-            //    }
+            Parcel newp = p;
+            Drone newd = d;
+            newp.DroneId = d.Id;
+            newp.Scheduled = DateTime.Now.Date;
+            newd.Status = (DroneStatus)2;
+
+            DataSource.Drones.Remove(d);
+            DataSource.Drones.Add(newd);
+            DataSource.Parcels.Remove(p);
+            DataSource.Parcels.Add(newp);
         }
 
         public static void PickUpParcel(Parcel p)
         {
-            p.PickedUp = DateTime.Now;
+            Parcel newp = p;
+            newp.PickedUp = DateTime.Now.Date;
+            DataSource.Parcels.Remove(p);
+            DataSource.Parcels.Add(newp);
         }
 
         public static void ParcelDelivered(Parcel p)
         {
-            p.Delivered = DateTime.Now;
+            // receive drone and change drone stat to assigned
+            Parcel newp = p;
+            newp.Delivered = DateTime.Now.Date;
+            DataSource.Parcels.Remove(p);
+            DataSource.Parcels.Add(newp);
         }
 
         public static void SendDroneToCharge(Drone d, Station s)
         {
-            d.Status = DroneStatus.maintenance;
-            s.ChargeSlots--;
+            Drone newd = d;
+            Station news = s;
+            newd.Status = DroneStatus.maintenance;
+            news.ChargeSlots--;
             DroneCharge dc = new DroneCharge();
-            dc.DroneId = d.Id;
-            dc.StationId = s.Id;
+            dc.DroneId = newd.Id;
+            dc.StationId = news.Id;
+
+            DataSource.Drones.Remove(d);
+            DataSource.Drones.Add(newd);
+            DataSource.Stations.Remove(s);
+            DataSource.Stations.Add(news);
         }
 
         public static void SendDroneFromStation(Drone d)
