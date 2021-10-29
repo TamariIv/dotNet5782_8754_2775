@@ -206,7 +206,10 @@ namespace DalObject
             c.Longitude = _longitude;
             DataSource.Customers.Add(c);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns> the id of the next new parcel </returns>
         public static int NewParcel(int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _priority)
         {
             Parcel p = new Parcel();
@@ -225,8 +228,8 @@ namespace DalObject
             Parcel newp = p;
             Drone newd = d;
             newp.DroneId = d.Id;
-            newp.Scheduled = DateTime.Now.Date;
-            newd.Status = (DroneStatus)2;
+            newp.Scheduled = DateTime.Now;
+            newd.Status = DroneStatus.assigned;
 
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newd);
@@ -237,7 +240,7 @@ namespace DalObject
         public static void PickUpParcel(Parcel p)
         {
             Parcel newp = p;
-            newp.PickedUp = DateTime.Now.Date;
+            newp.PickedUp = DateTime.Now;
             DataSource.Parcels.Remove(p);
             DataSource.Parcels.Add(newp);
         }
@@ -245,8 +248,13 @@ namespace DalObject
         public static void ParcelDelivered(Parcel p)
         {
             // receive drone and change drone stat to assigned
+            Drone newDrone = ReturnDroneData(p.DroneId);
+            newDrone.Status = DroneStatus.delivery;
             Parcel newp = p;
-            newp.Delivered = DateTime.Now.Date;
+            newp.Delivered = DateTime.Now;
+
+            DataSource.Drones.Remove(ReturnDroneData(p.DroneId));
+            DataSource.Drones.Add(newDrone);
             DataSource.Parcels.Remove(p);
             DataSource.Parcels.Add(newp);
         }
