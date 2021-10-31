@@ -177,7 +177,7 @@ namespace DalObject
             DataSource.Drones.Add(d);
         }
 
-        public static void NewCustomer(int _id, string _name, string _phone, double _longitude, double _latitude)
+        public void NewCustomer(int _id, string _name, string _phone, double _longitude, double _latitude)
         {
             Customer c = new Customer()
             {
@@ -193,7 +193,7 @@ namespace DalObject
         /// 
         /// </summary>
         /// <returns> the id of the next new parcel </returns>
-        public static int NewParcel(int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _priority)
+        public int NewParcel(int _senderId, int _targetId, WeightCategories _maxWeight, Priorities _priority)
         {
             Parcel p = new Parcel()
             {
@@ -208,13 +208,13 @@ namespace DalObject
             return DataSource.Config.ParcelId++;
         }
 
-        public static void MatchDroneToParcel(Parcel p, Drone d)
+        public void MatchDroneToParcel(Parcel p, Drone d)
         {
             Parcel newParcel = p;
             Drone newDrone = d;
             newParcel.DroneId = d.Id;
             newParcel.Scheduled = DateTime.Now;
-            newDrone.Status = DroneStatus.assigned;
+            newDrone.Status = DroneStatus.Assigned;
 
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newDrone);
@@ -222,7 +222,7 @@ namespace DalObject
             DataSource.Parcels.Add(newParcel);
         }
 
-        public static void PickUpParcel(Parcel p)
+        public void PickUpParcel(Parcel p)
         {
             Parcel newParcel = p;
             newParcel.PickedUp = DateTime.Now;
@@ -230,13 +230,13 @@ namespace DalObject
             DataSource.Parcels.Add(newParcel);
         }
 
-        public static void ParcelDelivered(Parcel p)
+        public void ParcelDelivered(Parcel p)
         {
             // receive drone and change drone stat to assigned
             Drone newDrone = ReturnDroneData(p.DroneId);
-            newDrone.Status = DroneStatus.delivery;
-            Parcel newp = p;
-            newp.Delivered = DateTime.Now;
+            newDrone.Status = DroneStatus.Delivery;
+            Parcel newParcel = p;
+            newParcel.Delivered = DateTime.Now;
 
             DataSource.Drones.Remove(ReturnDroneData(p.DroneId));
             DataSource.Drones.Add(newDrone);
@@ -244,11 +244,11 @@ namespace DalObject
             DataSource.Parcels.Add(newParcel);
         }
 
-        public static void SendDroneToCharge(Drone d, Station s)
+        public void SendDroneToCharge(Drone d, Station s)
         {
             Drone newDrone = d;
             Station newStation = s;
-            newDrone.Status = DroneStatus.maintenance;
+            newDrone.Status = DroneStatus.Maintenance;
             newStation.ChargeSlots--;
             DroneCharge dc = new DroneCharge();
             dc.DroneId = newDrone.Id;
@@ -269,7 +269,7 @@ namespace DalObject
             DroneCharge dronecharge = ReturnDroneCharge(d.Id);
             Station s =  dal.ReturnStationData(dronecharge.StationId);
             s.ChargeSlots++;
-            d.Status = DroneStatus.available;
+            d.Status = DroneStatus.Available;
             d.Battery = 100;
             DataSource.DroneCharges.Remove(dronecharge);
         }
