@@ -10,65 +10,59 @@ namespace DalObject
 {
     public class DalObject
     {
-        public DalObject() ///constructor
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public DalObject() 
         {
             DataSource.Initialize();
         }
-        public static Station ReturnStationData(int idNumber)  //search the station by idNumber and return it
+        /// <summary>
+        /// search the station by idNumber 
+        /// </summary>
+        /// <returns> the station by idNumber </returns>
+        public static Station ReturnStationData(int idNumber) 
         {
-            foreach (var item in DataSource.Stations)
+            
+            Station s = new Station(); //empty object to return in case the id was not found
+
+            for (int i = 0; i < DataSource.Stations.Count(); i++)
             {
-                if (item.Id == idNumber)
-                    return item;
+                if (DataSource.Stations[i].Id == idNumber)
+                    return DataSource.Stations[i];
             }
-            Station s = new Station();
+
             return s;
-
-            //Station s = new Station();
-            //for (int i = 0; i < DataSource.Stations.Count(); i++)
-            //{
-            //    if (DataSource.Stations[i].Id == idNumber)
-            //        s = DataSource.Stations[i];
-            //}
-            //return s;
         }
-
-        public static Drone ReturnDroneData(int idNumber) //search the drone by idNumber and return it
+        /// <summary>
+        /// search the drone by idNumber 
+        /// </summary>
+        /// <returns>the drone by idNumber </returns>
+        public static Drone ReturnDroneData(int idNumber) 
         {
-            foreach (var item in DataSource.Drones)
+            Drone d = new Drone(); //empty object to return in case the id was not found
+            for (int i = 0; i < DataSource.Drones.Count(); i++)
             {
-                if (item.Id == idNumber)
-                    return item;
+                if (DataSource.Drones[i].Id == idNumber)
+                    return DataSource.Drones[i];
             }
-            Drone d = new Drone();
             return d;
-
-            //Drone d = new Drone();
-            //for (int i = 0; i < DataSource.Drones.Count(); i++)
-            //{
-            //    if (DataSource.Drones[i].Id == idNumber)
-            //        d = DataSource.Drones[i];
-            //}
-            //return d;
         }
 
-        public static Customer ReturnCustomerData(int idNumber) //search the customer by idNumber and return it
+        /// <summary>
+        /// search the customer by idNumber 
+        /// </summary>
+        /// <returns>the customer by idNumber </returns>
+        public static Customer ReturnCustomerData(int idNumber) 
         {
-            foreach (var item in DataSource.Customers)
-            {
-                if (item.Id == idNumber)
-                    return item;
-            }
-            Customer c = new Customer();
-            return c;
 
-            //Customer c = new Customer();
-            //for (int i = 0; i < DataSource.Customers.Count(); i++)
-            //{
-            //    if (DataSource.Customers[i].Id == idNumber)
-            //        c = DataSource.Customers[i];
-            //}
-            //return c;
+            Customer c = new Customer(); //empty object to return in case the id was not found
+            for (int i = 0; i < DataSource.Customers.Count(); i++)
+            {
+                if (DataSource.Customers[i].Id == idNumber)
+                    return DataSource.Customers[i];
+            }
+            return c;
         }
 
         public static Parcel ReturnParcelData(int idNumber) //search the parcel by idNumber and return it
@@ -274,7 +268,10 @@ namespace DalObject
             DataSource.Stations.Remove(s);
             DataSource.Stations.Add(news);
         }
-
+        /// <summary>
+        /// the function creates a new drone with the old drone data, updates
+        /// </summary>
+        /// <param name="d"> the drone to charge </param>
         public static void SendDroneFromStation(Drone d)
         {
             DroneCharge dc = ReturnDroneCharge(d.Id);

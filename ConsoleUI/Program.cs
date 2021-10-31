@@ -195,7 +195,10 @@ namespace ConsoleUI
             double.TryParse(Console.ReadLine(), out latitude);
             DalObject.DalObject.NewCustomer(id, name, phone, longitude, latitude);
         }
-
+        /// <summary>
+        /// the function gets from user the ID of a specific item to print and prints it 
+        /// </summary>
+        /// <param name="option"> what type of item user wants to print</param>
         public static void PrintSpecificItem(int option)
         {
             int id;
@@ -238,9 +241,13 @@ namespace ConsoleUI
 
             }
         }
+        /// <summary>
+        /// the function prints a specific list
+        /// </summary>
+        /// <param name="option"> choice of the list to print </param>
         public static void PrintSpecificList(int option)
         {
-
+            //
             switch (option)
             {
                 case (int)ListOptions.BaseStations:
@@ -289,7 +296,9 @@ namespace ConsoleUI
                     break;
             }
         }
-
+        /// <summary>
+        /// get from user the id of the drone you want to choose for the parcel and the parcel id and send them to MatchDroneToParcel function
+        /// </summary>
         public static void DroneToParcel()
         {
             int droneId, parcelId;
@@ -299,7 +308,9 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out parcelId);
             DalObject.DalObject.MatchDroneToParcel(DalObject.DalObject.ReturnParcelData(parcelId), DalObject.DalObject.ReturnDroneData(droneId));
         }
-
+        /// <summary>
+        /// get from user the id of the parcel to pick up and send it to PickUpParcel function
+        /// </summary>
         public static void PickUpParcel()
         {
             int id;
@@ -307,7 +318,9 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out id);
             DalObject.DalObject.PickUpParcel(DalObject.DalObject.ReturnParcelData(id));
         }
-
+        /// <summary>
+        /// get from user the id of the parcel you want to deliver and send it to ParcelDelivered
+        /// </summary>
         public static void DeliverParcel()
         {
             int id;
@@ -315,10 +328,12 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out id);
             DalObject.DalObject.ParcelDelivered(DalObject.DalObject.ReturnParcelData(id));
         }
-
+        /// <summary>
+        /// get from user the id of the drone to charge and the station to charge in and send it to SendDroneToCharge function
+        /// </summary>
         public static void SendDroneToStation()
         {
-            PrintSpecificList(6);
+            PrintSpecificList(6); // print the list of available charging stations (option 6 in PrintSpecificList) so the user can choose from them
             int droneId, stationId;
             Console.WriteLine("Enter the ID of the drone you want to charge: ");
             int.TryParse(Console.ReadLine(), out droneId);
@@ -326,7 +341,9 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out stationId);
             DalObject.DalObject.SendDroneToCharge(DalObject.DalObject.ReturnDroneData(droneId), DalObject.DalObject.ReturnStationData(stationId));
         }
-
+        /// <summary>
+        /// get from user the id of the drone to free from charging station and send it to SendDroneFromStation function
+        /// </summary>
         public static void FreeDrone()
         {
             int droneId;
