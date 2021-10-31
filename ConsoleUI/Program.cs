@@ -11,14 +11,14 @@ namespace ConsoleUI
 {
     class Program
     {
-        enum MenuOptions { Add = 1, Update, Show_One, Show_List, Exit }
+        enum MenuOptions { Add = 1, Update, Show_One, Show_List }
         enum EntityOptions { Parcel = 1, Drone, BaseStation, Customer }
         enum ListOptions { BaseStations = 1, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { DroneToParcel = 1, PickedUp, Delivery, Recharge, FreeDrone }
 
         static void Main(string[] args)
         {
-            DalObject.DalObject d = new DalObject.DalObject();
+            DalObject.DalObject dal = new DalObject.DalObject();
 
             Console.WriteLine("Press 1 to add an item");
             Console.WriteLine("Press 2 to update an item");
@@ -306,6 +306,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter the ID of the parcel you want to pick up: ");
             int.TryParse(Console.ReadLine(), out id);
             DalObject.DalObject.PickUpParcel(DalObject.DalObject.ReturnParcelData(id));
+
         }
 
         public static void DeliverParcel()
@@ -318,7 +319,7 @@ namespace ConsoleUI
 
         public static void SendDroneToStation()
         {
-            PrintSpecificList(6);
+            PrintSpecificList(6); 
             int droneId, stationId;
             Console.WriteLine("Enter the ID of the drone you want to charge: ");
             int.TryParse(Console.ReadLine(), out droneId);

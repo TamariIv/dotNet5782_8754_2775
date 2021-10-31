@@ -17,9 +17,6 @@ namespace DalObject
 
         public static Random r = new Random();
 
-        /// <summary>
-        ///
-        /// </summary>
         internal class Config
         {
             internal static int ParcelId = 1000000;
@@ -28,7 +25,6 @@ namespace DalObject
         /// <summary>
         /// initialize the data lists 
         /// </summary>
-        /// 
         public static void Initialize()
         {
             //initialize stations:
@@ -61,19 +57,16 @@ namespace DalObject
         }
         private static void createCustomer(int numOfCustomers)
         {
-            string[] namesArray = { "Avraham", "Yitshak", "Yaakov", "Sarah", "Rivka", "Rahel", "Leah", "David", "Moshe", "Aharon" };
-            string[] familyNameArray = { "Cohen", "Levi", "Israel", "Shalom", "Silver", "Shushan", "Yosefi", "Dayan", "Ben-David", "Uzan" };
+            string[] namesArray = { "Avraham Cohen", "Yitshak Levi", "Yaakov Israeli", "Sarah Shalom", "Rivka Silver", "Rahel Shushan", "Leah Yosefi", "David Dayan", "Moshe Biton", "Aharon Uzan" };
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
             {
                 Customer c = new Customer();
                 c.Id = r.Next(100000000, 1000000000);
-                c.Name = namesArray[i] + " " + familyNameArray[i];
+                c.Name = namesArray[i];
                 c.Phone = firstDigits[r.Next(3)];
                 for (int j = 0; j < 7; j++)
-                {
                     c.Phone += (r.Next(0, 11)).ToString();
-                }
                 c.Latitude = 35 + r.NextDouble();
                 c.Longitude = 31 + r.NextDouble();
                 Customers.Add(c);
@@ -105,12 +98,14 @@ namespace DalObject
         {
             for (int i = 0; i < numOfDrones; i++)
             {
-                Drone d = new Drone();
-                d.Id = r.Next(1001, 10000);
-                d.Model = ((char)(r.Next(65, 91)) + ((char)(r.Next(65, 91)) + (r.Next(111, 999)).ToString())); // for example: SE503
-                d.MaxWeight = (WeightCategories)r.Next(3);
-                d.Status = DroneStatus.available;
-                d.Battery = 100;
+                Drone d = new Drone()
+                {
+                    Id = r.Next(1001, 10000),
+                    Model = ((char)(r.Next(65, 91)) + ((char)(r.Next(65, 91)) + (r.Next(111, 999)).ToString())), // for example: SE503
+                    MaxWeight = (WeightCategories)r.Next(3),
+                    Status = DroneStatus.available,
+                    Battery = 100
+                };
                 Drones.Add(d);
             }
 
