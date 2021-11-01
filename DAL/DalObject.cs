@@ -16,7 +16,11 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
-
+        /// <summary>
+        ///  search the drone by idNumber
+        /// </summary>
+        /// <param name="idNumber">the station id</param>
+        /// <returns></returns>
         public Station GetStation(int idNumber)  //search the station by idNumber and return it
         {
             Station s = new Station();
@@ -26,9 +30,12 @@ namespace DalObject
                     return DataSource.Stations[i];
             }
             return s;
-
         }
 
+        /// <summary>
+        /// search the drone by idNumber 
+        /// </summary>
+        /// <returns>the drone idNumber</returns>
         public Drone GetDrone(int idNumber) //search the drone by idNumber and return it
         {
             Drone d = new Drone();
@@ -40,7 +47,11 @@ namespace DalObject
             return d;
         }
 
-        public Customer ReturnCustomerData(int idNumber) //search the customer by idNumber and return it
+        /// <summary>
+        /// search the customer by idNumber 
+        /// </summary>
+        /// <returns>the customer by idNumber </returns>
+        public Customer GetCustomer(int idNumber) //search the customer by idNumber and return it
         {
             Customer c = new Customer();
             for (int i = 0; i < DataSource.Customers.Count(); i++)
@@ -51,7 +62,7 @@ namespace DalObject
             return c;
         }
 
-        public Parcel ReturnParcelData(int idNumber) //search the parcel by idNumber and return it
+        public Parcel GetParcel(int idNumber) //search the parcel by idNumber and return it
         {
             Parcel p = new Parcel();
             for (int i = 0; i < DataSource.Parcels.Count(); i++)
@@ -62,7 +73,7 @@ namespace DalObject
             return p;
         }
 
-        public DroneCharge ReturnDroneCharge(int idNumber)
+        public DroneCharge GetDroneCharge(int idNumber)
         {
             DroneCharge d = new DroneCharge();
             for (int i = 0; i < DataSource.DroneCharges.Count(); i++)
@@ -165,17 +176,13 @@ namespace DalObject
             return parcel.Id;
         }
 
-
-
-
-
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
             Parcel newParcel = p;
             Drone newDrone = d;
             newParcel.DroneId = d.Id;
             newParcel.Scheduled = DateTime.Now;
-            newDrone.Status = DroneStatus.assigned;
+            newDrone.Status = DroneStatus.Assigned;
 
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newDrone);
@@ -195,7 +202,7 @@ namespace DalObject
         {
             // receive drone and change drone stat to assigned
             Drone newDrone = GetDrone(p.DroneId);
-            newDrone.Status = DroneStatus.delivery;
+            newDrone.Status = DroneStatus.Delivery;
             Parcel newParcel = p;
             newParcel.Delivered = DateTime.Now;
 
@@ -209,7 +216,7 @@ namespace DalObject
         {
             Drone newDrone = d;
             Station newStation = s;
-            newDrone.Status = DroneStatus.maintenance;
+            newDrone.Status = DroneStatus.Maintenance;
             newStation.ChargeSlots--;
             DroneCharge dc = new DroneCharge();
             dc.DroneId = newDrone.Id;
@@ -223,16 +230,20 @@ namespace DalObject
         }
 
 
-
+        /// <summary>
+        /// the function creates a new drone with the old drone data, updates
+        /// </summary>
+        /// <param name="d"> the drone to charge </param>
         public void SendDroneFromStation(Drone d)
         {
-            DroneCharge dronecharge = ReturnDroneCharge(d.Id);
+            DroneCharge dronecharge = GetDroneCharge(d.Id);
             Station s = GetStation(dronecharge.StationId);
             s.ChargeSlots++;
-            d.Status = DroneStatus.available;
+            d.Status = DroneStatus.Available;
             d.Battery = 100;
             DataSource.DroneCharges.Remove(dronecharge);
         }
+
     }
 
 }
