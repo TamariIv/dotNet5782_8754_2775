@@ -12,7 +12,4 @@ namespace IDAL
         public enum DroneStatus { maintenance, available, delivery, assigned}
         public enum Priorities { regular, rapid, emergency }
     }
-    //class Enums
-    //{
-    //}
 }
