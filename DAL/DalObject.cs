@@ -221,6 +221,7 @@ namespace DalObject
             DroneCharge dc = new DroneCharge();
             dc.DroneId = newDrone.Id;
             dc.StationId = newStation.Id;
+            DataSource.DroneCharges.Add(dc);
 
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newDrone);

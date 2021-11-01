@@ -15,7 +15,7 @@ namespace DalObject
         internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
-        public static Random r = new Random();
+        internal static Random r = new Random();
 
         internal class Config
         {
