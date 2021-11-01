@@ -16,7 +16,11 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
-
+        /// <summary>
+        ///  search the drone by idNumber
+        /// </summary>
+        /// <param name="idNumber">the station id</param>
+        /// <returns></returns>
         public Station GetStation(int idNumber)  //search the station by idNumber and return it
         {
             Station s = new Station();
@@ -26,15 +30,15 @@ namespace DalObject
                     return DataSource.Stations[i];
             }
             return s;
+        }
 
-
-            /// <summary>
-            /// search the drone by idNumber 
-            /// </summary>
-            /// <returns>the drone by idNumber </returns>
-            public Drone GetDrone(int idNumber) //search the drone by idNumber and return it
-            {
-                Drone d = new Drone();
+        /// <summary>
+        /// search the drone by idNumber 
+        /// </summary>
+        /// <returns>the drone idNumber</returns>
+        public Drone GetDrone(int idNumber) //search the drone by idNumber and return it
+        {
+            Drone d = new Drone();
             for (int i = 0; i < DataSource.Drones.Count(); i++)
             {
                 if (DataSource.Drones[i].Id == idNumber)
@@ -43,13 +47,13 @@ namespace DalObject
             return d;
         }
 
-            /// <summary>
-            /// search the customer by idNumber 
-            /// </summary>
-            /// <returns>the customer by idNumber </returns>
-            public Customer GetCustomer(int idNumber) //search the customer by idNumber and return it
-            {
-                Customer c = new Customer();
+        /// <summary>
+        /// search the customer by idNumber 
+        /// </summary>
+        /// <returns>the customer by idNumber </returns>
+        public Customer GetCustomer(int idNumber) //search the customer by idNumber and return it
+        {
+            Customer c = new Customer();
             for (int i = 0; i < DataSource.Customers.Count(); i++)
             {
                 if (DataSource.Customers[i].Id == idNumber)
@@ -172,10 +176,6 @@ namespace DalObject
             return parcel.Id;
         }
 
-
-
-
-
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
             Parcel newParcel = p;
@@ -201,12 +201,12 @@ namespace DalObject
         public void ParcelDelivered(Parcel p)
         {
             // receive drone and change drone stat to assigned
-            Drone newDrone = ReturnDroneData(p.DroneId);
+            Drone newDrone = GetDrone(p.DroneId);
             newDrone.Status = DroneStatus.Delivery;
             Parcel newParcel = p;
             newParcel.Delivered = DateTime.Now;
 
-            DataSource.Drones.Remove(ReturnDroneData(p.DroneId));
+            DataSource.Drones.Remove(GetDrone(p.DroneId));
             DataSource.Drones.Add(newDrone);
             DataSource.Parcels.Remove(p);
             DataSource.Parcels.Add(newParcel);
@@ -229,19 +229,20 @@ namespace DalObject
         }
 
 
-            /// <summary>
-            /// the function creates a new drone with the old drone data, updates
-            /// </summary>
-            /// <param name="d"> the drone to charge </param>
-            public void SendDroneFromStation(Drone d)
+        /// <summary>
+        /// the function creates a new drone with the old drone data, updates
+        /// </summary>
+        /// <param name="d"> the drone to charge </param>
+        public void SendDroneFromStation(Drone d)
         {
-            DroneCharge dronecharge = ReturnDroneCharge(d.Id);
+            DroneCharge dronecharge = GetDroneCharge(d.Id);
             Station s = GetStation(dronecharge.StationId);
             s.ChargeSlots++;
             d.Status = DroneStatus.Available;
             d.Battery = 100;
             DataSource.DroneCharges.Remove(dronecharge);
         }
+
     }
 
 }
