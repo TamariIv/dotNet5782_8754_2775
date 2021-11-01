@@ -15,7 +15,7 @@ namespace DalObject
         internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
-        public static Random r = new Random();
+        internal static Random r = new Random();
 
         internal class Config
         {
@@ -61,17 +61,16 @@ namespace DalObject
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
             {
-                Customer c = new Customer();
-                c.Id = r.Next(100000000, 1000000000);
-                c.Name = namesArray[i];
-                c.Phone = firstDigits[r.Next(3)];
-                for (int j = 0; j < 7; j++)
-                    c.Phone += (r.Next(0, 11)).ToString();
-                c.Latitude = 35 + r.NextDouble();
-                c.Longitude = 31 + r.NextDouble();
+                Customer c = new Customer()
+                {
+                    Id = r.Next(100000000, 1000000000),
+                    Name = namesArray[i],
+                    Phone = firstDigits[r.Next(3)] + r.Next(1000000, 10000000).ToString(),
+                    Latitude = 35 + r.NextDouble(),
+                    Longitude = 31 + r.NextDouble(),
+                };
                 Customers.Add(c);
-            }
-      
+            }   
         }
         private static void createParcel(int numOfParcels)
         {

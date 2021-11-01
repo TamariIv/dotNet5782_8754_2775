@@ -29,7 +29,7 @@ namespace DalObject
 
         }
 
-        public Drone ReturnDroneData(int idNumber) //search the drone by idNumber and return it
+        public Drone GetDrone(int idNumber) //search the drone by idNumber and return it
         {
             Drone d = new Drone();
             for (int i = 0; i < DataSource.Drones.Count(); i++)
@@ -194,12 +194,12 @@ namespace DalObject
         public void ParcelDelivered(Parcel p)
         {
             // receive drone and change drone stat to assigned
-            Drone newDrone = ReturnDroneData(p.DroneId);
+            Drone newDrone = GetDrone(p.DroneId);
             newDrone.Status = DroneStatus.delivery;
             Parcel newParcel = p;
             newParcel.Delivered = DateTime.Now;
 
-            DataSource.Drones.Remove(ReturnDroneData(p.DroneId));
+            DataSource.Drones.Remove(GetDrone(p.DroneId));
             DataSource.Drones.Add(newDrone);
             DataSource.Parcels.Remove(p);
             DataSource.Parcels.Add(newParcel);
@@ -214,6 +214,7 @@ namespace DalObject
             DroneCharge dc = new DroneCharge();
             dc.DroneId = newDrone.Id;
             dc.StationId = newStation.Id;
+            DataSource.DroneCharges.Add(dc);
 
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newDrone);
