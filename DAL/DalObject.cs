@@ -140,7 +140,15 @@ namespace DalObject
             return ParcelsWithoutDrone;
         }
 
-
+        //public void toSexagesimal(double longitude, double latitude)
+        //{
+        //    string longResult = "";
+        //    longResult += ((int)longitude).ToString() + "° ";
+        //    double tmp = (longitude - (int)longitude) * 60;
+        //    longResult += ((int)tmp).ToString() + "\' ";
+        //    tmp = (tmp - (int)tmp) * 60;
+        //    longResult += tmp.ToString() + "\"";
+        //}
 
         public List<Station> AvailableCharger()
         {

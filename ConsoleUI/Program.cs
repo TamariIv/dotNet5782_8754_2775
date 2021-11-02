@@ -72,10 +72,10 @@ namespace ConsoleUI
                         switch (updateChoice)
                         {
                             case UpdateOptions.DroneToParcel:
-                                DroneToParcel(mydal);
+                                DroneToParcel();
                                 break;
                             case UpdateOptions.PickedUp:
-                                PickUpParcel(mydal);
+                                PickUpParcel();
                                 break;
                             case UpdateOptions.Delivery:
                                 DeliverParcel();
@@ -99,7 +99,7 @@ namespace ConsoleUI
                         Console.WriteLine("press 3 to view details of a specific base station");
                         Console.WriteLine("press 4 to view details of a specific customer");
                         int option = int.Parse(Console.ReadLine());
-                        PrintSpecificItem(option, mydal);
+                        PrintSpecificItem(option);
                         break;
 
                     case MenuOptions.Show_List:
@@ -236,7 +236,7 @@ namespace ConsoleUI
             mydal.AddCustomer(customer);
         }
 
-        public static void PrintSpecificItem(int option, DalObject.DalObject mydal)
+        public static void PrintSpecificItem(int option)
         {
             int id;
             switch (option)
