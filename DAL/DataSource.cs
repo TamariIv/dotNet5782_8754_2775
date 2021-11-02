@@ -69,11 +69,9 @@ namespace DalObject
                 {
                     Id = r.Next(100000000, 1000000000),
                     Name = namesArray[i],
-                    Phone = firstDigits[r.Next(3)],
-                    for (int j = 0; j < 7; j++)
-                    Phone += (r.Next(0, 11)).ToString(),
-                Latitude = 35 + r.NextDouble(),
-                Longitude = 31 + r.NextDouble()
+                    Phone = firstDigits[r.Next(3)] + r.Next(1000000, 10000000),
+                    Latitude = 35 + r.NextDouble(),
+                    Longitude = 31 + r.NextDouble()
                 };
             Customers.Add(c);
         }
