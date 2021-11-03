@@ -11,10 +11,10 @@ namespace ConsoleUI
 {
     class Program
     {
-        enum MenuOptions { Add = 1, Update, Show_One, Show_List, Exit }
-        enum EntityOptions { Parcel = 1, Drone, BaseStation, Customer,Exit }
-        enum ListOptions { BaseStations = 1, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation,Exit }
-        enum UpdateOptions { DroneToParcel = 1, PickedUp, Delivery, Recharge, FreeDrone,Exit }
+        enum MenuOptions { Exit, Add , Update, Show_One, Show_List }
+        enum EntityOptions { Exit, Parcel, Drone, BaseStation, Customer }
+        enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
+        enum UpdateOptions { Exit, DroneToParcel, PickedUp, Delivery, Recharge, FreeDrone }
 
         static DalObject.DalObject mydal;
 
@@ -100,7 +100,48 @@ namespace ConsoleUI
                         Console.WriteLine("press 3 to view details of a specific base station");
                         Console.WriteLine("press 4 to view details of a specific customer");
                         entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
-                        PrintSpecificItem(entityOptions);
+                        int id;
+                        switch (entityOptions)
+                        {
+                            case EntityOptions.Parcel:
+                                {
+                                    Console.WriteLine("enter ID of the parcel");
+                                    int.TryParse(Console.ReadLine(), out id);
+                                    Parcel p = mydal.GetParcel(id);
+                                    Console.WriteLine(p);
+                                    break;
+                                }
+                            case EntityOptions.Drone:
+                                {
+                                    Console.WriteLine("enter ID of the drone");
+                                    int.TryParse(Console.ReadLine(), out id);
+                                    Drone d = mydal.GetDrone(id);
+                                    Console.WriteLine(d);
+                                    break;
+                                }
+                            case EntityOptions.BaseStation:
+                                {
+                                    Console.WriteLine("enter ID of the station");
+                                    int.TryParse(Console.ReadLine(), out id);
+                                    Station s = mydal.GetStation(id);
+                                    Console.WriteLine(s);
+                                    break;
+                                }
+                            case EntityOptions.Customer:
+                                {
+                                    Console.WriteLine("enter ID of the customer");
+                                    int.TryParse(Console.ReadLine(), out id);
+                                    Customer c = mydal.GetCustomer(id);
+                                    Console.WriteLine(c);
+                                    break;
+                                }
+                            case EntityOptions.Exit:
+                                break;
+                            default:
+                                break;
+
+                        }
+                        //PrintSpecificItem(entityOptions);
                         break;
 
                     case MenuOptions.Show_List:
@@ -111,17 +152,93 @@ namespace ConsoleUI
                         Console.WriteLine("press 5 to view the list of the parcels without drones");
                         Console.WriteLine("press 6 to view the list of the stations with available charge slots");
                         listOptions = (ListOptions)int.Parse(Console.ReadLine());
-                        PrintSpecificList(listOptions);
+                        switch (listOptions)
+                        {
+                            case ListOptions.BaseStations:
+                                List<Station> stations = mydal.GetStations();
+                                PrintBaseStationsList(stations);
+                                break;
+                            case ListOptions.Drones:
+                                List<Drone> drones = mydal.GetDrones();
+                                PrintDronesList(drones);
+                                break;
+                            case ListOptions.Customers:
+                                List<Customer> customers = mydal.GetCustomers();
+                                PrintCustomersList(customers);
+                                break;
+                            case ListOptions.Parcels:
+                                List<Parcel> parcels = mydal.GetParcels();
+                                PrintParcelsList(parcels);
+                                break;
+                            case ListOptions.ParcelsWithoutDrone:
+                                List<Parcel> parcelsWithoutDrones = mydal.GetParcelWithoutDrone();
+                                PrintParcelsWithoutDroneList(parcelsWithoutDrones);
+                                break;
+                            case ListOptions.AvailableChargingStation:
+                                List<Station> availableChargers = mydal.AvailableCharger();
+                                PrintAvailableChargeSlotsList(availableChargers);
+                                break;
+                            case ListOptions.Exit:
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case MenuOptions.Exit:
                         break;
                     default:
                         break;
                 }
+                Console.WriteLine("press 1 to add an item");
+                Console.WriteLine("press 2 to update an item");
+                Console.WriteLine("press 3 to view details of specific item");
+                Console.WriteLine("press 4 to view a list of specific item");
+                Console.WriteLine("press 0 to stop");
                 menuOptions = (MenuOptions)int.Parse(Console.ReadLine());
             }
         }
-
+        public static void PrintBaseStationsList(List<Station> baseStations)
+        {
+            foreach (var item in baseStations)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public static void PrintDronesList(List<Drone> drones)
+        {
+            foreach (var item in drones)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public static void PrintParcelsList(List<Parcel> parcels)
+        {
+            foreach (var item in parcels)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public static void PrintCustomersList(List<Customer> customers)
+        {
+            foreach (var item in customers)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public static void PrintAvailableChargeSlotsList(List<Station> droneCharges)
+        {
+            foreach (var item in droneCharges)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public static void PrintParcelsWithoutDroneList(List<Parcel> parcelsWithoutDrone)
+        {
+            foreach (var item in parcelsWithoutDrone)
+            {
+                Console.WriteLine(item);
+            }
+        }
         /// <summary>
         /// get from user the senderId, targetId, weight of the parcel, and priority 
         /// send everything to newParcel to create a new parcel with the data
@@ -237,116 +354,16 @@ namespace ConsoleUI
             mydal.AddCustomer(customer);
         }
 
-        public static void PrintSpecificItem(EntityOptions entityOptions)
-        {
-            int id;
-            switch (entityOptions)
-            {
-                case EntityOptions.Parcel:
-                    {
-                        Console.WriteLine("enter ID of the parcel");
-                        int.TryParse(Console.ReadLine(), out id);
-                        Parcel p = mydal.GetParcel(id);
-                        Console.WriteLine(p);
-                        break;
-                    }
-                case EntityOptions.Drone:
-                    {
-                        Console.WriteLine("enter ID of the drone");
-                        int.TryParse(Console.ReadLine(), out id);
-                        Drone d = mydal.GetDrone(id);
-                        Console.WriteLine(d);
-                        break;
-                    }
-                case EntityOptions.BaseStation:
-                    {
-                        Console.WriteLine("enter ID of the station");
-                        int.TryParse(Console.ReadLine(), out id);
-                        Station s = mydal.GetStation(id);
-                        Console.WriteLine(s);
-                        break;
-                    }
-                case EntityOptions.Customer:
-                    {
-                        Console.WriteLine("enter ID of the customer");
-                        int.TryParse(Console.ReadLine(), out id);
-                        Customer c = mydal.GetCustomer(id);
-                        Console.WriteLine(c);
-                        break;
-                    }
-                case EntityOptions.Exit:
-                    break;
-                default:
-                    break;
-
-            }
-        }
-        /// <summary>
-        /// the function prints a specific list
-        /// </summary>
-        /// <param name="option"> choice of the list to print </param>
-        public static void PrintSpecificList(/*ListOptions listOptions*/int option)
-        {
-            //
-            switch (/*listOptions*/ option)
-            {
-                case ListOptions.BaseStations:
-                    List<Station> stations = mydal.GetStations();
-                    foreach (var item in stations)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case ListOptions.Drones:
-                    List<Drone> drones = mydal.GetDrones();
-                    foreach (var item in drones)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case ListOptions.Customers:
-                    List<Customer> customers = mydal.GetCustomers();
-                    foreach (var item in customers)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case ListOptions.Parcels:
-                    List<Parcel> parcels = mydal.GetParcels();
-                    foreach (var item in parcels)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case ListOptions.ParcelsWithoutDrone:
-                    List<Parcel> parcelsWithoutDrones = mydal.GetParcelWithoutDrone();
-                    foreach (var item in parcelsWithoutDrones)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case ListOptions.AvailableChargingStation:
-                    List<Station> availableChargers = mydal.AvailableCharger();
-                    foreach (var item in availableChargers)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case ListOptions.Exit:
-                    break;
-                default:
-                    break;
-            }
-        }
-
         public static void DroneToParcel()
         {
             int droneId, parcelId;
+            List<Drone> temp = mydal.GetDrones();
+            foreach (var item in temp) { if (item.Status == DroneStatus.Available) Console.WriteLine(item); } //print all the available drones
             Console.WriteLine("Enter the ID of the drone you want to send: ");
-            PrintSpecificList(2); //print the list of the drones for the user
             int.TryParse(Console.ReadLine(), out droneId);
+
+            PrintParcelsList(mydal.GetParcelWithoutDrone()); //print the list of parcels without drones for the user
             Console.WriteLine("Enter ID of the parcel you want to send: ");
-            PrintSpecificList(4); //print the list of parcels for the user
             int.TryParse(Console.ReadLine(), out parcelId);
             mydal.MatchDroneToParcel(mydal.GetParcel(parcelId), mydal.GetDrone(droneId));
         }
@@ -354,8 +371,8 @@ namespace ConsoleUI
         public static void PickUpParcel()
         {
             int id;
+            PrintParcelsList(mydal.GetParcels()); //print all the parcels for the user
             Console.WriteLine("Enter the ID of the parcel you want to pick up: ");
-            PrintSpecificList(4); //print the list of parcels for the user
             int.TryParse(Console.ReadLine(), out id);
             mydal.PickUpParcel(mydal.GetParcel(id));
 
@@ -365,29 +382,32 @@ namespace ConsoleUI
         {
             int id;
             Console.WriteLine("Enter the ID of the parcel you want to deliver: ");
-            PrintSpecificList(4); //print the list of parcels for the user
+            PrintParcelsList(mydal.GetParcels()); //print the list of parcels for the user
             int.TryParse(Console.ReadLine(), out id);
             mydal.ParcelDelivered(mydal.GetParcel(id));
         }
 
         public static void SendDroneToStation()
         {
-            PrintSpecificList(6); // print the list of available charging stations (option 6 in PrintSpecificList) so the user can choose from them
             int droneId, stationId;
+            List<Drone> temp = mydal.GetDrones();
+            foreach (var item in temp) { if (item.Status != DroneStatus.Maintenance) Console.WriteLine(item); } //print all the drones that not in charge
             Console.WriteLine("Enter the ID of the drone you want to charge: ");
-            PrintSpecificList(2); //print the list of the drones
             int.TryParse(Console.ReadLine(), out droneId);
+
+
             Console.WriteLine("Enter the ID of the station you want to charge in: ");
-            PrintSpecificList(1); //print the list of base stations for the user
             int.TryParse(Console.ReadLine(), out stationId);
+           
             mydal.SendDroneToCharge(mydal.GetDrone(droneId), mydal.GetStation(stationId));
         }
 
         public static void FreeDrone()
         {
             int droneId;
+            List<Drone> temp = mydal.GetDrones();
+            foreach (var item in temp) { if (item.Status == DroneStatus.Maintenance) Console.WriteLine(item); } //print all the drones that in charge
             Console.WriteLine("Enter the ID of the drone you want to free: ");
-            PrintSpecificList(2); //print the list of the drones
             droneId = int.Parse(Console.ReadLine());
             mydal.SendDroneFromStation(mydal.GetDrone(droneId));
         }
