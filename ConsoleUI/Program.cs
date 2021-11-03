@@ -23,6 +23,7 @@ namespace ConsoleUI
 
             MenuOptions menuOptions;
             EntityOptions entityOptions;
+            ListOptions listOptions;
             mydal = new DalObject.DalObject();
             Console.WriteLine("press 1 to add an item");
             Console.WriteLine("press 2 to update an item");
@@ -98,8 +99,8 @@ namespace ConsoleUI
                         Console.WriteLine("press 2 to view details of a specific drone");
                         Console.WriteLine("press 3 to view details of a specific base station");
                         Console.WriteLine("press 4 to view details of a specific customer");
-                        int option = int.Parse(Console.ReadLine());
-                        PrintSpecificItem(option);
+                        entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
+                        PrintSpecificItem(entityOptions);
                         break;
 
                     case MenuOptions.Show_List:
@@ -109,8 +110,8 @@ namespace ConsoleUI
                         Console.WriteLine("press 4 to view the list of the parcels");
                         Console.WriteLine("press 5 to view the list of the parcels without drones");
                         Console.WriteLine("press 6 to view the list of the stations with available charge slots");
-                        int.TryParse(Console.ReadLine(), out option);
-                        PrintSpecificList(option);
+                        listOptions = (ListOptions)int.Parse(Console.ReadLine());
+                        PrintSpecificList(listOptions);
                         break;
                     case MenuOptions.Exit:
                         break;
@@ -236,12 +237,12 @@ namespace ConsoleUI
             mydal.AddCustomer(customer);
         }
 
-        public static void PrintSpecificItem(int option)
+        public static void PrintSpecificItem(EntityOptions entityOptions)
         {
             int id;
-            switch (option)
+            switch (entityOptions)
             {
-                case (int)EntityOptions.Parcel:
+                case EntityOptions.Parcel:
                     {
                         Console.WriteLine("enter ID of the parcel");
                         int.TryParse(Console.ReadLine(), out id);
@@ -249,7 +250,7 @@ namespace ConsoleUI
                         Console.WriteLine(p);
                         break;
                     }
-                case (int)EntityOptions.Drone:
+                case EntityOptions.Drone:
                     {
                         Console.WriteLine("enter ID of the drone");
                         int.TryParse(Console.ReadLine(), out id);
@@ -257,7 +258,7 @@ namespace ConsoleUI
                         Console.WriteLine(d);
                         break;
                     }
-                case (int)EntityOptions.BaseStation:
+                case EntityOptions.BaseStation:
                     {
                         Console.WriteLine("enter ID of the station");
                         int.TryParse(Console.ReadLine(), out id);
@@ -265,7 +266,7 @@ namespace ConsoleUI
                         Console.WriteLine(s);
                         break;
                     }
-                case (int)EntityOptions.Customer:
+                case EntityOptions.Customer:
                     {
                         Console.WriteLine("enter ID of the customer");
                         int.TryParse(Console.ReadLine(), out id);
@@ -273,6 +274,8 @@ namespace ConsoleUI
                         Console.WriteLine(c);
                         break;
                     }
+                case EntityOptions.Exit:
+                    break;
                 default:
                     break;
 
@@ -282,52 +285,54 @@ namespace ConsoleUI
         /// the function prints a specific list
         /// </summary>
         /// <param name="option"> choice of the list to print </param>
-        public static void PrintSpecificList(int option)
+        public static void PrintSpecificList(ListOptions listOptions)
         {
             //
-            switch (option)
+            switch (listOptions)
             {
-                case (int)ListOptions.BaseStations:
+                case ListOptions.BaseStations:
                     List<Station> stations = mydal.GetStations();
                     foreach (var item in stations)
                     {
                         Console.WriteLine(item);
                     }
                     break;
-                case (int)ListOptions.Drones:
+                case ListOptions.Drones:
                     List<Drone> drones = mydal.GetDrones();
                     foreach (var item in drones)
                     {
                         Console.WriteLine(item);
                     }
                     break;
-                case (int)ListOptions.Customers:
+                case ListOptions.Customers:
                     List<Customer> customers = mydal.GetCustomers();
                     foreach (var item in customers)
                     {
                         Console.WriteLine(item);
                     }
                     break;
-                case (int)ListOptions.Parcels:
+                case ListOptions.Parcels:
                     List<Parcel> parcels = mydal.GetParcels();
                     foreach (var item in parcels)
                     {
                         Console.WriteLine(item);
                     }
                     break;
-                case (int)ListOptions.ParcelsWithoutDrone:
+                case ListOptions.ParcelsWithoutDrone:
                     List<Parcel> parcelsWithoutDrones = mydal.GetParcelWithoutDrone();
                     foreach (var item in parcelsWithoutDrones)
                     {
                         Console.WriteLine(item);
                     }
                     break;
-                case (int)ListOptions.AvailableChargingStation:
+                case ListOptions.AvailableChargingStation:
                     List<Station> availableChargers = mydal.AvailableCharger();
                     foreach (var item in availableChargers)
                     {
                         Console.WriteLine(item);
                     }
+                    break;
+                case ListOptions.Exit:
                     break;
                 default:
                     break;
