@@ -285,10 +285,10 @@ namespace ConsoleUI
         /// the function prints a specific list
         /// </summary>
         /// <param name="option"> choice of the list to print </param>
-        public static void PrintSpecificList(ListOptions listOptions)
+        public static void PrintSpecificList(/*ListOptions listOptions*/int option)
         {
             //
-            switch (listOptions)
+            switch (/*listOptions*/ option)
             {
                 case ListOptions.BaseStations:
                     List<Station> stations = mydal.GetStations();

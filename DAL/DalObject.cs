@@ -252,6 +252,6 @@ namespace DalObject
             DataSource.DroneCharges.Remove(dronecharge);
         }
 
-    }
 
+    }
 }

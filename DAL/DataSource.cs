@@ -113,6 +113,7 @@ namespace DalObject
                 Drones.Add(d);
             }
 
+
         }
     }
 }

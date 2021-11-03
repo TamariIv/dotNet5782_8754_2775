@@ -18,7 +18,21 @@ namespace IDAL
 
             public override string ToString()
             {
-                return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, Longitude, Latitude, ChargeSlots);
+                return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, longSaxgesimal(Longitude), latSaxgesimal(Latitude), ChargeSlots);
+            }
+
+            public string longSaxgesimal(double longitude)
+            {
+                double absValOfDegree = Math.Abs(longitude);
+                double minute = (absValOfDegree - (int)absValOfDegree) * 60;
+                return string.Format("{0}°{1}\' {2}\"{3}", (int)longitude, (int)(minute), Math.Round((minute - (int)minute) * 60), longitude < 0 ? "S" : "N");
+            }
+
+            public string latSaxgesimal(double latitude)
+            {
+                double absValOfDegree = Math.Abs(latitude);
+                double minute = (absValOfDegree - (int)absValOfDegree) * 60;
+                return string.Format("{0}°{1}\' {2}\"{3}", (int)latitude, (int)(minute), Math.Round((minute - (int)minute) * 60), latitude < 0 ? "W" : "E");
             }
         }
     }
