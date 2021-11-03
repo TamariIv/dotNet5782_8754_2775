@@ -171,7 +171,8 @@ namespace DalObject
 
         public int AddParcel(Parcel parcel)
         {
-            parcel.Id = ++DataSource.Config.ParcelId;
+            parcel.Id = DataSource.Config.ParcelId;
+            //DataSource.Config.ParcelId++;
             DataSource.Parcels.Add(parcel);
             return parcel.Id;
         }
