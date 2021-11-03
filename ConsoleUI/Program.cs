@@ -141,7 +141,6 @@ namespace ConsoleUI
                                 break;
 
                         }
-                        //PrintSpecificItem(entityOptions);
                         break;
 
                     case MenuOptions.Show_List:
@@ -198,9 +197,9 @@ namespace ConsoleUI
             }
         }
         /// <summary>
-        /// the function prints each item in the list station
+        /// the function prints each item in the list stations
         /// </summary>
-        /// <param name="baseStations"></param>
+        /// <param name="baseStations"> list of stations </param>
         public static void PrintBaseStationsList(List<Station> baseStations)
         {
             foreach (var item in baseStations)
@@ -208,6 +207,10 @@ namespace ConsoleUI
                 Console.WriteLine(item);
             }
         }
+        /// <summary>
+        /// the function prints each item in the list drones
+        /// </summary>
+        /// <param name="drones"> the list of drones </param>
         public static void PrintDronesList(List<Drone> drones)
         {
             foreach (var item in drones)
@@ -215,6 +218,10 @@ namespace ConsoleUI
                 Console.WriteLine(item);
             }
         }
+        /// <summary>
+        /// the function prints each item in the list parcels
+        /// </summary>
+        /// <param name="parcels"> the list of parcels </param>
         public static void PrintParcelsList(List<Parcel> parcels)
         {
             foreach (var item in parcels)
@@ -222,6 +229,10 @@ namespace ConsoleUI
                 Console.WriteLine(item);
             }
         }
+        /// <summary>
+        /// the function prints each item in the list customers
+        /// </summary>
+        /// <param name="customers"> the list of customers </param>
         public static void PrintCustomersList(List<Customer> customers)
         {
             foreach (var item in customers)
@@ -229,6 +240,10 @@ namespace ConsoleUI
                 Console.WriteLine(item);
             }
         }
+        /// <summary>
+        /// the function prints the list of drones that are being charged
+        /// </summary>
+        /// <param name="droneCharges"></param>
         public static void PrintAvailableChargeSlotsList(List<Station> droneCharges)
         {
             foreach (var item in droneCharges)
@@ -236,6 +251,10 @@ namespace ConsoleUI
                 Console.WriteLine(item);
             }
         }
+        /// <summary>
+        /// the function prints each item in the list of parcels that don't have a drone assighned to them
+        /// </summary>
+        /// <param name="parcelsWithoutDrone"> the list of parcels without drone </param>
         public static void PrintParcelsWithoutDroneList(List<Parcel> parcelsWithoutDrone)
         {
             foreach (var item in parcelsWithoutDrone)
@@ -245,7 +264,7 @@ namespace ConsoleUI
         }
         /// <summary>
         /// get from user the senderId, targetId, weight of the parcel, and priority 
-        /// send everything to newParcel to create a new parcel with the data
+        /// create a new parcel with the data and send it to AddParcel in DalObject
         /// </summary>
         public static void AddParcel()
         {
@@ -275,7 +294,7 @@ namespace ConsoleUI
         }
         /// <summary>
         /// get from user the drone id, model, and maximum weight 
-        /// send all of them to addDrone to create a new drone with the data
+        /// create a new drone with the data and send it to AddDrone in DalObject
         /// </summary>
         public static void AddDrone()
         {
@@ -304,7 +323,7 @@ namespace ConsoleUI
         }
         /// <summary>
         /// get from user the station id and name, the location (longitude, latitude), and the number of empty charging slots  
-        /// send everything to addStation to create a new station with the data
+        /// create a new station with the data and send it to AddStation in DalObject
         /// </summary>
         public static void AddStation()
         {
@@ -333,7 +352,7 @@ namespace ConsoleUI
         }
         /// <summary>
         /// get from user the customer id, name, ohone number, and location (longitude, latitude)
-        /// send everything to newCustomer to create a new cusyomer with the data
+        /// create a new customer with the data and send it to AddCustomer in DalObject
         /// </summary>
         public static void AddCustomer()
         {
@@ -361,7 +380,10 @@ namespace ConsoleUI
             };
             mydal.AddCustomer(customer);
         }
-
+        /// <summary>
+        /// the function prints to the user the list of available drones and the list of parcels without drone and recieves and
+        /// assigns the chosen parcel to the chosen drone
+        /// </summary>
         public static void DroneToParcel()
         {
             int droneId, parcelId;
@@ -375,7 +397,9 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out parcelId);
             mydal.MatchDroneToParcel(mydal.GetParcel(parcelId), mydal.GetDrone(droneId));
         }
-
+        /// <summary>
+        /// the function prints the list if parcels to the user and asks to choose a parcel to be picked up by a drone
+        /// </summary>
         public static void PickUpParcel()
         {
             int id;
@@ -385,7 +409,9 @@ namespace ConsoleUI
             mydal.PickUpParcel(mydal.GetParcel(id));
 
         }
-
+        /// <summary>
+        /// the function prints the list if parcels to the user and asks to choose a parcel to deliver
+        /// </summary>
         public static void DeliverParcel()
         {
             int id;
@@ -394,7 +420,10 @@ namespace ConsoleUI
             int.TryParse(Console.ReadLine(), out id);
             mydal.ParcelDelivered(mydal.GetParcel(id));
         }
-
+        /// <summary>
+        /// the function prints all the drones that are not being chraged at the moment and asks the user to 
+        /// choose a drone to send to charge
+        /// </summary>
         public static void SendDroneToStation()
         {
             int droneId, stationId;
@@ -409,7 +438,10 @@ namespace ConsoleUI
            
             mydal.SendDroneToCharge(mydal.GetDrone(droneId), mydal.GetStation(stationId));
         }
-
+        /// <summary>
+        /// the function prints all the drones that are being charged at the moment and asks the user 
+        /// to choose a drone to free from charge
+        /// </summary>
         public static void FreeDrone()
         {
             int droneId;
