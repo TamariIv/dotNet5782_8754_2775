@@ -18,7 +18,25 @@ namespace IDAL
 
             public override string ToString()
             {
-                return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, Longitude, Latitude, ChargeSlots);
+                return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, longSexagesimal(Longitude), latSexagesimal(Latitude), ChargeSlots);
+            }
+
+
+            // BONUS:
+            // the functions below convert coordinates to base 60
+
+            public string longSexagesimal(double longitude)
+            {
+                double absValOfDegree = Math.Abs(longitude);
+                double minute = (absValOfDegree - (int)absValOfDegree) * 60;
+                return string.Format("{0}°{1}\' {2}\"{3}", (int)longitude, (int)(minute), Math.Round((minute - (int)minute) * 60), longitude < 0 ? "S" : "N");
+            }
+
+            public string latSexagesimal(double latitude)
+            {
+                double absValOfDegree = Math.Abs(latitude);
+                double minute = (absValOfDegree - (int)absValOfDegree) * 60;
+                return string.Format("{0}°{1}\' {2}\"{3}", (int)latitude, (int)(minute), Math.Round((minute - (int)minute) * 60), latitude < 0 ? "W" : "E");
             }
         }
     }
