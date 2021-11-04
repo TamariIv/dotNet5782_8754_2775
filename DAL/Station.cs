@@ -20,7 +20,7 @@ namespace IDAL
             {
                 return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, longSexagesimal(Longitude), latSexagesimal(Latitude), ChargeSlots);
             }
-
+            
 
             // BONUS:
             // the functions below convert coordinates to base 60
