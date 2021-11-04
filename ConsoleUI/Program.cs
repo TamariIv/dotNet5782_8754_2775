@@ -329,7 +329,6 @@ namespace ConsoleUI
         /// </summary>
         public static void AddCustomer()
         {
-            // continue to change to tryparse from here
             int id;
             string name, phone;
             double longitude, latitude;
@@ -395,7 +394,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter the ID of the drone you want to charge: ");
             int.TryParse(Console.ReadLine(), out droneId);
 
-
+            PrintBaseStationsList(mydal.GetStations());
             Console.WriteLine("Enter the ID of the station you want to charge in: ");
             int.TryParse(Console.ReadLine(), out stationId);
            
