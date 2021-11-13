@@ -8,7 +8,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public class DalObject
+    public class DalObject : IDal
     {
         //DalObject dalObject = new DalObject();
 
@@ -16,6 +16,7 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
+
         /// <summary>
         ///  search station by idNumber
         /// </summary>
@@ -31,21 +32,23 @@ namespace DalObject
             }
             return s;
         }
+
         /// <summary>
         /// search drone by idNumber 
         /// </summary>
         /// <param name="idNumber"> the drone id </param>
         /// <returns> the drone that was found </returns>
-        public Drone GetDrone(int idNumber) 
+        public Drone GetDrone(int idNumber)
         {
             Drone d = new Drone();
-            for (int i = 0; i < DataSource.Drones.Count(); i++)
+            if (DataSource.Drones.Exists(drone => drone.Id == idNumber))
             {
-                if (DataSource.Drones[i].Id == idNumber)
-                    return DataSource.Drones[i];
+                d = DataSource.Drones.Find(drone => drone.Id == idNumber);
+                return d;
             }
-            return d;
+            else throw new DroneException($"id {idNumber} doesn't exist !!");
         }
+
         /// <summary>
         /// search customer by idNumber 
         /// </summary>
@@ -61,6 +64,7 @@ namespace DalObject
             }
             return c;
         }
+
         /// <summary>
         /// search parcel by id number
         /// </summary>
@@ -76,6 +80,7 @@ namespace DalObject
             }
             return p;
         }
+
         /// <summary>
         /// search droneCharge element by drone id
         /// </summary>
@@ -91,11 +96,12 @@ namespace DalObject
             }
             return d;
         }
+
         /// <summary>
         /// get the list of stations
         /// </summary>
         /// <returns> a copy of the list stations </returns>
-        public List<Station> GetStations()
+        public IEnumerable<Station> GetStations()
         {
             List<Station> copyStations = new List<Station>();
             for (int i = 0; i < DataSource.Stations.Count(); i++)
@@ -105,11 +111,12 @@ namespace DalObject
             }
             return copyStations;
         }
+
         /// <summary>
         /// get the list of drones
         /// </summary>
         /// <returns> a copy of the list drones </returns>
-        public List<Drone> GetDrones()
+        public IEnumerable<Drone> GetDrones()
         {
             List<Drone> copyDrones = new List<Drone>();
             for (int i = 0; i < DataSource.Drones.Count(); i++)
@@ -118,11 +125,12 @@ namespace DalObject
             }
             return copyDrones;
         }
+
         /// <summary>
         /// get the list of customers
         /// </summary>
         /// <returns> a copy of the list customers <</returns>
-        public List<Customer> GetCustomers()
+        public IEnumerable<Customer> GetCustomers()
         {
             List<Customer> copyCustomers = new List<Customer>();
             for (int i = 0; i < DataSource.Customers.Count(); i++)
@@ -131,11 +139,12 @@ namespace DalObject
             }
             return copyCustomers;
         }
+
         /// <summary>
         /// get the list of parcels
         /// </summary>
         /// <returns> a copy of the list parcels <</returns>
-        public List<Parcel> GetParcels()
+        public IEnumerable<Parcel> GetParcels()
         {
             List<Parcel> copyParcels = new List<Parcel>();
             for (int i = 0; i < DataSource.Parcels.Count(); i++)
@@ -144,11 +153,12 @@ namespace DalObject
             }
             return copyParcels;
         }
+
         /// <summary>
         /// make a list if the parcels without drones in Parcels 
         /// </summary>
         /// <returns> list that contains the parcels without drone </returns>
-        public List<Parcel> GetParcelWithoutDrone()
+        public IEnumerable<Parcel> GetParcelWithoutDrone()
         {
             List<Parcel> ParcelsWithoutDrone = new List<Parcel>();
             for (int i = 0; i < DataSource.Parcels.Count(); i++)
@@ -162,7 +172,7 @@ namespace DalObject
         /// make a list of the stations that have available chraging slots
         /// </summary>
         /// <returns> list of stations with available chraging slots </returns>
-        public List<Station> AvailableCharger()
+        public IEnumerable<Station> AvailableCharger()
         {
             List<Station> AvailableChargers = new List<Station>();
             for (int i = 0; i < DataSource.Stations.Count(); i++)
@@ -176,9 +186,13 @@ namespace DalObject
         /// receive drone and add it to Drones
         /// </summary>
         /// <param name="drone"> the drone to add </param>
-        public void AddDrone(Drone drone)
+        public void AddDrone(Drone d)
         {
-            DataSource.Drones.Add(drone);
+            if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
+            {
+                throw new DroneException($"id {d.Id} already exists !!");
+            }
+            DataSource.Drones.Add(d);
         }
         /// <summary>
         /// receive customer and add it to Customers 
@@ -204,7 +218,7 @@ namespace DalObject
         public int AddParcel(Parcel parcel)
         {
             parcel.Id = DataSource.Config.ParcelId;
-            
+
             DataSource.Parcels.Add(parcel);
             return ++DataSource.Config.ParcelId;
         }
@@ -217,7 +231,7 @@ namespace DalObject
             Drone newDrone = d;
             newParcel.DroneId = d.Id;
             newParcel.Scheduled = DateTime.Now;
-            newDrone.Status = DroneStatus.Assigned;
+            //newDrone.Status = DroneStatus.Assigned;
 
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newDrone);
@@ -243,7 +257,7 @@ namespace DalObject
         {
             // receive drone and change drone stat to assigned
             Drone newDrone = GetDrone(p.DroneId);
-            newDrone.Status = DroneStatus.Delivery;
+            // newDrone.Status = DroneStatus.Delivery;
             Parcel newParcel = p;
             newParcel.Delivered = DateTime.Now;
 
@@ -260,7 +274,7 @@ namespace DalObject
         {
             Drone newDrone = d;
             Station newStation = s;
-            newDrone.Status = DroneStatus.Maintenance;
+            //newDrone.Status = DroneStatus.Maintenance;
             newStation.ChargeSlots--;
             DroneCharge dc = new DroneCharge();
             dc.DroneId = newDrone.Id;
@@ -282,8 +296,8 @@ namespace DalObject
             Station newStation = s;
             newStation.ChargeSlots++;
             Drone newDrone = d;
-            newDrone.Status = DroneStatus.Available;
-            newDrone.Battery = 100;
+            // newDrone.Status = DroneStatus.Available;
+            // newDrone.Battery = 100;
             DataSource.DroneCharges.Remove(dronecharge);
             DataSource.Drones.Remove(d);
             DataSource.Drones.Add(newDrone);
@@ -291,6 +305,9 @@ namespace DalObject
             DataSource.Stations.Add(newStation);
         }
 
-
+        IEnumerable<Customer> IDal.GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
