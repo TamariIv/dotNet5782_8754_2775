@@ -107,8 +107,8 @@ namespace DalObject
                     Id = r.Next(1001, 10000),
                     Model = ((char)(r.Next(65, 91)) + ((char)(r.Next(65, 91)) + (r.Next(111, 999)).ToString())), // for example: SE503
                     MaxWeight = (WeightCategories)r.Next(3),
-                    Status = DroneStatus.Available,
-                    Battery = 100
+                    // Status = DroneStatus.Available,
+                    // Battery = 100
                 };
                 Drones.Add(d);
             }
