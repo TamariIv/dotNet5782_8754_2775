@@ -374,7 +374,6 @@ namespace ConsoleUI
         /// </summary>
         public static void AddCustomer()
         {
-            // continue to change to tryparse from here
             int id;
             string name, phone;
             double longitude, latitude;

@@ -32,5 +32,6 @@ namespace IDAL.DO
         void SendDroneFromStation(Drone d);
         void SendDroneToCharge(Drone d, Station s);
         #endregion
+   
     }
 }

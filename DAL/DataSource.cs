@@ -20,8 +20,13 @@ namespace DalObject
         internal class Config
         {
             internal static int ParcelId = 1000000;
-        }
+            internal static double Available { get { return 10; } }
+            internal static double LightWeight { get { return 30; } }
+            internal static double MediumWeight { get { return 40; } }
+            internal static double HeavyWeight { get { return 50; } }
 
+            internal static double ChargingRate { get; }
+        }
         /// <summary>
         /// initialize the data lists 
         /// </summary>
