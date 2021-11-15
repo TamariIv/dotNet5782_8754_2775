@@ -25,12 +25,12 @@ namespace DalObject
         public Station GetStation(int idNumber)
         {
             Station s = new Station();
-            for (int i = 0; i < DataSource.Stations.Count(); i++)
+            if (DataSource.Drones.Exists(station => station.Id == idNumber))
             {
-                if (DataSource.Stations[i].Id == idNumber)
-                    return DataSource.Stations[i];
+                s = DataSource.Stations.Find(station => station.Id == idNumber);
+                return s;
             }
-            return s;
+            else throw new NoMatchingIdException($"station with id {idNumber} doesn't exist !!");
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace DalObject
                 d = DataSource.Drones.Find(drone => drone.Id == idNumber);
                 return d;
             }
-            else throw new DroneException($"id {idNumber} doesn't exist !!");
+            else throw new NoMatchingIdException($"drone with id {idNumber} doesn't exist !!");
         }
 
         /// <summary>
@@ -57,12 +57,12 @@ namespace DalObject
         public Customer GetCustomer(int idNumber) //search the customer by idNumber and return it
         {
             Customer c = new Customer();
-            for (int i = 0; i < DataSource.Customers.Count(); i++)
+            if (DataSource.Customers.Exists(customer => customer.Id == idNumber))
             {
-                if (DataSource.Customers[i].Id == idNumber)
-                    return DataSource.Customers[i];
+                c = DataSource.Customers.Find(customer => customer.Id == idNumber);
+                return c;
             }
-            return c;
+            else throw new NoMatchingIdException($"customer with id {idNumber} doesn't exist !!");
         }
 
         /// <summary>
@@ -73,12 +73,12 @@ namespace DalObject
         public Parcel GetParcel(int idNumber) //search the parcel by idNumber and return it
         {
             Parcel p = new Parcel();
-            for (int i = 0; i < DataSource.Parcels.Count(); i++)
+            if (DataSource.Parcels.Exists(parcel => parcel.Id == idNumber))
             {
-                if (DataSource.Parcels[i].Id == idNumber)
-                    return DataSource.Parcels[i];
+                p = DataSource.Parcels.Find(parcel => parcel.Id == idNumber);
+                return p;
             }
-            return p;
+            else throw new NoMatchingIdException($"parcel with id {idNumber} doesn't exist !!");
         }
 
         /// <summary>
@@ -89,12 +89,12 @@ namespace DalObject
         public DroneCharge GetDroneCharge(int idNumber)
         {
             DroneCharge d = new DroneCharge();
-            for (int i = 0; i < DataSource.DroneCharges.Count(); i++)
+            if (DataSource.DroneCharges.Exists(drone => drone.DroneId == idNumber))
             {
-                if (DataSource.DroneCharges[i].DroneId == idNumber)
-                    return DataSource.DroneCharges[i];
+                d = DataSource.DroneCharges.Find(drone => drone.DroneId == idNumber);
+                return d;
             }
-            return d;
+            else throw new NoMatchingIdException($"drone being charged with id {idNumber} doesn't exist !!");
         }
 
         /// <summary>
@@ -103,12 +103,12 @@ namespace DalObject
         /// <returns> a copy of the list stations </returns>
         public IEnumerable<Station> GetStations()
         {
-            List<Station> copyStations = new List<Station>();
-            for (int i = 0; i < DataSource.Stations.Count(); i++)
-            {
-                Station s = DataSource.Stations[i];
-                copyStations.Add(s);
-            }
+            List<Station> copyStations = new List<Station>(DataSource.Stations);
+            //for (int i = 0; i < DataSource.Stations.Count(); i++)
+            //{
+            //    Station s = DataSource.Stations[i];
+            //    copyStations.Add(s);
+            //}
             return copyStations;
         }
 
@@ -118,11 +118,11 @@ namespace DalObject
         /// <returns> a copy of the list drones </returns>
         public IEnumerable<Drone> GetDrones()
         {
-            List<Drone> copyDrones = new List<Drone>();
-            for (int i = 0; i < DataSource.Drones.Count(); i++)
-            {
-                copyDrones.Add(DataSource.Drones[i]);
-            }
+            List<Drone> copyDrones = new List<Drone>(DataSource.Drones);
+            //for (int i = 0; i < DataSource.Drones.Count(); i++)
+            //{
+            //    copyDrones.Add(DataSource.Drones[i]);
+            //}
             return copyDrones;
         }
 
@@ -132,11 +132,11 @@ namespace DalObject
         /// <returns> a copy of the list customers <</returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            List<Customer> copyCustomers = new List<Customer>();
-            for (int i = 0; i < DataSource.Customers.Count(); i++)
-            {
-                copyCustomers.Add(DataSource.Customers[i]);
-            }
+            List<Customer> copyCustomers = new List<Customer>(DataSource.Customers);
+            //for (int i = 0; i < DataSource.Customers.Count(); i++)
+            //{
+            //    copyCustomers.Add(DataSource.Customers[i]);
+            //}
             return copyCustomers;
         }
 
@@ -146,11 +146,11 @@ namespace DalObject
         /// <returns> a copy of the list parcels <</returns>
         public IEnumerable<Parcel> GetParcels()
         {
-            List<Parcel> copyParcels = new List<Parcel>();
-            for (int i = 0; i < DataSource.Parcels.Count(); i++)
-            {
-                copyParcels.Add(DataSource.Parcels[i]);
-            }
+            List<Parcel> copyParcels = new List<Parcel>(DataSource.Parcels);
+            //for (int i = 0; i < DataSource.Parcels.Count(); i++)
+            //{
+            //    copyParcels.Add(DataSource.Parcels[i]);
+            //}
             return copyParcels;
         }
 
@@ -168,6 +168,7 @@ namespace DalObject
             }
             return ParcelsWithoutDrone;
         }
+
         /// <summary>
         /// make a list of the stations that have available chraging slots
         /// </summary>
@@ -182,6 +183,7 @@ namespace DalObject
             }
             return AvailableChargers;
         }
+
         /// <summary>
         /// receive drone and add it to Drones
         /// </summary>
@@ -190,119 +192,161 @@ namespace DalObject
         {
             if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
             {
-                throw new DroneException($"id {d.Id} already exists !!");
+                throw new IdAlreadyExistsException($"drone with id {d.Id} already exists !!");
             }
             DataSource.Drones.Add(d);
         }
+
         /// <summary>
         /// receive customer and add it to Customers 
         /// </summary>
         /// <param name="c"> the customer to add </param>
         public void AddCustomer(Customer c)
         {
+            if (DataSource.Customers.Exists(customer => customer.Id == c.Id))
+            {
+                throw new IdAlreadyExistsException($"customer with id {c.Id} already exists !!");
+            }
             DataSource.Customers.Add(c);
         }
+
         /// <summary>
         ///  receive station and add it to Stations
         /// </summary>
         /// <param name="station"> the station to add </param>
-        public void AddStation(Station station)
+        public void AddStation(Station s)
         {
-            DataSource.Stations.Add(station);
+            if (DataSource.Stations.Exists(station => station.Id == s.Id))
+            {
+                throw new IdAlreadyExistsException($"station with id {s.Id} already exists !!");
+            }
+            DataSource.Stations.Add(s);
         }
+
         /// <summary>
         ///  receive parcel and add it to Parcels
         /// </summary>
         /// <param name="parcel"> the parcel to add </param>
         /// <returns> the id of the next new parcel </returns> 
-        public int AddParcel(Parcel parcel)
+        public int AddParcel(Parcel p)
         {
-            parcel.Id = DataSource.Config.ParcelId;
-
-            DataSource.Parcels.Add(parcel);
+            if (DataSource.Customers.Exists(parcel => parcel.Id == p.Id))
+            {
+                throw new IdAlreadyExistsException($"parcel with id {p.Id} already exists !!");
+            }
+            p.Id = DataSource.Config.ParcelId;
+            DataSource.Parcels.Add(p);
             return ++DataSource.Config.ParcelId;
         }
+
         /// <summary>
         /// the function receives a drone and a parcel and assigns the drone to the parcel
         /// </summary>
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
-            Parcel newParcel = p;
-            Drone newDrone = d;
-            newParcel.DroneId = d.Id;
-            newParcel.Scheduled = DateTime.Now;
-            //newDrone.Status = DroneStatus.Assigned;
+            if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
+            {
+                if (DataSource.Drones.Exists(drone => d.Id == drone.Id))
+                {
+                    Parcel newParcel = p;
+                    Drone newDrone = d;
+                    newParcel.DroneId = d.Id;
+                    newParcel.Scheduled = DateTime.Now;
+                    //newDrone.Status = DroneStatus.Assigned;
 
-            DataSource.Drones.Remove(d);
-            DataSource.Drones.Add(newDrone);
-            DataSource.Parcels.Remove(p);
-            DataSource.Parcels.Add(newParcel);
+                    DataSource.Drones.Remove(d);
+                    DataSource.Drones.Add(newDrone);
+                    DataSource.Parcels.Remove(p);
+                    DataSource.Parcels.Add(newParcel);
+                }
+                else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+            }
+            else throw new NoMatchingIdException($"parcel with id {d.Id} doesn't exists !!");
         }
+
         /// <summary>
         /// update the pick up time of a parcel
         /// </summary>
         /// <param name="p"> the parcel to update </param>
         public void PickUpParcel(Parcel p)
         {
-            Parcel newParcel = p;
-            newParcel.PickedUp = DateTime.Now;
-            DataSource.Parcels.Remove(p);
-            DataSource.Parcels.Add(newParcel);
+            if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
+            {
+                Parcel newParcel = p;
+                newParcel.PickedUp = DateTime.Now;
+                DataSource.Parcels.Remove(p);
+                DataSource.Parcels.Add(newParcel);
+            }
+            else throw new NoMatchingIdException($"parcel with id {p.Id} doesn't exists !!");
         }
+
         /// <summary>
         /// update the delivery time of a parcel
         /// </summary>
         /// <param name="p"> the parcel to update </param>
         public void ParcelDelivered(Parcel p)
         {
-            // receive drone and change drone stat to assigned
-            Drone newDrone = GetDrone(p.DroneId);
-            // newDrone.Status = DroneStatus.Delivery;
-            Parcel newParcel = p;
-            newParcel.Delivered = DateTime.Now;
+            if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
+            {
+                Drone newDrone = GetDrone(p.DroneId);
+                Parcel newParcel = p;
+                newParcel.Delivered = DateTime.Now;
 
-            DataSource.Drones.Remove(GetDrone(p.DroneId));
-            DataSource.Drones.Add(newDrone);
-            DataSource.Parcels.Remove(p);
-            DataSource.Parcels.Add(newParcel);
+                DataSource.Drones.Remove(GetDrone(p.DroneId));
+                DataSource.Drones.Add(newDrone);
+                DataSource.Parcels.Remove(p);
+                DataSource.Parcels.Add(newParcel);
+            }
+            else throw new NoMatchingIdException($"parcel with id {p.Id} doesn't exists !!");
         }
+
         /// <summary>
         /// the function receives a drone and a station and send the drone to charge in that station 
         /// (also update the number of available chraging slots in the station)
         /// </summary>
         public void SendDroneToCharge(Drone d, Station s)
         {
-            Drone newDrone = d;
-            Station newStation = s;
-            //newDrone.Status = DroneStatus.Maintenance;
-            newStation.ChargeSlots--;
-            DroneCharge dc = new DroneCharge();
-            dc.DroneId = newDrone.Id;
-            dc.StationId = newStation.Id;
-            DataSource.DroneCharges.Add(dc);
+            if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
+            {
+                if (DataSource.Stations.Exists(station => station.Id == s.Id))
+                {
+                    Drone newDrone = d;
+                    Station newStation = s;
+                    newStation.ChargeSlots--;
+                    DroneCharge dc = new DroneCharge();
+                    dc.DroneId = newDrone.Id;
+                    dc.StationId = newStation.Id;
+                    DataSource.DroneCharges.Add(dc);
 
-            DataSource.Drones.Remove(d);
-            DataSource.Drones.Add(newDrone);
-            DataSource.Stations.Remove(s);
-            DataSource.Stations.Add(newStation);
+                    DataSource.Drones.Remove(d);
+                    DataSource.Drones.Add(newDrone);
+                    DataSource.Stations.Remove(s);
+                    DataSource.Stations.Add(newStation);
+                }
+                else throw new NoMatchingIdException($"station with id {s.Id} doesn't exists !!");
+            }
+            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
         }
+
         /// <summary>
         /// the function sends drone from charging 
         /// </summary>
         public void SendDroneFromStation(Drone d)
         {
-            DroneCharge dronecharge = GetDroneCharge(d.Id);
-            Station s = GetStation(dronecharge.StationId);
-            Station newStation = s;
-            newStation.ChargeSlots++;
-            Drone newDrone = d;
-            // newDrone.Status = DroneStatus.Available;
-            // newDrone.Battery = 100;
-            DataSource.DroneCharges.Remove(dronecharge);
-            DataSource.Drones.Remove(d);
-            DataSource.Drones.Add(newDrone);
-            DataSource.Stations.Remove(s);
-            DataSource.Stations.Add(newStation);
+            if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
+            {
+                DroneCharge dronecharge = GetDroneCharge(d.Id);
+                Station s = GetStation(dronecharge.StationId);
+                Station newStation = s;
+                newStation.ChargeSlots++;
+                Drone newDrone = d;
+                DataSource.DroneCharges.Remove(dronecharge);
+                DataSource.Drones.Remove(d);
+                DataSource.Drones.Add(newDrone);
+                DataSource.Stations.Remove(s);
+                DataSource.Stations.Add(newStation);
+            }
+            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
         }
 
         IEnumerable<Customer> IDal.GetCustomers()

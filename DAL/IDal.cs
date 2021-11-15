@@ -8,8 +8,8 @@ namespace IDAL.DO
         #region Create part of C.R.U.D
         void AddCustomer(Customer c);
         void AddDrone(Drone d);
-        int AddParcel(Parcel parcel);
-        void AddStation(Station station);
+        int AddParcel(Parcel p);
+        void AddStation(Station s);
         #endregion
 
         #region Request part of C.R.U.D
@@ -17,11 +17,11 @@ namespace IDAL.DO
         Drone GetDrone(int idNumber);
         Station GetStation(int idNumber);
         Parcel GetParcel(int idNumber);
+        DroneCharge GetDroneCharge(int idNumber);
         IEnumerable<Drone> GetDrones();
         IEnumerable<Customer> GetCustomers();
         IEnumerable<Station> GetStations();
         IEnumerable<Parcel> GetParcels();
-        DroneCharge GetDroneCharge(int idNumber);
         IEnumerable<Parcel> GetParcelWithoutDrone();
         #endregion
 

@@ -27,7 +27,7 @@ namespace DalObject
         /// </summary>
         public static void Initialize()
         {
-            //initialize stations:
+            //initialize 2 stations:
             createStation();
             //initialize 10 customers:
             createCustomer(10);
