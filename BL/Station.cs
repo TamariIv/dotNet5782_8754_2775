@@ -6,22 +6,20 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-    class Customer
+    class Station
     {
-        public int Id { get; init; }
-        public string Name { get; init; }
-        public string Phone { get; init; }
-        public Location Location { get; init; }
-        public List<Parcel> send;
-        public List<Parcel> receive;
-
-     
-       
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public int ChargeSlots { get; set; }
 
         public override string ToString()
         {
-            return string.Format("Id is: {0}\nName of customer: {1}\nPhone number: {2}\nlongitude is: {3}\nlatitude: {4}\n", Id, Name, Phone, longSexagesimal(Longitude), latSexagesimal(Latitude));
+            return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, longSexagesimal(Longitude), latSexagesimal(Latitude), ChargeSlots);
         }
+
+
         // BONUS:
         // the functions below convert coordinates to base 60
 
@@ -39,5 +37,4 @@ namespace IBL.BO
             return string.Format("{0}°{1}\' {2}\"{3}", (int)latitude, (int)(minute), Math.Round((minute - (int)minute) * 60), latitude < 0 ? "W" : "E");
         }
     }
-
 }
