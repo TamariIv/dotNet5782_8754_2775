@@ -8,7 +8,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public class DalObject : IDal
+    public partial class DalObject : IDal
     {
         //DalObject dalObject = new DalObject();
 
@@ -80,6 +80,7 @@ namespace DalObject
             }
             else throw new NoMatchingIdException($"parcel with id {idNumber} doesn't exist !!");
         }
+
 
         /// <summary>
         /// search droneCharge element by drone id
@@ -355,3 +356,7 @@ namespace DalObject
         }
     }
 }
+
+
+
+
