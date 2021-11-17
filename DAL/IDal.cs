@@ -32,6 +32,11 @@ namespace IDAL.DO
         void SendDroneFromStation(Drone d);
         void SendDroneToCharge(Drone d, Station s);
         #endregion
-   
+
+        public double[] getElectricity()
+        {
+            double[] electricityRates = { DalObject.DataSource.Config.Available, DalObject.DataSource.Config.LightWeight, DalObject.DataSource.Config.MediumWeight, DalObject.DataSource.Config.HeavyWeight, DalObject.DataSource.Config.ChargingRate }; 
+            return electricityRates;
+        }
     }
 }
