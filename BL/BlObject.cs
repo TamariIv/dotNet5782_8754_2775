@@ -1,13 +1,17 @@
 ﻿using System;
+using IBL.BO;
+using System.Collections.Generic;
 
-namespace BL
+public partial class BlObject : IBL.IBL
 {
-    public class BlObject
+    IDAL.DO.IDal dal;
+    private List<IBL.BO.Drone> drones;
+    public BlObject()
     {
-        IDAL.DO.IDal dal;
-        public BlObject()
-        {
-            dal = new DalObject.DalObject();
-        }
+        dal = new DalObject.DalObject();
+        drones = new List<IBL.BO.Drone>();
     }
+
+
 }
+
