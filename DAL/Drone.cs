@@ -12,7 +12,7 @@ namespace IDAL
         {
             public int Id { get; set; }
             public string Model { get; set; }
-            public WeightCategories MaxWeight { get; set; }
+            public IDAL.DO.WeightCategories MaxWeight { get; set; }
 
             public override string ToString()
             {

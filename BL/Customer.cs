@@ -15,29 +15,13 @@ namespace IBL.BO
         public List<Parcel> send;
         public List<Parcel> receive;
 
-     
-       
 
         public override string ToString()
         {
-            return string.Format("Id is: {0}\nName of customer: {1}\nPhone number: {2}\nlongitude is: {3}\nlatitude: {4}\n", Id, Name, Phone, longSexagesimal(Longitude), latSexagesimal(Latitude));
-        }
-        // BONUS:
-        // the functions below convert coordinates to base 60
-
-        public string longSexagesimal(double longitude)
-        {
-            double absValOfDegree = Math.Abs(longitude);
-            double minute = (absValOfDegree - (int)absValOfDegree) * 60;
-            return string.Format("{0}°{1}\' {2}\"{3}", (int)longitude, (int)(minute), Math.Round((minute - (int)minute) * 60), longitude < 0 ? "S" : "N");
+            return string.Format("Id is: {0}\nName of customer: {1}\nPhone number: {2}\nLocation: {4}\n", Id, Name, Phone, Location);
         }
 
-        public string latSexagesimal(double latitude)
-        {
-            double absValOfDegree = Math.Abs(latitude);
-            double minute = (absValOfDegree - (int)absValOfDegree) * 60;
-            return string.Format("{0}°{1}\' {2}\"{3}", (int)latitude, (int)(minute), Math.Round((minute - (int)minute) * 60), latitude < 0 ? "W" : "E");
-        }
+
     }
 
 }

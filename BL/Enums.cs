@@ -10,6 +10,7 @@ namespace IBL.BO
     {
         public enum WeightCategories { Heavy, Medium, Light }
         public enum Priorities { Regular, Rapid, Emergency }
-        //הוספת אינמורציה שנקראת "מצב רחפן
+        public enum DroneStatus { Maintenance, Available, Delivery, Assigned }
+
     }
 }
