@@ -23,6 +23,7 @@ namespace IDAL.DO
         IEnumerable<Parcel> GetParcels();
         DroneCharge GetDroneCharge(int idNumber);
         IEnumerable<Parcel> GetParcelWithoutDrone();
+        double GetChargeRate();
         #endregion
 
         #region Update part of C.R.U.D
@@ -32,11 +33,7 @@ namespace IDAL.DO
         void SendDroneFromStation(Drone d);
         void SendDroneToCharge(Drone d, Station s);
         #endregion
+        double[] GetElectricity();
 
-        public double[] getElectricity()
-        {
-            double[] electricityRates = { DalObject.DataSource.Config.Available, DalObject.DataSource.Config.LightWeight, DalObject.DataSource.Config.MediumWeight, DalObject.DataSource.Config.HeavyWeight, DalObject.DataSource.Config.ChargingRate }; 
-            return electricityRates;
-        }
     }
 }

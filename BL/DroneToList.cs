@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace IBL
+
+namespace IBL.BO
 {
-    public interface IBL
+    public class DroneToList
     {
+        int Id;
 
     }
 }
-
-
