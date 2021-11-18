@@ -354,6 +354,23 @@ namespace DalObject
         {
             throw new NotImplementedException();
         }
+        public double GetChargeRate()
+        {
+            return DataSource.Config.ChargingRate;
+        }
+
+        public double[] GetElectricity()
+        {
+            double[] electricityRates =
+            {
+                DataSource.Config.Available,
+                DataSource.Config.LightWeight,
+                DataSource.Config.MediumWeight,
+                DataSource.Config.HeavyWeight,
+                DataSource.Config.ChargingRate
+            };
+            return electricityRates;
+        }
     }
 }
 
