@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using IBL.BO;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace BL
     public partial class BlObject : IBL.IBL
     {
         IDAL.DO.IDal dal;
-        double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
+        private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<IBL.BO.DroneToList> dronesToList;
 
         internal static Random r = new Random();
@@ -17,12 +18,40 @@ namespace BL
         {
             dal = new DalObject.DalObject();
             dronesToList = new List<IBL.BO.DroneToList>();
-            whenAvailable = dal.GetElectricity()[0];
-            whenLight = dal.GetElectricity()[1];
-            whenMedium = dal.GetElectricity()[2];
-            whenHeavy = dal.GetElectricity()[5];
-            chargeRate = dal.GetElectricity()[4];
-            IEnumerable<IDAL.DO.Drone> drones = dal.GetDrones();
+            double[] electricity = dal.GetElectricity();
+            whenAvailable = electricity[0];
+            whenLight = electricity[1];
+            whenMedium = electricity[2];
+            whenHeavy = electricity[3];
+            chargeRate = electricity[4];
+        }
+
+        private void droneState()
+        {
+            List<IDAL.DO.Drone> drones = dal.GetDrones().ToList();
+            List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
+           
+            foreach(var item in parcels)
+            {
+                IDAL.DO.Drone d = dal.GetDrone(item.DroneId);
+
+                if (item.DroneId != 0 && item.Delivered == DateTime.MinValue)
+                {
+                    IBL.BO.Drone newDrone = new Drone();
+                    newDrone.Id = item.DroneId;
+                    newDrone.DroneStatus = Enums.DroneStatus.Delivery;
+                    if (item.DroneId != 0 && item.PickedUp == DateTime.MinValue) //the parcel has a drone
+                    {
+                        //המיקום יהיה בתחנה הקרובה לשולח
+                    }
+                    else if (item.PickedUp != DateTime.MinValue && item.Delivered == DateTime.MinValue)
+                    {
+                        //מיקום הרחפן יהיה במיקום השולח
+                    }
+                    //מצב סוללה יוגרל בין טעינה מינימלית שתאפשר לרחפן לבצע את המשלוח ולהגיע לטעינה לתחנה הקרובה ליעד המשלוח לבין טעינה מלאה                 
+                }
+            }
+           
         }
 
         public void AddStation(Station newStation)
@@ -53,7 +82,37 @@ namespace BL
             };
             dal.AddDrone(dalDrone);
         }
+        public void AddCustomer(IBL.BO.Customer newCustomer)
+        {
+            IDAL.DO.Customer dalCustomer = new IDAL.DO.Customer
+            {
+                Id = newCustomer.Id,
+                Name = newCustomer.Name,
+                Phone = newCustomer.Phone,
+                Longitude = newCustomer.Location.Longitude,
+                Latitude = newCustomer.Location.Latitude
 
+            };
+            dal.AddCustomer(dalCustomer);
+        }
+        public void AddParcel(IBL.BO.ParcelInDelivey newParcel)
+        {
+            IDAL.DO.Parcel parcel = new IDAL.DO.Parcel
+            {
+                Id = newParcel.Id,
+                SenderId = newParcel.Sender.Id,
+                TargetId = newParcel.Target.Id,
+                Weight = (IDAL.DO.WeightCategories)newParcel.Weight,
+                Priority = (IDAL.DO.Priorities)newParcel.Priority,
+                Requested = DateTime.Now,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue,
+                DroneId = 0
+            };
+            dal.AddParcel(parcel);
+        }
     }
 }
+
 
