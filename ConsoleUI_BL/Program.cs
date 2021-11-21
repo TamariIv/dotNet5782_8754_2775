@@ -7,7 +7,7 @@ namespace ConsoleUI_BL
         enum MenuOptions { Exit, Add, Update, Show_One, Show_List }
         enum EntityOptions { Exit, Parcel, Drone, BaseStation, Customer }
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
-        enum UpdateOptions { Exit, DroneToParcel, PickedUp, Delivery, Recharge, FreeDrone }
+        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone }
 
         public static IBL.IBL mybl = new BL.BlObject();
 
@@ -70,7 +70,38 @@ namespace ConsoleUI_BL
 
                             break;
                         }
-
+                    case MenuOptions.Update:
+                        Console.WriteLine("Press 1 to update a drone");
+                        Console.WriteLine("Press 2 to update a station");
+                        Console.WriteLine("Press 3 to update a customer");
+                        Console.WriteLine("Press 4 to send drone to charge");
+                        Console.WriteLine("Press 5 to free drone from charging");
+                        UpdateOptions updateChoice = (UpdateOptions)Enum.Parse(typeof(UpdateOptions), Console.ReadLine());
+                        #region Update switch
+                        switch (updateChoice)
+                        {
+                            case UpdateOptions.Drone:
+                                UpdateDrone();
+                                break;
+                            case UpdateOptions.Station:
+                                UpdateStation();
+                                break;
+                            case UpdateOptions.Customer:
+                                UpdateCustomer();
+                                break;
+                            case UpdateOptions.Recharge:
+                                SendDroneToStation();
+                                break;
+                            case UpdateOptions.FreeDrone:
+                                FreeDrone();
+                                break;
+                            case UpdateOptions.Exit:
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
                 }
             }
 

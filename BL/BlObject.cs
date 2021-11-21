@@ -44,7 +44,7 @@ namespace BL
                     {
                         //המיקום יהיה בתחנה הקרובה לשולח
                     }
-                    else if (item.PickedUp != DateTime.MinValue && item.Delivered == DateTime.MinValue)
+                    else if (item.PickedUp != DateTime.MinValue /*&& item.Delivered == DateTime.MinValue*/)
                     {
                         //מיקום הרחפן יהיה במיקום השולח
                     }
