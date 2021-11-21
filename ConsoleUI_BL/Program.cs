@@ -135,6 +135,10 @@ namespace ConsoleUI_BL
                                 {
                                     FreeDroneById();
                                 }
+                                catch
+                                {
+
+                                }
                                 break;
                             case UpdateOptions.Exit:
                                 break;
@@ -167,37 +171,6 @@ namespace ConsoleUI_BL
                 Phone = phone,
             };
             mybl.UpdateCustomer(newCustomer);
-        }
-
-        private static void AddItem(EntityOptions entityOptions)
-        {
-            try
-            {
-                switch (entityOptions)
-                {
-                    case EntityOptions.Parcel:
-                        AddParcel();
-                        break;
-                    case EntityOptions.Drone:
-                        AddDrone();
-                        break;
-                    case EntityOptions.BaseStation:
-                        AddStation();
-                        break;
-                    case EntityOptions.Customer:
-                        AddCustomer();
-                        break;
-                    case EntityOptions.Exit:
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception exp)
-            {
-                Console.WriteLine(exp.Message);
-            }
-
         }
 
         private static void AddDrone()

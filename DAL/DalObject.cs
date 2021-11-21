@@ -361,8 +361,8 @@ namespace DalObject
         public void UpdateDrone(Drone d)
         {
             Drone newDrone = GetDrone(d.Id);
-            DataSource.Drones.Remove(d);
-            
+            DataSource.Drones.Remove(newDrone);
+            DataSource.Drones.Add(d);
         }
 
         public double[] GetElectricity()

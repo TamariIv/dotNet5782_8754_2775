@@ -115,14 +115,14 @@ namespace BL
             };
             dal.AddParcel(parcel);
         }
-        public void UpdateDrone(Drone d)
+        public void UpdateDrone(Drone newDrone)
         {
-            IDAL.DO.Drone newDrone = dal.GetDrone(d.Id);
-            if (d.Id != 0)
-                newDrone.Id = d.Id;
-            if (d.Model != "")
-                newDrone.Model = d.Model;
-            dal.UpdateDrone(newDrone);
+            IDAL.DO.Drone dalDrone = dal.GetDrone(newDrone.Id);
+            if (newDrone.Id != 0)
+                dalDrone.Id = newDrone.Id;
+            if (newDrone.Model != "")
+                dalDrone.Model = newDrone.Model;
+            dal.UpdateDrone(dalDrone);
         }
 
 
