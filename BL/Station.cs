@@ -6,35 +6,22 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-    class Station
+    public class Station
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public int ChargeSlots { get; set; }
+        public Location Location { get; set; }
+        public int AvailableChargeSlots { get; set; }
+        public List<DroneInCharging> DronesCharging { get; set; }
 
         public override string ToString()
         {
-            return string.Format("Id is: {0}\nName of station: {1}\nLongitude is: {2}\nLatitude is: {3}\nNum of charge slots: {4}\n", Id, Name, longSexagesimal(Longitude), latSexagesimal(Latitude), ChargeSlots);
-        }
-
-
-        // BONUS:
-        // the functions below convert coordinates to base 60
-
-        public string longSexagesimal(double longitude)
-        {
-            double absValOfDegree = Math.Abs(longitude);
-            double minute = (absValOfDegree - (int)absValOfDegree) * 60;
-            return string.Format("{0}°{1}\' {2}\"{3}", (int)longitude, (int)(minute), Math.Round((minute - (int)minute) * 60), longitude < 0 ? "S" : "N");
-        }
-
-        public string latSexagesimal(double latitude)
-        {
-            double absValOfDegree = Math.Abs(latitude);
-            double minute = (absValOfDegree - (int)absValOfDegree) * 60;
-            return string.Format("{0}°{1}\' {2}\"{3}", (int)latitude, (int)(minute), Math.Round((minute - (int)minute) * 60), latitude < 0 ? "W" : "E");
+            return string.Format(
+                "Id is: {0}\n" +
+                "Name of station: {1}\n" +
+                "Location:\n{2}\n" +
+                "Number of open charge slots: {3}\n", 
+                Id, Name, Location, AvailableChargeSlots);
         }
     }
 }

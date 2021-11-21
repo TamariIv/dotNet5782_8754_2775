@@ -355,7 +355,7 @@ namespace ConsoleUI
             double.TryParse(Console.ReadLine(), out longitude);
             Console.WriteLine("Enter station latitude: ");
             double.TryParse(Console.ReadLine(), out latitude);
-            Console.WriteLine("Enter number of empty charging slots: ");
+            Console.WriteLine("Enter number of charging slots: ");
             int.TryParse(Console.ReadLine(), out slots);
             Station newStation = new Station
             {

@@ -12,13 +12,17 @@ namespace IBL.BO
         public string Name { get; init; }
         public string Phone { get; init; }
         public Location Location { get; init; }
-        public List<Parcel> send;
-        public List<Parcel> receive;
+        public List<Parcel> send { get; init; }
+        public List<Parcel> receive { get; init; }
 
 
         public override string ToString()
         {
-            return string.Format("Id is: {0}\nName of customer: {1}\nPhone number: {2}\nLocation: {4}\n", Id, Name, Phone, Location);
+            return string.Format(
+                "Id is: {0}\n" +
+                "Name of customer: {1}\n" +
+                "Phone number: {2}\n" +
+                "Location: {3}\n", Id, Name, Phone, Location);
         }
 
 
