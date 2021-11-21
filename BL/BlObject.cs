@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BL
 {
-    public partial class BlObject : IBL.IBL
+    public partial class BlObject : /*ParcelBlObject,*/ IBL.IBL
     {
         IDAL.DO.IDal dal;
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
@@ -54,6 +54,7 @@ namespace BL
            
         }
 
+
         public void AddStation(Station newStation)
         {
             if (newStation.DronesCharging.Count == 0)
@@ -82,6 +83,7 @@ namespace BL
             };
             dal.AddDrone(dalDrone);
         }
+
         public void AddCustomer(IBL.BO.Customer newCustomer)
         {
             IDAL.DO.Customer dalCustomer = new IDAL.DO.Customer
@@ -95,6 +97,7 @@ namespace BL
             };
             dal.AddCustomer(dalCustomer);
         }
+
         public void AddParcel(IBL.BO.ParcelInDelivey newParcel)
         {
             IDAL.DO.Parcel parcel = new IDAL.DO.Parcel

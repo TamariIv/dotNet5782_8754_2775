@@ -152,6 +152,7 @@ namespace ConsoleUI_BL
             };
             mybl.AddStation(newStation);
         }
+
         private static void AddCustomer()
         {
             int id;
@@ -183,13 +184,15 @@ namespace ConsoleUI_BL
             };
             mybl.AddCustomer(newCustomer);
         }
-        private static void addParcel()
+
+        private static void AddParcel()
         {
             int senderId, targetId;
             Console.WriteLine("Enter sender ID: ");
-            int.TryParse(Console.ReadLine(), out senderId);
+            if (!int.TryParse(Console.ReadLine(), out senderId));
             Console.WriteLine("Enter target ID: ");
-            int.TryParse(Console.ReadLine(), out targetId);
+            if (!int.TryParse(Console.ReadLine(), out targetId))
+                throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
             IBL.BO.Enums.WeightCategories weight = (IBL.BO.Enums.WeightCategories)Enum.Parse(typeof(IBL.BO.Enums.WeightCategories), Console.ReadLine());
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
