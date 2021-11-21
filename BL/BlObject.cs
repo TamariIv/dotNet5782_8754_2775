@@ -10,6 +10,8 @@ namespace BL
         double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<IBL.BO.DroneToList> dronesToList;
 
+        internal static Random r = new Random();
+
 
         public BlObject()
         {
@@ -31,12 +33,26 @@ namespace BL
                 {
                     Id = newStation.Id,
                     Name = newStation.Name,
-                    ChargeSlots = newStation.AvailableChargeSlots
+                    ChargeSlots = newStation.AvailableChargeSlots,
+                    
                 };
                 dal.AddStation(dalStation);
             }
         }
 
+        public void AddDrone(Drone newDrone)
+        {
+            Drone d = newDrone;
+            d.Battery = r.Next(20, 41);
+            d.DroneStatus = Enums.DroneStatus.Maintenance;
+            IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
+            {
+                Id = newDrone.Id,
+                Model = newDrone.Model,
+                MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
+            };
+            dal.AddDrone(dalDrone);
+        }
 
     }
 }

@@ -48,7 +48,7 @@ namespace ConsoleUI_BL
                                 case EntityOptions.Drone:
                                     try
                                     {
-
+                                        
                                     }
                             }
 
@@ -94,7 +94,27 @@ namespace ConsoleUI_BL
 
         private static void AddDrone()
         {
-            throw new NotImplementedException();
+            int id, station;
+            string model;
+            IBL.BO.Enums.WeightCategories weight;
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out id);
+            Console.WriteLine("Enter drone model: ");
+            model = Console.ReadLine();
+            Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
+            int tmp;
+            int.TryParse(Console.ReadLine(), out tmp);
+            weight = (IBL.BO.Enums.WeightCategories)(tmp - 1);
+            Console.WriteLine("Enter station to charge in ID: ");
+            int.TryParse(Console.ReadLine(), out station);
+
+            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            {
+                Id = id,
+                Model = model,
+                MaxWeight = weight
+            };
+            mybl.AddDrone(newDrone);
         }
 
         private static void AddStation()
