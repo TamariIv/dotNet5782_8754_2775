@@ -350,10 +350,10 @@ namespace DalObject
             else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
         }
 
-        IEnumerable<Customer> IDal.GetCustomers()
-        {
-            throw new NotImplementedException();
-        }
+        //IEnumerable<Customer> IDal.GetCustomers()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         public double[] GetElectricity()

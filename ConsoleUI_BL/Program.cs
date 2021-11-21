@@ -2,9 +2,8 @@
 
 namespace ConsoleUI_BL
 {
-    public class Class1
+    public class Program
     {
-        char choice;
         enum MenuOptions { Exit, Add, Update, Show_One, Show_List }
         enum EntityOptions { Exit, Parcel, Drone, BaseStation, Customer }
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
@@ -35,14 +34,24 @@ namespace ConsoleUI_BL
                             Console.WriteLine("Press 3 to add station");
                             Console.WriteLine("Press 4 to add customer");
                             entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
-                            try
+                            switch (entityOptions)
                             {
-                                AddItem(entityOptions);
+                                case EntityOptions.BaseStation:
+                                    try
+                                    {
+                                        AddItem(entityOptions);
+                                    }
+                                    catch (Exception exp)
+                                    {
+                                        Console.WriteLine(exp.Message);
+                                    }
+                                case EntityOptions.Drone:
+                                    try
+                                    {
+
+                                    }
                             }
-                            catch (string errorMsg)
-                            {
-                                Console.WriteLine(errorMsg);
-                            }
+
 
                         }
 
@@ -54,25 +63,38 @@ namespace ConsoleUI_BL
         private static void AddItem(EntityOptions entityOptions)
         {
 
-            switch (entityOptions)
+            try
             {
-                case EntityOptions.Parcel:
-                    AddParcel();
-                    break;
-                case EntityOptions.Drone:
-                    AddDrone();
-                    break;
-                case EntityOptions.BaseStation:
-                    AddStation();
-                    break;
-                case EntityOptions.Customer:
-                    AddCustomer();
-                    break;
-                case EntityOptions.Exit:
-                    break;
-                default:
-                    break;
+                switch (entityOptions)
+                {
+                    case EntityOptions.Parcel:
+                        AddParcel();
+                        break;
+                    case EntityOptions.Drone:
+                        AddDrone();
+                        break;
+                    case EntityOptions.BaseStation:
+                        AddStation();
+                        break;
+                    case EntityOptions.Customer:
+                        AddCustomer();
+                        break;
+                    case EntityOptions.Exit:
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+
+        }
+
+        private static void AddDrone()
+        {
+            throw new NotImplementedException();
         }
 
         private static void AddStation()
@@ -90,7 +112,7 @@ namespace ConsoleUI_BL
             {
                 Id = id,
                 Name = name,
-                AvailableChargeSlots = slots
+                AvailableChargeSlots = slots,
             };
             mybl.AddStation(newStation);
         }

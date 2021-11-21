@@ -23,7 +23,6 @@ namespace IDAL.DO
         IEnumerable<Station> GetStations();
         IEnumerable<Parcel> GetParcels();
         IEnumerable<Parcel> GetParcelWithoutDrone();
-        double GetChargeRate();
         #endregion
 
         #region Update part of C.R.U.D
@@ -33,6 +32,7 @@ namespace IDAL.DO
         void SendDroneFromStation(Drone d);
         void SendDroneToCharge(Drone d, Station s);
         #endregion
+        //IEnumerable<Customer> GetCustomers();
 
         double[] GetElectricity();
     }

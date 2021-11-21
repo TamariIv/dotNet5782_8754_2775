@@ -23,10 +23,20 @@ namespace BL
             IEnumerable<IDAL.DO.Drone> drones = dal.GetDrones();
         }
 
-        void AddStation(Station newStation)
+        public void AddStation(Station newStation)
         {
-
+            if (newStation.DronesCharging.Count == 0)
+            {
+                IDAL.DO.Station dalStation = new IDAL.DO.Station
+                {
+                    Id = newStation.Id,
+                    Name = newStation.Name,
+                    ChargeSlots = newStation.AvailableChargeSlots
+                };
+                dal.AddStation(dalStation);
+            }
         }
+
 
     }
 }
