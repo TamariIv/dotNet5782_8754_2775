@@ -9,7 +9,7 @@ namespace ConsoleUI_BL
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, DroneToParcel, PickedUp, Delivery, Recharge, FreeDrone }
 
-        static IBL.IBL mybl = new BL.BlObject();
+        public static IBL.IBL mybl = new BL.BlObject();
 
         static void Main(string[] args)
         {
@@ -45,14 +45,30 @@ namespace ConsoleUI_BL
                                     {
                                         Console.WriteLine(exp.Message);
                                     }
+                                    break;
                                 case EntityOptions.Drone:
                                     try
                                     {
 
                                     }
+                                    catch
+                                    {
+
+                                    }
+                                    break;
+                                case EntityOptions.Customer:
+                                    try
+                                    {
+                                        AddItem(entityOptions);
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                    break;
                             }
 
-
+                            break;
                         }
 
                 }
@@ -116,5 +132,67 @@ namespace ConsoleUI_BL
             };
             mybl.AddStation(newStation);
         }
+        private static void AddCustomer()
+        {
+            int id;
+            string name, phone;
+            double longitude, latitude;
+            Console.WriteLine("Enter customer ID: ");
+            int.TryParse(Console.ReadLine(), out id);
+            Console.WriteLine("Enter customer name: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Enter phone number: ");
+            phone = Console.ReadLine();
+            Console.WriteLine("Enter customer longitude: ");
+            double.TryParse(Console.ReadLine(), out longitude);
+            Console.WriteLine("Enter customer latitude: ");
+            double.TryParse(Console.ReadLine(), out latitude);
+
+            IBL.BO.Location location = new IBL.BO.Location
+            {
+                Longitude = longitude,
+                Latitude = latitude
+            };
+
+            IBL.BO.Customer newCustomer = new IBL.BO.Customer
+            {
+                Id = id,
+                Name = name,
+                Phone = phone,
+                Location = location
+            };
+            mybl.AddCustomer(newCustomer);
+        }
+        private static void addParcel()
+        {
+            int senderId, targetId;
+            Console.WriteLine("Enter sender ID: ");
+            int.TryParse(Console.ReadLine(), out senderId);
+            Console.WriteLine("Enter target ID: ");
+            int.TryParse(Console.ReadLine(), out targetId);
+            Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
+            IBL.BO.Enums.WeightCategories weight = (IBL.BO.Enums.WeightCategories)Enum.Parse(typeof(IBL.BO.Enums.WeightCategories), Console.ReadLine());
+            Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
+            IBL.BO.Enums.Priorities priority = (IBL.BO.Enums.Priorities)Enum.Parse(typeof(IBL.BO.Enums.Priorities), Console.ReadLine());
+
+            IBL.BO.CustomerInParcel sender = new IBL.BO.CustomerInParcel
+            {
+                Id = senderId
+            };
+            IBL.BO.CustomerInParcel target = new IBL.BO.CustomerInParcel
+            {
+                Id = targetId
+            };
+            IBL.BO.ParcelInDelivey parcel = new IBL.BO.ParcelInDelivey
+            {
+                Sender = sender,
+                Target = target,
+                Weight = weight,
+                Priority = priority,
+            };
+            mybl.AddParcel(parcel);
+        }
+
     }
 }
+
