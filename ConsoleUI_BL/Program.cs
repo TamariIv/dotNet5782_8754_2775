@@ -36,10 +36,10 @@ namespace ConsoleUI_BL
                             entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
                             switch (entityOptions)
                             {
-                                case EntityOptions.BaseStation:
+                                case EntityOptions.Parcel:
                                     try
                                     {
-                                        AddItem(entityOptions);
+                                        AddParcel();
                                     }
                                     catch (Exception exp)
                                     {
@@ -49,7 +49,17 @@ namespace ConsoleUI_BL
                                 case EntityOptions.Drone:
                                     try
                                     {
+                                        AddDrone();
+                                    }
+                                    catch
+                                    {
 
+                                    }
+                                    break;
+                                case EntityOptions.BaseStation:
+                                    try
+                                    {
+                                        AddStation();
                                     }
                                     catch
                                     {
@@ -59,13 +69,13 @@ namespace ConsoleUI_BL
                                 case EntityOptions.Customer:
                                     try
                                     {
-                                        AddItem(entityOptions);
+                                        AddCustomer();
                                     }
                                     catch
                                     {
 
                                     }
-                                    break;
+                                    break;           
                             }
 
                             break;
@@ -81,19 +91,50 @@ namespace ConsoleUI_BL
                         switch (updateChoice)
                         {
                             case UpdateOptions.Drone:
-                                UpdateDrone();
+                                try
+                                {
+                                    UpdateDrone();
+                                }
+                                catch
+                                {
+
+                                }
                                 break;
                             case UpdateOptions.Station:
-                                UpdateStation();
+                                try
+                                {
+                                    UpdateStation();
+                                }
+                                catch
+                                {
+
+                                }
                                 break;
                             case UpdateOptions.Customer:
-                                UpdateCustomer();
+                                try
+                                {
+                                    UpdateCustomer();
+                                }
+                                catch
+                                {
+
+                                }
                                 break;
                             case UpdateOptions.Recharge:
-                                SendDroneToStation();
+                                try
+                                {
+                                    RechargeDrone();
+                                }
+                                catch
+                                {
+
+                                }
                                 break;
                             case UpdateOptions.FreeDrone:
-                                FreeDrone();
+                                try
+                                {
+                                    FreeDroneById();
+                                }
                                 break;
                             case UpdateOptions.Exit:
                                 break;
@@ -106,45 +147,13 @@ namespace ConsoleUI_BL
             }
 
         }
-
-        private static void AddItem(EntityOptions entityOptions)
+     
+        public static void AddDrone()
         {
-
-            try
-            {
-                switch (entityOptions)
-                {
-                    case EntityOptions.Parcel:
-                        AddParcel();
-                        break;
-                    case EntityOptions.Drone:
-                        AddDrone();
-                        break;
-                    case EntityOptions.BaseStation:
-                        AddStation();
-                        break;
-                    case EntityOptions.Customer:
-                        AddCustomer();
-                        break;
-                    case EntityOptions.Exit:
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception exp)
-            {
-                Console.WriteLine(exp.Message);
-            }
 
         }
 
-        private static void AddDrone()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void AddStation()
+        public static void AddStation()
         {
             int id, slots;
             string name;
@@ -194,7 +203,7 @@ namespace ConsoleUI_BL
             };
             mybl.AddCustomer(newCustomer);
         }
-        private static void addParcel()
+        private static void AddParcel()
         {
             int senderId, targetId;
             Console.WriteLine("Enter sender ID: ");
@@ -224,6 +233,23 @@ namespace ConsoleUI_BL
             mybl.AddParcel(parcel);
         }
 
+        //-----------------Update-----------------//
+       
+        private static void UpdateDrone()
+        {
+            int id;
+            string model;
+            Console.WriteLine("Enter ID of the drone");
+            int.TryParse(Console.ReadLine(), out id);
+            Console.WriteLine("Enter model of the drone");
+            model = Console.ReadLine();
+            IBL.BO.Drone newDrone = new IBL.BO.Drone()
+            {
+                Id = id,
+                Model = model
+            };
+            mybl.UpdateDrone(newDrone);            
+        }
     }
 }
 

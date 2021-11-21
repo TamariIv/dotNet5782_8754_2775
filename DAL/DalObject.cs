@@ -355,6 +355,12 @@ namespace DalObject
         //    throw new NotImplementedException();
         //}
 
+        public void UpdateDrone(Drone d)
+        {
+            Drone newDrone = GetDrone(d.Id);
+            DataSource.Drones.Remove(d);
+            
+        }
 
         public double[] GetElectricity()
         {

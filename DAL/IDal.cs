@@ -31,6 +31,7 @@ namespace IDAL.DO
         void PickUpParcel(Parcel p);
         void SendDroneFromStation(Drone d);
         void SendDroneToCharge(Drone d, Station s);
+        void UpdateDrone(Drone d);
         #endregion
         //IEnumerable<Customer> GetCustomers();
 
