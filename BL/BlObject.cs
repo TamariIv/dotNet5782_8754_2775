@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace BL
 {
-    public partial class BlObject : IBL.IBL
+    public partial class BlObject : /*ParcelBlObject,*/ IBL.IBL
     {
         IDAL.DO.IDal dal;
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<IBL.BO.DroneToList> dronesToList;
+
+        internal static Random r = new Random();
 
 
         public BlObject()
@@ -52,6 +54,7 @@ namespace BL
            
         }
 
+
         public void AddStation(Station newStation)
         {
             if (newStation.DronesCharging.Count == 0)
@@ -60,11 +63,27 @@ namespace BL
                 {
                     Id = newStation.Id,
                     Name = newStation.Name,
-                    ChargeSlots = newStation.AvailableChargeSlots
+                    ChargeSlots = newStation.AvailableChargeSlots,
+                    
                 };
                 dal.AddStation(dalStation);
             }
         }
+
+        public void AddDrone(Drone newDrone)
+        {
+            Drone d = newDrone;
+            d.Battery = r.Next(20, 41);
+            d.DroneStatus = Enums.DroneStatus.Maintenance;
+            IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
+            {
+                Id = newDrone.Id,
+                Model = newDrone.Model,
+                MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
+            };
+            dal.AddDrone(dalDrone);
+        }
+
         public void AddCustomer(IBL.BO.Customer newCustomer)
         {
             IDAL.DO.Customer dalCustomer = new IDAL.DO.Customer
@@ -78,6 +97,7 @@ namespace BL
             };
             dal.AddCustomer(dalCustomer);
         }
+
         public void AddParcel(IBL.BO.ParcelInDelivey newParcel)
         {
             IDAL.DO.Parcel parcel = new IDAL.DO.Parcel
@@ -104,6 +124,18 @@ namespace BL
                 newDrone.Model = d.Model;
             dal.UpdateDrone(newDrone);
         }
+
+
+        public void UpdateCustomer(Customer newCustomer)
+        {
+            IDAL.DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
+            if (newCustomer.Name != "")
+                dalCustomer.Name = newCustomer.Name;
+            if (newCustomer.Phone != "")
+                dalCustomer.Phone = newCustomer.Phone;
+            dal.UpdateCustomer(dalCustomer);
+        }
+
     }
 }
 

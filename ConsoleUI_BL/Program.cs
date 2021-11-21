@@ -147,13 +147,85 @@ namespace ConsoleUI_BL
             }
 
         }
-     
-        public static void AddDrone()
+
+        private static void UpdateCustomer()
         {
+            int id;
+            string name, phone;
+            Console.WriteLine("Enter customer ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input was not int");
+            Console.WriteLine("Enter customer name: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Enter phone number: ");
+            phone = Console.ReadLine();
+
+            IBL.BO.Customer newCustomer = new IBL.BO.Customer
+            {
+                Id = id,
+                Name = name,
+                Phone = phone,
+            };
+            mybl.UpdateCustomer(newCustomer);
+        }
+
+        private static void AddItem(EntityOptions entityOptions)
+        {
+            try
+            {
+                switch (entityOptions)
+                {
+                    case EntityOptions.Parcel:
+                        AddParcel();
+                        break;
+                    case EntityOptions.Drone:
+                        AddDrone();
+                        break;
+                    case EntityOptions.BaseStation:
+                        AddStation();
+                        break;
+                    case EntityOptions.Customer:
+                        AddCustomer();
+                        break;
+                    case EntityOptions.Exit:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
 
         }
 
-        public static void AddStation()
+        private static void AddDrone()
+        {
+            int id, station;
+            string model;
+            IBL.BO.Enums.WeightCategories weight;
+            Console.WriteLine("Enter drone ID: ");
+            int.TryParse(Console.ReadLine(), out id);
+            Console.WriteLine("Enter drone model: ");
+            model = Console.ReadLine();
+            Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
+            int tmp;
+            int.TryParse(Console.ReadLine(), out tmp);
+            weight = (IBL.BO.Enums.WeightCategories)(tmp - 1);
+            Console.WriteLine("Enter station to charge in ID: ");
+            int.TryParse(Console.ReadLine(), out station);
+
+            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            {
+                Id = id,
+                Model = model,
+                MaxWeight = weight
+            };
+            mybl.AddDrone(newDrone);
+        }
+
+        private static void AddStation()
         {
             int id, slots;
             string name;
@@ -172,6 +244,7 @@ namespace ConsoleUI_BL
             };
             mybl.AddStation(newStation);
         }
+
         private static void AddCustomer()
         {
             int id;
@@ -203,13 +276,15 @@ namespace ConsoleUI_BL
             };
             mybl.AddCustomer(newCustomer);
         }
+
         private static void AddParcel()
         {
             int senderId, targetId;
             Console.WriteLine("Enter sender ID: ");
-            int.TryParse(Console.ReadLine(), out senderId);
+            if (!int.TryParse(Console.ReadLine(), out senderId));
             Console.WriteLine("Enter target ID: ");
-            int.TryParse(Console.ReadLine(), out targetId);
+            if (!int.TryParse(Console.ReadLine(), out targetId))
+                throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
             IBL.BO.Enums.WeightCategories weight = (IBL.BO.Enums.WeightCategories)Enum.Parse(typeof(IBL.BO.Enums.WeightCategories), Console.ReadLine());
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
