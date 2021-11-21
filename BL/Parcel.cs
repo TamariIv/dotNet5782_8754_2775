@@ -9,11 +9,11 @@ namespace IBL.BO
     public class Parcel
     {
         public int Id { get; set; }
-        CustomerInParcel Sender { get; set; }
-        CustomerInParcel Target { get; set; }
+        public CustomerInParcel Sender { get; set; }
+        public CustomerInParcel Target { get; set; }
         public Enums.WeightCategories Weight { get; set; }
         public Enums.Priorities Priority { get; set; }
-        DroneInParcel AssignedDrone { get; set; }
+        public DroneInParcel AssignedDrone { get; set; }
         public DateTime Requested { get; set; } // creating parcel time
         public DateTime Scheduled { get; set; } // assigning drone to parcel time
         public DateTime PickedUp { get; set; }  // pick up time
