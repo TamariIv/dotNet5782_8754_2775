@@ -107,9 +107,29 @@ namespace ConsoleUI_BL
 
         }
 
+        private static void UpdateCustomer()
+        {
+            int id;
+            string name, phone;
+            Console.WriteLine("Enter customer ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input was not int");
+            Console.WriteLine("Enter customer name: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Enter phone number: ");
+            phone = Console.ReadLine();
+
+            IBL.BO.Customer newCustomer = new IBL.BO.Customer
+            {
+                Id = id,
+                Name = name,
+                Phone = phone,
+            };
+            mybl.UpdateCustomer(newCustomer);
+        }
+
         private static void AddItem(EntityOptions entityOptions)
         {
-
             try
             {
                 switch (entityOptions)

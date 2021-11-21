@@ -34,6 +34,8 @@ namespace IDAL.DO
         #endregion
         //IEnumerable<Customer> GetCustomers();
 
+        void UpdateCustomer(Customer c);
+
         double[] GetElectricity();
     }
 }

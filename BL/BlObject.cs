@@ -115,6 +115,18 @@ namespace BL
             };
             dal.AddParcel(parcel);
         }
+
+
+        public void UpdateCustomer(Customer newCustomer)
+        {
+            IDAL.DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
+            if (newCustomer.Name != "")
+                dalCustomer.Name = newCustomer.Name;
+            if (newCustomer.Phone != "")
+                dalCustomer.Phone = newCustomer.Phone;
+            dal.UpdateCustomer(dalCustomer);
+        }
+
     }
 }
 
