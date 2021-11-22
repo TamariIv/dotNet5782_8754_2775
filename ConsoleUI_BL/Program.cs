@@ -254,7 +254,8 @@ namespace ConsoleUI_BL
         {
             int senderId, targetId;
             Console.WriteLine("Enter sender ID: ");
-            if (!int.TryParse(Console.ReadLine(), out senderId));
+            if (!int.TryParse(Console.ReadLine(), out senderId))
+                throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Enter target ID: ");
             if (!int.TryParse(Console.ReadLine(), out targetId))
                 throw new WrongInputFormatException("input was not int");

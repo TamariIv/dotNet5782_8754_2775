@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BL
 {
-    public partial class BlObject : /*ParcelBlObject,*/ IBL.IBL
+    public partial class BlObject : IBL.IBL
     {
         IDAL.DO.IDal dal;
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
@@ -50,6 +50,7 @@ namespace BL
                     }
                     //מצב סוללה יוגרל בין טעינה מינימלית שתאפשר לרחפן לבצע את המשלוח ולהגיע לטעינה לתחנה הקרובה ליעד המשלוח לבין טעינה מלאה                 
                 }
+                else
             }
            
         }
@@ -98,23 +99,7 @@ namespace BL
             dal.AddCustomer(dalCustomer);
         }
 
-        public void AddParcel(IBL.BO.ParcelInDelivey newParcel)
-        {
-            IDAL.DO.Parcel parcel = new IDAL.DO.Parcel
-            {
-                Id = newParcel.Id,
-                SenderId = newParcel.Sender.Id,
-                TargetId = newParcel.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)newParcel.Weight,
-                Priority = (IDAL.DO.Priorities)newParcel.Priority,
-                Requested = DateTime.Now,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue,
-                DroneId = 0
-            };
-            dal.AddParcel(parcel);
-        }
+
         public void UpdateDrone(Drone newDrone)
         {
             IDAL.DO.Drone dalDrone = dal.GetDrone(newDrone.Id);
