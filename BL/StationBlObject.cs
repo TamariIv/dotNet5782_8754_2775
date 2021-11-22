@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    class StationBlObject
+    public partial class BlObject:IBL.IBL
     {
     }
 }

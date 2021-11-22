@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    class DroneBlObject
+    public partial class BlObject:IBL.IBL
     {
     }
 }

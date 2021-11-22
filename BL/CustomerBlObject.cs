@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    class CustomerBlObject
+    public partial class BlObject:IBL.IBL
     {
 
     }
