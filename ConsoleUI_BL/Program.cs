@@ -123,7 +123,7 @@ namespace ConsoleUI_BL
                             case UpdateOptions.Recharge:
                                 try
                                 {
-                                    RechargeDrone();
+                                    rechargeDrone();
                                 }
                                 catch
                                 {
@@ -298,6 +298,17 @@ namespace ConsoleUI_BL
                 Model = model
             };
             mybl.UpdateDrone(newDrone);            
+        }
+        private static void rechargeDrone()
+        {
+            int id;
+            Console.WriteLine("Enter ID of drone");
+            int.TryParse(Console.ReadLine(), out id);
+            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            {
+                Id = id
+            };
+            mybl.rechargeDrone(newDrone);
         }
     }
 }

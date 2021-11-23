@@ -38,5 +38,6 @@ namespace IDAL.DO
         void UpdateCustomer(Customer c);
 
         double[] GetElectricity();
+        Station getClosestStation(double latitude, double longitude);
     }
 }

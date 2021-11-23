@@ -17,42 +17,80 @@ namespace BL
         public BlObject()
         {
             dal = new DalObject.DalObject();
+
             dronesToList = new List<IBL.BO.DroneToList>();
+            List<IDAL.DO.Drone> drones = dal.GetDrones().ToList();
+
             double[] electricity = dal.GetElectricity();
             whenAvailable = electricity[0];
             whenLight = electricity[1];
             whenMedium = electricity[2];
             whenHeavy = electricity[3];
             chargeRate = electricity[4];
+            initializeDrones(drones);
         }
 
-        private void droneState()
+        private void initializeDrones(List<IDAL.DO.Drone> drones)
         {
-            List<IDAL.DO.Drone> drones = dal.GetDrones().ToList();
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
-           
-            foreach(var item in parcels)
+            DroneToList droneBl;
+            foreach (var droneDal in drones)
             {
-                IDAL.DO.Drone d = dal.GetDrone(item.DroneId);
-
-                if (item.DroneId != 0 && item.Delivered == DateTime.MinValue)
+                droneBl = new DroneToList()
                 {
-                    IBL.BO.Drone newDrone = new Drone();
-                    newDrone.Id = item.DroneId;
-                    newDrone.DroneStatus = Enums.DroneStatus.Delivery;
-                    if (item.DroneId != 0 && item.PickedUp == DateTime.MinValue) //the parcel has a drone
+                    Id = droneDal.Id,
+                    Model = droneDal.Model,
+                    MaxWeight = (IBL.BO.WeightCategories)droneDal.MaxWeight
+                };
+
+                List<IDAL.DO.Parcel> parcelList = parcels.FindAll(p => p.DroneId == droneBl.Id);
+
+                // shuycha ach lo supka
+                if (parcelList.Exists(p => p.Delivered == DateTime.MinValue)) 
+                {
+                    droneBl.DroneStatus = DroneStatus.Delivery;
+                    foreach (var item in parcelList.Where(item => item.PickedUp == DateTime.MinValue))
+                    {                   
+                        int senderId = item.SenderId;
+                        double senderLatitude = dal.GetCustomer(senderId).Latitude;
+                        double senderLongitude = dal.GetCustomer(senderId).Longitude;
+                        IDAL.DO.Station st = dal.getClosestStation(senderLatitude, senderLongitude);
+                        droneBl.Location = new Location { Latitude = st.Latitude, Longitude = st.Longitude };
+                    }  
+                     //picked up but wasn't delivered
+                    foreach (var item in parcelList.Where(item => item.PickedUp != DateTime.MinValue && item.Delivered == DateTime.MinValue))
                     {
-                        //המיקום יהיה בתחנה הקרובה לשולח
+                        int senderId = item.SenderId;
+                        double senderLatitude = dal.GetCustomer(senderId).Latitude;
+                        double senderLongitude = dal.GetCustomer(senderId).Longitude;
+                        droneBl.Location = new Location
+                        {
+                            Latitude = senderLatitude,
+                            Longitude = senderLongitude
+                        };
                     }
-                    else if (item.PickedUp != DateTime.MinValue /*&& item.Delivered == DateTime.MinValue*/)
-                    {
-                        //מיקום הרחפן יהיה במיקום השולח
-                    }
-                    //מצב סוללה יוגרל בין טעינה מינימלית שתאפשר לרחפן לבצע את המשלוח ולהגיע לטעינה לתחנה הקרובה ליעד המשלוח לבין טעינה מלאה                 
+                    //יש לעדכן מצב סוללה:
+                    //מצב סוללה יוגרל בין טעינה מינימלית שתאפשר לרחפן לבצע את המשלוח ולהגיע לטעינה לתחנה הקרובה ליעד המשלוח לבין טעינה מלאה
                 }
-                else
+                else //the drone is not in delivery
+                {
+                    droneBl.DroneStatus = (DroneStatus)r.Next(2); //Maintenance or Available
+                    if (droneBl.DroneStatus == DroneStatus.Maintenance)
+                    {
+                        //מיקומו יוגרל בין תחנות התחנות הקיימות
+                        droneBl.Battery = r.Next(0, 21);
+                    }
+                    else if (droneBl.DroneStatus == DroneStatus.Available)
+                    {
+                        //מיקומו יוגרל בין לקוחות שיש חבילות שסופקו להם
+                        // מצב סוללה יוגרל בין טעינה מינימלית שתאפשר לו להגיע לתחנה הקרובה לטעינה לבין טעינה מלאה
+
+                    }
+
+                }
+
+                dronesToList.Add(droneBl);
             }
-           
         }
 
 
@@ -65,7 +103,7 @@ namespace BL
                     Id = newStation.Id,
                     Name = newStation.Name,
                     ChargeSlots = newStation.AvailableChargeSlots,
-                    
+
                 };
                 dal.AddStation(dalStation);
             }
@@ -75,7 +113,7 @@ namespace BL
         {
             Drone d = newDrone;
             d.Battery = r.Next(20, 41);
-            d.DroneStatus = Enums.DroneStatus.Maintenance;
+            d.DroneStatus = DroneStatus.Maintenance;
             IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
             {
                 Id = newDrone.Id,

@@ -377,6 +377,24 @@ namespace DalObject
             };
             return electricityRates;
         }
+
+        // thanks to tzivya RotLevy Talita
+        public Station getClosestStation(double latitude, double longitude)
+        {
+            Station result = default;
+            double distance = double.MaxValue;
+
+            foreach (var item in DataSource.Stations)
+            {
+                double dist = Tools.Utis.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
+                if(dist <  distance)
+                {
+                    distance = dist;
+                    result = item;
+                }
+            }
+            return result;
+        }
     }
 }
 

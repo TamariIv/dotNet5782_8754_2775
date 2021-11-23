@@ -11,5 +11,6 @@ namespace IBL
         void AddDrone(Drone newDrone);
 
         void UpdateCustomer(Customer newCustomer);
+        void rechargeDrone(Drone drone);
     }
 }
