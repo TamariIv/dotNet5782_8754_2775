@@ -14,6 +14,7 @@ namespace IBL.BO
         public int Battery { get; set; }
         public Enums.DroneStatus DroneStatus { get; set; }
         public ParcelInDelivey ParcelInDelivery { get; set; }
+        public Location Location { get; set; }
         public int ParcelInDeliveryId { get; set; }
     }
 }

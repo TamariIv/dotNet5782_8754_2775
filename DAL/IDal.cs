@@ -41,5 +41,6 @@ namespace IDAL.DO
 
 
         double[] GetElectricity();
+        Station getClosestStation(double latitude, double longitude);
     }
 }
