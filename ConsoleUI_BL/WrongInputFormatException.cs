@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace ConsoleUI_BL
 {
     [Serializable]
-    internal class WrongInputFormatException : Exception
+    public class WrongInputFormatException : Exception
     {
         public WrongInputFormatException()
         {

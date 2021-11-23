@@ -36,6 +36,9 @@ namespace IDAL.DO
         //IEnumerable<Customer> GetCustomers();
 
         void UpdateCustomer(Customer c);
+        void UpdateStation(Station s);
+        //void UpdateDrone(Drone d);
+
 
         double[] GetElectricity();
     }

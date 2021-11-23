@@ -365,6 +365,13 @@ namespace DalObject
             DataSource.Drones.Add(d);
         }
 
+        public void UpdateStation(Station s)
+        {
+            Station newStation = GetStation(s.Id);
+            DataSource.Stations.Remove(s);
+            DataSource.Stations.Add(newStation);
+        }
+
         public double[] GetElectricity()
         {
             double[] electricityRates =
