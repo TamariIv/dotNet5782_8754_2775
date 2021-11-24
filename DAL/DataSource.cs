@@ -49,7 +49,7 @@ namespace DalObject
                 Name = "Pisgat Zeev",
                 Longitude = 31.831146,
                 Latitude = 35.242632,
-                ChargeSlots = r.Next(11)
+                AvailableChargeSlots = r.Next(11)
             };
             Stations.Add(s);
 
@@ -59,7 +59,7 @@ namespace DalObject
                 Name = "Givat Shaul",
                 Longitude = 31.790835,
                 Latitude = 35.195144,
-                ChargeSlots = r.Next(11)
+                AvailableChargeSlots = r.Next(11)
             };
             Stations.Add(s);
         }

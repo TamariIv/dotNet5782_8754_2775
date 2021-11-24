@@ -179,7 +179,7 @@ namespace DalObject
             List<Station> AvailableChargers = new List<Station>();
             for (int i = 0; i < DataSource.Stations.Count(); i++)
             {
-                if (DataSource.Stations[i].ChargeSlots != 0)
+                if (DataSource.Stations[i].AvailableChargeSlots != 0)
                     AvailableChargers.Add(DataSource.Stations[i]);
             }
             return AvailableChargers;
@@ -313,7 +313,7 @@ namespace DalObject
                 {
                     Drone newDrone = d;
                     Station newStation = s;
-                    newStation.ChargeSlots--;
+                    newStation.AvailableChargeSlots--;
                     DroneCharge dc = new DroneCharge();
                     dc.DroneId = newDrone.Id;
                     dc.StationId = newStation.Id;
@@ -339,7 +339,7 @@ namespace DalObject
                 DroneCharge dronecharge = GetDroneCharge(d.Id);
                 Station s = GetStation(dronecharge.StationId);
                 Station newStation = s;
-                newStation.ChargeSlots++;
+                newStation.AvailableChargeSlots++;
                 Drone newDrone = d;
                 DataSource.DroneCharges.Remove(dronecharge);
                 DataSource.Drones.Remove(d);

@@ -177,7 +177,7 @@ namespace ConsoleUI_BL
         {
             int id, station;
             string model;
-            IBL.BO.Enums.WeightCategories weight;
+            IBL.BO.WeightCategories weight;
             Console.WriteLine("Enter drone ID: ");
             int.TryParse(Console.ReadLine(), out id);
             Console.WriteLine("Enter drone model: ");
@@ -185,7 +185,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
             int tmp;
             int.TryParse(Console.ReadLine(), out tmp);
-            weight = (IBL.BO.Enums.WeightCategories)(tmp - 1);
+            weight = (IBL.BO.WeightCategories)(tmp - 1);
             Console.WriteLine("Enter station to charge in ID: ");
             int.TryParse(Console.ReadLine(), out station);
 
@@ -213,7 +213,7 @@ namespace ConsoleUI_BL
             {
                 Id = id,
                 Name = name,
-                AvailableChargeSlots = slots,
+                AvailableAvailableChargeSlots = slots,
             };
             mybl.AddStation(newStation);
         }
@@ -260,9 +260,9 @@ namespace ConsoleUI_BL
             if (!int.TryParse(Console.ReadLine(), out targetId))
                 throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            IBL.BO.Enums.WeightCategories weight = (IBL.BO.Enums.WeightCategories)Enum.Parse(typeof(IBL.BO.Enums.WeightCategories), Console.ReadLine());
+            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Enum.Parse(typeof(IBL.BO.WeightCategories), Console.ReadLine());
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
-            IBL.BO.Enums.Priorities priority = (IBL.BO.Enums.Priorities)Enum.Parse(typeof(IBL.BO.Enums.Priorities), Console.ReadLine());
+            IBL.BO.Priorities priority = (IBL.BO.Priorities)Enum.Parse(typeof(IBL.BO.Priorities), Console.ReadLine());
 
             IBL.BO.CustomerInParcel sender = new IBL.BO.CustomerInParcel
             {
@@ -310,6 +310,10 @@ namespace ConsoleUI_BL
             };
             mybl.rechargeDrone(newDrone);
         }
+
+
+        //-----------------View-----------------//
+
     }
 }
 

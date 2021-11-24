@@ -11,7 +11,7 @@ namespace IBL.BO
         public int Id { get; set; }
         public string Name { get; set; }
         public Location Location { get; set; }
-        public int AvailableChargeSlots { get; set; }
+        public int AvailableAvailableChargeSlots { get; set; }
         public List<DroneInCharging> DronesCharging { get; set; }
 
         public override string ToString()
@@ -21,7 +21,7 @@ namespace IBL.BO
                 "Name of station: {1}\n" +
                 "Location:\n{2}\n" +
                 "Number of open charge slots: {3}\n", 
-                Id, Name, Location, AvailableChargeSlots);
+                Id, Name, Location, AvailableAvailableChargeSlots);
         }
     }
 }
