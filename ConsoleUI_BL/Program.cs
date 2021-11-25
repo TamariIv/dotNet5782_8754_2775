@@ -7,7 +7,7 @@ namespace ConsoleUI_BL
         enum MenuOptions { Exit, Add, Update, Show_One, Show_List }
         enum EntityOptions { Exit, Parcel, Drone, BaseStation, Customer }
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
-        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel }
+        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel }
 
         public static IBL.IBL mybl = new BL.BlObject();
 
@@ -150,6 +150,16 @@ namespace ConsoleUI_BL
 
                                 }
                                 break;
+                            case UpdateOptions.PickUpParcel:
+                                try
+                                {
+                                    PickUpParcel();
+                                }
+                                catch
+                                {
+
+                                }
+                                break;
                             case UpdateOptions.Exit:
                                 break;
                             default:
@@ -160,6 +170,16 @@ namespace ConsoleUI_BL
                 }
             }
 
+        }
+
+        private static void PickUpParcel()
+        {
+            int id;
+            Console.WriteLine("Enter drone ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("int was expected\n");
+
+            mybl.PickUpParcel();
         }
 
         private static void DroneToParcel()
@@ -182,7 +202,6 @@ namespace ConsoleUI_BL
             if (!double.TryParse(Console.ReadLine(), out timeInCharging))
                 throw new WrongInputFormatException("double was expected\n");
             mybl.FreeDrone(id, timeInCharging);
-
         }
 
         private static void UpdateStation()
@@ -231,7 +250,7 @@ namespace ConsoleUI_BL
         {
             int id, station;
             string model;
-            IBL.BO.Enums.WeightCategories weight;
+            IBL.BO.WeightCategories weight;
             Console.WriteLine("Enter drone ID: ");
             if (!int.TryParse(Console.ReadLine(), out id))
                 throw new WrongInputFormatException("int was expected\n");
@@ -240,7 +259,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
             int tmp;
             int.TryParse(Console.ReadLine(), out tmp);
-            weight = (IBL.BO.Enums.WeightCategories)(tmp - 1);
+            weight = (IBL.BO.WeightCategories)(tmp - 1);
             Console.WriteLine("Enter station to charge in ID: ");
             int.TryParse(Console.ReadLine(), out station);
 
@@ -315,9 +334,9 @@ namespace ConsoleUI_BL
             if (!int.TryParse(Console.ReadLine(), out targetId))
                 throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            IBL.BO.Enums.WeightCategories weight = (IBL.BO.Enums.WeightCategories)Enum.Parse(typeof(IBL.BO.Enums.WeightCategories), Console.ReadLine());
+            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Enum.Parse(typeof(IBL.BO.WeightCategories), Console.ReadLine());
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
-            IBL.BO.Enums.Priorities priority = (IBL.BO.Enums.Priorities)Enum.Parse(typeof(IBL.BO.Enums.Priorities), Console.ReadLine());
+            IBL.BO.Priorities priority = (IBL.BO.Priorities)Enum.Parse(typeof(IBL.BO.Priorities), Console.ReadLine());
 
             IBL.BO.CustomerInParcel sender = new IBL.BO.CustomerInParcel
             {

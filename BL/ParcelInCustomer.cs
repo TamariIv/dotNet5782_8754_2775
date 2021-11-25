@@ -9,9 +9,9 @@ namespace IBL.BO
     public class ParcelInCustomer
     {
         public int Id { get; set; }
-        public Enums.WeightCategories Weight { get; set; }
-        public Enums.Priorities Priority { get; set; }
-        public Enums.ParcelStatus SarcelStatus { get; set; }
+        public WeightCategories Weight { get; set; }
+        public Priorities Priority { get; set; }
+        public ParcelStatus SarcelStatus { get; set; }
         public CustomerInParcel TargetOrSender { get; set; }
     }
 }
