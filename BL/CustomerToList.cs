@@ -11,9 +11,9 @@ namespace IBL.BO
         public int Id { get; init; }
         public string Name { get; init; }
         public string Phone { get; init; }
-        public List<Parcel> SentAndDelivered { get; init; }
-        public List<Parcel> SentAndNotDeliverd { get; init; }
-        public List<Parcel> Recieved { get; init; }
-        public List<Parcel> InDeliveryToCustomer { get; init; }
+        int SentAndDelivered { get; init; }
+        int SentAndNotDeliverd { get; init; }
+        int Recieved { get; init; }
+        int InDeliveryToCustomer { get; init; }
     }
 }

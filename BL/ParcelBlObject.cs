@@ -25,5 +25,19 @@ namespace BL
             };
             dal.AddParcel(parcel);
         }
+        private IDAL.DO.Parcel ConvertParcelToDal(IBL.BO.Parcel parcel)
+        {
+            IDAL.DO.Parcel newParcel = new IDAL.DO.Parcel()
+            {
+                Id = parcel.Id,
+                Weight = (IDAL.DO.WeightCategories)parcel.Weight,
+                Priority = (IDAL.DO.Priorities)parcel.Priority,
+                Requested = parcel.Requested,
+                Scheduled = parcel.Scheduled,
+                PickedUp = parcel.PickedUp,
+                Delivered = parcel.Delivered,
+            };
+            return newParcel;
+        }
     }
 }

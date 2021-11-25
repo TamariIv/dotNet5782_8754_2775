@@ -41,17 +41,72 @@ namespace BL
                         Location = new IBL.BO.Location { Latitude = tempStation.Latitude, Longitude = tempStation.Longitude },
                         DroneStatus = IBL.BO.DroneStatus.Maintenance,
                     };
-                    IBL.BO.DroneToList tempDrone = dronesToList.Find(d => d.Id == drone.Id);
-                    dronesToList.Remove(tempDrone);
+                    IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
+                    dronesToList.Remove(oldDrone);
                     dronesToList.Add(newDrone);                     
                 }
                 
                 else throw new ImpossibleOprationException("Drone can't be sent to recharge");
             }
         }
-        public void CollectPackageByDrone(IBL.BO.Drone drone, IBL.BO.Parcel)
+        public void CollectPackageByDrone(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
         {
-            if()
+            List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
+            if (parcels.Exists(p => p.DroneId == drone.Id && p.PickedUp == DateTime.MinValue))
+            {
+                IDAL.DO.Parcel dalParcel = ConvertParcelToDal(parcel);
+                dal.PickUpParcel(dalParcel);
+
+                IDAL.DO.Customer sender = dal.GetCustomer(parcel.Sender.Id);
+                double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
+                double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)parcel.Weight);
+                double battery = distance * batteryConsumption;
+
+                IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+                {
+                    Id = drone.Id,
+                    Model = drone.Model,
+                    MaxWeight = drone.MaxWeight,
+                    Battery = drone.Battery - battery,
+                    Location = new IBL.BO.Location { Latitude = sender.Latitude, Longitude = sender.Longitude }               
+                };
+
+                IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
+                dronesToList.Remove(oldDrone);
+                dronesToList.Add(newDrone);
+            }
+            else throw new ImpossibleOprationException("Parcel can't be picked up"); 
+        }
+
+       
+        public void deliveryPackage(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
+        {
+            List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
+            if (parcels.Exists(p => p.DroneId==drone.Id && p.PickedUp != DateTime.MinValue && p.Delivered == DateTime.MinValue))
+            {
+                IDAL.DO.Parcel dalParcel = ConvertParcelToDal(parcel);
+                dal.ParcelDelivered(dalParcel);
+
+                IDAL.DO.Customer target = dal.GetCustomer(parcel.Target.Id);
+                double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
+                double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)parcel.Weight);
+                double battery = distance * batteryConsumption;
+
+                IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+                {
+                    Id = drone.Id,
+                    Model = drone.Model,
+                    MaxWeight = drone.MaxWeight,
+                    Battery = drone.Battery - battery,
+                    Location = new IBL.BO.Location { Latitude = target.Latitude, Longitude = target.Longitude },
+                    DroneStatus = IBL.BO.DroneStatus.Available
+                };
+
+                IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
+                dronesToList.Remove(oldDrone);
+                dronesToList.Add(newDrone);
+            }
+            else throw new ImpossibleOprationException("parcel can't be delivere");
         }
 
         private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone drone)

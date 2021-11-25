@@ -253,7 +253,6 @@ namespace DalObject
                     Drone newDrone = d;
                     newParcel.DroneId = d.Id;
                     newParcel.Scheduled = DateTime.Now;
-                    //newDrone.Status = DroneStatus.Assigned;
 
                     DataSource.Drones.Remove(d);
                     DataSource.Drones.Add(newDrone);

@@ -347,7 +347,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone ID");
             int.TryParse(Console.ReadLine(), out id);
             IBL.BO.Parcel parcel = new IBL.BO.Parcel()
-            {
+            {                  
                 AssignedDrone = new IBL.BO.DroneInParcel() { Id = id }
             };
             IBL.BO.Drone newDrone = new IBL.BO.Drone
@@ -357,7 +357,18 @@ namespace ConsoleUI_BL
             mybl.CollectPackageByDrone(newDrone, parcel);
         }
 
-
+        private static void deliveryPackage()
+        {
+            int id;
+            Console.WriteLine("Enter drone ID");
+            int.TryParse(Console.ReadLine(), out id);
+            IBL.BO.Drone newDrone = new IBL.BO.Drone { Id = id };
+            IBL.BO.Parcel parcel = new IBL.BO.Parcel()
+            {
+                AssignedDrone = new IBL.BO.DroneInParcel() { Id = id }
+            };
+            mybl.deliveryPackage(newDrone, parcel);
+        }
         //-----------------View-----------------//
 
     }

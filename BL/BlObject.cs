@@ -140,8 +140,9 @@ namespace BL
                     return whenMedium;
                 case IDAL.DO.WeightCategories.Heavy:
                     return whenHeavy;
+                default:
+                    return whenAvailable;
             }
-            return whenAvailable;
         }
        
     }

@@ -15,5 +15,6 @@ namespace IBL
         void UpdateCustomer(Customer newCustomer);
         void rechargeDrone(Drone drone);
         void CollectPackageByDrone(Drone drone, Parcel parcel);
+        void deliveryPackage(Drone drone, Parcel parcel);
     }
 }
