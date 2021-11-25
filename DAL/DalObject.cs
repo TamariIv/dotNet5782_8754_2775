@@ -324,9 +324,9 @@ namespace DalObject
                     DataSource.Stations.Remove(s);
                     DataSource.Stations.Add(newStation);
                 }
-                else throw new NoMatchingIdException($"station with id {s.Id} doesn't exists !!");
+                else throw new NoMatchingIdException($"station with id {s.Id} doesn't exist !!");
             }
-            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist !!");
         }
 
         /// <summary>
@@ -395,6 +395,24 @@ namespace DalObject
             }
             return result;
         }
+        public List<Customer> GetCustomersWithParcels(List<IDAL.DO.Parcel> parcels, List<IDAL.DO.Customer> customers)
+        {
+            List<IDAL.DO.Customer> clients = new List<Customer>();
+            foreach (var customer in customers)
+            {
+                foreach (var parcel in parcels)
+                {
+                    if (customer.Id == parcel.TargetId && parcel.Delivered != DateTime.MinValue)
+                    {
+                        IDAL.DO.Customer client = GetCustomer(parcel.TargetId);                  
+                        clients.Add(client);
+                    }
+                }
+            }
+            return clients;
+
+        }
+
     }
 }
 

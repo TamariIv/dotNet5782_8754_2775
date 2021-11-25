@@ -8,20 +8,6 @@ namespace BL
 {
     public partial class BlObject : IBL.IBL
     {
-        public void AddDrone(IBL.BO.Drone newDrone)
-        {
-            IBL.BO.Drone d = newDrone;
-            d.Battery = r.Next(20, 41);
-            d.DroneStatus = IBL.BO.DroneStatus.Maintenance;
-            IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
-            {
-                Id = newDrone.Id,
-                Model = newDrone.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
-            };
-            dal.AddDrone(dalDrone);
-        }
-
         public void UpdateDrone(IBL.BO.Drone newDrone)
         {
             IDAL.DO.Drone dalDrone = dal.GetDrone(newDrone.Id);
@@ -42,22 +28,41 @@ namespace BL
                 double rate = whenAvailable;
 
                 if (tempStation.AvailableChargeSlots != 0 && distance * rate < drone.Battery)
-                {                  
-                    IBL.BO.Drone newDrone = new IBL.BO.Drone
+                {
+                    IDAL.DO.Drone dalDrone = ConvertDroneToDal(drone);
+                    dal.SendDroneToCharge(dalDrone, tempStation);
+
+                    IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
                     {
                         Id = drone.Id,
                         MaxWeight = drone.MaxWeight,
                         Model = drone.Model,
                         Battery = drone.Battery - distance * rate,
-                        CurrentLocation = new IBL.BO.Location { Latitude = tempStation.Latitude, Longitude = tempStation.Longitude },
+                        Location = new IBL.BO.Location { Latitude = tempStation.Latitude, Longitude = tempStation.Longitude },
                         DroneStatus = IBL.BO.DroneStatus.Maintenance,
                     };
-                    drones.Remove(drone);
-                    tempStation.AvailableChargeSlots--;
+                    IBL.BO.DroneToList tempDrone = dronesToList.Find(d => d.Id == drone.Id);
+                    dronesToList.Remove(tempDrone);
+                    dronesToList.Add(newDrone);                     
                 }
                 
                 else throw new ImpossibleOprationException("Drone can't be sent to recharge");
             }
+        }
+        public void CollectPackageByDrone(IBL.BO.Drone drone, IBL.BO.Parcel)
+        {
+            if()
+        }
+
+        private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone drone)
+        {
+            IDAL.DO.Drone newDrone = new IDAL.DO.Drone()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+            };
+            return newDrone;
         }
     }
 }
