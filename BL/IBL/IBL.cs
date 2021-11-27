@@ -20,7 +20,7 @@ namespace IBL
         DroneToList GetDroneToList(int idNumber);
 
         void rechargeDrone(Drone drone);
-        void CollectPackageByDrone(Drone drone, Parcel parcel);
+        void CollectPackageByDrone(Drone drone);
         void deliveryPackage(Drone drone, Parcel parcel);
         ParcelToList getParcelToList(int id);
     }

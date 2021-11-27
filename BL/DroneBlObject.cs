@@ -267,13 +267,17 @@ namespace BL
                 else throw new ImpossibleOprationException("Drone can't be sent to recharge");
             }
         }
-        public void CollectPackageByDrone(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
+        public void CollectPackageByDrone(IBL.BO.Drone drone)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
-            if (parcels.Exists(p => p.DroneId == drone.Id && p.PickedUp == DateTime.MinValue))
+            IDAL.DO.Parcel oldDalParcel;
+            if (parcels.Exists(p => p.DroneId == drone.Id))
+                oldDalParcel = parcels.Find(p => p.DroneId == drone.Id);
+            else throw new NoMatchingIdException($"no parcel can be picked up by drone with id {drone.Id}");
+
+            if (oldDalParcel.PickedUp == DateTime.MinValue)
             {
-                IDAL.DO.Parcel dalParcel = ConvertParcelToDal(parcel);
-                dal.PickUpParcel(dalParcel);
+                dal.PickUpParcel(oldDalParcel);
 
                 IDAL.DO.Customer sender = dal.GetCustomer(parcel.Sender.Id);
                 double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);

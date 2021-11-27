@@ -31,7 +31,7 @@ namespace BL
             if (newStation.Name != "")
                 dalStation.Name = newStation.Name;
             if ((newStation.AvailableChargeSlots).ToString() == "")
-                dalStation.ChargeSlots = newStation.AvailableChargeSlots + newStation.DronesCharging.Count();
+                dalStation.AvailableChargeSlots = newStation.AvailableChargeSlots + newStation.DronesCharging.Count();
 
             dal.UpdateStation(dalStation);
         }

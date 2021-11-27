@@ -7,7 +7,7 @@ namespace ConsoleUI_BL
         enum MenuOptions { Exit, Add, Update, Show_One, Show_List }
         enum EntityOptions { Exit, Parcel, Drone, BaseStation, Customer }
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
-        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, CollectParcelByDrone,DeliveryPackageByDrone }
+        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel, DeliveryPackageByDrone }
 
         public static IBL.IBL mybl = new BL.BlObject();
 
@@ -75,7 +75,7 @@ namespace ConsoleUI_BL
                                     {
 
                                     }
-                                    break;           
+                                    break;
                             }
 
                             break;
@@ -153,24 +153,14 @@ namespace ConsoleUI_BL
                             case UpdateOptions.PickUpParcel:
                                 try
                                 {
-                                    PickUpParcel();
+                                    pickUpParcel();
                                 }
                                 catch
                                 {
 
                                 }
                                 break;
-                            case UpdateOptions.AssignParcelToDrone:
-                                try
-                                {
-
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.CollectParcelByDrone:
+                            case UpdateOptions.PickUpParcel:
                                 try
                                 {
                                     collectParcel();
@@ -204,7 +194,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("press 4 to view details of a specific customer");
                         entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
                         int id;
-                        switch(entityOptions)
+                        switch (entityOptions)
                         {
                             case EntityOptions.Parcel:
                                 printParcel();
@@ -227,15 +217,6 @@ namespace ConsoleUI_BL
         }
 
 
-        private static void PickUpParcel()
-        {
-            int id;
-            Console.WriteLine("Enter drone ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("int was expected\n");
-
-            mybl.PickUpParcel();
-        }
 
         private static void DroneToParcel()
         {
@@ -259,7 +240,7 @@ namespace ConsoleUI_BL
             mybl.FreeDrone(id, timeInCharging);
         }
 
-        private static void UpdateStation()
+        private static void updateStation()
         {
             int id, chargeSlots;
             string name;
@@ -280,7 +261,6 @@ namespace ConsoleUI_BL
             mybl.UpdateStation(newStation);
         }
 
-        private static void UpdateCustomer()
         private static void updateCustomer()
         {
             int id;
@@ -343,7 +323,7 @@ namespace ConsoleUI_BL
             {
                 Id = id,
                 Name = name,
-                AvailableAvailableChargeSlots = slots,
+                AvailableChargeSlots = slots,
             };
             mybl.AddStation(newStation);
         }
@@ -413,7 +393,7 @@ namespace ConsoleUI_BL
         }
 
         //-----------------Update-----------------//
-       
+
         private static void updateDrone()
         {
             int id;
@@ -427,7 +407,7 @@ namespace ConsoleUI_BL
                 Id = id,
                 Model = model
             };
-            mybl.UpdateDrone(newDrone);            
+            mybl.UpdateDrone(newDrone);
         }
         private static void rechargeDrone()
         {
@@ -447,14 +427,30 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone ID");
             int.TryParse(Console.ReadLine(), out id);
             IBL.BO.Parcel parcel = new IBL.BO.Parcel()
-            {                  
-                AssignedDrone = new IBL.BO.DroneInParcel() { Id = id }
+            {
+                AssignedDrone = new IBL.BO.DroneInParcel() 
+                { 
+                    Id = id,
+                    Battery = mybl.GetDroneToList(id).Battery,
+                    CurrentLocation = mybl.GetDroneToList(id).Location
+                }
             };
             IBL.BO.Drone newDrone = new IBL.BO.Drone
             {
                 Id = id
             };
-            mybl.CollectPackageByDrone(newDrone, parcel);
+            mybl.CollectPackageByDrone(newDrone);
+        }
+
+
+        private static void pickUpParcel()
+        {
+            int id;
+            Console.WriteLine("Enter drone ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("int was expected\n");
+
+            mybl.PickUpParcel();
         }
 
         private static void deliveryPackage()
