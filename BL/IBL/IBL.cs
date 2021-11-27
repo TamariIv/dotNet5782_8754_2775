@@ -15,7 +15,9 @@ namespace IBL
         void UpdateStation(Station newStation);
         void FreeDrone(int droneId, double timeInCharging);
         void DroneToParcel(int id);
-        void rechargeDrone(Drone drone);
+        DroneToList GetDroneToList(int idNumber);
 
+        void rechargeDrone(Drone drone);
+        ParcelToList getParcelToList(int id);
     }
 }

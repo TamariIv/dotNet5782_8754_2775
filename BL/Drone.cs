@@ -22,8 +22,11 @@ namespace IBL.BO
             return string.Format(
                 "Id is: {0}\n" +
                 "model: {1}\n" +
-                "max weight is: {2}\n", 
-                Id, Model, MaxWeight);
+                "max weight is: {2}\n" +
+                "battery: {3}\n" +
+                "drone status: {4}\n" +
+                "current location: {5}\n",
+                Id, Model, MaxWeight, Battery, DroneStatus, CurrentLocation);
         }
     }
 }

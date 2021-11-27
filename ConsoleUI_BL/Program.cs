@@ -167,10 +167,35 @@ namespace ConsoleUI_BL
                         }
                         #endregion
                         break;
+                    case MenuOptions.Show_One:
+                        Console.WriteLine("press 1 to view details of a specific parcel");
+                        Console.WriteLine("press 2 to view details of a specific drone");
+                        Console.WriteLine("press 3 to view details of a specific base station");
+                        Console.WriteLine("press 4 to view details of a specific customer");
+                        entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
+                        int id;
+                        switch(entityOptions)
+                        {
+                            case EntityOptions.Parcel:
+                                printParcel();
+                                break;
+                        }
+                        break;
                 }
             }
 
         }
+
+        private static void printParcel()
+        {
+            int id;
+            Console.WriteLine("enter ID of the parcel");
+            id = int.Parse(Console.ReadLine());
+            if (id.ToString() == "")
+                throw new WrongInputFormatException("int was expected\n");
+            Console.WriteLine(mybl.getParcelToList(id));
+        }
+
 
         private static void PickUpParcel()
         {

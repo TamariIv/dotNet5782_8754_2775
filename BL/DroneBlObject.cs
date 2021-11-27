@@ -40,14 +40,22 @@ namespace BL
         public void UpdateDrone(IBL.BO.Drone newDrone)
         {
             IDAL.DO.Drone dalDrone = dal.GetDrone(newDrone.Id);
-            if (newDrone.Id != 0)
-                dalDrone.Id = newDrone.Id;
-            if (newDrone.Model != "")
+            IBL.BO.DroneToList blDrone = GetDroneToList(newDrone.Id);
+            if (newDrone.Id.ToString() != "" && newDrone.Model != "")
+            {
                 dalDrone.Model = newDrone.Model;
-            dal.UpdateDrone(dalDrone);
+                dal.UpdateDrone(dalDrone);
+                blDrone.Model = newDrone.Model;
+                UpdateBlDrone(blDrone);
+            }
+            else throw new NoUpdateException("no update was received\n"); 
         }
 
-
+        public void UpdateBlDrone(IBL.BO.DroneToList newDrone)
+        {
+            dronesToList.Remove(GetDroneToList(newDrone.Id));
+            dronesToList.Add(newDrone);
+        }
 
 
         public void FreeDrone(int droneId, double timeInCharging)
@@ -85,6 +93,11 @@ namespace BL
                 return d;
             }
             else throw new NoMatchingIdException($"drone with id {idNumber} doesn't exist !!");
+        }
+
+        public void printDroneToList(int idNumber)
+        {
+            Console.WriteLine(GetDroneToList(idNumber));
         }
 
         public void DroneToParcel(int id)
@@ -177,45 +190,48 @@ namespace BL
                     if (!parcelIsFound)
                         throw new ImpossibleOperation("there is no parcel the drone can carry\n"); // איזה חריגה לזרוק
 
-                    dal.MatchDroneToParcel(minDistanceParcel, dal.GetDrone(id));
-                    blDrone.DroneStatus = IBL.BO.DroneStatus.Delivery;
-                    minDistanceParcel.Scheduled = DateTime.Now;
-                    minDistanceParcel.DroneId = id;
-                    IBL.BO.CustomerInParcel sender = new IBL.BO.CustomerInParcel
-                    {
-                        Id = minDistanceParcel.SenderId,
-                        Name = dal.GetCustomer(minDistanceParcel.SenderId).Name
-                    };
-                    IBL.BO.CustomerInParcel target = new IBL.BO.CustomerInParcel
-                    {
-                        Id = minDistanceParcel.TargetId,
-                        Name = dal.GetCustomer(minDistanceParcel.TargetId).Name
-                    };
-                    tmpSender = dal.GetCustomer(minDistanceParcel.SenderId);
-                    tmpTarget = dal.GetCustomer(minDistanceParcel.TargetId);
-                    IBL.BO.Location senderLocation = new IBL.BO.Location
-                    {
-                        Latitude = tmpSender.Latitude,
-                        Longitude = tmpSender.Longitude
-                    };
-                    IBL.BO.Location targetLocation = new IBL.BO.Location
-                    {
-                        Latitude = tmpTarget.Latitude,
-                        Longitude = tmpTarget.Longitude
-                    };
-                    IBL.BO.ParcelInDelivey parcelInDrone = new IBL.BO.ParcelInDelivey
-                    {
-                        Id = minDistanceParcel.Id,
-                        PickUpStatus = false,
-                        Weight = (IBL.BO.WeightCategories)minDistanceParcel.Weight,
-                        Priority = (IBL.BO.Priorities)minDistanceParcel.Priority,
-                        Sender = sender,
-                        Target = target,
-                        PickUpLocation = senderLocation,
-                        TargetLocation = targetLocation,
-                        Distance = Tools.Utis.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude)
-                    };
-                    blDrone.ParcelInDelivery = parcelInDrone;
+                    dal.MatchDroneToParcel(minDistanceParcel, dal.GetDrone(id)); // make the update in dal
+
+
+                    // למה בכלל צריך את זה???
+                    //blDrone.DroneStatus = IBL.BO.DroneStatus.Delivery;
+                    //minDistanceParcel.Scheduled = DateTime.Now;
+                    //minDistanceParcel.DroneId = id;
+                    //IBL.BO.CustomerInParcel sender = new IBL.BO.CustomerInParcel
+                    //{
+                    //    Id = minDistanceParcel.SenderId,
+                    //    Name = dal.GetCustomer(minDistanceParcel.SenderId).Name
+                    //};
+                    //IBL.BO.CustomerInParcel target = new IBL.BO.CustomerInParcel
+                    //{
+                    //    Id = minDistanceParcel.TargetId,
+                    //    Name = dal.GetCustomer(minDistanceParcel.TargetId).Name
+                    //};
+                    //tmpSender = dal.GetCustomer(minDistanceParcel.SenderId);
+                    //tmpTarget = dal.GetCustomer(minDistanceParcel.TargetId);
+                    //IBL.BO.Location senderLocation = new IBL.BO.Location
+                    //{
+                    //    Latitude = tmpSender.Latitude,
+                    //    Longitude = tmpSender.Longitude
+                    //};
+                    //IBL.BO.Location targetLocation = new IBL.BO.Location
+                    //{
+                    //    Latitude = tmpTarget.Latitude,
+                    //    Longitude = tmpTarget.Longitude
+                    //};
+                    //IBL.BO.ParcelInDelivey parcelInDrone = new IBL.BO.ParcelInDelivey
+                    //{
+                    //    Id = minDistanceParcel.Id,
+                    //    PickUpStatus = false,
+                    //    Weight = (IBL.BO.WeightCategories)minDistanceParcel.Weight,
+                    //    Priority = (IBL.BO.Priorities)minDistanceParcel.Priority,
+                    //    Sender = sender,
+                    //    Target = target,
+                    //    PickUpLocation = senderLocation,
+                    //    TargetLocation = targetLocation,
+                    //    Distance = Tools.Utis.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude)
+                    //};
+                    blDrone.ParcelInDeliveryId = minDistanceParcel.Id;
                 }
             }
             else throw new NoMatchingIdException($"drone with id {id} doesn't exist\n");
