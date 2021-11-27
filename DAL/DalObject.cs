@@ -179,7 +179,7 @@ namespace DalObject
             List<Station> AvailableChargers = new List<Station>();
             for (int i = 0; i < DataSource.Stations.Count(); i++)
             {
-                if (DataSource.Stations[i].ChargeSlots != 0)
+                if (DataSource.Stations[i].AvailableChargeSlots != 0)
                     AvailableChargers.Add(DataSource.Stations[i]);
             }
             return AvailableChargers;
@@ -253,7 +253,6 @@ namespace DalObject
                     Drone newDrone = d;
                     newParcel.DroneId = d.Id;
                     newParcel.Scheduled = DateTime.Now;
-                    //newDrone.Status = DroneStatus.Assigned;
 
                     DataSource.Drones.Remove(d);
                     DataSource.Drones.Add(newDrone);
@@ -313,7 +312,7 @@ namespace DalObject
                 {
                     Drone newDrone = d;
                     Station newStation = s;
-                    newStation.ChargeSlots--;
+                    newStation.AvailableChargeSlots--;
                     DroneCharge dc = new DroneCharge();
                     dc.DroneId = newDrone.Id;
                     dc.StationId = newStation.Id;
@@ -324,9 +323,9 @@ namespace DalObject
                     DataSource.Stations.Remove(s);
                     DataSource.Stations.Add(newStation);
                 }
-                else throw new NoMatchingIdException($"station with id {s.Id} doesn't exists !!");
+                else throw new NoMatchingIdException($"station with id {s.Id} doesn't exist !!");
             }
-            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist !!");
         }
 
         /// <summary>
@@ -339,7 +338,7 @@ namespace DalObject
                 DroneCharge dronecharge = GetDroneCharge(d.Id);
                 Station s = GetStation(dronecharge.StationId);
                 Station newStation = s;
-                newStation.ChargeSlots++;
+                newStation.AvailableChargeSlots++;
                 Drone newDrone = d;
                 DataSource.DroneCharges.Remove(dronecharge);
                 DataSource.Drones.Remove(d);
@@ -402,6 +401,24 @@ namespace DalObject
             }
             return result;
         }
+        public List<Customer> GetCustomersWithParcels(List<IDAL.DO.Parcel> parcels, List<IDAL.DO.Customer> customers)
+        {
+            List<IDAL.DO.Customer> clients = new List<Customer>();
+            foreach (var customer in customers)
+            {
+                foreach (var parcel in parcels)
+                {
+                    if (customer.Id == parcel.TargetId && parcel.Delivered != DateTime.MinValue)
+                    {
+                        IDAL.DO.Customer client = GetCustomer(parcel.TargetId);                  
+                        clients.Add(client);
+                    }
+                }
+            }
+            return clients;
+
+        }
+
     }
 }
 

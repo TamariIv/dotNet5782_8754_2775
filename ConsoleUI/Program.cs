@@ -181,7 +181,7 @@ namespace ConsoleUI
                                 break;
                             case ListOptions.AvailableChargingStation:
                                 IEnumerable<Station> availableChargers = mydal.AvailableCharger();
-                                PrintAvailableChargeSlotsList(availableChargers);
+                                PrintAvailableAvailableChargeSlotsList(availableChargers);
                                 break;
                             case ListOptions.Exit:
                                 break;
@@ -258,7 +258,7 @@ namespace ConsoleUI
         /// the function prints the list of drones that are being charged
         /// </summary>
         /// <param name="droneCharges"></param>
-        public static void PrintAvailableChargeSlotsList(IEnumerable<Station> droneCharges)
+        public static void PrintAvailableAvailableChargeSlotsList(IEnumerable<Station> droneCharges)
         {
             foreach (var item in droneCharges)
             {
@@ -363,7 +363,7 @@ namespace ConsoleUI
                 Name = name,
                 Longitude = longitude,
                 Latitude = latitude,
-                ChargeSlots = slots
+                AvailableChargeSlots = slots
             };
             mydal.AddStation(newStation);
         }

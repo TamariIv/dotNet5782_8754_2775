@@ -42,5 +42,6 @@ namespace IDAL.DO
 
         double[] GetElectricity();
         Station getClosestStation(double latitude, double longitude);
+        List<Customer> GetCustomersWithParcels(List<IDAL.DO.Parcel> parcels, List<IDAL.DO.Customer> customers);
     }
 }

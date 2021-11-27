@@ -16,7 +16,7 @@ namespace BL
                 {
                     Id = newStation.Id,
                     Name = newStation.Name,
-                    ChargeSlots = newStation.AvailableChargeSlots,
+                    AvailableChargeSlots = newStation.AvailableChargeSlots,
 
                 };
                 dal.AddStation(dalStation);

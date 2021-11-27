@@ -11,7 +11,7 @@ namespace IBL.BO
         public int Id { get; set; }
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
-        public ParcelStatus SarcelStatus { get; set; }
+        public ParcelStatus ParcelStatus { get; set; }
         public CustomerInParcel TargetOrSender { get; set; }
     }
 }

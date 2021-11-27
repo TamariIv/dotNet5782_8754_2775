@@ -7,7 +7,7 @@ namespace ConsoleUI_BL
         enum MenuOptions { Exit, Add, Update, Show_One, Show_List }
         enum EntityOptions { Exit, Parcel, Drone, BaseStation, Customer }
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
-        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel }
+        enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, CollectParcelByDrone,DeliveryPackageByDrone }
 
         public static IBL.IBL mybl = new BL.BlObject();
 
@@ -39,7 +39,7 @@ namespace ConsoleUI_BL
                                 case EntityOptions.Parcel:
                                     try
                                     {
-                                        AddParcel();
+                                        addParcel();
                                     }
                                     catch (Exception exp)
                                     {
@@ -49,7 +49,7 @@ namespace ConsoleUI_BL
                                 case EntityOptions.Drone:
                                     try
                                     {
-                                        AddDrone();
+                                        addDrone();
                                     }
                                     catch
                                     {
@@ -59,7 +59,7 @@ namespace ConsoleUI_BL
                                 case EntityOptions.BaseStation:
                                     try
                                     {
-                                        AddStation();
+                                        addStation();
                                     }
                                     catch
                                     {
@@ -69,7 +69,7 @@ namespace ConsoleUI_BL
                                 case EntityOptions.Customer:
                                     try
                                     {
-                                        AddCustomer();
+                                        addCustomer();
                                     }
                                     catch
                                     {
@@ -93,7 +93,7 @@ namespace ConsoleUI_BL
                             case UpdateOptions.Drone:
                                 try
                                 {
-                                    UpdateDrone();
+                                    updateDrone();
                                 }
                                 catch
                                 {
@@ -103,7 +103,7 @@ namespace ConsoleUI_BL
                             case UpdateOptions.Station:
                                 try
                                 {
-                                    UpdateStation();
+                                    updateStation();
                                 }
                                 catch
                                 {
@@ -113,7 +113,7 @@ namespace ConsoleUI_BL
                             case UpdateOptions.Customer:
                                 try
                                 {
-                                    UpdateCustomer();
+                                    updateCustomer();
                                 }
                                 catch
                                 {
@@ -154,6 +154,36 @@ namespace ConsoleUI_BL
                                 try
                                 {
                                     PickUpParcel();
+                                }
+                                catch
+                                {
+
+                                }
+                                break;
+                            case UpdateOptions.AssignParcelToDrone:
+                                try
+                                {
+
+                                }
+                                catch
+                                {
+
+                                }
+                                break;
+                            case UpdateOptions.CollectParcelByDrone:
+                                try
+                                {
+                                    collectParcel();
+                                }
+                                catch
+                                {
+
+                                }
+                                break;
+                            case UpdateOptions.DeliveryPackageByDrone:
+                                try
+                                {
+                                    deliveryPackage();
                                 }
                                 catch
                                 {
@@ -251,6 +281,7 @@ namespace ConsoleUI_BL
         }
 
         private static void UpdateCustomer()
+        private static void updateCustomer()
         {
             int id;
             string name, phone;
@@ -271,7 +302,7 @@ namespace ConsoleUI_BL
             mybl.UpdateCustomer(newCustomer);
         }
 
-        private static void AddDrone()
+        private static void addDrone()
         {
             int id, station;
             string model;
@@ -297,7 +328,7 @@ namespace ConsoleUI_BL
             mybl.AddDrone(newDrone, station);
         }
 
-        private static void AddStation()
+        private static void addStation()
         {
             int id, slots;
             string name;
@@ -312,12 +343,12 @@ namespace ConsoleUI_BL
             {
                 Id = id,
                 Name = name,
-                AvailableChargeSlots = slots,
+                AvailableAvailableChargeSlots = slots,
             };
             mybl.AddStation(newStation);
         }
 
-        private static void AddCustomer()
+        private static void addCustomer()
         {
             int id;
             string name, phone;
@@ -349,7 +380,7 @@ namespace ConsoleUI_BL
             mybl.AddCustomer(newCustomer);
         }
 
-        private static void AddParcel()
+        private static void addParcel()
         {
             int senderId, targetId;
             Console.WriteLine("Enter sender ID: ");
@@ -383,7 +414,7 @@ namespace ConsoleUI_BL
 
         //-----------------Update-----------------//
        
-        private static void UpdateDrone()
+        private static void updateDrone()
         {
             int id;
             string model;
@@ -409,6 +440,37 @@ namespace ConsoleUI_BL
             };
             mybl.rechargeDrone(newDrone);
         }
+
+        private static void collectParcel()
+        {
+            int id;
+            Console.WriteLine("Enter drone ID");
+            int.TryParse(Console.ReadLine(), out id);
+            IBL.BO.Parcel parcel = new IBL.BO.Parcel()
+            {                  
+                AssignedDrone = new IBL.BO.DroneInParcel() { Id = id }
+            };
+            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            {
+                Id = id
+            };
+            mybl.CollectPackageByDrone(newDrone, parcel);
+        }
+
+        private static void deliveryPackage()
+        {
+            int id;
+            Console.WriteLine("Enter drone ID");
+            int.TryParse(Console.ReadLine(), out id);
+            IBL.BO.Drone newDrone = new IBL.BO.Drone { Id = id };
+            IBL.BO.Parcel parcel = new IBL.BO.Parcel()
+            {
+                AssignedDrone = new IBL.BO.DroneInParcel() { Id = id }
+            };
+            mybl.deliveryPackage(newDrone, parcel);
+        }
+        //-----------------View-----------------//
+
     }
 }
 

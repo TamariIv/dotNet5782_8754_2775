@@ -49,7 +49,7 @@ namespace DalObject
                 Name = "Pisgat Zeev",
                 Longitude = 31.831146,
                 Latitude = 35.242632,
-                ChargeSlots = r.Next(11)
+                AvailableChargeSlots = r.Next(11)
             };
             Stations.Add(s);
 
@@ -59,7 +59,7 @@ namespace DalObject
                 Name = "Givat Shaul",
                 Longitude = 31.790835,
                 Latitude = 35.195144,
-                ChargeSlots = r.Next(11)
+                AvailableChargeSlots = r.Next(11)
             };
             Stations.Add(s);
         }
@@ -110,9 +110,7 @@ namespace DalObject
                 {
                     Id = r.Next(1001, 10000),
                     Model = ((char)(r.Next(65, 91)) + ((char)(r.Next(65, 91)) + (r.Next(111, 999)).ToString())), // for example: SE503
-                    MaxWeight = (WeightCategories)r.Next(3),
-                    // Status = DroneStatus.Available,
-                    // Battery = 100
+                    MaxWeight = (WeightCategories)r.Next(3),                  
                 };
                 Drones.Add(d);
             }
