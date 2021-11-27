@@ -267,40 +267,6 @@ namespace BL
                 else throw new ImpossibleOprationException("Drone can't be sent to recharge");
             }
         }
-        public void CollectPackageByDrone(IBL.BO.Drone drone)
-        {
-            List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
-            IDAL.DO.Parcel oldDalParcel;
-            if (parcels.Exists(p => p.DroneId == drone.Id))
-                oldDalParcel = parcels.Find(p => p.DroneId == drone.Id);
-            else throw new NoMatchingIdException($"no parcel can be picked up by drone with id {drone.Id}");
-
-            if (oldDalParcel.PickedUp == DateTime.MinValue)
-            {
-                dal.PickUpParcel(oldDalParcel);
-
-                IDAL.DO.Customer sender = dal.GetCustomer(parcel.Sender.Id);
-                double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
-                double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)parcel.Weight);
-                double battery = distance * batteryConsumption;
-
-                IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
-                {
-                    Id = drone.Id,
-                    Model = drone.Model,
-                    MaxWeight = drone.MaxWeight,
-                    Battery = drone.Battery - battery,
-                    Location = new IBL.BO.Location { Latitude = sender.Latitude, Longitude = sender.Longitude }               
-                };
-
-                IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
-                dronesToList.Remove(oldDrone);
-                dronesToList.Add(newDrone);
-            }
-            else throw new ImpossibleOprationException("Parcel can't be picked up"); 
-        }
-
-       
         public void deliveryPackage(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
