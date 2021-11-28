@@ -22,6 +22,7 @@ namespace IDAL.DO
         IEnumerable<Customer> GetCustomers();
         IEnumerable<Station> GetStations();
         IEnumerable<Parcel> GetParcels();
+        IEnumerable<DroneCharge> GetDroneCharges();
         IEnumerable<Parcel> GetParcelWithoutDrone();
         #endregion
 

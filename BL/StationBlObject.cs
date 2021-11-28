@@ -36,5 +36,62 @@ namespace BL
             dal.UpdateStation(dalStation);
         }
 
+        public IBL.BO.StationToList GetStationToList(int id)
+        {
+            IBL.BO.StationToList s = new IBL.BO.StationToList();
+            List<IDAL.DO.Station> stations = dal.GetStations().ToList();
+            foreach (var dalStation in stations)
+            {
+                if (dalStation.Id == id)
+                {
+                    s = ConvertStationToBl(dalStation);
+                    return s;
+                }
+            }
+            throw new NoMatchingIdException($"station with id {id} doesn't exist");
+        }
+
+        public IBL.BO.StationToList ConvertStationToBl(IDAL.DO.Station dalStation)
+        {
+            // find how many drones are charging in the station using dal droneCharge type
+            int OccupiedChargeSlots = 0;
+            foreach (var droneCharge in dal.GetDroneCharges())
+            {
+                if (droneCharge.StationId == dalStation.Id) 
+                    // once you find another droneCharge with the station ID add ine to the number of occupied slots
+                    OccupiedChargeSlots++;
+            }
+            IBL.BO.StationToList blStation = new IBL.BO.StationToList
+            {
+                Id = dalStation.Id,
+                Name = dalStation.Name,
+                AvailableChargeSlots = dalStation.AvailableChargeSlots,
+                OccupiedChargeSlots = OccupiedChargeSlots
+            };
+            return blStation;
+        }
+
+        public void PrintStationToList(int id)
+        {
+            Console.WriteLine(getParcelToList(id));
+        }
+
+        public List<IBL.BO.StationToList> GetListOfStations()
+        {
+            List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
+            foreach (var s in dal.GetStations())
+            {
+                stations.Add(ConvertStationToBl(s));
+            }
+            return stations;
+        }
+
+        public void PrintListOfStations()
+        {
+            foreach (var s in GetListOfStations())
+            {
+                Console.WriteLine(s + "\n");
+            }
+        }
     }
 }

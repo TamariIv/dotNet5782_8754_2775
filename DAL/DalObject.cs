@@ -113,6 +113,12 @@ namespace DalObject
             return copyStations;
         }
 
+        public IEnumerable<DroneCharge> GetDroneCharges()
+        {
+            List<DroneCharge> copyDroneCharges = new List<DroneCharge>(DataSource.DroneCharges);
+            return copyDroneCharges;
+        }
+
         /// <summary>
         /// get the list of drones
         /// </summary>
@@ -401,6 +407,7 @@ namespace DalObject
             }
             return result;
         }
+
         public List<Customer> GetCustomersWithParcels(List<IDAL.DO.Parcel> parcels, List<IDAL.DO.Customer> customers)
         {
             List<IDAL.DO.Customer> clients = new List<Customer>();

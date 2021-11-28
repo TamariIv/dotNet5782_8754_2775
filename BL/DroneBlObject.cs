@@ -24,6 +24,7 @@ namespace BL
                 Latitude = s.Latitude
             };
             newDrone.CurrentLocation = l;
+            dronesToList.Add(newDrone);
 
             IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
             {
@@ -34,8 +35,6 @@ namespace BL
             dal.SendDroneToCharge(dalDrone, s);
             dal.AddDrone(dalDrone);
         }
-
-
 
         public void UpdateDrone(IBL.BO.Drone newDrone)
         {
@@ -56,7 +55,6 @@ namespace BL
             dronesToList.Remove(GetDroneToList(newDrone.Id));
             dronesToList.Add(newDrone);
         }
-
 
         public void FreeDrone(int droneId, double timeInCharging)
         {
@@ -84,20 +82,20 @@ namespace BL
             else throw new NoMatchingIdException($"drone with id {droneId} doesn't exist !!");
         }
 
-        public IBL.BO.DroneToList GetDroneToList(int idNumber)
+        public IBL.BO.DroneToList GetDroneToList(int id)
         {
             IBL.BO.DroneToList d = new IBL.BO.DroneToList();
-            if (dronesToList.Exists(drone => drone.Id == idNumber))
+            if (dronesToList.Exists(drone => drone.Id == id))
             {
-                d = dronesToList.Find(drone => drone.Id == idNumber);
+                d = dronesToList.Find(drone => drone.Id == id);
                 return d;
             }
-            else throw new NoMatchingIdException($"drone with id {idNumber} doesn't exist !!");
+            else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
 
-        public void printDroneToList(int idNumber)
+        public void printDroneToList(int id)
         {
-            Console.WriteLine(GetDroneToList(idNumber));
+            Console.WriteLine(GetDroneToList(id));
         }
 
         public void DroneToParcel(int id)
@@ -267,6 +265,7 @@ namespace BL
                 else throw new ImpossibleOprationException("Drone can't be sent to recharge");
             }
         }
+
         public void deliveryPackage(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
@@ -297,13 +296,21 @@ namespace BL
             else throw new ImpossibleOprationException("parcel can't be delivere");
         }
 
-        private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone drone)
+        public void PrintListOfDrones()
+        {
+            foreach (var d in dronesToList)
+            {
+                Console.WriteLine(d + "\n");
+            }
+        }
+
+        private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone dalDrone)
         {
             IDAL.DO.Drone newDrone = new IDAL.DO.Drone()
             {
-                Id = drone.Id,
-                Model = drone.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+                Id = dalDrone.Id,
+                Model = dalDrone.Model,
+                MaxWeight = (IDAL.DO.WeightCategories)dalDrone.MaxWeight
             };
             return newDrone;
         }

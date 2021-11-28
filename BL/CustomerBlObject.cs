@@ -34,5 +34,30 @@ namespace BL
             };
             dal.AddCustomer(dalCustomer);
         }
+
+        public IBL.BO.CustomerToList GetCustomerToList(int id)
+        {
+            IBL.BO.CustomerToList customer = new IBL.BO.CustomerToList();
+            foreach (var c in dal.GetCustomers())
+            {
+                if (c.Id==id)
+                {
+                    customer = ConvertCustomerToBl(c);
+                }
+            }
+        }
+
+        public IBL.BO.CustomerToList ConvertCustomerToBl(IDAL.DO.Customer dalCustomer)
+        {
+            IBL.BO.CustomerToList blCustomer = new IBL.BO.CustomerToList
+            {
+                Id = dalCustomer.Id,
+                Name = dalCustomer.Name,
+                Phone = dalCustomer.Phone,
+
+            };
+
+
+        }
     }
 }

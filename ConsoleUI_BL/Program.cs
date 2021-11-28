@@ -160,16 +160,6 @@ namespace ConsoleUI_BL
 
                                 }
                                 break;
-                            case UpdateOptions.PickUpParcel:
-                                try
-                                {
-                                    collectParcel();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
                             case UpdateOptions.DeliveryPackageByDrone:
                                 try
                                 {
@@ -421,7 +411,7 @@ namespace ConsoleUI_BL
             mybl.rechargeDrone(newDrone);
         }
 
-        private static void collectParcel()
+        private static void pickUpParcel()
         {
             int id;
             Console.WriteLine("Enter drone ID");
@@ -439,19 +429,10 @@ namespace ConsoleUI_BL
             {
                 Id = id
             };
-            mybl.CollectPackageByDrone(newDrone);
+            mybl.PickUpParcel(newDrone);
         }
 
 
-        private static void pickUpParcel()
-        {
-            int id;
-            Console.WriteLine("Enter drone ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("int was expected\n");
-
-            mybl.PickUpParcel();
-        }
 
         private static void deliveryPackage()
         {
