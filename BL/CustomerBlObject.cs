@@ -43,8 +43,10 @@ namespace BL
                 if (c.Id==id)
                 {
                     customer = ConvertCustomerToBl(c);
+                    break;
                 }
             }
+            return customer;
         }
 
         public IBL.BO.CustomerToList ConvertCustomerToBl(IDAL.DO.Customer dalCustomer)
@@ -54,10 +56,16 @@ namespace BL
                 Id = dalCustomer.Id,
                 Name = dalCustomer.Name,
                 Phone = dalCustomer.Phone,
-
             };
-
-
+            return blCustomer;
+        }
+        public 
+        public void PrintListOfCustomers()
+        {
+            foreach (var customer in GetListofParcels())
+            {
+                Console.WriteLine(parcel + "\n");
+            }
         }
     }
 }

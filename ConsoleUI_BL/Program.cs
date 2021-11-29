@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 
 namespace ConsoleUI_BL
 {
@@ -21,6 +22,8 @@ namespace ConsoleUI_BL
 
             MenuOptions menuOptions;
             EntityOptions entityOptions;
+            ListOptions listOptions;
+
             menuOptions = (MenuOptions)int.Parse(Console.ReadLine());
 
             while (menuOptions != MenuOptions.Exit)
@@ -183,30 +186,60 @@ namespace ConsoleUI_BL
                         Console.WriteLine("press 3 to view details of a specific base station");
                         Console.WriteLine("press 4 to view details of a specific customer");
                         entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
-                        int id;
+                        //int id;
                         switch (entityOptions)
                         {
                             case EntityOptions.Parcel:
                                 printParcel();
                                 break;
+                            case EntityOptions.Drone:
+                                printDrone();
+                                break;
                         }
+                        break;
+                    case MenuOptions.Show_List:
+                        Console.WriteLine("press 1 to view the list of base stations");
+                        Console.WriteLine("press 2 to view the list of the drones");
+                        Console.WriteLine("press 3 to view the list of the cutomers");
+                        Console.WriteLine("press 4 to view the list of the parcels");
+                        Console.WriteLine("press 5 to view the list of the parcels without drones");
+                        Console.WriteLine("press 6 to view the list of the stations with available charge slots");
+                        listOptions = (ListOptions)int.Parse(Console.ReadLine());
+                        #region get list switch
+                        switch (listOptions)
+                        {
+                            case ListOptions.BaseStations:
+                                PrintBaseStationsList();
+                                break;
+                            case ListOptions.Drones:
+                                printDronesList();
+                                break;
+                            case ListOptions.Customers:
+                                PrintCustomersList();
+                                break;
+                            case ListOptions.Parcels:
+                                printParcelsList();
+                                break;
+                            case ListOptions.ParcelsWithoutDrone:
+                                PrintParcelsWithoutDroneList();
+                                break;
+                            case ListOptions.AvailableChargingStation:
+                                PrintAvailableAvailableChargeSlotsList();
+                                break;
+                            case ListOptions.Exit:
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
+                    case MenuOptions.Exit:
+                        break;
+                    default:
                         break;
                 }
             }
-
         }
-
-        private static void printParcel()
-        {
-            int id;
-            Console.WriteLine("enter ID of the parcel");
-            id = int.Parse(Console.ReadLine());
-            if (id.ToString() == "")
-                throw new WrongInputFormatException("int was expected\n");
-            Console.WriteLine(mybl.getParcelToList(id));
-        }
-
-
 
         private static void DroneToParcel()
         {
@@ -448,6 +481,43 @@ namespace ConsoleUI_BL
         }
         //-----------------View-----------------//
 
+        private static void printParcel()
+        {
+            int id;
+            Console.WriteLine("enter ID of the parcel");
+            id = int.Parse(Console.ReadLine());
+            if (id.ToString() == "")
+                throw new WrongInputFormatException("int was expected\n");
+            IBL.BO.Parcel parcelForView = mybl.GetParcel(id);
+            Console.WriteLine(parcelForView);
+        }
+        private static void printDrone()
+        {
+            int id;
+            Console.WriteLine("enter ID of the drone");
+            id = int.Parse(Console.ReadLine());
+            if (id.ToString() == "")
+                throw new WrongInputFormatException("int was expected\n");
+            Console.WriteLine(mybl.GetDrone(id));
+        }
+
+        private static void printParcelsList()
+        {
+            List<IBL.BO.ParcelToList> parcels = mybl.GetListofParcels();
+            foreach (var parcel in parcels)
+            {
+                Console.WriteLine(parcel);
+            }
+        }
+        private static void printDronesList()
+        {
+            List<IBL.BO.DroneToList> drones = mybl.GetListOfDrones(); 
+            foreach (var drone in drones)
+            {
+                Console.WriteLine(drone);
+            }
+        }
     }
+
 }
 

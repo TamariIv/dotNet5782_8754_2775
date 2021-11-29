@@ -18,11 +18,13 @@ namespace IBL.BO
 
         public override string ToString()
         {
+            string senderParcels = string.Join(" , ", send);
+            string recieverParcels = string.Join(" , ", receive);
             return string.Format(
                 "Id is: {0}\n" +
                 "Name of customer: {1}\n" +
                 "Phone number: {2}\n" +
-                "Location: {3}\n", Id, Name, Phone, Location);
+                "Location: {3}\n Parcels from customer: {4}\n parcels to customer: {5}", Id, Name, Phone, Location, senderParcels, recieverParcels);
         }
 
 

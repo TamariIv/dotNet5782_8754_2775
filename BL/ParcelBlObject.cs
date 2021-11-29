@@ -39,7 +39,7 @@ namespace BL
                 dal.PickUpParcel(oldDalParcel);
 
                 IDAL.DO.Customer sender = dal.GetCustomer(oldDalParcel.SenderId);
-                double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
+                double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
                 double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)oldDalParcel.Weight);
                 double battery = distance * batteryConsumption;
 
@@ -61,60 +61,77 @@ namespace BL
             else throw new ImpossibleOprationException("Parcel can't be picked up");
         }
 
-        public void PrintListOfParcels()
-        {
-            foreach (var parcel in GetListofParcels())
-            {
-                Console.WriteLine(parcel + "\n");
-            }
-        }
-
-        public void PrintParcelToList(int id)
-        {
-            Console.WriteLine(getParcelToList(id));
-        }
-
-        public IBL.BO.ParcelToList getParcelToList(int id)
+        //public void PrintListOfParcels()
+        //{
+        //    foreach (var parcel in GetListofParcels())
+        //    {
+        //        Console.WriteLine(parcel + "\n");
+        //    }
+        //}
+      
+        public IBL.BO.Parcel GetParcel(int id)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
-            IDAL.DO.Parcel dalParcel = dal.GetParcel(id);
-
-            // find the parcel status
-            IBL.BO.ParcelStatus parcelStatus;
-            if (dalParcel.Scheduled == DateTime.MinValue)
-                parcelStatus = IBL.BO.ParcelStatus.Requested;
-            else if (dalParcel.PickedUp == DateTime.MinValue)
-                parcelStatus = IBL.BO.ParcelStatus.Assigned;
-            else if (dalParcel.Delivered == DateTime.MinValue)
-                parcelStatus = IBL.BO.ParcelStatus.PickedUp;
-            else
-                parcelStatus = IBL.BO.ParcelStatus.Delivered;
-
-
-            IBL.BO.ParcelToList blParcel = new IBL.BO.ParcelToList
+            IDAL.DO.Parcel dalParcel = parcels.Find(p => p.Id == id);
+            IBL.BO.Parcel blParcel = new IBL.BO.Parcel
             {
                 Id = dalParcel.Id,
-                SenderName = dal.GetCustomer(dalParcel.SenderId).Name,
-                TargetName = dal.GetCustomer(dalParcel.TargetId).Name,
+                Sender = new IBL.BO.CustomerInParcel { Id = dalParcel.SenderId, Name = dal.GetCustomer(dalParcel.SenderId).Name },
+                Target = new IBL.BO.CustomerInParcel { Id = dalParcel.TargetId, Name = dal.GetCustomer(dalParcel.TargetId).Name },
                 Weight = (IBL.BO.WeightCategories)dalParcel.Weight,
                 Priority = (IBL.BO.Priorities)dalParcel.Priority,
-                ParcelStatus = parcelStatus
+                Requested = dalParcel.Requested,
+                Scheduled = dalParcel.Scheduled,
+                PickedUp = dalParcel.PickedUp,
+                Delivered = dalParcel.Delivered,
+                AssignedDrone = new IBL.BO.DroneInParcel { Id = dalParcel.DroneId, Battery = dronesToList.Find(d => d.Id == dalParcel.DroneId).Battery, CurrentLocation = dronesToList.Find(d => d.Id == dalParcel.DroneId).Location }
             };
             return blParcel;
         }
 
+        //public IBL.BO.ParcelToList GetParcelToList(int id)
+        //{
+        //    List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
+        //    IDAL.DO.Parcel dalParcel = dal.GetParcel(id);
+
+        //    // find the parcel status
+        //    IBL.BO.ParcelStatus parcelStatus;
+        //    if (dalParcel.Scheduled == DateTime.MinValue)
+        //        parcelStatus = IBL.BO.ParcelStatus.Requested;
+        //    else if (dalParcel.PickedUp == DateTime.MinValue)
+        //        parcelStatus = IBL.BO.ParcelStatus.Assigned;
+        //    else if (dalParcel.Delivered == DateTime.MinValue)
+        //        parcelStatus = IBL.BO.ParcelStatus.PickedUp;
+        //    else
+        //        parcelStatus = IBL.BO.ParcelStatus.Delivered;
+
+
+        //    IBL.BO.ParcelToList blParcel = new IBL.BO.ParcelToList
+        //    {
+        //        Id = dalParcel.Id,
+        //        SenderName = dal.GetCustomer(dalParcel.SenderId).Name,
+        //        TargetName = dal.GetCustomer(dalParcel.TargetId).Name,
+        //        Weight = (IBL.BO.WeightCategories)dalParcel.Weight,
+        //        Priority = (IBL.BO.Priorities)dalParcel.Priority,
+        //        ParcelStatus = parcelStatus
+        //    };
+        //    return blParcel;
+        //}
+
+        /// <summary>
+        /// create a list of parcelsToList and returns it
+        /// </summary>
         public List<IBL.BO.ParcelToList> GetListofParcels()
         {
-            List<IDAL.DO.Parcel> dalParcels = dal.GetParcels().ToList();
             List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
             foreach (var dalParcel in dal.GetParcels())
             {
-                blParcels.Add(ConvertParcelToBl(dalParcel));
+                blParcels.Add(ConvertParcelToParcelToList(dalParcel));
             }
             return blParcels;
         }
 
-        public IBL.BO.ParcelToList ConvertParcelToBl(IDAL.DO.Parcel dalParcel)
+        public IBL.BO.ParcelToList ConvertParcelToParcelToList(IDAL.DO.Parcel dalParcel)
         {
             IBL.BO.ParcelToList blParcel = new IBL.BO.ParcelToList
             {

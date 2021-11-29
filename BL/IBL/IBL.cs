@@ -1,4 +1,5 @@
-﻿using IBL.BO;
+﻿using System.Collections.Generic;
+using IBL.BO;
 
 namespace IBL
 {
@@ -17,11 +18,16 @@ namespace IBL
         void UpdateStation(Station newStation);
         void FreeDrone(int droneId, double timeInCharging);
         void DroneToParcel(int id);
-        DroneToList GetDroneToList(int idNumber);
-
         void rechargeDrone(Drone drone);
         void PickUpParcel(Drone drone);
         void deliveryPackage(Drone drone, Parcel parcel);
-        ParcelToList getParcelToList(int id);
+
+        //Get functions:
+        DroneToList GetDroneToList(int id);
+        Parcel GetParcel(int id);
+        //ParcelToList GetParcelToList(int id);
+        List<ParcelToList> GetListofParcels();
+        List<DroneToList> GetListOfDrones();
+
     }
 }
