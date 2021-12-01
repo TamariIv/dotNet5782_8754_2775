@@ -98,6 +98,40 @@ namespace BL
             Console.WriteLine(GetDroneToList(id));
         }
 
+        public void printDrone(int id)
+        {
+            IBL.BO.DroneToList droneToList = GetDroneToList(id);
+            IBL.BO.Drone drone = ConvertDroneToListToDrone(droneToList);
+            Console.WriteLine(drone);
+        }
+
+        public IBL.BO.Drone ConvertDroneToListToDrone(IBL.BO.DroneToList d)
+        {
+            IDAL.DO.Parcel parcel = dal.GetParcel(d.ParcelInDeliveryId);
+            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            {
+                Id = d.Id,
+                Model = d.Model,
+                MaxWeight = d.MaxWeight,
+                Battery = d.Battery,
+                DroneStatus = d.DroneStatus,
+                ParcelInDelivery = new IBL.BO.ParcelInDelivey
+                {
+                    Id = parcel.Id,
+                    PickUpStatus = (getParcelStatus(parcel) == IBL.BO.ParcelStatus.PickedUp || getParcelStatus(parcel) == IBL.BO.ParcelStatus.Delivered ? true : false),
+                    Weight = (IBL.BO.WeightCategories)parcel.Weight,
+                    Priority = (IBL.BO.Priorities)parcel.Priority,
+                    Sender = new IBL.BO.CustomerInParcel { Id = dal.GetCustomer(parcel.SenderId).Id, Name = dal.GetCustomer(parcel.SenderId).Name },
+                    Target = new IBL.BO.CustomerInParcel { Id = dal.GetCustomer(parcel.TargetId).Id, Name = dal.GetCustomer(parcel.TargetId).Name },
+                    PickUpLocation = new IBL.BO.Location { Latitude = dal.GetCustomer(parcel.SenderId).Latitude, Longitude = dal.GetCustomer(parcel.SenderId).Longitude },
+                    TargetLocation = new IBL.BO.Location { Latitude = dal.GetCustomer(parcel.TargetId).Latitude, Longitude = dal.GetCustomer(parcel.TargetId).Longitude },
+                    Distance = Tools.Utis.DistanceCalculation(dal.GetCustomer(parcel.SenderId).Latitude, dal.GetCustomer(parcel.SenderId).Longitude, dal.GetCustomer(parcel.TargetId).Latitude, dal.GetCustomer(parcel.TargetId).Longitude)
+                },
+                CurrentLocation = d.Location
+            };
+            return newDrone;
+        }
+
         public void DroneToParcel(int id)
         {
             IBL.BO.DroneToList blDrone = GetDroneToList(id);

@@ -40,15 +40,24 @@ namespace BL
             IBL.BO.CustomerToList customer = new IBL.BO.CustomerToList();
             foreach (var c in dal.GetCustomers())
             {
-                if (c.Id==id)
+                if (c.Id == id)
                 {
                     customer = ConvertCustomerToBl(c);
+                    return customer;
                 }
             }
+            throw new NoMatchingIdException($"customer with id {id} doesn't exist\n");
         }
-
+        
         public IBL.BO.CustomerToList ConvertCustomerToBl(IDAL.DO.Customer dalCustomer)
         {
+            int sentAndDelivered = 0, sentAndNotDelivered = 0, received = 0;
+            foreach (var p in dal.GetParcels())
+            {
+                if (p.SenderId == dalCustomer.Id)
+                    if (getParcelStatus(p) == IBL.BO.ParcelStatus)
+
+            }
             IBL.BO.CustomerToList blCustomer = new IBL.BO.CustomerToList
             {
                 Id = dalCustomer.Id,
@@ -56,7 +65,7 @@ namespace BL
                 Phone = dalCustomer.Phone,
 
             };
-
+            return blCustomer;
 
         }
     }

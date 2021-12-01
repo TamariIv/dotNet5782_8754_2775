@@ -189,6 +189,9 @@ namespace ConsoleUI_BL
                             case EntityOptions.Parcel:
                                 printParcel();
                                 break;
+                            case EntityOptions.Drone:
+                                printDrone();
+                                break;
                         }
                         break;
                 }
@@ -206,7 +209,15 @@ namespace ConsoleUI_BL
             Console.WriteLine(mybl.getParcelToList(id));
         }
 
-
+        private static void printDrone()
+        {
+            int id;
+            Console.WriteLine("enter ID of the drone");
+            id = int.Parse(Console.ReadLine());
+            if (id.ToString() == "")
+                throw new WrongInputFormatException("int was expected\n");
+            Console.WriteLine(mybl.getD(id));
+        }
 
         private static void DroneToParcel()
         {
