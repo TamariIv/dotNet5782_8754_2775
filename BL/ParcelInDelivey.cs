@@ -18,5 +18,21 @@ namespace IBL.BO
         public Location TargetLocation { get; set; }
         public double Distance { get; set; }
 
+
+        public override string ToString()
+        {
+            return string.Format("Id is: {0}\n" +
+                "Pick-up ststus: {1}\n" +
+                "Weight is: {2}\n" +
+                "priority: {3}\n" +
+                "Sender: {4}\n" +
+                "Target: {5}\n" +
+                "Pick-up locatoin: {6}\n" +
+                "Target location: {7}\n" +
+                "Distance from the sender to the target: {8}\n",
+                Id, PickUpStatus == true? "was picked up" : "wasn't picked up", Weight, Priority, Sender, Target, PickUpLocation, TargetLocation, Distance);
+        }
     }
+
+
 }
