@@ -14,7 +14,7 @@ namespace IBL
 
         //Update functions:
         void UpdateCustomer(Customer newCustomer);
-        void AddDrone(Drone newDrone, int stationId);
+        void AddDrone(DroneToList newDrone, int stationId);
         void UpdateStation(Station newStation);
         void FreeDrone(int droneId, double timeInCharging);
         void DroneToParcel(int id);
@@ -28,6 +28,7 @@ namespace IBL
         //ParcelToList GetParcelToList(int id);
         List<ParcelToList> GetListofParcels();
         List<DroneToList> GetListOfDrones();
+        Customer GetCustomer(int id);
 
     }
 }

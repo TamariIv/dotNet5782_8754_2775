@@ -51,28 +51,58 @@ namespace BL
         
         public IBL.BO.CustomerToList ConvertCustomerToBl(IDAL.DO.Customer dalCustomer)
         {
-            int sentAndDelivered = 0, sentAndNotDelivered = 0, received = 0;
+            int sentAndDelivered = 0, sentAndNotDelivered = 0, received = 0, inDeliveryToCustomer = 0;
             foreach (var p in dal.GetParcels())
             {
                 if (p.SenderId == dalCustomer.Id)
-                    if (getParcelStatus(p) == IBL.BO.ParcelStatus)
-
+                {
+                    if (getParcelStatus(p) == IBL.BO.ParcelStatus.Delivered)
+                        sentAndDelivered++;
+                    else sentAndNotDelivered++;
+                }
+                else if (p.TargetId == dalCustomer.Id)
+                {
+                    if (getParcelStatus(p) == IBL.BO.ParcelStatus.Delivered)
+                        received++;
+                    else
+                        inDeliveryToCustomer++;
+                }
             }
             IBL.BO.CustomerToList blCustomer = new IBL.BO.CustomerToList
             {
                 Id = dalCustomer.Id,
                 Name = dalCustomer.Name,
                 Phone = dalCustomer.Phone,
+                SentAndDelivered = sentAndDelivered,
+                SentAndNotDeliverd = sentAndNotDelivered,
+                Recieved = received,
+                InDeliveryToCustomer = inDeliveryToCustomer
             };
             return blCustomer;
         }
 
-        //public void PrintListOfCustomers()
-        //{
-        //    foreach (var customer in GetListofParcels())
-        //    {
-        //        Console.WriteLine(parcel + "\n");
-        //    }
-        //}
+        public IBL.BO.Customer GetCustomer(int id)
+        {
+            IDAL.DO.Customer dalCustomer = dal.GetCustomer(id);
+            List<IBL.BO.Parcel> send = new List<IBL.BO.Parcel>();
+            List<IBL.BO.Parcel> receive = new List<IBL.BO.Parcel>();
+            foreach (var parcel in dal.GetParcels())
+            {
+                if (parcel.SenderId == id)
+                    send.Add(ConvertParcelToBl(parcel));
+                else if (parcel.TargetId == id)
+                    receive.Add(ConvertParcelToBl(parcel));
+            }
+            IBL.BO.Customer customer = new IBL.BO.Customer
+            {
+                Id = dalCustomer.Id,
+                Name = dalCustomer.Name,
+                Phone = dalCustomer.Phone,
+                Location = new IBL.BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
+                Send = send,
+                Receive = receive
+            };
+            return customer;
+        }
     }
 }

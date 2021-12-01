@@ -156,23 +156,45 @@ namespace BL
             else return IBL.BO.ParcelStatus.Delivered;
         }
 
-        public IDAL.DO.Parcel ConvertParcelToDal(IBL.BO.Parcel dalParcel)
+        public IDAL.DO.Parcel ConvertParcelToDal(IBL.BO.Parcel blParcel)
         {
-            IDAL.DO.Parcel blParcel = new IDAL.DO.Parcel
+            IDAL.DO.Parcel dalParcel = new IDAL.DO.Parcel
+            {
+                Id = blParcel.Id,
+                SenderId = blParcel.Sender.Id,
+                TargetId = blParcel.Target.Id,
+                Weight = (IDAL.DO.WeightCategories)blParcel.Weight,
+                Priority = (IDAL.DO.Priorities)blParcel.Priority,
+                Requested = blParcel.Requested,
+                Scheduled = blParcel.Scheduled,
+                PickedUp = blParcel.PickedUp,
+                Delivered = blParcel.Delivered,
+                DroneId = blParcel.AssignedDrone.Id
+            };
+            return dalParcel;
+        }
+
+        /// <summary>
+        /// the function receives a DAL parcel end return the parcel converted to BL parcel
+        /// </summary>
+        /// <param name="dalParcel"> the IDAL parcel to convert </param>
+        /// <returns> the converted BL parcel </returns>
+        public IBL.BO.Parcel ConvertParcelToBl(IDAL.DO.Parcel dalParcel)
+        {
+            IBL.BO.Parcel blParcel = new IBL.BO.Parcel
             {
                 Id = dalParcel.Id,
-                SenderId = dalParcel.Sender.Id,
-                TargetId = dalParcel.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)dalParcel.Weight,
-                Priority = (IDAL.DO.Priorities)dalParcel.Priority,
+                Sender = new IBL.BO.CustomerInParcel { Id = dalParcel.SenderId, Name = dal.GetCustomer(dalParcel.SenderId).Name, },
+                Target = new IBL.BO.CustomerInParcel { Id = dalParcel.TargetId, Name = dal.GetCustomer(dalParcel.TargetId).Name, },
+                Weight = (IBL.BO.WeightCategories)dalParcel.Weight,
+                Priority = (IBL.BO.Priorities)dalParcel.Priority,
                 Requested = dalParcel.Requested,
                 Scheduled = dalParcel.Scheduled,
                 PickedUp = dalParcel.PickedUp,
                 Delivered = dalParcel.Delivered,
-                DroneId = dalParcel.AssignedDrone.Id
+                AssignedDrone = new IBL.BO.DroneInParcel { Id = dalParcel.DroneId, Battery = GetDroneToList(dalParcel.DroneId).Battery, CurrentLocation = GetDroneToList(dalParcel.DroneId).Location }
             };
             return blParcel;
         }
-
     }
 }

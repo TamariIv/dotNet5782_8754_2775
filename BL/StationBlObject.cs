@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public partial class BlObject:IBL.IBL
+    public partial class BlObject : IBL.IBL
     {
         public void AddStation(IBL.BO.Station newStation)
         {
@@ -25,49 +25,36 @@ namespace BL
 
         public void UpdateStation(IBL.BO.Station newStation)
         {
-            IDAL.DO.Station dalStation =  dal.GetStation(newStation.Id);
+            IDAL.DO.Station dalStation = dal.GetStation(newStation.Id);
             if (newStation.Name == "" && (newStation.AvailableChargeSlots).ToString() == "")
                 throw new NoUpdateException("no update to station was received\n");
             if (newStation.Name != "")
                 dalStation.Name = newStation.Name;
             if ((newStation.AvailableChargeSlots).ToString() == "")
                 dalStation.AvailableChargeSlots = newStation.AvailableChargeSlots + newStation.DronesCharging.Count();
-
             dal.UpdateStation(dalStation);
         }
+
         public IBL.BO.Station GetStation(int id)
         {
             IDAL.DO.Station dalStation = dal.GetStation(id);
+            List<IBL.BO.DroneInCharging> dronesCharging = new List<IBL.BO.DroneInCharging>();
+            foreach (var droneCharge in dal.GetDroneCharges())
+            {
+                if (droneCharge.StationId == id)
+                    dronesCharging.Add(new IBL.BO.DroneInCharging { Id = droneCharge.DroneId, Battery = GetDroneToList(droneCharge.DroneId).Battery });
+            }
             IBL.BO.Station station = new IBL.BO.Station
             {
                 Id = dalStation.Id,
                 Name = dalStation.Name,
                 Location = new IBL.BO.Location { Latitude = dalStation.Latitude, Longitude = dalStation.Longitude },
                 AvailableChargeSlots = dalStation.AvailableChargeSlots,
-                DronesCharging = dal.GetDroneCharges();
-                /*
-                  public int Id { get; set; }
-        public string Name { get; set; }
-        public Location Location { get; set; }
-        public int AvailableChargeSlots { get; set; }
-        public List<DroneInCharging> DronesCharging { get; set; }
-                */
-            }
+                DronesCharging = dronesCharging
+            };
+            return station;
         }
-        //public IBL.BO.StationToList GetStationToList(int id)
-        //{
-        //    IBL.BO.StationToList s = new IBL.BO.StationToList();
-        //    List<IDAL.DO.Station> stations = dal.GetStations().ToList();
-        //    foreach (var dalStation in stations)
-        //    {
-        //        if (dalStation.Id == id)
-        //        {
-        //            s = ConvertStationToBl(dalStation);
-        //            return s;
-        //        }
-        //    }
-        //    throw new NoMatchingIdException($"station with id {id} doesn't exist");
-        //}
+
 
         public IBL.BO.StationToList ConvertStationToBl(IDAL.DO.Station dalStation)
         {
@@ -75,7 +62,7 @@ namespace BL
             int OccupiedChargeSlots = 0;
             foreach (var droneCharge in dal.GetDroneCharges())
             {
-                if (droneCharge.StationId == dalStation.Id) 
+                if (droneCharge.StationId == dalStation.Id)
                     // once you find another droneCharge with the station ID add ine to the number of occupied slots
                     OccupiedChargeSlots++;
             }
@@ -87,11 +74,6 @@ namespace BL
                 OccupiedChargeSlots = OccupiedChargeSlots
             };
             return blStation;
-        }
-
-        public void PrintStationToList(int id)
-        {
-            Console.WriteLine(getParcelToList(id));
         }
 
         public List<IBL.BO.StationToList> GetListOfStations()
@@ -113,3 +95,28 @@ namespace BL
         }
     }
 }
+
+
+
+/*
+  public int Id { get; set; }
+public string Name { get; set; }
+public Location Location { get; set; }
+public int AvailableChargeSlots { get; set; }
+public List<DroneInCharging> DronesCharging { get; set; }
+*/
+
+//public IBL.BO.StationToList GetStationToList(int id)
+//{
+//    IBL.BO.StationToList s = new IBL.BO.StationToList();
+//    List<IDAL.DO.Station> stations = dal.GetStations().ToList();
+//    foreach (var dalStation in stations)
+//    {
+//        if (dalStation.Id == id)
+//        {
+//            s = ConvertStationToBl(dalStation);
+//            return s;
+//        }
+//    }
+//    throw new NoMatchingIdException($"station with id {id} doesn't exist");
+//}

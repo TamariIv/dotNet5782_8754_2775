@@ -20,8 +20,9 @@ namespace IBL.BO
                 "Id is: {0}\n" +
                 "Name of station: {1}\n" +
                 "Location:\n{2}\n" +
-                "Number of open charge slots: {3}\n", 
-                Id, Name, Location, AvailableChargeSlots);
+                "Number of open charge slots: {3}\n" +
+                "Drones that are charging in the station:\n{4}",
+                Id, Name, Location, AvailableChargeSlots, DronesCharging);
         }
     }
 }

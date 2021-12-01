@@ -118,18 +118,7 @@ namespace BL
                 dronesToList.Add(droneBl);
             }
         }
-        public Customer GetCustomer(int id)
-        {
-            IDAL.DO.Customer customer;
-            customer = dal.GetCustomer(id);
-            return new Customer
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Location = new Location { Latitude = customer.Latitude, Longitude = customer.Longitude }
-            };
-        }
+
         private double getBatteryConsumption(IDAL.DO.WeightCategories weight)
         {
             switch (weight)

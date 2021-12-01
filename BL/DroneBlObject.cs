@@ -8,7 +8,7 @@ namespace BL
 {
     public partial class BlObject : IBL.IBL
     {
-        public void AddDrone(IBL.BO.Drone newDrone, int stationId)
+        public void AddDrone(IBL.BO.DroneToList newDrone, int stationId)
         {
             newDrone.Battery = r.Next(20, 41);
             newDrone.DroneStatus = IBL.BO.DroneStatus.Maintenance;
@@ -18,13 +18,12 @@ namespace BL
                 s = (dal.GetStations()).ToList().Find(station => station.Id == stationId);
             }
             else throw new NoMatchingIdException($"station with id {stationId} doesn't exist !!");
-            IBL.BO.Location l = new IBL.BO.Location
+            newDrone.Location = new IBL.BO.Location
             {
                 Longitude = s.Longitude,
                 Latitude = s.Latitude
             };
-            newDrone.CurrentLocation = l;
-            dronesToList.Add(newDrone);
+            newDrone.ParcelInDeliveryId = 0;
 
             IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
             {
@@ -34,6 +33,8 @@ namespace BL
             };
             dal.SendDroneToCharge(dalDrone, s);
             dal.AddDrone(dalDrone);
+
+            dronesToList.Add(newDrone);
         }
 
         public void UpdateDrone(IBL.BO.Drone newDrone)
@@ -47,7 +48,7 @@ namespace BL
                 blDrone.Model = newDrone.Model;
                 UpdateBlDrone(blDrone);
             }
-            else throw new NoUpdateException("no update was received\n"); 
+            else throw new NoUpdateException("no update was received\n");
         }
 
         public void UpdateBlDrone(IBL.BO.DroneToList newDrone)
@@ -125,7 +126,7 @@ namespace BL
                     Target = new IBL.BO.CustomerInParcel { Id = dal.GetCustomer(parcel.TargetId).Id, Name = dal.GetCustomer(parcel.TargetId).Name },
                     PickUpLocation = new IBL.BO.Location { Latitude = dal.GetCustomer(parcel.SenderId).Latitude, Longitude = dal.GetCustomer(parcel.SenderId).Longitude },
                     TargetLocation = new IBL.BO.Location { Latitude = dal.GetCustomer(parcel.TargetId).Latitude, Longitude = dal.GetCustomer(parcel.TargetId).Longitude },
-                    Distance = Tools.Utis.DistanceCalculation(dal.GetCustomer(parcel.SenderId).Latitude, dal.GetCustomer(parcel.SenderId).Longitude, dal.GetCustomer(parcel.TargetId).Latitude, dal.GetCustomer(parcel.TargetId).Longitude)
+                    Distance = Tools.Utils.DistanceCalculation(dal.GetCustomer(parcel.SenderId).Latitude, dal.GetCustomer(parcel.SenderId).Longitude, dal.GetCustomer(parcel.TargetId).Latitude, dal.GetCustomer(parcel.TargetId).Longitude)
                 },
                 CurrentLocation = d.Location
             };
@@ -164,7 +165,7 @@ namespace BL
                     int rate = 0;
                     if (parcels.First().Weight == IDAL.DO.WeightCategories.Heavy)
                     {
-                        possibleDistanceWithParcel = blDrone.Battery / whenHeavy; // לבדוק האם זה נכון - אמור להיות המרחק המקסימלי שהוא יכול לעבור עם הבטריה שיש לו כשאר הוא נושא משקל מסוים
+                        possibleDistanceWithParcel = blDrone.Battery / whenHeavy;
                         rate = (int)whenHeavy;
                     }
                     else if (parcels.First().Weight == IDAL.DO.WeightCategories.Medium)
@@ -269,6 +270,10 @@ namespace BL
             else throw new NoMatchingIdException($"drone with id {id} doesn't exist\n");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drone"></param>
         public void rechargeDrone(IBL.BO.Drone drone)
         {
             if (drone.DroneStatus == IBL.BO.DroneStatus.Available)
@@ -293,17 +298,22 @@ namespace BL
                     };
                     IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
                     dronesToList.Remove(oldDrone);
-                    dronesToList.Add(newDrone);                     
+                    dronesToList.Add(newDrone);
                 }
-                
+
                 else throw new ImpossibleOprationException("Drone can't be sent to recharge");
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="parcel"></param>
         public void deliveryPackage(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
-            if (parcels.Exists(p => p.DroneId==drone.Id && p.PickedUp != DateTime.MinValue && p.Delivered == DateTime.MinValue))
+            if (parcels.Exists(p => p.DroneId == drone.Id && p.PickedUp != DateTime.MinValue && p.Delivered == DateTime.MinValue))
             {
                 IDAL.DO.Parcel dalParcel = ConvertParcelToDal(parcel);
                 dal.ParcelDelivered(dalParcel);
@@ -329,6 +339,7 @@ namespace BL
             }
             else throw new ImpossibleOprationException("parcel can't be delivere");
         }
+
         /// <summary>
         /// returns a copy of the drones list
         /// </summary>
@@ -341,7 +352,12 @@ namespace BL
             }
             return copyDronesToList;
         }
-     
+
+        /// <summary>
+        /// the function receives a BL drone and return BL DroneToList 
+        /// </summary>
+        /// <param name="dalDrone"> the drone to convert </param>
+        /// <returns></returns>
         private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone dalDrone)
         {
             IDAL.DO.Drone newDrone = new IDAL.DO.Drone()
