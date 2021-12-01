@@ -75,8 +75,8 @@ namespace BL
                             }
                             Customer customer = GetCustomer(parcel.TargetId);
                             IDAL.DO.Station closestStation = dal.getClosestStation(customer.Location.Latitude, customer.Location.Longitude);
-                            double distance1 = Tools.Utis.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
-                            double distance2 = Tools.Utis.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
+                            double distance1 = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
+                            double distance2 = Tools.Utils.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                             double battery = getBatteryConsumption(parcel.Weight);
                             double minBattery = (distance1 + distance2) * battery;
                             droneBl.Battery = minBattery + r.NextDouble() * (100 - minBattery);
@@ -106,7 +106,7 @@ namespace BL
                                 droneBl.Location = location;
 
                                 IDAL.DO.Station closestStation = dal.getClosestStation(droneBl.Location.Latitude, droneBl.Location.Longitude);
-                                double distance = Tools.Utis.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
+                                double distance = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                                 double minBattery = distance * whenAvailable;
                                 droneBl.Battery = minBattery + r.NextDouble() * (100 - minBattery);
                             }

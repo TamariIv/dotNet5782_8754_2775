@@ -398,7 +398,7 @@ namespace DalObject
 
             foreach (var item in DataSource.Stations)
             {
-                double dist = Tools.Utis.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
+                double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
                 if(dist <  distance)
                 {
                     distance = dist;

@@ -35,21 +35,39 @@ namespace BL
 
             dal.UpdateStation(dalStation);
         }
-
-        public IBL.BO.StationToList GetStationToList(int id)
+        public IBL.BO.Station GetStation(int id)
         {
-            IBL.BO.StationToList s = new IBL.BO.StationToList();
-            List<IDAL.DO.Station> stations = dal.GetStations().ToList();
-            foreach (var dalStation in stations)
+            IDAL.DO.Station dalStation = dal.GetStation(id);
+            IBL.BO.Station station = new IBL.BO.Station
             {
-                if (dalStation.Id == id)
-                {
-                    s = ConvertStationToBl(dalStation);
-                    return s;
-                }
+                Id = dalStation.Id,
+                Name = dalStation.Name,
+                Location = new IBL.BO.Location { Latitude = dalStation.Latitude, Longitude = dalStation.Longitude },
+                AvailableChargeSlots = dalStation.AvailableChargeSlots,
+                DronesCharging = dal.GetDroneCharges();
+                /*
+                  public int Id { get; set; }
+        public string Name { get; set; }
+        public Location Location { get; set; }
+        public int AvailableChargeSlots { get; set; }
+        public List<DroneInCharging> DronesCharging { get; set; }
+                */
             }
-            throw new NoMatchingIdException($"station with id {id} doesn't exist");
         }
+        //public IBL.BO.StationToList GetStationToList(int id)
+        //{
+        //    IBL.BO.StationToList s = new IBL.BO.StationToList();
+        //    List<IDAL.DO.Station> stations = dal.GetStations().ToList();
+        //    foreach (var dalStation in stations)
+        //    {
+        //        if (dalStation.Id == id)
+        //        {
+        //            s = ConvertStationToBl(dalStation);
+        //            return s;
+        //        }
+        //    }
+        //    throw new NoMatchingIdException($"station with id {id} doesn't exist");
+        //}
 
         public IBL.BO.StationToList ConvertStationToBl(IDAL.DO.Station dalStation)
         {

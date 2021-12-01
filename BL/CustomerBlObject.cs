@@ -63,10 +63,16 @@ namespace BL
                 Id = dalCustomer.Id,
                 Name = dalCustomer.Name,
                 Phone = dalCustomer.Phone,
-
             };
             return blCustomer;
-
         }
+
+        //public void PrintListOfCustomers()
+        //{
+        //    foreach (var customer in GetListofParcels())
+        //    {
+        //        Console.WriteLine(parcel + "\n");
+        //    }
+        //}
     }
 }

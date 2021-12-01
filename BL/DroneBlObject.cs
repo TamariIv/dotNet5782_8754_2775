@@ -189,9 +189,9 @@ namespace BL
                     IDAL.DO.Customer tmpTarget = dal.GetCustomer(parcels.First().TargetId);
                     IDAL.DO.Station s = dal.getClosestStation(tmpTarget.Latitude, tmpTarget.Longitude);
 
-                    fromDroneToSender = Tools.Utis.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, blDrone.Location.Latitude, blDrone.Location.Longitude);
-                    fromSenderToTarget = Tools.Utis.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude);
-                    fromTargetToStation = Tools.Utis.DistanceCalculation(tmpTarget.Latitude, tmpTarget.Longitude, s.Latitude, s.Longitude);
+                    fromDroneToSender = Tools.Utils.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, blDrone.Location.Latitude, blDrone.Location.Longitude);
+                    fromSenderToTarget = Tools.Utils.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude);
+                    fromTargetToStation = Tools.Utils.DistanceCalculation(tmpTarget.Latitude, tmpTarget.Longitude, s.Latitude, s.Longitude);
                     minDistance = fromDroneToSender + fromSenderToTarget + fromTargetToStation;
 
                     // find the parcel with the minimum distance the drone has to fly
@@ -202,11 +202,11 @@ namespace BL
                         tmpSender = dal.GetCustomer(p.SenderId);
                         tmpTarget = dal.GetCustomer(p.TargetId);
 
-                        fromDroneToSender = Tools.Utis.DistanceCalculation
+                        fromDroneToSender = Tools.Utils.DistanceCalculation
                             (blDrone.Location.Latitude, blDrone.Location.Longitude, tmpSender.Latitude, tmpSender.Longitude);
-                        fromSenderToTarget = Tools.Utis.DistanceCalculation
+                        fromSenderToTarget = Tools.Utils.DistanceCalculation
                             (tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude);
-                        fromTargetToStation = Tools.Utis.DistanceCalculation
+                        fromTargetToStation = Tools.Utils.DistanceCalculation
                             (tmpTarget.Latitude, tmpTarget.Longitude, s.Latitude, s.Longitude);
 
                         if ((fromDroneToSender * whenAvailable) + (fromSenderToTarget * rate) + (fromTargetToStation * whenAvailable) >= blDrone.Battery
@@ -261,7 +261,7 @@ namespace BL
                     //    Target = target,
                     //    PickUpLocation = senderLocation,
                     //    TargetLocation = targetLocation,
-                    //    Distance = Tools.Utis.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude)
+                    //    Distance = Tools.utils.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude)
                     //};
                     blDrone.ParcelInDeliveryId = minDistanceParcel.Id;
                 }
@@ -274,7 +274,7 @@ namespace BL
             if (drone.DroneStatus == IBL.BO.DroneStatus.Available)
             {
                 IDAL.DO.Station tempStation = dal.getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
-                double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
+                double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
                 double rate = whenAvailable;
 
                 if (tempStation.AvailableChargeSlots != 0 && distance * rate < drone.Battery)
@@ -309,7 +309,7 @@ namespace BL
                 dal.ParcelDelivered(dalParcel);
 
                 IDAL.DO.Customer target = dal.GetCustomer(parcel.Target.Id);
-                double distance = Tools.Utis.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
+                double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
                 double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)parcel.Weight);
                 double battery = distance * batteryConsumption;
 
@@ -329,15 +329,19 @@ namespace BL
             }
             else throw new ImpossibleOprationException("parcel can't be delivere");
         }
-
-        public void PrintListOfDrones()
+        /// <summary>
+        /// returns a copy of the drones list
+        /// </summary>
+        public List<IBL.BO.DroneToList> GetListOfDrones()
         {
-            foreach (var d in dronesToList)
+            List<IBL.BO.DroneToList> copyDronesToList = new List<IBL.BO.DroneToList>();
+            foreach (var drone in dronesToList)
             {
-                Console.WriteLine(d + "\n");
+                copyDronesToList.Add(drone);
             }
+            return copyDronesToList;
         }
-
+     
         private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone dalDrone)
         {
             IDAL.DO.Drone newDrone = new IDAL.DO.Drone()
