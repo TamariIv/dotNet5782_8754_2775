@@ -34,13 +34,13 @@ namespace BL
                 oldDalParcel = parcels.Find(p => p.DroneId == drone.Id);
             else throw new NoMatchingIdException($"no parcel can be picked up by drone with id {drone.Id}");
 
-            if (oldDalParcel.PickedUp == DateTime.MinValue)
+            if (oldDalParcel.PickedUp == DateTime.MinValue) //only drone that assigned to parcel but still didnt pick up can pick up this parcel
             {
                 dal.PickUpParcel(oldDalParcel);
 
                 IDAL.DO.Customer sender = dal.GetCustomer(oldDalParcel.SenderId);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
-                double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)oldDalParcel.Weight);
+                double batteryConsumption = getBatteryConsumption(oldDalParcel.Weight);
                 double battery = distance * batteryConsumption;
 
                 IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
@@ -121,7 +121,7 @@ namespace BL
         /// <summary>
         /// create a list of parcelsToList and returns it
         /// </summary>
-        public List<IBL.BO.ParcelToList> GetListofParcels()
+        public IEnumerable<IBL.BO.ParcelToList> GetListofParcels()
         {
             List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
             foreach (var dalParcel in dal.GetParcels())
@@ -196,5 +196,21 @@ namespace BL
             };
             return blParcel;
         }
+        /// <summary>
+        /// create a list of parcels that are not assigned to drone and returns this list
+        /// </summary>
+        public IEnumerable<IBL.BO.ParcelToList> GetListofParcelsWithoutDrone()
+        {
+            List<IBL.BO.ParcelToList> parcelsWithoutDrones = new List<IBL.BO.ParcelToList>();
+            foreach (var dalParcel in dal.GetParcels())
+            {
+                if(dalParcel.DroneId == 0) //this parcel is not assigned to drone
+                //IBL.BO.DroneToList drone = GetDroneToList(dalParcel.DroneId);                
+                parcelsWithoutDrones.Add(ConvertParcelToParcelToList(dalParcel));
+            }
+            return parcelsWithoutDrones;
+        }
+
+
     }
 }

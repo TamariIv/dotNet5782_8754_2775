@@ -12,5 +12,10 @@ namespace IBL.BO
         public double Battery { get; set; }
         public Location CurrentLocation { get; set; }
 
+
+        public override string ToString()
+        {
+            return string.Format("Id is: {0}\n Battery is: {1} Location is: {2}", Id, Battery, CurrentLocation);
+        }
     }
 }
