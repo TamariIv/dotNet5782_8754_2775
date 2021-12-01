@@ -201,6 +201,14 @@ namespace ConsoleUI_BL
                     default:
                         break;
                 }
+
+                Console.WriteLine("press 1 to add an item");
+                Console.WriteLine("press 2 to update an item");
+                Console.WriteLine("press 3 to view details of specific item");
+                Console.WriteLine("press 4 to view a list of specific item");
+                Console.WriteLine("press 0 to stop");
+                menuOptions = (MenuOptions)int.Parse(Console.ReadLine());
+
             }
         }
 

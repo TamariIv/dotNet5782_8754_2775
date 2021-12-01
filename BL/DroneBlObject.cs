@@ -338,7 +338,7 @@ namespace BL
         /// <summary>
         /// returns a copy of the drones list
         /// </summary>
-        public List<IBL.BO.DroneToList> GetListOfDrones()
+        public IEnumerable<IBL.BO.DroneToList> GetListOfDrones()
         {
             List<IBL.BO.DroneToList> copyDronesToList = new List<IBL.BO.DroneToList>();
             foreach (var drone in dronesToList)
