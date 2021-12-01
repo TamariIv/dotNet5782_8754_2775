@@ -12,14 +12,14 @@ namespace IBL.BO
         public string Name { get; init; }
         public string Phone { get; init; }
         public Location Location { get; init; }
-        public List<Parcel> send { get; init; }
-        public List<Parcel> receive { get; init; }
+        public List<Parcel> Send { get; init; }
+        public List<Parcel> Receive { get; init; }
 
 
         public override string ToString()
         {
-            string senderParcels = string.Join(" , ", send);
-            string recieverParcels = string.Join(" , ", receive);
+            string senderParcels = string.Join(" , ", Send);
+            string recieverParcels = string.Join(" , ", Receive);
             return string.Format(
                 "Id is: {0}\n" +
                 "Name of customer: {1}\n" +

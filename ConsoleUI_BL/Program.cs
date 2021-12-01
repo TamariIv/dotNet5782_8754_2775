@@ -208,7 +208,7 @@ namespace ConsoleUI_BL
 
         private static void addDrone()
         {
-            int id, station;
+            int DroneId, stationId;
             string model;
             IBL.BO.WeightCategories weight;
             Console.WriteLine("Enter drone ID: ");
@@ -221,15 +221,15 @@ namespace ConsoleUI_BL
             int.TryParse(Console.ReadLine(), out tmp);
             weight = (IBL.BO.WeightCategories)(tmp - 1);
             Console.WriteLine("Enter station to charge in ID: ");
-            int.TryParse(Console.ReadLine(), out station);
+            int.TryParse(Console.ReadLine(), out stationId);
 
-            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
             {
-                Id = id,
+                Id = DroneId,
                 Model = model,
                 MaxWeight = weight
             };
-            mybl.AddDrone(newDrone, station);
+            mybl.AddDrone(newDrone, stationId);
         }
 
         private static void addStation()
