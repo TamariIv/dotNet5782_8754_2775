@@ -34,13 +34,13 @@ namespace BL
                 oldDalParcel = parcels.Find(p => p.DroneId == drone.Id);
             else throw new NoMatchingIdException($"no parcel can be picked up by drone with id {drone.Id}");
 
-            if (oldDalParcel.PickedUp == DateTime.MinValue)
+            if (oldDalParcel.PickedUp == DateTime.MinValue) //only drone that assigned to parcel but still didnt pick up can pick up this parcel
             {
                 dal.PickUpParcel(oldDalParcel);
 
                 IDAL.DO.Customer sender = dal.GetCustomer(oldDalParcel.SenderId);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
-                double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)oldDalParcel.Weight);
+                double batteryConsumption = getBatteryConsumption(oldDalParcel.Weight);
                 double battery = distance * batteryConsumption;
 
                 IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList

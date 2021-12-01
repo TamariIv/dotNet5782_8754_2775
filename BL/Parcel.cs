@@ -27,11 +27,10 @@ namespace IBL.BO
                 "Id of the target: {2}\n" +
                 "Weight is: {3}\n" +
                 "priority: {4}\n" +
-                "requested date: {5}\n" +
-                //"Drone id: {6}\n" + 
-                "scheduled date: {7}\n" +
-                "pickedUp date: {8}\n" +
-                "delivered date: {9}\n",
+                "requested date: {5}\n" + 
+                "scheduled date: {6}\n" +
+                "pickedUp date: {7}\n" +
+                "delivered date: {8}\n",
                 Id, Sender, Target, Weight, Priority, Requested.ToString("dd/MM/yyyy"), Scheduled, PickedUp, Delivered);
         }
     }

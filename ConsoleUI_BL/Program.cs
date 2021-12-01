@@ -37,52 +37,36 @@ namespace ConsoleUI_BL
                             Console.WriteLine("Press 2 to add drone");
                             Console.WriteLine("Press 3 to add station");
                             Console.WriteLine("Press 4 to add customer");
+                            Console.WriteLine("press 0 to stop");
                             entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
-                            switch (entityOptions)
+                            try
                             {
-                                case EntityOptions.Parcel:
-                                    try
-                                    {
+                                switch (entityOptions)
+                                {
+                                    case EntityOptions.Parcel:
                                         addParcel();
-                                    }
-                                    catch (Exception exp)
-                                    {
-                                        Console.WriteLine(exp.Message);
-                                    }
-                                    break;
-                                case EntityOptions.Drone:
-                                    try
-                                    {
+                                        break;
+                                    case EntityOptions.Drone:
                                         addDrone();
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                                    break;
-                                case EntityOptions.BaseStation:
-                                    try
-                                    {
+                                        break;
+                                    case EntityOptions.BaseStation:
                                         addStation();
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                                    break;
-                                case EntityOptions.Customer:
-                                    try
-                                    {
+                                        break;
+                                    case EntityOptions.Customer:
                                         addCustomer();
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                                    break;
+                                        break;
+                                    case EntityOptions.Exit:
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
-
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                             break;
+                      
                         }
                     case MenuOptions.Update:
                         Console.WriteLine("Press 1 to update a drone");
@@ -90,94 +74,49 @@ namespace ConsoleUI_BL
                         Console.WriteLine("Press 3 to update a customer");
                         Console.WriteLine("Press 4 to send drone to charge");
                         Console.WriteLine("Press 5 to free drone from charging");
+                        Console.WriteLine("press 6 to assign a parcel to drone");
+                        Console.WriteLine("press 7 to pick up a parcel by drone");
+                        Console.WriteLine("press 8 to deliver a parcel by drone");
+                        Console.WriteLine("press 0 to stop");
                         UpdateOptions updateChoice = (UpdateOptions)Enum.Parse(typeof(UpdateOptions), Console.ReadLine());
                         #region Update switch
-                        switch (updateChoice)
+                        try
                         {
-                            case UpdateOptions.Drone:
-                                try
-                                {
+                            switch (updateChoice)
+                            {
+                                case UpdateOptions.Drone:
                                     updateDrone();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.Station:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.Station:
                                     updateStation();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.Customer:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.Customer:
                                     updateCustomer();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.Recharge:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.Recharge:
                                     rechargeDrone();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.FreeDrone:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.FreeDrone:
                                     FreeDrone();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.DroneToParcel:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.DroneToParcel:
                                     DroneToParcel();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.PickUpParcel:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.PickUpParcel:
                                     pickUpParcel();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.DeliveryPackageByDrone:
-                                try
-                                {
+                                    break;
+                                case UpdateOptions.DeliveryPackageByDrone:
                                     deliveryPackage();
-                                }
-                                catch
-                                {
-
-                                }
-                                break;
-                            case UpdateOptions.Exit:
-                                break;
-                            default:
-                                break;
+                                    break;
+                                case UpdateOptions.Exit:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         #endregion
                         break;
@@ -187,15 +126,31 @@ namespace ConsoleUI_BL
                         Console.WriteLine("press 3 to view details of a specific base station");
                         Console.WriteLine("press 4 to view details of a specific customer");
                         entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
-                        //int id;
-                        switch (entityOptions)
+                        try
                         {
-                            case EntityOptions.Parcel:
-                                printParcel();
-                                break;
-                            case EntityOptions.Drone:
-                                printDrone();
-                                break;
+                            switch (entityOptions)
+                            {
+                                case EntityOptions.Parcel:
+                                    printParcel();
+                                    break;
+                                case EntityOptions.Drone:
+                                    printDrone();
+                                    break;
+                                case EntityOptions.BaseStation:
+                                    printStation();
+                                    break;
+                                case EntityOptions.Customer:
+                                    printCustomer();
+                                    break;
+                                case EntityOptions.Exit:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         break;
                     case MenuOptions.Show_List:
@@ -207,30 +162,37 @@ namespace ConsoleUI_BL
                         Console.WriteLine("press 6 to view the list of the stations with available charge slots");
                         listOptions = (ListOptions)int.Parse(Console.ReadLine());
                         #region get list switch
-                        switch (listOptions)
+                        try
                         {
-                            case ListOptions.BaseStations:
-                                PrintBaseStationsList();
-                                break;
-                            case ListOptions.Drones:
-                                printDronesList();
-                                break;
-                            case ListOptions.Customers:
-                                PrintCustomersList();
-                                break;
-                            case ListOptions.Parcels:
-                                printParcelsList();
-                                break;
-                            case ListOptions.ParcelsWithoutDrone:
-                                PrintParcelsWithoutDroneList();
-                                break;
-                            case ListOptions.AvailableChargingStation:
-                                PrintAvailableAvailableChargeSlotsList();
-                                break;
-                            case ListOptions.Exit:
-                                break;
-                            default:
-                                break;
+                            switch (listOptions)
+                            {
+                                case ListOptions.BaseStations:
+                                    PrintBaseStationsList();
+                                    break;
+                                case ListOptions.Drones:
+                                    printDronesList();
+                                    break;
+                                case ListOptions.Customers:
+                                    PrintCustomersList();
+                                    break;
+                                case ListOptions.Parcels:
+                                    printParcelsList();
+                                    break;
+                                case ListOptions.ParcelsWithoutDrone:
+                                    PrintParcelsWithoutDroneList();
+                                    break;
+                                case ListOptions.AvailableChargingStation:
+                                    PrintAvailableAvailableChargeSlotsList();
+                                    break;
+                                case ListOptions.Exit:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         #endregion
                         break;
@@ -242,69 +204,7 @@ namespace ConsoleUI_BL
             }
         }
 
-        private static void DroneToParcel()
-        {
-            int id;
-            Console.WriteLine("Enter drone ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("int was expected\n");
-            mybl.DroneToParcel(id);
-        }
-
-        private static void FreeDrone()
-        {
-            int id;
-            double timeInCharging;
-            Console.WriteLine("Enter drone ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("int was expected\n");
-            Console.WriteLine("Enter drone time in charging: ");
-            if (!double.TryParse(Console.ReadLine(), out timeInCharging))
-                throw new WrongInputFormatException("double was expected\n");
-            mybl.FreeDrone(id, timeInCharging);
-        }
-
-        private static void updateStation()
-        {
-            int id, chargeSlots;
-            string name;
-            Console.WriteLine("Enter station ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("input was not int\n");
-            Console.WriteLine("Enter customer name: ");
-            name = Console.ReadLine();
-            Console.WriteLine("Enter station number of charge slots: ");
-            if (!int.TryParse(Console.ReadLine(), out chargeSlots))
-                throw new WrongInputFormatException("input was not int\n");
-            IBL.BO.Station newStation = new IBL.BO.Station
-            {
-                Id = id,
-                Name = name,
-                AvailableChargeSlots = chargeSlots
-            };
-            mybl.UpdateStation(newStation);
-        }
-
-        private static void updateCustomer()
-        {
-            int id;
-            string name, phone;
-            Console.WriteLine("Enter customer ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("input was not int\n");
-            Console.WriteLine("Enter customer name: ");
-            name = Console.ReadLine();
-            Console.WriteLine("Enter phone number: ");
-            phone = Console.ReadLine();
-
-            IBL.BO.Customer newCustomer = new IBL.BO.Customer
-            {
-                Id = id,
-                Name = name,
-                Phone = phone,
-            };
-            mybl.UpdateCustomer(newCustomer);
-        }
+        //-----------------Add-----------------//
 
         private static void addDrone()
         {
@@ -313,7 +213,7 @@ namespace ConsoleUI_BL
             IBL.BO.WeightCategories weight;
             Console.WriteLine("Enter drone ID: ");
             if (!int.TryParse(Console.ReadLine(), out id))
-                throw new WrongInputFormatException("int was expected\n");
+                throw new WrongInputFormatException("input must be a number/n");
             Console.WriteLine("Enter drone model: ");
             model = Console.ReadLine();
             Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
@@ -337,7 +237,8 @@ namespace ConsoleUI_BL
             int id, slots;
             string name;
             Console.WriteLine("Enter station ID: ");
-            int.TryParse(Console.ReadLine(), out id);
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number/n");
             Console.WriteLine("Enter station name: ");
             name = Console.ReadLine();
             Console.WriteLine("Enter number of charging slots: ");
@@ -358,7 +259,8 @@ namespace ConsoleUI_BL
             string name, phone;
             double longitude, latitude;
             Console.WriteLine("Enter customer ID: ");
-            int.TryParse(Console.ReadLine(), out id);
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number/n");
             Console.WriteLine("Enter customer name: ");
             name = Console.ReadLine();
             Console.WriteLine("Enter phone number: ");
@@ -389,7 +291,7 @@ namespace ConsoleUI_BL
             int senderId, targetId;
             Console.WriteLine("Enter sender ID: ");
             if (!int.TryParse(Console.ReadLine(), out senderId))
-                throw new WrongInputFormatException("input was not int");
+                throw new WrongInputFormatException("input must be a number");
             Console.WriteLine("Enter target ID: ");
             if (!int.TryParse(Console.ReadLine(), out targetId))
                 throw new WrongInputFormatException("input was not int");
@@ -423,13 +325,14 @@ namespace ConsoleUI_BL
             int id;
             string model;
             Console.WriteLine("Enter ID of the drone");
-            int.TryParse(Console.ReadLine(), out id);
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number"); 
             Console.WriteLine("Enter model of the drone");
-            model = Console.ReadLine();
+            model = Console.ReadLine();          
             IBL.BO.Drone newDrone = new IBL.BO.Drone()
             {
                 Id = id,
-                Model = model
+                Model = model,
             };
             mybl.UpdateDrone(newDrone);
         }
@@ -449,16 +352,8 @@ namespace ConsoleUI_BL
         {
             int id;
             Console.WriteLine("Enter drone ID");
-            int.TryParse(Console.ReadLine(), out id);
-            IBL.BO.Parcel parcel = new IBL.BO.Parcel()
-            {
-                AssignedDrone = new IBL.BO.DroneInParcel() 
-                { 
-                    Id = id,
-                    Battery = mybl.GetDroneToList(id).Battery,
-                    CurrentLocation = mybl.GetDroneToList(id).Location
-                }
-            };
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number");         
             IBL.BO.Drone newDrone = new IBL.BO.Drone
             {
                 Id = id
@@ -472,14 +367,76 @@ namespace ConsoleUI_BL
         {
             int id;
             Console.WriteLine("Enter drone ID");
-            int.TryParse(Console.ReadLine(), out id);
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number"); 
             IBL.BO.Drone newDrone = new IBL.BO.Drone { Id = id };
-            IBL.BO.Parcel parcel = new IBL.BO.Parcel()
-            {
-                AssignedDrone = new IBL.BO.DroneInParcel() { Id = id }
-            };
-            mybl.deliveryPackage(newDrone, parcel);
+            mybl.deliveryPackage(newDrone);
         }
+
+        private static void DroneToParcel()
+        {
+            int id;
+            Console.WriteLine("Enter drone ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number\n");
+            mybl.DroneToParcel(id);
+        }
+
+        private static void FreeDrone()
+        {
+            int id;
+            double timeInCharging;
+            Console.WriteLine("Enter drone ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number\n");
+            Console.WriteLine("Enter drone time in charging: ");
+            if (!double.TryParse(Console.ReadLine(), out timeInCharging))
+                throw new WrongInputFormatException("double was expected\n");
+            mybl.FreeDrone(id, timeInCharging);
+        }
+
+        private static void updateStation()
+        {
+            int id, chargeSlots;
+            string name;
+            Console.WriteLine("Enter station ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number\n");
+            Console.WriteLine("Enter customer name: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Enter station number of charge slots: ");
+            if (!int.TryParse(Console.ReadLine(), out chargeSlots))
+                throw new WrongInputFormatException("input must be a number\n");
+            IBL.BO.Station newStation = new IBL.BO.Station
+            {
+                Id = id,
+                Name = name,
+                AvailableChargeSlots = chargeSlots
+            };
+            mybl.UpdateStation(newStation);
+        }
+
+        private static void updateCustomer()
+        {
+            int id;
+            string name, phone;
+            Console.WriteLine("Enter customer ID: ");
+            if (!int.TryParse(Console.ReadLine(), out id))
+                throw new WrongInputFormatException("input must be a number\n");
+            Console.WriteLine("Enter customer name: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Enter phone number: ");
+            phone = Console.ReadLine();
+
+            IBL.BO.Customer newCustomer = new IBL.BO.Customer
+            {
+                Id = id,
+                Name = name,
+                Phone = phone,
+            };
+            mybl.UpdateCustomer(newCustomer);
+        }
+
         //-----------------View-----------------//
 
         private static void printParcel()
@@ -488,7 +445,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter ID of the parcel");
             id = int.Parse(Console.ReadLine());
             if (id.ToString() == "")
-                throw new WrongInputFormatException("int was expected\n");
+                throw new WrongInputFormatException("input must be a number\n");
             IBL.BO.Parcel parcelForView = mybl.GetParcel(id);
             Console.WriteLine(parcelForView);
         }
@@ -498,8 +455,30 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter ID of the drone");
             id = int.Parse(Console.ReadLine());
             if (id.ToString() == "")
-                throw new WrongInputFormatException("int was expected\n");
+                throw new WrongInputFormatException("input must be a number\n");
             Console.WriteLine(mybl.GetDrone(id));
+        }
+
+        private static void printStation()
+        {
+            int id;
+            Console.WriteLine("enter ID of the station");
+            id = int.Parse(Console.ReadLine());
+            if (id.ToString() == "")
+                throw new WrongInputFormatException("input must be a number\n");
+            IBL.BO.Station stationForView = mybl.GetStation(id);
+            Console.WriteLine(stationForView);
+        }
+
+        private static void printCustomer()
+        {
+            int id;
+            Console.WriteLine("enter ID of the customer");
+            id = int.Parse(Console.ReadLine());
+            if (id.ToString() == "")
+                throw new WrongInputFormatException("input must be a number\n");
+            IBL.BO.Customer customerForView = mybl.GetCustomer(id);
+            Console.WriteLine(customerForView);
         }
 
         private static void printParcelsList()

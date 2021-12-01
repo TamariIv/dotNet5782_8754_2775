@@ -20,10 +20,11 @@ namespace IBL
         void DroneToParcel(int id);
         void rechargeDrone(Drone drone);
         void PickUpParcel(Drone drone);
-        void deliveryPackage(Drone drone, Parcel parcel);
+        void deliveryPackage(Drone drone);
 
         //Get functions:
         DroneToList GetDroneToList(int id);
+        Drone GetDrone(int id);
         Parcel GetParcel(int id);
         //ParcelToList GetParcelToList(int id);
         IEnumerable<ParcelToList> GetListofParcels();

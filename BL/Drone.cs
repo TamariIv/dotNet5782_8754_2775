@@ -25,8 +25,9 @@ namespace IBL.BO
                 "max weight is: {2}\n" +
                 "battery: {3}\n" +
                 "drone status: {4}\n" +
-                "current location: {5}\n",
-                Id, Model, MaxWeight, Battery, DroneStatus, CurrentLocation);
+                "parcel in delivery: {5}\n"
+                "current location: {6}\n",
+                Id, Model, MaxWeight, Battery, DroneStatus,ParcelInDelivery, CurrentLocation);
         }
     }
 }

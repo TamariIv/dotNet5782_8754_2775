@@ -98,18 +98,11 @@ namespace BL
             IBL.BO.Drone d = new IBL.BO.Drone();
             if (dronesToList.Exists(drone => drone.Id == id))
             {
-                d = dronesToList.Find(drone => drone.Id == id);
+                d = ConvertDroneToListToDrone(dronesToList.Find(drone => drone.Id == id));
                 return d;
             }
             else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
-
-        //public void printDrone(int id)
-        //{
-        //    IBL.BO.DroneToList droneToList = GetDroneToList(id);
-        //    IBL.BO.Drone drone = ConvertDroneToListToDrone(droneToList);
-        //    Console.WriteLine(drone);
-        //}
 
         public IBL.BO.Drone ConvertDroneToListToDrone(IBL.BO.DroneToList d)
         {
@@ -131,7 +124,7 @@ namespace BL
                     Target = new IBL.BO.CustomerInParcel { Id = dal.GetCustomer(parcel.TargetId).Id, Name = dal.GetCustomer(parcel.TargetId).Name },
                     PickUpLocation = new IBL.BO.Location { Latitude = dal.GetCustomer(parcel.SenderId).Latitude, Longitude = dal.GetCustomer(parcel.SenderId).Longitude },
                     TargetLocation = new IBL.BO.Location { Latitude = dal.GetCustomer(parcel.TargetId).Latitude, Longitude = dal.GetCustomer(parcel.TargetId).Longitude },
-                    Distance = Tools.Utis.DistanceCalculation(dal.GetCustomer(parcel.SenderId).Latitude, dal.GetCustomer(parcel.SenderId).Longitude, dal.GetCustomer(parcel.TargetId).Latitude, dal.GetCustomer(parcel.TargetId).Longitude)
+                    Distance = Tools.Utils.DistanceCalculation(dal.GetCustomer(parcel.SenderId).Latitude, dal.GetCustomer(parcel.SenderId).Longitude, dal.GetCustomer(parcel.TargetId).Latitude, dal.GetCustomer(parcel.TargetId).Longitude)
                 },
                 CurrentLocation = d.Location
             };
@@ -306,17 +299,18 @@ namespace BL
             }
         }
 
-        public void deliveryPackage(IBL.BO.Drone drone, IBL.BO.Parcel parcel)
+        public void deliveryPackage(IBL.BO.Drone drone)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
+          
             if (parcels.Exists(p => p.DroneId==drone.Id && p.PickedUp != DateTime.MinValue && p.Delivered == DateTime.MinValue))
             {
-                IDAL.DO.Parcel dalParcel = ConvertParcelToDal(parcel);
+                IDAL.DO.Parcel dalParcel = parcels.Find(p => p.DroneId == drone.Id);
                 dal.ParcelDelivered(dalParcel);
 
-                IDAL.DO.Customer target = dal.GetCustomer(parcel.Target.Id);
+                IDAL.DO.Customer target = dal.GetCustomer(dalParcel.TargetId);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
-                double batteryConsumption = getBatteryConsumption((IDAL.DO.WeightCategories)parcel.Weight);
+                double batteryConsumption = getBatteryConsumption(dalParcel.Weight);
                 double battery = distance * batteryConsumption;
 
                 IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
@@ -333,7 +327,7 @@ namespace BL
                 dronesToList.Remove(oldDrone);
                 dronesToList.Add(newDrone);
             }
-            else throw new ImpossibleOprationException("parcel can't be delivere");
+            else throw new ImpossibleOprationException("parcel can't be delivered");
         }
         /// <summary>
         /// returns a copy of the drones list

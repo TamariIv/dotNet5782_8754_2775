@@ -16,12 +16,14 @@ namespace IBL.BO
 
         public override string ToString()
         {
+            string droneInCharging = string.Join(" , ", DronesCharging);
             return string.Format(
                 "Id is: {0}\n" +
                 "Name of station: {1}\n" +
                 "Location:\n{2}\n" +
-                "Number of open charge slots: {3}\n", 
-                Id, Name, Location, AvailableChargeSlots);
+                "Number of open charge slots: {3}\n"+
+                "Drone in charging: {4}\n",
+                Id, Name, Location, AvailableChargeSlots, droneInCharging);
         }
     }
 }
