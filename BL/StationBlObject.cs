@@ -76,7 +76,7 @@ namespace BL
             return blStation;
         }
 
-        public List<IBL.BO.StationToList> GetListOfStations()
+        public IEnumerable<IBL.BO.StationToList> GetListOfStations()
         {
             List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
             foreach (var s in dal.GetStations())
@@ -86,13 +86,17 @@ namespace BL
             return stations;
         }
 
-        public void PrintListOfStations()
+        public IEnumerable<IBL.BO.StationToList> GetListOfStationsWithAvailableChargeSlots()
         {
-            foreach (var s in GetListOfStations())
+            List<IBL.BO.StationToList> stationsWithAvailableChargeSlots = new List<IBL.BO.StationToList>();
+            foreach (var station in GetListOfStations())
             {
-                Console.WriteLine(s + "\n");
+                if(station.AvailableChargeSlots != 0)
+                stationsWithAvailableChargeSlots.Add(station);
             }
+            return stationsWithAvailableChargeSlots;
         }
+
     }
 }
 

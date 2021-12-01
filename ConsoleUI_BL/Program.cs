@@ -182,7 +182,7 @@ namespace ConsoleUI_BL
                                     PrintParcelsWithoutDroneList();
                                     break;
                                 case ListOptions.AvailableChargingStation:
-                                    PrintAvailableAvailableChargeSlotsList();
+                                    PrintAvailableChargeSlotsList();
                                     break;
                                 case ListOptions.Exit:
                                     break;
@@ -204,15 +204,16 @@ namespace ConsoleUI_BL
             }
         }
 
+
         //-----------------Add-----------------//
 
         private static void addDrone()
         {
-            int DroneId, stationId;
+            int droneId, stationId;
             string model;
             IBL.BO.WeightCategories weight;
             Console.WriteLine("Enter drone ID: ");
-            if (!int.TryParse(Console.ReadLine(), out id))
+            if (!int.TryParse(Console.ReadLine(), out droneId))
                 throw new WrongInputFormatException("input must be a number/n");
             Console.WriteLine("Enter drone model: ");
             model = Console.ReadLine();
@@ -225,7 +226,7 @@ namespace ConsoleUI_BL
 
             IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
             {
-                Id = DroneId,
+                Id = droneId,
                 Model = model,
                 MaxWeight = weight
             };
@@ -497,6 +498,45 @@ namespace ConsoleUI_BL
                 Console.WriteLine(drone);
             }
         }
+        private static void PrintBaseStationsList()
+        {
+            List<IBL.BO.StationToList> stations = mybl.GetListOfStations().ToList();
+            foreach (var station in stations)
+            {
+                Console.WriteLine(station);
+            }
+        }
+
+        private static void PrintCustomersList()
+        {
+            List<IBL.BO.CustomerToList> customers = mybl.GetListOfCustomers().ToList();
+            foreach (var customer in customers)
+            {
+                Console.WriteLine(customer);
+            }
+        }
+
+        private static void PrintParcelsWithoutDroneList()
+        {
+            List<IBL.BO.ParcelToList> parcelsWithoutDrones = mybl.GetListofParcelsWithoutDrone().ToList();
+            foreach (var parcelWithoutDrone in parcelsWithoutDrones)
+            {
+                Console.WriteLine(parcelWithoutDrone);
+            }
+        }
+
+        private static void PrintAvailableChargeSlotsList()
+        {
+            List<IBL.BO.StationToList> stations = mybl.GetListOfStationsWithAvailableChargeSlots().ToList();
+            foreach (var station in stations)
+            {
+                Console.WriteLine(station);
+            }
+        }
+
+
+
+
     }
 
 }

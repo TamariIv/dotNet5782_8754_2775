@@ -25,11 +25,16 @@ namespace IBL
         //Get functions:
         DroneToList GetDroneToList(int id);
         Drone GetDrone(int id);
+        Station GetStation(int id);
+        Customer GetCustomer(int id);
         Parcel GetParcel(int id);
         //ParcelToList GetParcelToList(int id);
+        IEnumerable<StationToList> GetListOfStations();
         IEnumerable<ParcelToList> GetListofParcels();
         IEnumerable<DroneToList> GetListOfDrones();
         IEnumerable<ParcelToList> GetListofParcelsWithoutDrone();
+        IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots();
+        IEnumerable<CustomerToList> GetListOfCustomers();
 
     }
 }
