@@ -93,10 +93,21 @@ namespace BL
             else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
 
-        public void printDroneToList(int id)
+        public IBL.BO.Drone GetDrone(int id)
         {
-            Console.WriteLine(GetDroneToList(id));
+            IBL.BO.Drone d = new IBL.BO.Drone();
+            if (dronesToList.Exists(drone => drone.Id == id))
+            {
+                d = dronesToList.Find(drone => drone.Id == id);
+                return d;
+            }
+            else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
+
+        //public void printDroneToList(int id)
+        //{
+        //    Console.WriteLine(GetDroneToList(id))
+        //}
 
         public void DroneToParcel(int id)
         {

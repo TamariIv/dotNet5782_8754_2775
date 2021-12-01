@@ -26,8 +26,9 @@ namespace IBL
         DroneToList GetDroneToList(int id);
         Parcel GetParcel(int id);
         //ParcelToList GetParcelToList(int id);
-        List<ParcelToList> GetListofParcels();
-        List<DroneToList> GetListOfDrones();
+        IEnumerable<ParcelToList> GetListofParcels();
+        IEnumerable<DroneToList> GetListOfDrones();
+        IEnumerable<ParcelToList> GetListofParcelsWithoutDrone();
 
     }
 }

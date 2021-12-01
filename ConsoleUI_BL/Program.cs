@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace ConsoleUI_BL
 {
@@ -503,7 +504,7 @@ namespace ConsoleUI_BL
 
         private static void printParcelsList()
         {
-            List<IBL.BO.ParcelToList> parcels = mybl.GetListofParcels();
+            List<IBL.BO.ParcelToList> parcels = mybl.GetListofParcels().ToList();
             foreach (var parcel in parcels)
             {
                 Console.WriteLine(parcel);
@@ -511,7 +512,7 @@ namespace ConsoleUI_BL
         }
         private static void printDronesList()
         {
-            List<IBL.BO.DroneToList> drones = mybl.GetListOfDrones(); 
+            List<IBL.BO.DroneToList> drones = mybl.GetListOfDrones().ToList(); 
             foreach (var drone in drones)
             {
                 Console.WriteLine(drone);

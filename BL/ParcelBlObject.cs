@@ -121,7 +121,7 @@ namespace BL
         /// <summary>
         /// create a list of parcelsToList and returns it
         /// </summary>
-        public List<IBL.BO.ParcelToList> GetListofParcels()
+        public IEnumerable<IBL.BO.ParcelToList> GetListofParcels()
         {
             List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
             foreach (var dalParcel in dal.GetParcels())
@@ -173,6 +173,21 @@ namespace BL
             };
             return blParcel;
         }
+        /// <summary>
+        /// create a list of parcels that are not assigned to drone and returns this list
+        /// </summary>
+        public IEnumerable<IBL.BO.ParcelToList> GetListofParcelsWithoutDrone()
+        {
+            List<IBL.BO.ParcelToList> parcelsWithoutDrones = new List<IBL.BO.ParcelToList>();
+            foreach (var dalParcel in dal.GetParcels())
+            {
+                if(dalParcel.DroneId == 0) //this parcel is not assigned to drone
+                //IBL.BO.DroneToList drone = GetDroneToList(dalParcel.DroneId);                
+                parcelsWithoutDrones.Add(ConvertParcelToParcelToList(dalParcel));
+            }
+            return parcelsWithoutDrones;
+        }
+
 
     }
 }
