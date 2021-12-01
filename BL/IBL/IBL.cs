@@ -29,6 +29,7 @@ namespace IBL
         List<ParcelToList> GetListofParcels();
         List<DroneToList> GetListOfDrones();
         Customer GetCustomer(int id);
+        IEnumerable<CustomerToList> GetListOfCustomers()
 
     }
 }

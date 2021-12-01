@@ -104,5 +104,15 @@ namespace BL
             };
             return customer;
         }
+
+        public IEnumerable<IBL.BO.CustomerToList> GetListOfCustomers()
+        {
+            List<IBL.BO.CustomerToList> customers = new List<IBL.BO.CustomerToList>();
+            foreach (var dalCustomer in dal.GetCustomers())
+            {
+                customers.Add(ConvertCustomerToBl(dalCustomer));
+            }
+            return customers;
+        }
     }
 }
