@@ -345,6 +345,7 @@ namespace ConsoleUI_BL
             };
             mybl.UpdateDrone(newDrone);
         }
+
         private static void rechargeDrone()
         {
             int id;
@@ -369,8 +370,6 @@ namespace ConsoleUI_BL
             };
             mybl.PickUpParcel(newDrone);
         }
-
-
 
         private static void deliveryPackage()
         {
@@ -458,6 +457,7 @@ namespace ConsoleUI_BL
             IBL.BO.Parcel parcelForView = mybl.GetParcel(id);
             Console.WriteLine(parcelForView);
         }
+
         private static void printDrone()
         {
             int id;
@@ -498,6 +498,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine(parcel);
             }
         }
+
         private static void printDronesList()
         {
             List<IBL.BO.DroneToList> drones = mybl.GetListOfDrones().ToList(); 
@@ -506,6 +507,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine(drone);
             }
         }
+
         private static void PrintBaseStationsList()
         {
             List<IBL.BO.StationToList> stations = mybl.GetListOfStations().ToList();
