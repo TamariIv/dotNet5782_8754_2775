@@ -201,6 +201,14 @@ namespace ConsoleUI_BL
                     default:
                         break;
                 }
+
+                Console.WriteLine("press 1 to add an item");
+                Console.WriteLine("press 2 to update an item");
+                Console.WriteLine("press 3 to view details of specific item");
+                Console.WriteLine("press 4 to view a list of specific item");
+                Console.WriteLine("press 0 to stop");
+                menuOptions = (MenuOptions)int.Parse(Console.ReadLine());
+
             }
         }
 
@@ -336,6 +344,7 @@ namespace ConsoleUI_BL
             };
             mybl.UpdateDrone(newDrone);
         }
+
         private static void rechargeDrone()
         {
             int id;
@@ -360,8 +369,6 @@ namespace ConsoleUI_BL
             };
             mybl.PickUpParcel(newDrone);
         }
-
-
 
         private static void deliveryPackage()
         {
@@ -449,6 +456,7 @@ namespace ConsoleUI_BL
             IBL.BO.Parcel parcelForView = mybl.GetParcel(id);
             Console.WriteLine(parcelForView);
         }
+
         private static void printDrone()
         {
             int id;
@@ -489,6 +497,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine(parcel);
             }
         }
+
         private static void printDronesList()
         {
             List<IBL.BO.DroneToList> drones = mybl.GetListOfDrones().ToList(); 
@@ -497,6 +506,7 @@ namespace ConsoleUI_BL
                 Console.WriteLine(drone);
             }
         }
+
         private static void PrintBaseStationsList()
         {
             List<IBL.BO.StationToList> stations = mybl.GetListOfStations().ToList();

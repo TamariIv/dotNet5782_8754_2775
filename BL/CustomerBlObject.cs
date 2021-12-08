@@ -17,7 +17,6 @@ namespace BL
                 dalCustomer.Name = newCustomer.Name;
             if (newCustomer.Phone != "")
                 dalCustomer.Phone = newCustomer.Phone;
-
             dal.UpdateCustomer(dalCustomer);
         }
 

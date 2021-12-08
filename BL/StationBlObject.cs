@@ -58,7 +58,7 @@ namespace BL
         }
 
 
-        public IBL.BO.StationToList ConvertStationToStationToList(IDAL.DO.Station dalStation)
+        private IBL.BO.StationToList convertStationToStationToList(IDAL.DO.Station dalStation)
         {
             // find how many drones are charging in the station using dal droneCharge type
             int OccupiedChargeSlots = 0;
