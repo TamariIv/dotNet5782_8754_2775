@@ -8,19 +8,21 @@ namespace BL
 {
     public partial class BlObject : IBL.IBL
     {
+        /// <summary>
+        /// get station of BL and add it into the stations list of DAL
+        /// </summary>
+        /// <param name="newStation"></param>
         public void AddStation(IBL.BO.Station newStation)
-        {
-            if (newStation.DronesCharging.Count == 0)
-            {
+        {         
                 IDAL.DO.Station dalStation = new IDAL.DO.Station
                 {
                     Id = newStation.Id,
                     Name = newStation.Name,
                     AvailableChargeSlots = newStation.AvailableChargeSlots,
-
+                    Latitude=newStation.Location.Latitude,
+                    Longitude=newStation.Location.Longitude
                 };
-                dal.AddStation(dalStation);
-            }
+                dal.AddStation(dalStation);       
         }
 
         public void UpdateStation(IBL.BO.Station newStation)
@@ -30,7 +32,7 @@ namespace BL
                 throw new NoUpdateException("no update to station was received\n");
             if (newStation.Name != "")
                 dalStation.Name = newStation.Name;
-            if ((newStation.AvailableChargeSlots).ToString() == "")
+            if (newStation.AvailableChargeSlots.ToString() == "")
                 dalStation.AvailableChargeSlots = newStation.AvailableChargeSlots + newStation.DronesCharging.Count();
             dal.UpdateStation(dalStation);
         }
@@ -56,7 +58,7 @@ namespace BL
         }
 
 
-        public IBL.BO.StationToList ConvertStationToBl(IDAL.DO.Station dalStation)
+        public IBL.BO.StationToList ConvertStationToStationToList(IDAL.DO.Station dalStation)
         {
             // find how many drones are charging in the station using dal droneCharge type
             int OccupiedChargeSlots = 0;
@@ -81,7 +83,7 @@ namespace BL
             List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
             foreach (var s in dal.GetStations())
             {
-                stations.Add(ConvertStationToBl(s));
+                stations.Add(ConvertStationToStationToList(s));
             }
             return stations;
         }
@@ -100,27 +102,3 @@ namespace BL
     }
 }
 
-
-
-/*
-  public int Id { get; set; }
-public string Name { get; set; }
-public Location Location { get; set; }
-public int AvailableChargeSlots { get; set; }
-public List<DroneInCharging> DronesCharging { get; set; }
-*/
-
-//public IBL.BO.StationToList GetStationToList(int id)
-//{
-//    IBL.BO.StationToList s = new IBL.BO.StationToList();
-//    List<IDAL.DO.Station> stations = dal.GetStations().ToList();
-//    foreach (var dalStation in stations)
-//    {
-//        if (dalStation.Id == id)
-//        {
-//            s = ConvertStationToBl(dalStation);
-//            return s;
-//        }
-//    }
-//    throw new NoMatchingIdException($"station with id {id} doesn't exist");
-//}

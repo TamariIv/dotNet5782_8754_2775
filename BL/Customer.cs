@@ -12,8 +12,8 @@ namespace IBL.BO
         public string Name { get; init; }
         public string Phone { get; init; }
         public Location Location { get; init; }
-        public List<Parcel> Send { get; init; }
-        public List<Parcel> Receive { get; init; }
+        public List<ParcelInCustomer> Send { get; init; }
+        public List<ParcelInCustomer> Receive { get; init; }
 
 
         public override string ToString()

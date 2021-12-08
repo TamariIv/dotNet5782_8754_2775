@@ -8,22 +8,20 @@ namespace BL
 {
     public partial class BlObject : IBL.IBL
     {
-        public void AddDrone(IBL.BO.DroneToList newDrone, int stationId)
+        public void AddDrone(IBL.BO.Drone newDrone, int stationId)
         {
-            newDrone.Battery = r.Next(20, 41);
-            newDrone.DroneStatus = IBL.BO.DroneStatus.Maintenance;
-            IDAL.DO.Station s;
-            if ((dal.GetStations()).ToList().Exists(station => station.Id == stationId))
+            IBL.BO.Station station = GetStation(stationId);
+            IBL.BO.DroneToList drone = new IBL.BO.DroneToList
             {
-                s = (dal.GetStations()).ToList().Find(station => station.Id == stationId);
-            }
-            else throw new NoMatchingIdException($"station with id {stationId} doesn't exist !!");
-            newDrone.Location = new IBL.BO.Location
-            {
-                Longitude = s.Longitude,
-                Latitude = s.Latitude
+                Id = newDrone.Id,
+                Model = newDrone.Model,
+                MaxWeight = newDrone.MaxWeight,
+                Battery = r.Next(20, 41),
+                DroneStatus = IBL.BO.DroneStatus.Maintenance,
+                Location = station.Location,
+                ParcelInDeliveryId = 0
             };
-            newDrone.ParcelInDeliveryId = 0;
+            dronesToList.Add(drone);
 
             IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
             {
@@ -31,10 +29,9 @@ namespace BL
                 Model = newDrone.Model,
                 MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
             };
-            dal.SendDroneToCharge(dalDrone, s);
+            IDAL.DO.Station dalStation = dal.GetStation(stationId);
+            dal.SendDroneToCharge(dalDrone, dalStation);
             dal.AddDrone(dalDrone);
-
-            dronesToList.Add(newDrone);
         }
 
         public void UpdateDrone(IBL.BO.Drone newDrone)
@@ -57,55 +54,106 @@ namespace BL
             dronesToList.Add(newDrone);
         }
 
+        /// <summary>
+        /// the function receives a drone and send it to charge in the closest station 
+        /// </summary>
+        /// <param name="drone"></param>
+        public void rechargeDrone(IBL.BO.Drone drone)
+        {
+            if (drone.DroneStatus != IBL.BO.DroneStatus.Available)
+                throw new ImpossibleOprationException("Drone can't be sent to recharge");
+
+            IDAL.DO.Station tempStation = dal.getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
+            double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
+            double rate = whenAvailable;
+
+            if (tempStation.AvailableChargeSlots > 0 && distance * rate < drone.Battery)
+            {
+                IDAL.DO.Drone dalDrone = ConvertDroneToDal(drone);
+                dal.SendDroneToCharge(dalDrone, tempStation);
+
+                IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+                {
+                    Id = drone.Id,
+                    MaxWeight = drone.MaxWeight,
+                    Model = drone.Model,
+                    Battery = drone.Battery - distance * rate,
+                    Location = new IBL.BO.Location { Latitude = tempStation.Latitude, Longitude = tempStation.Longitude },
+                    DroneStatus = IBL.BO.DroneStatus.Maintenance,
+                };
+                IBL.BO.DroneToList oldDrone = GetDroneToList(drone.Id);
+                dronesToList.Remove(oldDrone);
+                dronesToList.Add(newDrone);
+            }
+
+            else throw new ImpossibleOprationException("Drone can't be sent to recharge");
+        }
+        /// <summary>
+        /// Release drone from charging and update the fields accordingly
+        /// </summary>
+        /// <param name="droneId"></param>
+        /// <param name="timeInCharging"></param>
         public void FreeDrone(int droneId, double timeInCharging)
         {
-            IBL.BO.DroneToList blDrone;
-            blDrone = dronesToList.Find(d => d.Id == droneId);
-            if (blDrone.Id == droneId)
+            IBL.BO.DroneToList blDrone = GetDroneToList(droneId);
+            if (blDrone.DroneStatus == IBL.BO.DroneStatus.Maintenance)
             {
-                if (blDrone.DroneStatus == IBL.BO.DroneStatus.Maintenance)
-                {
-                    blDrone.Battery += (int)(timeInCharging * chargeRate);
-                    blDrone.DroneStatus = IBL.BO.DroneStatus.Available;
+                dronesToList.Remove(blDrone);
+                blDrone.Battery += (int)(timeInCharging * chargeRate);
+                blDrone.DroneStatus = IBL.BO.DroneStatus.Available;
+                dronesToList.Add(blDrone);
 
-                    IDAL.DO.Drone dalDrone = dal.GetDrone(droneId);
-                    //IDAL.DO.Station dalStation = dal.GetStation(blDrone.Id);
-                    //dalStation.ChargeSlots++;
-                    //IDAL.DO.DroneCharge droneCharge = dal.GetDroneCharge(droneId);
-                    dal.SendDroneFromStation(dalDrone);
+                IDAL.DO.Drone dalDrone = dal.GetDrone(droneId);
+                dal.SendDroneFromStation(dalDrone);
 
-                    IBL.BO.DroneToList oldBlDrone = GetDroneToList(droneId);
-                    dronesToList.Remove(oldBlDrone);
-                    dronesToList.Add(blDrone);
-                }
-                else throw new ImpossibleOperation("drone can't be freed from chraging\n");
             }
-            else throw new NoMatchingIdException($"drone with id {droneId} doesn't exist !!");
+            else throw new ImpossibleOperation("drone can't be freed from chraging\n");
         }
 
         public IBL.BO.DroneToList GetDroneToList(int id)
         {
-            IBL.BO.DroneToList d = new IBL.BO.DroneToList();
-            if (dronesToList.Exists(drone => drone.Id == id))
-            {
-                d = dronesToList.Find(drone => drone.Id == id);
-                return d;
-            }
+            int droneIndex = dronesToList.FindIndex(d => d.Id == id);
+            if (droneIndex != -1) //this id of drone exists
+                return dronesToList[droneIndex];
             else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
 
         public IBL.BO.Drone GetDrone(int id)
         {
-            IBL.BO.Drone d = new IBL.BO.Drone();
-            if (dronesToList.Exists(drone => drone.Id == id))
+            IDAL.DO.Drone dalDrone = dal.GetDrone(id);
+            IBL.BO.DroneToList droneToList = GetDroneToList(id);
+            IBL.BO.Drone newDrone = new IBL.BO.Drone()
             {
-                d = ConvertDroneToListToDrone(dronesToList.Find(drone => drone.Id == id));
-                return d;
+                Id = dalDrone.Id,
+                Model = dalDrone.Model,
+                MaxWeight = (IBL.BO.WeightCategories)dalDrone.MaxWeight,
+                Battery = droneToList.Battery,
+                DroneStatus = droneToList.DroneStatus,
+                CurrentLocation = droneToList.Location,
+            };
+
+
+            /*
+          
+      
+        public ParcelInDelivey ParcelInDelivery { get; set; }
+            {
+            
+        public int Id { get; set; }
+        public bool PickUpStatus { get; set; }
+        public WeightCategories Weight { get; set; }
+        public Priorities Priority { get; set; }
+        public CustomerInParcel Sender { get; set; }
+        public CustomerInParcel Target { get; set; }
+        public Location PickUpLocation { get; set; }
+        public Location TargetLocation { get; set; }
+        public double Distance { get; set; }
+
             }
-            else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
+            */
         }
 
-        public IBL.BO.Drone ConvertDroneToListToDrone(IBL.BO.DroneToList d)
+        private IBL.BO.Drone convertDroneToListToDrone(IBL.BO.DroneToList d)
         {
             IDAL.DO.Parcel parcel = dal.GetParcel(d.ParcelInDeliveryId);
             IBL.BO.Drone newDrone = new IBL.BO.Drone
@@ -220,121 +268,87 @@ namespace BL
 
                     // make the necessary updates in the parcel and drone or throw exception if no parcel matched the conditions 
                     if (!parcelIsFound)
-                        throw new ImpossibleOperation("there is no parcel the drone can carry\n"); // איזה חריגה לזרוק
+                        throw new ImpossibleOperation("there is no parcel the drone can carry\n"); 
 
                     dal.MatchDroneToParcel(minDistanceParcel, dal.GetDrone(id)); // make the update in dal
-
-
-                    // למה בכלל צריך את זה???
-                    //blDrone.DroneStatus = IBL.BO.DroneStatus.Delivery;
-                    //minDistanceParcel.Scheduled = DateTime.Now;
-                    //minDistanceParcel.DroneId = id;
-                    //IBL.BO.CustomerInParcel sender = new IBL.BO.CustomerInParcel
-                    //{
-                    //    Id = minDistanceParcel.SenderId,
-                    //    Name = dal.GetCustomer(minDistanceParcel.SenderId).Name
-                    //};
-                    //IBL.BO.CustomerInParcel target = new IBL.BO.CustomerInParcel
-                    //{
-                    //    Id = minDistanceParcel.TargetId,
-                    //    Name = dal.GetCustomer(minDistanceParcel.TargetId).Name
-                    //};
-                    //tmpSender = dal.GetCustomer(minDistanceParcel.SenderId);
-                    //tmpTarget = dal.GetCustomer(minDistanceParcel.TargetId);
-                    //IBL.BO.Location senderLocation = new IBL.BO.Location
-                    //{
-                    //    Latitude = tmpSender.Latitude,
-                    //    Longitude = tmpSender.Longitude
-                    //};
-                    //IBL.BO.Location targetLocation = new IBL.BO.Location
-                    //{
-                    //    Latitude = tmpTarget.Latitude,
-                    //    Longitude = tmpTarget.Longitude
-                    //};
-                    //IBL.BO.ParcelInDelivey parcelInDrone = new IBL.BO.ParcelInDelivey
-                    //{
-                    //    Id = minDistanceParcel.Id,
-                    //    PickUpStatus = false,
-                    //    Weight = (IBL.BO.WeightCategories)minDistanceParcel.Weight,
-                    //    Priority = (IBL.BO.Priorities)minDistanceParcel.Priority,
-                    //    Sender = sender,
-                    //    Target = target,
-                    //    PickUpLocation = senderLocation,
-                    //    TargetLocation = targetLocation,
-                    //    Distance = Tools.utils.DistanceCalculation(tmpSender.Latitude, tmpSender.Longitude, tmpTarget.Latitude, tmpTarget.Longitude)
-                    //};
                     blDrone.ParcelInDeliveryId = minDistanceParcel.Id;
                 }
             }
             else throw new NoMatchingIdException($"drone with id {id} doesn't exist\n");
         }
-
         /// <summary>
-        /// 
+        /// pick up parcel by drone - update the drone and the parcel in accordance
         /// </summary>
         /// <param name="drone"></param>
-        public void rechargeDrone(IBL.BO.Drone drone)
-        {
-            if (drone.DroneStatus == IBL.BO.DroneStatus.Available)
-            {
-                IDAL.DO.Station tempStation = dal.getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
-                double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
-                double rate = whenAvailable;
-
-                if (tempStation.AvailableChargeSlots != 0 && distance * rate < drone.Battery)
-                {
-                    IDAL.DO.Drone dalDrone = ConvertDroneToDal(drone);
-                    dal.SendDroneToCharge(dalDrone, tempStation);
-
-                    IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
-                    {
-                        Id = drone.Id,
-                        MaxWeight = drone.MaxWeight,
-                        Model = drone.Model,
-                        Battery = drone.Battery - distance * rate,
-                        Location = new IBL.BO.Location { Latitude = tempStation.Latitude, Longitude = tempStation.Longitude },
-                        DroneStatus = IBL.BO.DroneStatus.Maintenance,
-                    };
-                    IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
-                    dronesToList.Remove(oldDrone);
-                    dronesToList.Add(newDrone);
-                }
-
-                else throw new ImpossibleOprationException("Drone can't be sent to recharge");
-            }
-        }
-
-        public void deliveryPackage(IBL.BO.Drone drone)
+        public void PickUpParcel(IBL.BO.Drone drone)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
-          
-            if (parcels.Exists(p => p.DroneId==drone.Id && p.PickedUp != DateTime.MinValue && p.Delivered == DateTime.MinValue))
-            {
-                IDAL.DO.Parcel dalParcel = parcels.Find(p => p.DroneId == drone.Id);
-                dal.ParcelDelivered(dalParcel);
+            IDAL.DO.Parcel oldDalParcel;
+            int parcelIndex = parcels.FindIndex(p => p.DroneId == drone.Id);
+            if (parcelIndex != -1) //this parcel is assigned
+                oldDalParcel = parcels[parcelIndex];
+            else throw new NoMatchingIdException($"no parcel can be picked up by drone with id {drone.Id}");
 
-                IDAL.DO.Customer target = dal.GetCustomer(dalParcel.TargetId);
-                double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
-                double batteryConsumption = getBatteryConsumption(dalParcel.Weight);
-                double battery = distance * batteryConsumption;
+            if (oldDalParcel.PickedUp == DateTime.MinValue) //only drone that assigned to parcel but still didnt pick up can pick up this parcel
+            {
+                dal.PickUpParcel(oldDalParcel);
+
+                IDAL.DO.Customer sender = dal.GetCustomer(oldDalParcel.SenderId);
+                double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
+                double batteryConsumption = getBatteryConsumption(oldDalParcel.Weight);
+                double batteryWaste = distance * batteryConsumption;
 
                 IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
                 {
                     Id = drone.Id,
                     Model = drone.Model,
                     MaxWeight = drone.MaxWeight,
-                    Battery = drone.Battery - battery,
-                    Location = new IBL.BO.Location { Latitude = target.Latitude, Longitude = target.Longitude },
-                    DroneStatus = IBL.BO.DroneStatus.Available
+                    Battery = drone.Battery - batteryWaste,
+                    DroneStatus = GetDroneToList(drone.Id).DroneStatus,
+                    Location = new IBL.BO.Location { Latitude = sender.Latitude, Longitude = sender.Longitude },
+                    ParcelInDeliveryId = oldDalParcel.Id
                 };
 
-                IBL.BO.DroneToList oldDrone = dronesToList.Find(d => d.Id == drone.Id);
+                IBL.BO.DroneToList oldDrone = GetDroneToList(drone.Id);
                 dronesToList.Remove(oldDrone);
                 dronesToList.Add(newDrone);
             }
-            else throw new ImpossibleOprationException("parcel can't be delivered");
+            else throw new ImpossibleOprationException("Parcel can't be picked up");
         }
 
+
+        public void deliveryPackage(IBL.BO.Drone drone)
+        {
+          
+            IBL.BO.DroneToList droneToList = GetDroneToList(drone.Id);
+            if (droneToList.ParcelInDeliveryId != 0)
+            {
+                IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.Id);
+                if (dalParcel.PickedUp != DateTime.MinValue && dalParcel.Delivered == DateTime.MinValue)
+                {
+                    IDAL.DO.Customer target = dal.GetCustomer(dalParcel.TargetId);
+                    double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
+                    double batteryConsumption = getBatteryConsumption(dalParcel.Weight);
+                    double battery = distance * batteryConsumption;
+
+                    IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+                    {
+                        Id = droneToList.Id,
+                        Model = droneToList.Model,
+                        MaxWeight = droneToList.MaxWeight,
+                        Battery = droneToList.Battery - battery,
+                        Location = new IBL.BO.Location { Latitude = target.Latitude, Longitude = target.Longitude },
+                        DroneStatus = IBL.BO.DroneStatus.Available
+                    };
+                    dronesToList.Remove(droneToList);
+                    dronesToList.Add(newDrone);
+
+                    dal.ParcelDelivered(dalParcel);
+                }
+                else throw new ImpossibleOprationException("parcel can't be delivered");
+            }
+            else throw new ImpossibleOprationException("drone is not assigned to any parcel");
+        }
         /// <summary>
         /// returns a copy of the drones list
         /// </summary>

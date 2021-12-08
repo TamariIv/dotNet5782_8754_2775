@@ -35,21 +35,7 @@ namespace BL
             dal.AddCustomer(dalCustomer);
         }
 
-        public IBL.BO.CustomerToList GetCustomerToList(int id)
-        {
-            IBL.BO.CustomerToList customer = new IBL.BO.CustomerToList();
-            foreach (var c in dal.GetCustomers())
-            {
-                if (c.Id == id)
-                {
-                    customer = ConvertCustomerToBl(c);
-                    return customer;
-                }
-            }
-            throw new NoMatchingIdException($"customer with id {id} doesn't exist\n");
-        }
-        
-        public IBL.BO.CustomerToList ConvertCustomerToBl(IDAL.DO.Customer dalCustomer)
+        private IBL.BO.CustomerToList convertCustomerToCustomerToList(IDAL.DO.Customer dalCustomer)
         {
             int sentAndDelivered = 0, sentAndNotDelivered = 0, received = 0, inDeliveryToCustomer = 0;
             foreach (var p in dal.GetParcels())
@@ -84,33 +70,53 @@ namespace BL
         public IBL.BO.Customer GetCustomer(int id)
         {
             IDAL.DO.Customer dalCustomer = dal.GetCustomer(id);
-            List<IBL.BO.Parcel> send = new List<IBL.BO.Parcel>();
-            List<IBL.BO.Parcel> receive = new List<IBL.BO.Parcel>();
-            foreach (var parcel in dal.GetParcels())
-            {
-                if (parcel.SenderId == id)
-                    send.Add(ConvertParcelToBl(parcel));
-                else if (parcel.TargetId == id)
-                    receive.Add(ConvertParcelToBl(parcel));
-            }
+            List<IDAL.DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
+            List<IDAL.DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
             IBL.BO.Customer customer = new IBL.BO.Customer
             {
                 Id = dalCustomer.Id,
                 Name = dalCustomer.Name,
                 Phone = dalCustomer.Phone,
                 Location = new IBL.BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
-                Send = send,
-                Receive = receive
-            };
+                Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
+                Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id)
+        };
             return customer;
         }
 
+        private List<IBL.BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<IDAL.DO.Parcel> parcelsOfSender, int id)
+        {
+            List<IBL.BO.ParcelInCustomer> parcels = new List<IBL.BO.ParcelInCustomer>();
+            foreach (var item in parcelsOfSender)
+            {
+                parcels.Add(convertParcelToParcelInCustomer(item, id));
+            }
+            return parcels;
+        }
+
+        private IBL.BO.ParcelInCustomer convertParcelToParcelInCustomer(IDAL.DO.Parcel parcel, int id)
+        {
+            IBL.BO.ParcelInCustomer parcelInCustomer=new IBL.BO.ParcelInCustomer
+            {
+                Id = parcel.Id,
+                Weight = (IBL.BO.WeightCategories)parcel.Weight,
+                Priority = (IBL.BO.Priorities)parcel.Priority,
+                ParcelStatus = getParcelStatus(parcel),
+                TargetOrSender = new IBL.BO.CustomerInParcel
+                {
+                    Id = id,
+                    Name = GetCustomer(id).Name
+                }
+            };
+            return parcelInCustomer;
+
+        }
         public IEnumerable<IBL.BO.CustomerToList> GetListOfCustomers()
         {
             List<IBL.BO.CustomerToList> customers = new List<IBL.BO.CustomerToList>();
             foreach (var dalCustomer in dal.GetCustomers())
             {
-                customers.Add(ConvertCustomerToBl(dalCustomer));
+                customers.Add(convertCustomerToCustomerToList(dalCustomer));
             }
             return customers;
         }

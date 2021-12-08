@@ -8,7 +8,7 @@ namespace IBL
         //Add functions:
         void AddStation(Station newStation);
         void AddCustomer(Customer customer);
-        void AddParcel(ParcelInDelivey parcel);
+        void AddParcel(Parcel parcel);
         void UpdateDrone(Drone d);
         //void AddDrone(Drone newDrone);
 
