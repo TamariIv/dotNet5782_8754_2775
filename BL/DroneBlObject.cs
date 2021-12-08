@@ -223,7 +223,7 @@ namespace BL
                     if (droneToSenderBatterty + senderToTargetBattery + targetToStationBattery <= blDrone.Battery)
                     {
                         parcelWasFound = true;
-                        finalParcel = ConvertParcelToBl(p);
+                        finalParcel = GetParcel(p.Id);
                         break;
                     }
                 }
@@ -232,7 +232,7 @@ namespace BL
                 if (!parcelWasFound)
                     throw new ImpossibleOperation("there is no parcel the drone can carry\n");
 
-                dal.MatchDroneToParcel(ConvertParcelToDal(finalParcel), dal.GetDrone(id)); // make the update in dal
+                dal.MatchDroneToParcel(dal.GetParcel(finalParcel.Id), dal.GetDrone(id)); // make the update in dal
 
                 blDrone.ParcelInDeliveryId = finalParcel.Id;
                 blDrone.DroneStatus = IBL.BO.DroneStatus.Delivery;

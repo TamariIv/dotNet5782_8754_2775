@@ -83,7 +83,7 @@ namespace BL
             List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
             foreach (var s in dal.GetStations())
             {
-                stations.Add(ConvertStationToStationToList(s));
+                stations.Add(convertStationToStationToList(s));
             }
             return stations;
         }

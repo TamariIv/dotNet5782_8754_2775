@@ -233,7 +233,7 @@ namespace ConsoleUI_BL
             if (!int.TryParse(Console.ReadLine(), out stationId))
                 throw new WrongInputFormatException("input must be a number/n");
 
-            IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+            IBL.BO.Drone newDrone = new IBL.BO.Drone
             {
                 Id = droneId,
                 Model = model,
@@ -313,7 +313,7 @@ namespace ConsoleUI_BL
             if (!int.TryParse(Console.ReadLine(), out targetId))
                 throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Enum.Parse(typeof(IBL.BO.WeightCategories), Console.ReadLine() */);
+            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Enum.Parse(typeof(IBL.BO.WeightCategories), Console.ReadLine() );
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
             IBL.BO.Priorities priority = (IBL.BO.Priorities)Enum.Parse(typeof(IBL.BO.Priorities), Console.ReadLine());
             IBL.BO.Parcel parcel = new IBL.BO.Parcel

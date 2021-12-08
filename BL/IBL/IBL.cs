@@ -9,12 +9,11 @@ namespace IBL
         void AddStation(Station newStation);
         void AddCustomer(Customer customer);
         void AddParcel(Parcel parcel);
-        void UpdateDrone(Drone d);
-        //void AddDrone(Drone newDrone);
+        void AddDrone(Drone newDrone, int stationId);
 
         //Update functions:
         void UpdateCustomer(Customer newCustomer);
-        void AddDrone(DroneToList newDrone, int stationId);
+        void UpdateDrone(Drone d);
         void UpdateStation(Station newStation);
         void FreeDrone(int droneId, double timeInCharging);
         void DroneToParcel(int id);
