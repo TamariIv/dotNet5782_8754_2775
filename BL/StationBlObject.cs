@@ -55,7 +55,6 @@ namespace BL
             return station;
         }
 
-
         public IBL.BO.StationToList ConvertStationToBl(IDAL.DO.Station dalStation)
         {
             // find how many drones are charging in the station using dal droneCharge type

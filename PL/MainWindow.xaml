@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="mainGrid" Background="Beige">
+    <Grid x:Name="mainGrid" Background="Azure">
 
     </Grid>
 </Window>
