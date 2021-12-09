@@ -11,10 +11,11 @@ namespace ConsoleUI_BL
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel, DeliveryPackageByDrone }
 
-        public static IBL.IBL mybl = new BL.BlObject();
+        public static IBL.IBL mybl/* = new BL.BlObject()*/;
 
         static void Main(string[] args)
         {
+            mybl = new BL.BlObject();
             Console.WriteLine("press 1 to add an item");
             Console.WriteLine("press 2 to update an item");
             Console.WriteLine("press 3 to view details of specific item");
@@ -321,7 +322,7 @@ namespace ConsoleUI_BL
                 Sender = new IBL.BO.CustomerInParcel { Id = senderId },
                 Target = new IBL.BO.CustomerInParcel { Id = targetId },
                 Weight = weight,
-                Priority = priority,
+                Priority = priority
             };
             mybl.AddParcel(parcel);
         }

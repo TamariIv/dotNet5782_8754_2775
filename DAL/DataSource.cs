@@ -87,8 +87,11 @@ namespace DalObject
             {
                 Parcel p = new Parcel();
                 p.Id = Config.ParcelId++;
-                p.SenderId = r.Next(100000000, 1000000000);
-                p.TargetId = r.Next(100000000, 1000000000);
+                p.SenderId = Customers[r.Next(Customers.Count())].Id;
+                int tmp = Customers[r.Next(Customers.Count())].Id;
+                while (tmp == p.SenderId)
+                    tmp = Customers[r.Next(Customers.Count())].Id;
+                p.TargetId = tmp;
                 p.Weight = (WeightCategories)r.Next(3);
                 p.Priority = (Priorities)r.Next(3);
                 DateTime start = new DateTime(2021, 1, 1);
