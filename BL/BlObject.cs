@@ -51,7 +51,7 @@ namespace BL
                     IDAL.DO.Parcel parcel = parcels[parcelIndex];
                     droneBl.ParcelInDeliveryId = parcel.Id;
                     //assigned but wasn't delivered:
-                    if (parcel.Delivered == DateTime.MinValue)
+                    if (parcel.Delivered ==DateTime.MinValue)                      
                     {
                         droneBl.DroneStatus = DroneStatus.Delivery;
 

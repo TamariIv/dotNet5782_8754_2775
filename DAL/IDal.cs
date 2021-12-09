@@ -1,4 +1,5 @@
 ﻿using IDAL.DO;
+using System;
 using System.Collections.Generic;
 
 namespace IDAL.DO
@@ -20,7 +21,7 @@ namespace IDAL.DO
         DroneCharge GetDroneCharge(int idNumber);
         IEnumerable<Drone> GetDrones();
         IEnumerable<Customer> GetCustomers();
-        IEnumerable<Station> GetStations();
+        IEnumerable<Station> GetStations(Func<Station, bool> predicate = null);
         IEnumerable<Parcel> GetParcels();
         IEnumerable<DroneCharge> GetDroneCharges();
         IEnumerable<Parcel> GetParcelWithoutDrone();

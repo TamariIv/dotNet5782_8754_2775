@@ -90,13 +90,13 @@ namespace BL
 
         public IEnumerable<IBL.BO.StationToList> GetListOfStationsWithAvailableChargeSlots()
         {
-            List<IBL.BO.StationToList> stationsWithAvailableChargeSlots = new List<IBL.BO.StationToList>();
-            foreach (var station in GetListOfStations())
+            List<IDAL.DO.Station> stationsWithAvailableChargeSlots = dal.GetStations(x => x.AvailableChargeSlots != 0).ToList();
+            List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
+            foreach (var station in stationsWithAvailableChargeSlots)
             {
-                if(station.AvailableChargeSlots != 0)
-                stationsWithAvailableChargeSlots.Add(station);
+                stations.Add(convertStationToStationToList(station));     
             }
-            return stationsWithAvailableChargeSlots;
+            return stations;
         }
 
     }

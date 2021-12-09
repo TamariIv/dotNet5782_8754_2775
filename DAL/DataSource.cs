@@ -93,10 +93,10 @@ namespace DalObject
                 p.Priority = (Priorities)r.Next(3);
                 DateTime start = new DateTime(2021, 1, 1);
                 int range = (DateTime.Today - start).Days;
-                p.Requested = start.AddDays(r.Next(range));
-                p.Scheduled = p.Requested.AddHours(r.Next(1, 8));
-                p.PickedUp = p.Scheduled.AddMinutes(r.Next(20, 180));
-                p.Delivered = p.PickedUp.AddMinutes(r.Next(20, 90));
+                p.Requested = null;
+                p.Scheduled = null;
+                p.PickedUp = null;
+                p.Delivered = null;
                 p.DroneId = 0;
                 Parcels.Add(p);
             }
