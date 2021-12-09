@@ -10,28 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IBL;
+using IBL.BO;
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DroneListWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DroneListWindow : Window
     {
-        IBL.IBL mybl;
-        public MainWindow()
+        IBL.IBL bl;
+        public DroneListWindow(IBL.IBL bl)
         {
-            mybl = new BL.BlObject();
+            this.bl = bl;
             InitializeComponent();
-        }
-
-        private void showListOfDronesBtn_Click(object sender, RoutedEventArgs e)
-        {
-            DroneListWindow wnd = new DroneListWindow(mybl);
-            wnd.Show();
+            comboStatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
         }
     }
 }
