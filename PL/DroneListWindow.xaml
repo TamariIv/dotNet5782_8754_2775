@@ -21,9 +21,12 @@ VerticalAlignment="Stretch" Width="auto">
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <ComboBox Name="comboStatusSelector" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" />
+            <ComboBox Name="comboStatusSelector" ToolTip="List of drones by status" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectionChanged="comboStatusSelector_SelectionChanged" />
             <Label x:Name="lblTBD" Grid.Column="0" Content="Label" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"/>
-
+            
         </Grid>
+        <ListView Grid.Row="1" x:Name="DronesListView" Margin="20,10,10,20" SelectionChanged="DronesListView_SelectionChanged">
+        </ListView>
+
     </Grid>
 </Window>
