@@ -48,12 +48,12 @@ namespace BL
                     IDAL.DO.Parcel parcel = parcels[parcelIndex];
                     droneBl.ParcelInDeliveryId = parcel.Id;
                     //assigned but wasn't delivered:
-                    if (parcel.Delivered == DateTime.MinValue)
+                    if (parcel.Delivered == null)
                     {
                         droneBl.DroneStatus = DroneStatus.Delivery;
 
                         //assigned but wasn't picked up:
-                        if (parcel.PickedUp == DateTime.MinValue)
+                        if (parcel.PickedUp == null)
                         {
                             //the location will be in the closest station to the sender
                             double senderLatitude = dal.GetCustomer(parcel.SenderId).Latitude;
@@ -63,7 +63,7 @@ namespace BL
                         }
 
                         //picked up but wasn't delivered:
-                        else if (parcel.Delivered == DateTime.MinValue)
+                        else if (parcel.Delivered == null)
                         {
                             //the location of the drone will be in the sender's location
                             double senderLatitude = dal.GetCustomer(parcel.SenderId).Latitude;
@@ -81,7 +81,7 @@ namespace BL
                         double distance2 = Tools.Utils.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                         double battery = getBatteryConsumption(parcel.Weight);
                         double minBattery = (distance1 + distance2) * battery;
-                        droneBl.Battery = minBattery + r.NextDouble() * (100 - minBattery);
+                        droneBl.Battery = r.Next((int)minBattery, 100); // minBattery + r.NextDouble() / (100 - minBattery);
 
                     }
 
@@ -117,7 +117,7 @@ namespace BL
                         IDAL.DO.Station closestStation = dal.getClosestStation(droneBl.Location.Latitude, droneBl.Location.Longitude);
                         double distance = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                         double minBattery = distance * whenAvailable;
-                        droneBl.Battery = minBattery + r.NextDouble() * (100 - minBattery);
+                        droneBl.Battery = r.Next((int)minBattery, 100);  // minBattery + r.NextDouble() * (100 - minBattery);
                     }
 
                 }

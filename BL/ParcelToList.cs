@@ -19,12 +19,12 @@ namespace IBL.BO
         {
             return string.Format(
                 "Id is: {0}\n" +
-                "Id of the sender: {1}\n" +
-                "Id of the target: {2}\n" +
+                "Name of the sender: {1}\n" +
+                "Name of the target: {2}\n" +
                 "Weight is: {3}\n" +
                 "priority: {4}\n" +
-                "rcel ststus: {5}\n",
-                Id, SenderName, SenderName, Weight, Priority, ParcelStatus);
+                "parcel status: {5}\n",
+                Id, SenderName, TargetName, Weight, Priority, ParcelStatus);
         }
     }
 }
