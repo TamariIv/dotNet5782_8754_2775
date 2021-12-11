@@ -33,7 +33,7 @@ namespace IDAL.DO
                 "scheduled date: {7}\n" +
                 "pickedUp date: {8}\n" +
                 "delivered date: {9}\n",
-                Id, SenderId, TargetId, Weight, Priority, Requested.ToString("dd/MM/yyyy"), DroneId, Scheduled, PickedUp, Delivered);
+                Id, SenderId, TargetId, Weight, Priority, Requested, DroneId, Scheduled, PickedUp, Delivered);
         }
     }
 }

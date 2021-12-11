@@ -152,11 +152,11 @@ namespace DalObject
         /// <returns> a copy of the list parcels <</returns>
         public IEnumerable<Parcel> GetParcels()
         {
-            List<Parcel> copyParcels = new List<Parcel>(DataSource.Parcels);
-            //for (int i = 0; i < DataSource.Parcels.Count(); i++)
-            //{
-            //    copyParcels.Add(DataSource.Parcels[i]);
-            //}
+            List<Parcel> copyParcels = new List<Parcel>();
+            for (int i = 0; i < DataSource.Parcels.Count(); i++)
+            {
+                copyParcels.Add(DataSource.Parcels[i]);
+            }
             return copyParcels;
         }
 

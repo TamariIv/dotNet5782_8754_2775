@@ -11,7 +11,7 @@ namespace ConsoleUI_BL
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel, DeliveryPackageByDrone }
 
-        public static IBL.IBL mybl = new BL.BlObject();
+        static IBL.IBL mybl = new BL.BlObject();
 
         static void Main(string[] args)
         {
@@ -39,8 +39,8 @@ namespace ConsoleUI_BL
                             Console.WriteLine("Press 4 to add customer");
                             Console.WriteLine("press 0 to stop");
                             entityOptions = (EntityOptions)int.Parse(Console.ReadLine());
-                            try
-                            {
+                            //try
+                            //{
                                 switch (entityOptions)
                                 {
                                     case EntityOptions.Parcel:
@@ -60,11 +60,11 @@ namespace ConsoleUI_BL
                                     default:
                                         break;
                                 }
-                            }
-                            catch(Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
+                           // }
+                            //catch(Exception ex)
+                            //{
+                            //    Console.WriteLine(ex.Message);
+                            //}
                             break;
                       
                         }
@@ -162,38 +162,38 @@ namespace ConsoleUI_BL
                         Console.WriteLine("press 6 to view the list of the stations with available charge slots");
                         listOptions = (ListOptions)int.Parse(Console.ReadLine());
                         #region get list switch
-                        try
+                        //try
+                        //{
+                        switch (listOptions)
                         {
-                            switch (listOptions)
-                            {
-                                case ListOptions.BaseStations:
-                                    PrintBaseStationsList();
-                                    break;
-                                case ListOptions.Drones:
-                                    printDronesList();
-                                    break;
-                                case ListOptions.Customers:
-                                    PrintCustomersList();
-                                    break;
-                                case ListOptions.Parcels:
-                                    printParcelsList();
-                                    break;
-                                case ListOptions.ParcelsWithoutDrone:
-                                    PrintParcelsWithoutDroneList();
-                                    break;
-                                case ListOptions.AvailableChargingStation:
-                                    PrintAvailableChargeSlotsList();
-                                    break;
-                                case ListOptions.Exit:
-                                    break;
-                                default:
-                                    break;
-                            }
+                            case ListOptions.BaseStations:
+                                PrintBaseStationsList();
+                                break;
+                            case ListOptions.Drones:
+                                printDronesList();
+                                break;
+                            case ListOptions.Customers:
+                                PrintCustomersList();
+                                break;
+                            case ListOptions.Parcels:
+                                printParcelsList();
+                                break;
+                            case ListOptions.ParcelsWithoutDrone:
+                                PrintParcelsWithoutDroneList();
+                                break;
+                            case ListOptions.AvailableChargingStation:
+                                PrintAvailableChargeSlotsList();
+                                break;
+                            case ListOptions.Exit:
+                                break;
+                            default:
+                                break;
                         }
-                        catch(Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                        //}
+                        //catch(Exception ex)
+                        //{
+                        //    Console.WriteLine(ex.Message);
+                        //}
                         #endregion
                         break;
                     case MenuOptions.Exit:
@@ -491,8 +491,8 @@ namespace ConsoleUI_BL
 
         private static void printParcelsList()
         {
-            List<IBL.BO.ParcelToList> parcels = mybl.GetListofParcels().ToList();
-            foreach (var parcel in parcels)
+            //List<IBL.BO.ParcelToList> parcels = mybl.GetListofParcels().ToList();
+            foreach (var parcel in mybl.GetListofParcels())
             {
                 Console.WriteLine(parcel);
             }

@@ -91,8 +91,6 @@ namespace DalObject
                 p.TargetId = r.Next(100000000, 1000000000);
                 p.Weight = (WeightCategories)r.Next(3);
                 p.Priority = (Priorities)r.Next(3);
-                DateTime start = new DateTime(2021, 1, 1);
-                int range = (DateTime.Today - start).Days;
                 p.Requested = null;
                 p.Scheduled = null;
                 p.PickedUp = null;
