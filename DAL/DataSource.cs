@@ -83,24 +83,86 @@ namespace DalObject
         }
         private static void createParcel(int numOfParcels)
         {
-            for (int i = 0; i < numOfParcels; i++)
+            Parcel p = new Parcel
             {
-                Parcel p = new Parcel();
-                p.Id = Config.ParcelId++;
-                p.SenderId = Customers[r.Next(Customers.Count())].Id;
-                int tmp = Customers[r.Next(Customers.Count())].Id;
-                while (tmp == p.SenderId)
-                    tmp = Customers[r.Next(Customers.Count())].Id;
-                p.TargetId = tmp;
-                p.Weight = (WeightCategories)r.Next(3);
-                p.Priority = (Priorities)r.Next(3);
-                p.Requested = null;
-                p.Scheduled = null;
-                p.PickedUp = null;
-                p.Delivered = null;
-                p.DroneId = 0;
-                Parcels.Add(p);
-            }
+                Id = Config.ParcelId++,
+                SenderId = Customers[r.Next(Customers.Count())].Id,
+                TargetId = Customers[r.Next(Customers.Count())].Id,
+                Weight = (WeightCategories)r.Next(3),
+                Priority = (Priorities)r.Next(3),
+                Requested = new DateTime(2021, 3, 12, 15, 25, 30),
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null,
+                DroneId = 0
+            };
+            Parcels.Add(p);
+
+
+            p = new Parcel
+            {
+                Id = Config.ParcelId++,
+                SenderId = Customers[r.Next(Customers.Count())].Id,
+                TargetId = Customers[r.Next(Customers.Count())].Id,
+                Weight = (WeightCategories)r.Next(3),
+                Priority = (Priorities)r.Next(3),
+                Requested = new DateTime(2021, 4, 4, 12, 25, 0),
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null,
+                DroneId = 0
+            };
+            Parcels.Add(p);
+
+            p = new Parcel
+            {
+                Id = Config.ParcelId++,
+                SenderId = Customers[r.Next(Customers.Count())].Id,
+                TargetId = Customers[r.Next(Customers.Count())].Id,
+                Weight = (WeightCategories)r.Next(3),
+                Priority = (Priorities)r.Next(3),
+                Requested = new DateTime(2021, 8, 1, 1, 12, 56),
+                Scheduled = new DateTime(2021, 8, 2, 12, 0, 0),
+                PickedUp = new DateTime(2021, 8, 2, 16, 15, 00),
+                Delivered = null,
+                DroneId = 0
+            };
+            Parcels.Add(p);
+
+
+            p = new Parcel
+            {
+                Id = Config.ParcelId++,
+                SenderId = Customers[r.Next(Customers.Count())].Id,
+                TargetId = Customers[r.Next(Customers.Count())].Id,
+                Weight = (WeightCategories)r.Next(3),
+                Priority = (Priorities)r.Next(3),
+                Requested = new DateTime(2021, 10, 13, 0, 8, 0),
+                Scheduled = new DateTime(2021, 10, 2, 12, 0, 0),
+                PickedUp = new DateTime(2021, 10, 2, 16, 15, 0),
+                Delivered = new DateTime(2021, 10, 2, 17, 0, 0),
+                DroneId = 0
+            };
+            Parcels.Add(p);
+
+            //for (int i = 0; i < numOfParcels; i++)
+            //{
+            //    Parcel p = new Parcel();
+            //    p.Id = Config.ParcelId++;
+            //    p.SenderId = Customers[r.Next(Customers.Count())].Id;
+            //    int tmp = Customers[r.Next(Customers.Count())].Id;
+            //    while (tmp == p.SenderId)
+            //        tmp = Customers[r.Next(Customers.Count())].Id;
+            //    p.TargetId = tmp;
+            //    p.Weight = (WeightCategories)r.Next(3);
+            //    p.Priority = (Priorities)r.Next(3);
+            //    p.Requested = null;
+            //    p.Scheduled = null;
+            //    p.PickedUp = null;
+            //    p.Delivered = null;
+            //    p.DroneId = 0;
+            //    Parcels.Add(p);
+            //}
 
         }
         private static void createDrone(int numOfDrones)
