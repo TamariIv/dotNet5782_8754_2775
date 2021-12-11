@@ -20,9 +20,9 @@ namespace DalObject
         internal class Config
         {
             internal static int ParcelId = 1000000;
-            internal static double WhenAvailable { get { return 10; } }
-            internal static double WhenLightWeight { get { return 30; } }
-            internal static double WhenMediumWeight { get { return 40; } }
+            internal static double WhenAvailable { get { return 5; } }
+            internal static double WhenLightWeight { get { return 10; } }
+            internal static double WhenMediumWeight { get { return 20; } }
             internal static double WhenHeavyWeight { get { return 50; } }
             internal static double ChargingRate { get { return 15; } }
         }
@@ -36,7 +36,7 @@ namespace DalObject
             //initialize 10 customers:
             createCustomer(10);
             //initialize 10 parcels:
-            createParcel(10);
+            createParcel();
             //initialize 5 drones:
             createDrone(5);
         }
@@ -81,7 +81,7 @@ namespace DalObject
             }
 
         }
-        private static void createParcel(int numOfParcels)
+        private static void createParcel()
         {
             Parcel p = new Parcel()
             {

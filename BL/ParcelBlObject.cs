@@ -84,7 +84,7 @@ namespace BL
         }
 
 
-        public IBL.BO.ParcelStatus getParcelStatus(IDAL.DO.Parcel parcel)
+        private IBL.BO.ParcelStatus getParcelStatus(IDAL.DO.Parcel parcel)
         {
             if (parcel.Scheduled == DateTime.MinValue)
                 return IBL.BO.ParcelStatus.Requested;
