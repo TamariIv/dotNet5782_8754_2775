@@ -158,6 +158,20 @@ namespace DalObject
             };
             Parcels.Add(p);
 
+            p = new Parcel()
+            {
+                Id = Config.ParcelId++,
+                SenderId = r.Next(100000000, 1000000000),
+                TargetId = r.Next(100000000, 1000000000),
+                Weight = (WeightCategories)r.Next(3),
+                Priority = (Priorities)r.Next(3),
+                Requested = new DateTime(2021, 01, 05, 11, 00, 00),
+                Scheduled = new DateTime(2021, 01, 05, 12, 00, 00),
+                PickedUp = new DateTime(2021, 01, 05, 12, 30, 00),
+                Delivered = new DateTime(2021, 01, 05, 13, 00, 00),
+                DroneId = 0
+            };
+            Parcels.Add(p);
         }
 
         //for (int i = 0; i < numOfParcels; i++)
