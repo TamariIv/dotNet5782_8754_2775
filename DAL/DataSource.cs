@@ -143,8 +143,7 @@ namespace DalObject
             };
             Parcels.Add(p);
 
-            p = new Parcel()
-            Parcel p = new Parcel
+            p = new Parcel
             {
                 Id = Config.ParcelId++,
                 SenderId = Customers[r.Next(Customers.Count())].Id,
@@ -158,7 +157,6 @@ namespace DalObject
                 DroneId = 0
             };
             Parcels.Add(p);
-
 
             p = new Parcel
             {
@@ -190,7 +188,6 @@ namespace DalObject
             };
             Parcels.Add(p);
 
-
             p = new Parcel
             {
                 Id = Config.ParcelId++,
@@ -206,7 +203,8 @@ namespace DalObject
             };
             Parcels.Add(p);
 
-        }
+            p = new Parcel
+            {
                 Id = Config.ParcelId++,
                 SenderId = Customers[r.Next(Customers.Count())].Id,
                 TargetId = Customers[r.Next(Customers.Count())].Id,
@@ -239,21 +237,7 @@ namespace DalObject
             //    Parcels.Add(p);
             //}
 
-        //for (int i = 0; i < numOfParcels; i++)
-        //{
-        //    Parcel p = new Parcel();
-        //    p.Id = Config.ParcelId++;
-        //    p.SenderId = r.Next(100000000, 1000000000);
-        //    p.TargetId = r.Next(100000000, 1000000000);
-        //    p.Weight = (WeightCategories)r.Next(3);
-        //    p.Priority = (Priorities)r.Next(3);
-        //    p.Requested = null;
-        //    p.Scheduled = null;
-        //    p.PickedUp = null;
-        //    p.Delivered = null;
-        //    p.DroneId = 0;
-        //    Parcels.Add(p);
-        //}
+        }
 
         private static void createDrone(int numOfDrones)
         {
