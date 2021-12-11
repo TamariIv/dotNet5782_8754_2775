@@ -14,11 +14,11 @@ namespace IDAL.DO
         public int TargetId { get; set; }
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
-        public DateTime Requested { get; set; }
         public int DroneId { get; set; }
-        public DateTime Scheduled { get; set; }
-        public DateTime PickedUp { get; set; }
-        public DateTime Delivered { get; set; }
+        public DateTime? Requested { get; set; }
+        public DateTime? Scheduled { get; set; }
+        public DateTime? PickedUp { get; set; }
+        public DateTime? Delivered { get; set; }
 
         public override string ToString()
         {
@@ -33,7 +33,7 @@ namespace IDAL.DO
                 "scheduled date: {7}\n" +
                 "pickedUp date: {8}\n" +
                 "delivered date: {9}\n",
-                Id, SenderId, TargetId, Weight, Priority, Requested.ToString("dd/MM/yyyy"), DroneId, Scheduled, PickedUp, Delivered);
+                Id, SenderId, TargetId, Weight, Priority, Requested, DroneId, Scheduled, PickedUp, Delivered);
         }
     }
 }

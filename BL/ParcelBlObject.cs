@@ -49,13 +49,25 @@ namespace BL
         /// </summary>
         public IEnumerable<IBL.BO.ParcelToList> GetListofParcels()
         {
-            List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
-            foreach (var dalParcel in dal.GetParcels())
-            {
-                blParcels.Add(convertParcelToParcelToList(dalParcel));
-            }
-            return blParcels;
+            IEnumerable<IBL.BO.ParcelToList> parcels = from parcel in dal.GetParcels()
+                                                       select new IBL.BO.ParcelToList
+                                                       {
+                                                           Id = parcel.Id,
+                                                           SenderName = dal.GetCustomer(parcel.SenderId).Name,
+                                                           TargetName = dal.GetCustomer(parcel.TargetId).Name,
+                                                           Weight = (IBL.BO.WeightCategories)parcel.Weight,
+                                                           Priority = (IBL.BO.Priorities)parcel.Priority,
+                                                           ParcelStatus = getParcelStatus(parcel)
+                                                       };
+            return parcels;
         }
+        //    List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
+        //    foreach (var dalParcel in dal.GetParcels())
+        //    {
+        //        blParcels.Add(convertParcelToParcelToList(dalParcel));
+        //    }
+        //    return blParcels;
+        //}
 
         private IBL.BO.ParcelToList convertParcelToParcelToList(IDAL.DO.Parcel dalParcel)
         {
@@ -70,6 +82,7 @@ namespace BL
             };
             return blParcel;
         }
+
 
         public IBL.BO.ParcelStatus getParcelStatus(IDAL.DO.Parcel parcel)
         {

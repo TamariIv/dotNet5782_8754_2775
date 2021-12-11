@@ -102,15 +102,14 @@ namespace DalObject
         /// get the list of stations
         /// </summary>
         /// <returns> a copy of the list stations </returns>
-        public IEnumerable<Station> GetStations()
+        public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
             List<Station> copyStations = new List<Station>(DataSource.Stations);
-            //for (int i = 0; i < DataSource.Stations.Count(); i++)
-            //{
-            //    Station s = DataSource.Stations[i];
-            //    copyStations.Add(s);
-            //}
+            if (predicate == null)
+                return copyStations;
+            copyStations = GetStations().Where(predicate).ToList();
             return copyStations;
+
         }
 
         public IEnumerable<DroneCharge> GetDroneCharges()
@@ -153,11 +152,11 @@ namespace DalObject
         /// <returns> a copy of the list parcels <</returns>
         public IEnumerable<Parcel> GetParcels()
         {
-            List<Parcel> copyParcels = new List<Parcel>(DataSource.Parcels);
-            //for (int i = 0; i < DataSource.Parcels.Count(); i++)
-            //{
-            //    copyParcels.Add(DataSource.Parcels[i]);
-            //}
+            List<Parcel> copyParcels = new List<Parcel>();
+            for (int i = 0; i < DataSource.Parcels.Count(); i++)
+            {
+                copyParcels.Add(DataSource.Parcels[i]);
+            }
             return copyParcels;
         }
 
@@ -180,16 +179,16 @@ namespace DalObject
         /// make a list of the stations that have available chraging slots
         /// </summary>
         /// <returns> list of stations with available chraging slots </returns>
-        public IEnumerable<Station> AvailableCharger()
-        {
-            List<Station> AvailableChargers = new List<Station>();
-            for (int i = 0; i < DataSource.Stations.Count(); i++)
-            {
-                if (DataSource.Stations[i].AvailableChargeSlots != 0)
-                    AvailableChargers.Add(DataSource.Stations[i]);
-            }
-            return AvailableChargers;
-        }
+        //public IEnumerable<Station> AvailableCharger()
+        //{
+        //    List<Station> AvailableChargers = new List<Station>();
+        //    for (int i = 0; i < DataSource.Stations.Count(); i++)
+        //    {
+        //        if (DataSource.Stations[i].AvailableChargeSlots != 0)
+        //            AvailableChargers.Add(DataSource.Stations[i]);
+        //    }
+        //    return AvailableChargers;
+        //}
 
         /// <summary>
         /// receive drone and add it to Drones
@@ -415,7 +414,7 @@ namespace DalObject
             {
                 foreach (var parcel in parcels)
                 {
-                    if (customer.Id == parcel.TargetId && parcel.Delivered != DateTime.MinValue)
+                    if (customer.Id == parcel.TargetId && parcel.Delivered != null)
                     {
                         IDAL.DO.Customer client = GetCustomer(parcel.TargetId);                  
                         clients.Add(client);

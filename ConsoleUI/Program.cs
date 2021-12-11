@@ -180,8 +180,9 @@ namespace ConsoleUI
                                 PrintParcelsWithoutDroneList(parcelsWithoutDrones);
                                 break;
                             case ListOptions.AvailableChargingStation:
-                                IEnumerable<Station> availableChargers = mydal.AvailableCharger();
-                                PrintAvailableAvailableChargeSlotsList(availableChargers);
+                                IEnumerable<Station>
+                                s = mydal.GetStations(x => x.AvailableChargeSlots != 0);
+                                PrintAvailableChargeSlotsList(s);
                                 break;
                             case ListOptions.Exit:
                                 break;
@@ -258,7 +259,7 @@ namespace ConsoleUI
         /// the function prints the list of drones that are being charged
         /// </summary>
         /// <param name="droneCharges"></param>
-        public static void PrintAvailableAvailableChargeSlotsList(IEnumerable<Station> droneCharges)
+        public static void PrintAvailableChargeSlotsList(IEnumerable<Station> droneCharges)
         {
             foreach (var item in droneCharges)
             {
@@ -303,10 +304,10 @@ namespace ConsoleUI
                 TargetId = targetId,
                 Weight = weight,
                 Priority = priority,
-                Scheduled = DateTime.Today,
                 Requested = DateTime.Today,
-                PickedUp = DateTime.Today,
-                Delivered = DateTime.Today
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             };
             mydal.AddParcel(parcel);
         }

@@ -8,7 +8,7 @@ namespace BL
     public partial class BlObject : IBL.IBL
     {
         IDAL.DO.IDal dal;
-        public List<IDAL.DO.Drone> drones;
+        public List<IDAL.DO.Drone> drones = new List<IDAL.DO.Drone>();
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<IBL.BO.DroneToList> dronesToList;
 
@@ -28,12 +28,9 @@ namespace BL
             whenMedium = electricity[2];
             whenHeavy = electricity[3];
             chargeRate = electricity[4];
-            
-            initializeDrones(drones);
-        }
 
-        private void initializeDrones(List<IDAL.DO.Drone> drones)
-        {
+            //initializeDrones(drones);
+
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
             DroneToList droneBl;
             foreach (var droneDal in drones)
@@ -128,6 +125,11 @@ namespace BL
                 dronesToList.Add(droneBl);
             }
         }
+
+        //private void initializeDrones(List<IDAL.DO.Drone> drones)
+        //{
+           
+        //}
         /// <summary>
         /// get a weight and returns the appropriate battery consumption
         /// </summary>

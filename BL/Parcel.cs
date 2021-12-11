@@ -14,10 +14,10 @@ namespace IBL.BO
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
         public DroneInParcel AssignedDrone { get; set; }
-        public DateTime Requested { get; set; } // creating parcel time
-        public DateTime Scheduled { get; set; } // assigning drone to parcel time
-        public DateTime PickedUp { get; set; }  // pick up time
-        public DateTime Delivered { get; set; } // delivey time
+        public DateTime? Requested { get; set; } // creating parcel time
+        public DateTime? Scheduled { get; set; } // assigning drone to parcel time
+        public DateTime? PickedUp { get; set; }  // pick up time
+        public DateTime? Delivered { get; set; } // delivey time
 
         public override string ToString()
         {
@@ -31,7 +31,7 @@ namespace IBL.BO
                 "scheduled date: {6}\n" +
                 "pickedUp date: {7}\n" +
                 "delivered date: {8}\n",
-                Id, Sender, Target, Weight, Priority, Requested.ToString("dd/MM/yyyy"), Scheduled, PickedUp, Delivered);
+                Id, Sender, Target, Weight, Priority, Requested, Scheduled, PickedUp, Delivered);
         }
     }
 }
