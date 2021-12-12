@@ -10,28 +10,35 @@ namespace BL
     {
         public void AddDrone(IBL.BO.Drone newDrone, int stationId)
         {
-            IBL.BO.Station station = GetStation(stationId);
-            IBL.BO.DroneToList drone = new IBL.BO.DroneToList
+            try
             {
-                Id = newDrone.Id,
-                Model = newDrone.Model,
-                MaxWeight = newDrone.MaxWeight,
-                Battery = r.Next(20, 41),
-                DroneStatus = IBL.BO.DroneStatus.Maintenance,
-                Location = station.Location,
-                ParcelInDeliveryId = 0
-            };
-            dronesToList.Add(drone);
+                IBL.BO.Station station = GetStation(stationId);
+                IBL.BO.DroneToList drone = new IBL.BO.DroneToList
+                {
+                    Id = newDrone.Id,
+                    Model = newDrone.Model,
+                    MaxWeight = newDrone.MaxWeight,
+                    Battery = r.Next(20, 41),
+                    DroneStatus = IBL.BO.DroneStatus.Maintenance,
+                    Location = station.Location,
+                    ParcelInDeliveryId = 0
+                };
+                dronesToList.Add(drone);
 
-            IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
+                IDAL.DO.Drone dalDrone = new IDAL.DO.Drone
+                {
+                    Id = newDrone.Id,
+                    Model = newDrone.Model,
+                    MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
+                };
+                IDAL.DO.Station dalStation = dal.GetStation(stationId);
+                dal.AddDrone(dalDrone);
+                dal.SendDroneToCharge(dalDrone, dalStation);
+            }
+            catch (IDAL.DO.IdAlreadyExistsException e)
             {
-                Id = newDrone.Id,
-                Model = newDrone.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
-            };
-            IDAL.DO.Station dalStation = dal.GetStation(stationId);
-            dal.AddDrone(dalDrone);
-            dal.SendDroneToCharge(dalDrone, dalStation);
+                throw new IdAlreadyExistsException();
+            }
         }
 
         /// <summary>
@@ -150,7 +157,6 @@ namespace BL
         /// <returns></returns>
         public IBL.BO.Drone ConvertDroneToListToDrone(IBL.BO.DroneToList d)
         {
-            IDAL.DO.Parcel parcel = dal.GetParcel(d.ParcelInDeliveryId);
             IBL.BO.ParcelInDelivey parcelInDrone;
             if (d.ParcelInDeliveryId == 0)
             {
@@ -158,6 +164,7 @@ namespace BL
             }
             else
             {
+                IDAL.DO.Parcel parcel = dal.GetParcel(d.ParcelInDeliveryId);
                 parcelInDrone = new IBL.BO.ParcelInDelivey
                 {
                     Id = parcel.Id,

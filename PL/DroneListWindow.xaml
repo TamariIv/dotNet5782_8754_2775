@@ -8,12 +8,12 @@
         Title="DroneListWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="400*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-VerticalAlignment="Stretch" Width="auto">
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -21,12 +21,27 @@ VerticalAlignment="Stretch" Width="auto">
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <ComboBox Name="comboStatusSelector" ToolTip="List of drones by status" HorizontalAlignment= "Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectionChanged="comboStatusSelector_SelectionChanged" />
+            <ComboBox x:Name="comboStatusSelector" ToolTip="Click to show list of drones by status" Grid.Column="1" SelectionChanged="comboStatusSelector_SelectionChanged" Margin="0,14,30,0" Width="170" />
+            <ComboBox x:Name="comboMaxWeightSelector" ToolTip="Click to show list of drones by max weight" Grid.Column="3" SelectionChanged="comboMaxWeightSelector_SelectionChanged" Margin="0,14,30,2" Width="170"/>
             <Label x:Name="lblTBD" Grid.Column="0" Content="Label" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"/>
-            
         </Grid>
-        <ListView Grid.Row="1" x:Name="DronesListView" Margin="20,10,10,20" SelectionChanged="DronesListView_SelectionChanged">
-        </ListView>
+
+        <Grid x:Name="MiddleGrid" Grid.Row="1">
+            <ListView Grid.Row="1" x:Name="DronesListView" Margin="15,20,15,20" SelectionChanged="DronesListView_SelectionChanged"/>
+        </Grid>
+
+        <Grid x:Name="DownGrid" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnAddDrone" Content="Add Drone" HorizontalAlignment="Center" ToolTip="Add drone" VerticalAlignment="Top" Height="30" Width="116" Click="btnAddDrone_Click" Grid.Column="1"/>
+            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Center" ToolTip="Back" VerticalAlignment="Top" Height="30" Width="116" Click="btnBack_Click"/>
+        </Grid>
+
 
     </Grid>
 </Window>

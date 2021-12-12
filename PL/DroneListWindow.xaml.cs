@@ -27,18 +27,35 @@ namespace PL
             this.bl = bl;
             InitializeComponent();
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
+            comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
         }
+
 
         private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DroneStatus status = (DroneStatus)comboStatusSelector.SelectedItem;
             DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == status); 
-            //DronesListView.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+        }
+
+        private void comboMaxWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            WeightCategories weight = (WeightCategories)comboMaxWeightSelector.SelectedItem;
+            DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == weight);
         }
 
         private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DronesListView.ItemsSource = bl.GetListOfDrones();
+        }
+
+        private void btnAddDrone_Click(object sender, RoutedEventArgs e)
+        {
+            new DroneWindow(bl).Show();
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

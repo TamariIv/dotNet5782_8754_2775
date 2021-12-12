@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <Button x:Name="showListOfDronesBtn" FontSize="22" Content="Show List Of Drones" Margin="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="showListOfDronesBtn_Click"/>
+        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="showListOfDronesBtn_Click"/>
 
     </Grid>
 </Window>
