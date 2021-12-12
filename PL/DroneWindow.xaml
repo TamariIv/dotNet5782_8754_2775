@@ -7,6 +7,52 @@
         mc:Ignorable="d"
         Title="DroneWindow" Height="450" Width="800">
     <Grid>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="middle1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="lblEnterId" Content="Enter drone ID: " FontSize="15" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Height=" 40" Width="115" Grid.Row="2"/>
+            <Label x:Name="lblEnterModel" Content="Enter model:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="115" HorizontalContentAlignment="Left" Grid.Row="3"/>
+            <Label x:Name="lblChooseWeight" Content="Choose maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40" Width="223" Grid.Row="4"/>
+            <Label x:Name="lblChooseStation" Content="Choose station" FontSize="15" HorizontalAlignment="Left" Margin="-4,0,0,0" VerticalAlignment="Center" Height="40" Width="116" Grid.Row="5"/>
+            <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="0,27,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="115" Grid.RowSpan="2" Click="btnAdd_Click"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="152,27,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="115" Click="btnCancel_Click"/>
+        </Grid>
+
+        <Grid Name="middle2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ComboBox x:Name="comboWeightSelcetor" HorizontalAlignment="Left" VerticalAlignment="Center" Width="227" Height="40" SelectionChanged="ComboBox_SelectionChanged" Grid.Row="4"/>
+            <TextBox x:Name="txtDroneModel" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="227" Height="40" TextChanged="TextBox_TextChanged_1" Grid.Row="3"/>
+            <TextBox x:Name="txtDroneId" HorizontalAlignment="Left" MaxLength="5" TextWrapping="Wrap"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" VerticalAlignment="Center" Width="227" Height="40"  TextChanged="TextBox_TextChanged" Grid.Row="2"/>
+            <ComboBox x:Name="comboStationSelector" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Width="227" Height="40" SelectionChanged="ComboBox_SelectionChanged_1"/>
+
+        </Grid>
+
+
+
     </Grid>
 </Window>
