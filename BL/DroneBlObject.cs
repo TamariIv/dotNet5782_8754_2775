@@ -30,8 +30,8 @@ namespace BL
                 MaxWeight = (IDAL.DO.WeightCategories)newDrone.MaxWeight
             };
             IDAL.DO.Station dalStation = dal.GetStation(stationId);
-            dal.SendDroneToCharge(dalDrone, dalStation);
             dal.AddDrone(dalDrone);
+            dal.SendDroneToCharge(dalDrone, dalStation);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace BL
                 oldDalParcel = parcels[parcelIndex];
             else throw new NoMatchingIdException($"no parcel can be picked up by drone with id {drone.Id}");
 
-            if (oldDalParcel.PickedUp == DateTime.MinValue) //only drone that assigned to parcel but still didnt pick up can pick up this parcel
+            if (oldDalParcel.PickedUp == null) //only drone that assigned to parcel but still didnt pick up can pick up this parcel
             {
                 dal.PickUpParcel(oldDalParcel);
 
@@ -290,7 +290,7 @@ namespace BL
             if (droneToList.ParcelInDeliveryId != 0)
             {
                 IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.Id);
-                if (dalParcel.PickedUp != DateTime.MinValue && dalParcel.Delivered == DateTime.MinValue)
+                if (dalParcel.PickedUp != null && dalParcel.Delivered == null)
                 {
                     IDAL.DO.Customer target = dal.GetCustomer(dalParcel.TargetId);
                     double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);

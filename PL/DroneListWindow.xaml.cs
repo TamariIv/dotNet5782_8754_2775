@@ -28,5 +28,17 @@ namespace PL
             InitializeComponent();
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
         }
+
+        private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DroneStatus status = (DroneStatus)comboStatusSelector.SelectedItem;
+            DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == status); 
+            //DronesListView.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+        }
+
+        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DronesListView.ItemsSource = bl.GetListOfDrones();
+        }
     }
 }

@@ -17,9 +17,9 @@ namespace BL
                 Weight = (IDAL.DO.WeightCategories)newParcel.Weight,
                 Priority = (IDAL.DO.Priorities)newParcel.Priority,
                 Requested = DateTime.Now,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue,
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null,
                 DroneId = 0
             };
             dal.AddParcel(parcel);
@@ -49,16 +49,17 @@ namespace BL
         /// </summary>
         public IEnumerable<IBL.BO.ParcelToList> GetListofParcels()
         {
-            IEnumerable<IBL.BO.ParcelToList> parcels = from parcel in dal.GetParcels()
-                                                       select new IBL.BO.ParcelToList
-                                                       {
-                                                           Id = parcel.Id,
-                                                           SenderName = dal.GetCustomer(parcel.SenderId).Name,
-                                                           TargetName = dal.GetCustomer(parcel.TargetId).Name,
-                                                           Weight = (IBL.BO.WeightCategories)parcel.Weight,
-                                                           Priority = (IBL.BO.Priorities)parcel.Priority,
-                                                           ParcelStatus = getParcelStatus(parcel)
-                                                       };
+            IEnumerable<IBL.BO.ParcelToList> parcels =
+                from parcel in dal.GetParcels()
+                select new IBL.BO.ParcelToList
+                {
+                    Id = parcel.Id,
+                    SenderName = dal.GetCustomer(parcel.SenderId).Name,
+                    TargetName = dal.GetCustomer(parcel.TargetId).Name,
+                    Weight = (IBL.BO.WeightCategories)parcel.Weight,
+                    Priority = (IBL.BO.Priorities)parcel.Priority,
+                    ParcelStatus = getParcelStatus(parcel)
+                };
             return parcels;
         }
         //    List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
@@ -86,11 +87,11 @@ namespace BL
 
         private IBL.BO.ParcelStatus getParcelStatus(IDAL.DO.Parcel parcel)
         {
-            if (parcel.Scheduled == DateTime.MinValue)
+            if (parcel.Scheduled == null)
                 return IBL.BO.ParcelStatus.Requested;
-            else if (parcel.PickedUp == DateTime.MinValue)
+            else if (parcel.PickedUp == null)
                 return IBL.BO.ParcelStatus.Assigned;
-            else if (parcel.Delivered == DateTime.MinValue)
+            else if (parcel.Delivered == null)
                 return IBL.BO.ParcelStatus.PickedUp;
             else return IBL.BO.ParcelStatus.Delivered;
         }
@@ -103,8 +104,8 @@ namespace BL
             List<IBL.BO.ParcelToList> parcelsWithoutDrones = new List<IBL.BO.ParcelToList>();
             foreach (var dalParcel in dal.GetParcels())
             {
-                if(dalParcel.DroneId == 0) //this parcel is not assigned to drone
-                parcelsWithoutDrones.Add(convertParcelToParcelToList(dalParcel));
+                if (dalParcel.DroneId == 0) //this parcel is not assigned to drone
+                    parcelsWithoutDrones.Add(convertParcelToParcelToList(dalParcel));
             }
             return parcelsWithoutDrones;
         }

@@ -26,7 +26,7 @@ namespace IBL.BO
                 "drone status: {4}\n" +
                 "current location: {5}\n" +
                 "parcel in delivey: {6}\n",
-                Id, Model, MaxWeight, Battery, DroneStatus, Location, (ParcelInDeliveryId == 0 ? "none" : ParcelInDeliveryId));
+                Id, Model, MaxWeight, (int)Battery, DroneStatus, Location, (ParcelInDeliveryId == 0 ? "none" : ParcelInDeliveryId));
         }
     }
 }

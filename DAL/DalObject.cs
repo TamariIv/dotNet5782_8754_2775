@@ -25,7 +25,7 @@ namespace DalObject
         public Station GetStation(int idNumber)
         {
             Station s = new Station();
-            if (DataSource.Drones.Exists(station => station.Id == idNumber))
+            if (DataSource.Stations.Exists(station => station.Id == idNumber))
             {
                 s = DataSource.Stations.Find(station => station.Id == idNumber);
                 return s;
