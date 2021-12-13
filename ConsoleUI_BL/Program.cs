@@ -528,7 +528,7 @@ namespace ConsoleUI_BL
 
         private static void PrintParcelsWithoutDroneList()
         {
-            List<IBL.BO.ParcelToList> parcelsWithoutDrones = mybl.GetListofParcelsWithoutDrone().ToList();
+            List<IBL.BO.ParcelToList> parcelsWithoutDrones = mybl.GetListofParcels(item => item.ParcelStatus == IBL.BO.ParcelStatus.Requested).ToList();
             foreach (var parcelWithoutDrone in parcelsWithoutDrones)
             {
                 Console.WriteLine(parcelWithoutDrone);
@@ -537,7 +537,7 @@ namespace ConsoleUI_BL
 
         private static void PrintAvailableChargeSlotsList()
         {
-            List<IBL.BO.StationToList> stations = mybl.GetListOfStationsWithAvailableChargeSlots().ToList();
+            List<IBL.BO.StationToList> stations = mybl.GetListOfStations(item=> item.AvailableChargeSlots > 0).ToList();
             foreach (var station in stations)
             {
                 Console.WriteLine(station);

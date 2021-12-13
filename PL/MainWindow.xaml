@@ -8,12 +8,15 @@
         Title="MainWindow" Height="640" Width="800">
 
     <Grid x:Name="MainGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="173*"/>
+            <RowDefinition Height="35*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="showListOfDronesBtn_Click"/>
 
+        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="80,80,80,80" Click="showListOfDronesBtn_Click" Grid.RowSpan="2"/>
     </Grid>
 </Window>

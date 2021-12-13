@@ -34,7 +34,7 @@ namespace PL
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
 
             List<int> listOfStationIds = new List<int>();
-            foreach (var s in bl.GetListOfStationsWithAvailableChargeSlots())
+            foreach (var s in bl.GetListOfStations(item=> item.AvailableChargeSlots > 0))
                 listOfStationIds.Add(s.Id);
             comboStationSelector.ItemsSource = listOfStationIds;
         }

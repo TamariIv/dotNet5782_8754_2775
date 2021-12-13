@@ -47,28 +47,17 @@ namespace BL
         /// <summary>
         /// create a list of parcelsToList and returns it
         /// </summary>
-        public IEnumerable<IBL.BO.ParcelToList> GetListofParcels()
+        public IEnumerable<IBL.BO.ParcelToList> GetListofParcels(Func<IBL.BO.ParcelToList, bool> predicate=null)
         {
-            IEnumerable<IBL.BO.ParcelToList> parcels =
-                from parcel in dal.GetParcels()
-                select new IBL.BO.ParcelToList
-                {
-                    Id = parcel.Id,
-                    SenderName = dal.GetCustomer(parcel.SenderId).Name,
-                    TargetName = dal.GetCustomer(parcel.TargetId).Name,
-                    Weight = (IBL.BO.WeightCategories)parcel.Weight,
-                    Priority = (IBL.BO.Priorities)parcel.Priority,
-                    ParcelStatus = getParcelStatus(parcel)
-                };
-            return parcels;
+            List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
+            foreach (var dalParcel in dal.GetParcels())
+            {
+                blParcels.Add(convertParcelToParcelToList(dalParcel));
+            }
+            if (predicate == null)
+                return blParcels;
+            return blParcels.Where(predicate);
         }
-        //    List<IBL.BO.ParcelToList> blParcels = new List<IBL.BO.ParcelToList>();
-        //    foreach (var dalParcel in dal.GetParcels())
-        //    {
-        //        blParcels.Add(convertParcelToParcelToList(dalParcel));
-        //    }
-        //    return blParcels;
-        //}
 
         private IBL.BO.ParcelToList convertParcelToParcelToList(IDAL.DO.Parcel dalParcel)
         {
@@ -99,16 +88,16 @@ namespace BL
         /// <summary>
         /// create a list of parcels that are not assigned to drone and returns this list
         /// </summary>
-        public IEnumerable<IBL.BO.ParcelToList> GetListofParcelsWithoutDrone()
-        {
-            List<IBL.BO.ParcelToList> parcelsWithoutDrones = new List<IBL.BO.ParcelToList>();
-            foreach (var dalParcel in dal.GetParcels())
-            {
-                if (dalParcel.DroneId == 0) //this parcel is not assigned to drone
-                    parcelsWithoutDrones.Add(convertParcelToParcelToList(dalParcel));
-            }
-            return parcelsWithoutDrones;
-        }
+        //public IEnumerable<IBL.BO.ParcelToList> GetListofParcelsWithoutDrone()
+        //{
+        //    List<IBL.BO.ParcelToList> parcelsWithoutDrones = new List<IBL.BO.ParcelToList>();
+        //    foreach (var dalParcel in dal.GetParcels())
+        //    {
+        //        if (dalParcel.DroneId == 0) //this parcel is not assigned to drone
+        //            parcelsWithoutDrones.Add(convertParcelToParcelToList(dalParcel));
+        //    }
+        //    return parcelsWithoutDrones;
+        //}
 
 
     }
