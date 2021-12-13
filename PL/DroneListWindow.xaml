@@ -27,7 +27,7 @@
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">
-            <ListView Grid.Row="1" x:Name="DronesListView" Margin="15,20,15,20" SelectionChanged="DronesListView_SelectionChanged"/>
+            <ListView Grid.Row="1" x:Name="DronesListView" Margin="15,20,15,20" SelectionChanged="DronesListView_SelectionChanged" MouseDoubleClick="DronesListView_MouseDoubleClick" KeyDown="DronesListView_KeyDown"/>
         </Grid>
 
         <Grid x:Name="DownGrid" Grid.Row="2">

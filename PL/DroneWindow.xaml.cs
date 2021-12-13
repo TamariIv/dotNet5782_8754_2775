@@ -22,6 +22,8 @@ namespace PL
         IBL.IBL bl;
         IBL.BO.Drone drone;
         int stationId;
+
+        // add drone ctor
         public DroneWindow(IBL.IBL bl)
         {
             this.bl = bl;
@@ -37,13 +39,44 @@ namespace PL
             comboStationSelector.ItemsSource = listOfStationIds;
         }
 
+        // actions with drone ctor
+        public DroneWindow(IBL.IBL bl, IBL.BO.Drone d)
+        {
+            InitializeComponent();
+            this.bl = bl;
+            drone = d;
+            //ViewCurrentDrone.Resources = d;
+
+            // hide comboboxes for weight and charging station
+            comboStationSelector.IsEnabled = false;
+            comboStationSelector.Visibility = Visibility.Hidden;
+            comboWeightSelcetor.IsEnabled = false;
+            comboWeightSelcetor.Visibility = Visibility.Hidden;
+            txtDroneId.Visibility = Visibility.Hidden;
+            txtDroneModel.Visibility = Visibility.Hidden;
+            lblChooseStation.Visibility = Visibility.Hidden;
+            lblChooseWeight.Visibility = Visibility.Hidden;
+            lblEnterId.Visibility = Visibility.Hidden;
+            lblEnterModel.Visibility = Visibility.Hidden;
+        }
+
+        private void ViewCurrentDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            drone.Id = Convert.ToInt32(txtDroneId.Text); 
+            if (!(Convert.ToInt32(txtDroneId.Text) > 1000))
+                txtDroneId.BorderBrush = Brushes.Red;
+            //drone.Id = Convert.ToInt32(txtDroneId.Text); 
         }
 
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            txtDroneId.BorderBrush = Brushes.Red;
+            txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
             //allow get out of the text box
             if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
                 return;
@@ -66,6 +99,7 @@ namespace PL
 
             //forbid letters and signs (#,$, %, ...)
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+
             return;
         }
 
@@ -106,5 +140,12 @@ namespace PL
         {
             this.Close();
         }
+
+        //private void ViewCurrentDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+
+        //}
+
+
     }
 }

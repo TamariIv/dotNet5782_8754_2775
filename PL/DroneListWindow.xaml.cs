@@ -34,18 +34,30 @@ namespace PL
         private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DroneStatus status = (DroneStatus)comboStatusSelector.SelectedItem;
-            DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == status); 
+            combineWeightAndStatus(default, status);
+            //DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == status); 
         }
 
         private void comboMaxWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)comboMaxWeightSelector.SelectedItem;
-            DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == weight);
+            combineWeightAndStatus(weight, default);
+            //DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == weight);
         }
 
         private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DronesListView.ItemsSource = bl.GetListOfDrones();
+        }
+
+        private void combineWeightAndStatus(WeightCategories weight=default, DroneStatus status=default)
+        {
+            if (weight != default && status != default)
+                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == status && d.MaxWeight == weight);
+            else if (weight != default)
+                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == weight);
+            else
+                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == status);
         }
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
@@ -56,6 +68,16 @@ namespace PL
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //new DroneWindow(bl, ).Show();
+        }
+
+        private void DronesListView_KeyDown(object sender, KeyEventArgs e)
+        {
+             
         }
     }
 }

@@ -35,7 +35,7 @@ namespace BL
                 dal.AddDrone(dalDrone);
                 dal.SendDroneToCharge(dalDrone, dalStation);
             }
-            catch (IDAL.DO.IdAlreadyExistsException e)
+            catch (IDAL.DO.IdAlreadyExistsException)
             {
                 throw new IdAlreadyExistsException();
             }

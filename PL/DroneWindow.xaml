@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="DroneWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="94*"/>
+            <RowDefinition Height="341*"/>
+        </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -15,7 +19,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Name="middle1" Grid.Column="1">
+        <Grid Name="middle1" Grid.ColumnSpan="2" Margin="133,0,0,0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -34,7 +38,7 @@
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="152,27,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="115" Click="btnCancel_Click"/>
         </Grid>
 
-        <Grid Name="middle2" Grid.Column="2">
+        <Grid Name="middle2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,133,0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -51,6 +55,7 @@
             <ComboBox x:Name="comboStationSelector" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Width="227" Height="40" SelectionChanged="ComboBox_SelectionChanged_1"/>
 
         </Grid>
+        <Viewbox x:Name="ViewCurrentDrone" Grid.Column="0"  Margin="10,10,10,250" Grid.RowSpan="2" Selector.SelectionChanged="ViewCurrentDrone_SelectionChanged" />
 
 
 
