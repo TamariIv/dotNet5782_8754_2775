@@ -26,8 +26,8 @@ namespace PL
         {
             this.bl = bl;
             InitializeComponent();
-            comboStatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
-            comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            comboStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
+            comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
 
@@ -57,5 +57,6 @@ namespace PL
         {
             this.Close();
         }
+
     }
 }

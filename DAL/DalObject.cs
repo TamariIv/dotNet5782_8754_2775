@@ -112,67 +112,48 @@ namespace DalObject
 
         }
 
-        public IEnumerable<DroneCharge> GetDroneCharges()
+        public IEnumerable<DroneCharge> GetDroneCharges(Func<DroneCharge, bool> predicate = null)
         {
             List<DroneCharge> copyDroneCharges = new List<DroneCharge>(DataSource.DroneCharges);
-            return copyDroneCharges;
+            if (predicate == null)
+                return copyDroneCharges;
+            return copyDroneCharges.Where(predicate);
         }
 
         /// <summary>
         /// get the list of drones
         /// </summary>
         /// <returns> a copy of the list drones </returns>
-        public IEnumerable<Drone> GetDrones()
+        public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
             List<Drone> copyDrones = new List<Drone>(DataSource.Drones);
-            //for (int i = 0; i < DataSource.Drones.Count(); i++)
-            //{
-            //    copyDrones.Add(DataSource.Drones[i]);
-            //}
-            return copyDrones;
+            if (predicate == null)
+                return copyDrones;
+            return copyDrones.Where(predicate);
         }
 
         /// <summary>
         /// get the list of customers
         /// </summary>
         /// <returns> a copy of the list customers <</returns>
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<Customer> GetCustomers(Func<Customer, bool> predicate = null)
         {
             List<Customer> copyCustomers = new List<Customer>(DataSource.Customers);
-            //for (int i = 0; i < DataSource.Customers.Count(); i++)
-            //{
-            //    copyCustomers.Add(DataSource.Customers[i]);
-            //}
-            return copyCustomers;
+            if (predicate == null)
+                return copyCustomers;
+            return copyCustomers.Where(predicate);
         }
 
         /// <summary>
         /// get the list of parcels
         /// </summary>
         /// <returns> a copy of the list parcels <</returns>
-        public IEnumerable<Parcel> GetParcels()
+        public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
-            List<Parcel> copyParcels = new List<Parcel>();
-            for (int i = 0; i < DataSource.Parcels.Count(); i++)
-            {
-                copyParcels.Add(DataSource.Parcels[i]);
-            }
-            return copyParcels;
-        }
-
-        /// <summary>
-        /// make a list if the parcels without drones in Parcels 
-        /// </summary>
-        /// <returns> list that contains the parcels without drone </returns>
-        public IEnumerable<Parcel> GetParcelWithoutDrone()
-        {
-            List<Parcel> ParcelsWithoutDrone = new List<Parcel>();
-            for (int i = 0; i < DataSource.Parcels.Count(); i++)
-            {
-                if (DataSource.Parcels[i].DroneId == 0)
-                    ParcelsWithoutDrone.Add(DataSource.Parcels[i]);
-            }
-            return ParcelsWithoutDrone;
+            List<Parcel> copyParcels = new List<Parcel>(DataSource.Parcels);
+            if (predicate == null)
+                return copyParcels;
+            return copyParcels.Where(predicate);
         }
 
         /// <summary>
@@ -264,9 +245,9 @@ namespace DalObject
                     DataSource.Parcels.Remove(p);
                     DataSource.Parcels.Add(newParcel);
                 }
-                else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+                else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist !!");
             }
-            else throw new NoMatchingIdException($"parcel with id {d.Id} doesn't exists !!");
+            else throw new NoMatchingIdException($"parcel with id {d.Id} doesn't exist !!");
         }
 
         /// <summary>

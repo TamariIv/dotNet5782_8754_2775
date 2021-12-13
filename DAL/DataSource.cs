@@ -21,9 +21,9 @@ namespace DalObject
         {
             internal static int ParcelId = 1000000;
             internal static double WhenAvailable { get { return 1; } }
-            internal static double WhenLightWeight { get { return 2; } }
-            internal static double WhenMediumWeight { get { return 3; } }
-            internal static double WhenHeavyWeight { get { return 4; } }
+            internal static double WhenLightWeight { get { return 5; } }
+            internal static double WhenMediumWeight { get { return 8; } }
+            internal static double WhenHeavyWeight { get { return 10; } }
             internal static double ChargingRate { get { return 15; } }
         }
         /// <summary>
@@ -81,22 +81,13 @@ namespace DalObject
             }
 
         }
-
-        private static int diffrenetCustomer(int existingId)
-        {
-            int differentId = Customers[r.Next(Customers.Count())].Id;
-            while (differentId == existingId)
-                differentId = Customers[r.Next(Customers.Count())].Id;
-            return differentId;
-        }
-
-        private static void createParcel(int numOfParcels)
+        private static void createParcel()
         {
             Parcel p = new Parcel()
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[0].Id,
+                TargetId = Customers[1].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2020, 05, 09, 8, 10, 00),
@@ -110,8 +101,8 @@ namespace DalObject
             p = new Parcel()
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[1].Id,
+                TargetId = Customers[4].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2020, 09, 09, 20, 00, 00),
@@ -125,8 +116,8 @@ namespace DalObject
             p = new Parcel()
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[6].Id,
+                TargetId = Customers[3].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2020, 09, 12, 20, 00, 00),
@@ -140,8 +131,8 @@ namespace DalObject
             p = new Parcel()
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[9].Id,
+                TargetId = Customers[0].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2020, 11, 10, 20, 00, 00),
@@ -155,8 +146,8 @@ namespace DalObject
             p = new Parcel
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[2].Id,
+                TargetId = Customers[3].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2021, 3, 12, 15, 25, 30),
@@ -170,8 +161,8 @@ namespace DalObject
             p = new Parcel
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[3].Id,
+                TargetId = Customers[7].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2021, 4, 4, 12, 25, 0),
@@ -185,8 +176,8 @@ namespace DalObject
             p = new Parcel
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[8].Id,
+                TargetId = Customers[2].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2021, 8, 1, 1, 12, 56),
@@ -200,8 +191,8 @@ namespace DalObject
             p = new Parcel
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[9].Id,
+                TargetId = Customers[1].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2020, 10, 05, 12, 00, 00),
@@ -215,8 +206,8 @@ namespace DalObject
             p = new Parcel()
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[7].Id,
+                TargetId = Customers[4].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2021, 01, 05, 11, 00, 00),
@@ -230,8 +221,8 @@ namespace DalObject
             p = new Parcel
             {
                 Id = Config.ParcelId++,
-                SenderId = Customers[r.Next(Customers.Count())].Id,
-                TargetId = Customers[r.Next(Customers.Count())].Id,
+                SenderId = Customers[5].Id,
+                TargetId = Customers[6].Id,
                 Weight = (WeightCategories)r.Next(3),
                 Priority = (Priorities)r.Next(3),
                 Requested = new DateTime(2021, 10, 13, 0, 8, 0),
@@ -243,29 +234,6 @@ namespace DalObject
             Parcels.Add(p);
         }
 
-
-
-        //for (int i = 0; i < numOfParcels; i++)
-        //{
-        //    Parcel p = new Parcel();
-        //    p.Id = Config.ParcelId++;
-        //    p.SenderId = Customers[r.Next(Customers.Count())].Id;
-        //    int tmp = Customers[r.Next(Customers.Count())].Id;
-        //    while (tmp == p.SenderId)
-        //        tmp = Customers[r.Next(Customers.Count())].Id;
-        //    p.TargetId = tmp;
-        //    p.Weight = (WeightCategories)r.Next(3);
-        //    p.Priority = (Priorities)r.Next(3);
-        //    p.Requested = null;
-        //    p.Scheduled = null;
-        //    p.PickedUp = null;
-        //    p.Delivered = null;
-        //    p.DroneId = 0;
-        //    Parcels.Add(p);
-        //}
-
-
-
         private static void createDrone(int numOfDrones)
         {
             for (int i = 0; i < numOfDrones; i++)
@@ -273,7 +241,7 @@ namespace DalObject
                 Drone d = new Drone()
                 {
                     Id = r.Next(1001, 10000),
-                    Model = ((char)(r.Next(65, 91)) + ((char)(r.Next(65, 91)) + (r.Next(111, 999)).ToString())), // for example: SE503
+                    Model = (char)r.Next(65, 91) + ((char)r.Next(65, 91) + r.Next(111, 999).ToString()), // for example: SE503
                     MaxWeight = (WeightCategories)r.Next(3),
                 };
                 Drones.Add(d);

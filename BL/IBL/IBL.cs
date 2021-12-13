@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IBL.BO;
 
 namespace IBL
@@ -27,13 +28,12 @@ namespace IBL
         Station GetStation(int id);
         Customer GetCustomer(int id);
         Parcel GetParcel(int id);
-        //ParcelToList GetParcelToList(int id);
-        IEnumerable<StationToList> GetListOfStations();
-        IEnumerable<ParcelToList> GetListofParcels();
-        IEnumerable<DroneToList> GetListOfDrones();
-        IEnumerable<ParcelToList> GetListofParcelsWithoutDrone();
-        IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots();
-        IEnumerable<CustomerToList> GetListOfCustomers();
+        IEnumerable<StationToList> GetListOfStations(Func<StationToList, bool> predicate = null);
+        IEnumerable<ParcelToList> GetListofParcels(Func<ParcelToList, bool> predicate = null);
+        IEnumerable<DroneToList> GetListOfDrones(Func<DroneToList, bool> predicate = null);
+        //IEnumerable<ParcelToList> GetListofParcelsWithoutDrone(Func<ParcelToList, bool> predicate = null);
+        //IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots(Func<StationToList, bool> predicate = null);
+        IEnumerable<CustomerToList> GetListOfCustomers(Func<CustomerToList, bool> predicate = null);
 
     }
 }

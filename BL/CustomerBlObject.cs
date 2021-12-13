@@ -110,14 +110,16 @@ namespace BL
             return parcelInCustomer;
 
         }
-        public IEnumerable<IBL.BO.CustomerToList> GetListOfCustomers()
+        public IEnumerable<IBL.BO.CustomerToList> GetListOfCustomers(Func<IBL.BO.CustomerToList, bool> predicate=null)
         {
             List<IBL.BO.CustomerToList> customers = new List<IBL.BO.CustomerToList>();
             foreach (var dalCustomer in dal.GetCustomers())
             {
                 customers.Add(convertCustomerToCustomerToList(dalCustomer));
             }
-            return customers;
+            if (predicate == null)
+                return customers;
+            return customers.Where(predicate);
         }
     }
 }

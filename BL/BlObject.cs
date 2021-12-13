@@ -10,7 +10,7 @@ namespace BL
         IDAL.DO.IDal dal;
         public List<IDAL.DO.Drone> drones = new List<IDAL.DO.Drone>();
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
-        private List<IBL.BO.DroneToList> dronesToList;
+        private List<DroneToList> dronesToList;
 
         internal static Random r = new Random();
 
@@ -18,7 +18,7 @@ namespace BL
         public BlObject()
         {
             dal = new DalObject.DalObject();
-            dronesToList = new List<IBL.BO.DroneToList>();
+            dronesToList = new List<DroneToList>();
             drones = dal.GetDrones().ToList();
 
             //get the electricity rate from DAL:
@@ -39,10 +39,10 @@ namespace BL
                 {
                     Id = droneDal.Id,
                     Model = droneDal.Model,
-                    MaxWeight = (IBL.BO.WeightCategories)droneDal.MaxWeight
+                    MaxWeight = (WeightCategories)droneDal.MaxWeight
                 };
 
-                var parcelIndex = parcels.FindIndex(p => p.DroneId == droneDal.Id);
+                int parcelIndex = parcels.FindIndex(p => p.DroneId == droneDal.Id);
                 if (parcelIndex != -1) //there is a parcel that assigned to this drone
                 {
                     IDAL.DO.Parcel parcel = parcels[parcelIndex];

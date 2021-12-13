@@ -19,12 +19,12 @@ namespace IDAL.DO
         Station GetStation(int idNumber);
         Parcel GetParcel(int idNumber);
         DroneCharge GetDroneCharge(int idNumber);
-        IEnumerable<Drone> GetDrones();
-        IEnumerable<Customer> GetCustomers();
+        IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null);
+        IEnumerable<Customer> GetCustomers(Func<Customer, bool> predicate = null);
         IEnumerable<Station> GetStations(Func<Station, bool> predicate = null);
-        IEnumerable<Parcel> GetParcels();
-        IEnumerable<DroneCharge> GetDroneCharges();
-        IEnumerable<Parcel> GetParcelWithoutDrone();
+        IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null);
+        IEnumerable<DroneCharge> GetDroneCharges(Func<DroneCharge, bool> predicate = null);
+        //IEnumerable<Parcel> GetParcelWithoutDrone();
         #endregion
 
         #region Update part of C.R.U.D

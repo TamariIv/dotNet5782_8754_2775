@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,14 @@ namespace BL
         {
             try
             {
-                IBL.BO.Station station = GetStation(stationId);
-                IBL.BO.DroneToList drone = new IBL.BO.DroneToList
+                Station station = GetStation(stationId);
+                DroneToList drone = new DroneToList
                 {
                     Id = newDrone.Id,
                     Model = newDrone.Model,
                     MaxWeight = newDrone.MaxWeight,
                     Battery = r.Next(20, 41),
-                    DroneStatus = IBL.BO.DroneStatus.Maintenance,
+                    DroneStatus = DroneStatus.Maintenance,
                     Location = station.Location,
                     ParcelInDeliveryId = 0
                 };
@@ -135,7 +136,7 @@ namespace BL
             int droneIndex = dronesToList.FindIndex(d => d.Id == id);
             if (droneIndex != -1) //this id of drone exists
                 return dronesToList[droneIndex];
-            else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
+            throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
 
         /// <summary>
@@ -168,7 +169,7 @@ namespace BL
                 parcelInDrone = new IBL.BO.ParcelInDelivey
                 {
                     Id = parcel.Id,
-                    PickUpStatus = (getParcelStatus(parcel) == IBL.BO.ParcelStatus.PickedUp || getParcelStatus(parcel) == IBL.BO.ParcelStatus.Delivered ? true : false),
+                    PickUpStatus = getParcelStatus(parcel) == IBL.BO.ParcelStatus.PickedUp || getParcelStatus(parcel) == IBL.BO.ParcelStatus.Delivered ? true : false,
                     Weight = (IBL.BO.WeightCategories)parcel.Weight,
                     Priority = (IBL.BO.Priorities)parcel.Priority,
                     Sender = new IBL.BO.CustomerInParcel { Id = dal.GetCustomer(parcel.SenderId).Id, Name = dal.GetCustomer(parcel.SenderId).Name },
@@ -242,7 +243,7 @@ namespace BL
                 dal.MatchDroneToParcel(dal.GetParcel(finalParcel.Id), dal.GetDrone(id)); // make the update in dal
 
                 blDrone.ParcelInDeliveryId = finalParcel.Id;
-                blDrone.DroneStatus = IBL.BO.DroneStatus.Delivery;
+                blDrone.DroneStatus = DroneStatus.Delivery;
                 UpdateBlDrone(blDrone);
 
 
@@ -253,7 +254,7 @@ namespace BL
         /// pick up parcel by drone - update the drone and the parcel in accordance
         /// </summary>
         /// <param name="drone"></param>
-        public void PickUpParcel(IBL.BO.Drone drone)
+        public void PickUpParcel(Drone drone)
         {
             List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
             IDAL.DO.Parcel oldDalParcel;
@@ -271,18 +272,18 @@ namespace BL
                 double batteryConsumption = getBatteryConsumption(oldDalParcel.Weight);
                 double batteryWaste = distance * batteryConsumption;
 
-                IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+                DroneToList newDrone = new DroneToList
                 {
                     Id = drone.Id,
                     Model = drone.Model,
                     MaxWeight = drone.MaxWeight,
                     Battery = drone.Battery - batteryWaste,
                     DroneStatus = GetDroneToList(drone.Id).DroneStatus,
-                    Location = new IBL.BO.Location { Latitude = sender.Latitude, Longitude = sender.Longitude },
+                    Location = new Location { Latitude = sender.Latitude, Longitude = sender.Longitude },
                     ParcelInDeliveryId = oldDalParcel.Id
                 };
 
-                IBL.BO.DroneToList oldDrone = GetDroneToList(drone.Id);
+                DroneToList oldDrone = GetDroneToList(drone.Id);
                 dronesToList.Remove(oldDrone);
                 dronesToList.Add(newDrone);
             }
@@ -290,10 +291,10 @@ namespace BL
         }
 
 
-        public void deliveryPackage(IBL.BO.Drone drone)
+        public void deliveryPackage(Drone drone)
         {
           
-            IBL.BO.DroneToList droneToList = GetDroneToList(drone.Id);
+            DroneToList droneToList = GetDroneToList(drone.Id);
             if (droneToList.ParcelInDeliveryId != 0)
             {
                 IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.Id);
@@ -304,7 +305,7 @@ namespace BL
                     double batteryConsumption = getBatteryConsumption(dalParcel.Weight);
                     double battery = distance * batteryConsumption;
 
-                    IBL.BO.DroneToList newDrone = new IBL.BO.DroneToList
+                    DroneToList newDrone = new DroneToList
                     {
                         Id = droneToList.Id,
                         Model = droneToList.Model,
@@ -325,22 +326,18 @@ namespace BL
         /// <summary>
         /// returns a copy of the drones list
         /// </summary>
-        public IEnumerable<IBL.BO.DroneToList> GetListOfDrones()
+        public IEnumerable<DroneToList> GetListOfDrones(Func<DroneToList, bool> predicate = null)
         {
-            List<IBL.BO.DroneToList> copyDronesToList = new List<IBL.BO.DroneToList>();
-            foreach (var drone in dronesToList)
-            {
-                copyDronesToList.Add(drone);
-            }
-            return copyDronesToList;
+            if (predicate == null)
+                return dronesToList;
+            return dronesToList.Where(predicate);
         }
-
         /// <summary>
         /// the function receives a BL drone and return BL DroneToList 
         /// </summary>
         /// <param name="dalDrone"> the drone to convert </param>
         /// <returns></returns>
-        private IDAL.DO.Drone ConvertDroneToDal(IBL.BO.Drone dalDrone)
+        private IDAL.DO.Drone ConvertDroneToDal(Drone dalDrone)
         {
             IDAL.DO.Drone newDrone = new IDAL.DO.Drone()
             {

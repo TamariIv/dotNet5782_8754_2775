@@ -28,7 +28,7 @@ namespace BL
         public void UpdateStation(IBL.BO.Station newStation)
         {
             IDAL.DO.Station dalStation = dal.GetStation(newStation.Id);
-            if (newStation.Name == "" && (newStation.AvailableChargeSlots).ToString() == "")
+            if (newStation.Name == "" && newStation.AvailableChargeSlots.ToString() == "")
                 throw new NoUpdateException("no update to station was received\n");
             if (newStation.Name != "")
                 dalStation.Name = newStation.Name;
@@ -78,27 +78,18 @@ namespace BL
             return blStation;
         }
 
-        public IEnumerable<IBL.BO.StationToList> GetListOfStations()
+        public IEnumerable<IBL.BO.StationToList> GetListOfStations(Func<IBL.BO.StationToList, bool> predicate = null)
         {
             List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
             foreach (var s in dal.GetStations())
             {
                 stations.Add(convertStationToStationToList(s));
             }
-            return stations;
-        }
 
-        public IEnumerable<IBL.BO.StationToList> GetListOfStationsWithAvailableChargeSlots()
-        {
-            List<IDAL.DO.Station> stationsWithAvailableChargeSlots = dal.GetStations(x => x.AvailableChargeSlots != 0).ToList();
-            List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
-            foreach (var station in stationsWithAvailableChargeSlots)
-            {
-                stations.Add(convertStationToStationToList(station));     
-            }
-            return stations;
+            if (predicate == null)
+                return stations;
+            return stations.Where(predicate);
         }
-
     }
 }
 
