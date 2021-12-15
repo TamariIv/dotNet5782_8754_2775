@@ -123,7 +123,7 @@ namespace BL
                 dal.SendDroneFromStation(dalDrone);
 
             }
-            else throw new ImpossibleOperation("drone can't be freed from chraging\n");
+            else throw new ImpossibleOprationException("drone can't be freed from chraging\n");
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace BL
         }
 
         /// <summary>
-        /// the function receives a drone id anf finds a parcel that can be assigned to it
+        /// the function receives a drone id and finds a parcel that can be assigned to it
         /// </summary>
         /// <param name="id"> the id of the drone </param>
         public void DroneToParcel(int id)
@@ -238,7 +238,7 @@ namespace BL
 
                 // make the necessary updates in the parcel and drone or throw exception if no parcel matched the conditions 
                 if (!parcelWasFound)
-                    throw new ImpossibleOperation("there is no parcel the drone can carry\n");
+                    throw new ImpossibleOprationException("there is no parcel the drone can carry\n");
 
                 dal.MatchDroneToParcel(dal.GetParcel(finalParcel.Id), dal.GetDrone(id)); // make the update in dal
 
@@ -248,7 +248,7 @@ namespace BL
 
 
             }
-            else throw new ImpossibleOperation("the drone is not available\n");
+            else throw new ImpossibleOprationException("the drone is not available\n");
         }
         /// <summary>
         /// pick up parcel by drone - update the drone and the parcel in accordance

@@ -49,13 +49,23 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <ComboBox x:Name="comboWeightSelcetor" HorizontalAlignment="Left" VerticalAlignment="Center" Width="227" Height="40" SelectionChanged="ComboBox_SelectionChanged" Grid.Row="4"/>
-            <TextBox x:Name="txtDroneModel" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="227" Height="40" TextChanged="TextBox_TextChanged_1" Grid.Row="3"/>
-            <TextBox x:Name="txtDroneId" HorizontalAlignment="Left" MaxLength="5" TextWrapping="Wrap"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" VerticalAlignment="Center" Width="227" Height="40"  TextChanged="TextBox_TextChanged" Grid.Row="2"/>
-            <ComboBox x:Name="comboStationSelector" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Width="227" Height="40" SelectionChanged="ComboBox_SelectionChanged_1"/>
+            <ComboBox x:Name="comboWeightSelcetor" HorizontalAlignment="Left" VerticalAlignment="Center" Width="227" Height="40"  Grid.Row="4" SelectionChanged="comboWeightSelcetor_SelectionChanged">
+                <Button Content="Button"/>
+            </ComboBox>
+            <TextBox x:Name="txtDroneModel" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="227" Height="40" TextChanged="TextBox_TextChanged_DroneModel" Grid.Row="3"/>
+            <TextBox x:Name="txtDroneId" HorizontalAlignment="Left" MaxLength="5" TextWrapping="Wrap"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" VerticalAlignment="Center" Width="227" Height="40"  TextChanged="TextBox_TextChanged_DroneId" Grid.Row="2"/>
+            <ComboBox x:Name="comboStationSelector" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Width="227" Height="40" SelectionChanged="comboStationSelector_SelectionChanged"/>
+            <Label x:Name="lblNewModel" Content="Enter new model:" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Row="1"/>
 
         </Grid>
-        <Viewbox x:Name="ViewCurrentDrone" Grid.Column="0"  Margin="10,10,10,250" Grid.RowSpan="2" Selector.SelectionChanged="ViewCurrentDrone_SelectionChanged" />
+        <Viewbox x:Name="ViewCurrentDrone" Grid.Column="0"  Margin="34,31,42,106" Grid.RowSpan="2" Selector.SelectionChanged="ViewCurrentDrone_SelectionChanged" Grid.ColumnSpan="2" />
+        <TextBox x:Name="txtUpdateDroneModel" HorizontalAlignment="Left" TextChanged="TextBox_TextChanged_UpdateModel" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Height="40" Grid.Column="2" Margin="0,10,0,0" Grid.Row="1"/>
+        <Button x:Name="btnFinalUpdate" Content="Update" Grid.Column="2" HorizontalAlignment="Left" Margin="0,71,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnFinalUpdate_Click"/>
+        <Button x:Name="btnSendToCharge" Content="Send to Charge" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnSendToCharge_Click"/>
+        <Button x:Name="btnSendToDelivery" Content="Delivery" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="25" Width="97" Click="btnSendToDelivery_Click"/>
+        <Button x:Name="btnFreeDroneFromCharging" Content="Free" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnFreeDroneFromCharging_Click" />
+        <Button x:Name="btnPickUpParcel" Content="Pick-Up Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnPickUpParcel_Click"/>
+        <Button x:Name="btnDeliverParcel" Content="Deliver" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnDeliverParcel_Click"/>
 
 
 

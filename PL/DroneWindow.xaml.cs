@@ -37,6 +37,15 @@ namespace PL
             foreach (var s in bl.GetListOfStations(item=> item.AvailableChargeSlots > 0))
                 listOfStationIds.Add(s.Id);
             comboStationSelector.ItemsSource = listOfStationIds;
+
+            btnFinalUpdate.Visibility = Visibility.Hidden;
+            btnSendToCharge.Visibility = Visibility.Hidden;
+            btnSendToDelivery.Visibility = Visibility.Hidden;
+            btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
+            btnPickUpParcel.Visibility = Visibility.Hidden;
+            btnDeliverParcel.Visibility = Visibility.Hidden;
+            txtUpdateDroneModel.Visibility = Visibility.Hidden;
+            lblNewModel.Visibility = Visibility.Hidden;
         }
 
         // actions with drone ctor
@@ -44,7 +53,8 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            drone = d;
+            
+            
             //ViewCurrentDrone.Resources = d;
 
             // hide comboboxes for weight and charging station
@@ -58,6 +68,36 @@ namespace PL
             lblChooseWeight.Visibility = Visibility.Hidden;
             lblEnterId.Visibility = Visibility.Hidden;
             lblEnterModel.Visibility = Visibility.Hidden;
+
+            switch(drone.DroneStatus)
+            {
+                case IBL.BO.DroneStatus.Available:
+                    btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
+                    btnPickUpParcel.Visibility = Visibility.Hidden;
+                    btnDeliverParcel.Visibility = Visibility.Hidden;
+                    break;
+
+                case IBL.BO.DroneStatus.Assigned:
+                    btnSendToCharge.Visibility = Visibility.Hidden;
+                    btnSendToDelivery.Visibility = Visibility.Hidden;
+                    btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
+                    btnDeliverParcel.Visibility = Visibility.Hidden;
+                    break;
+
+                case IBL.BO.DroneStatus.Maintenance:
+                    btnSendToCharge.Visibility = Visibility.Hidden;
+                    btnSendToDelivery.Visibility = Visibility.Hidden;
+                    btnPickUpParcel.Visibility = Visibility.Hidden;
+                    btnDeliverParcel.Visibility = Visibility.Hidden;
+                    break;
+
+                case IBL.BO.DroneStatus.Delivery:
+                    btnSendToCharge.Visibility = Visibility.Hidden;
+                    btnSendToDelivery.Visibility = Visibility.Hidden;
+                    btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
+                    btnPickUpParcel.Visibility = Visibility.Hidden;
+                    break;
+            }    
         }
 
         private void ViewCurrentDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -66,11 +106,11 @@ namespace PL
         }
 
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBox_TextChanged_DroneId(object sender, TextChangedEventArgs e)
         {
-            if (!(Convert.ToInt32(txtDroneId.Text) > 1000))
-                txtDroneId.BorderBrush = Brushes.Red;
-            //drone.Id = Convert.ToInt32(txtDroneId.Text); 
+            //if (!(Convert.ToInt32(txtDroneId.Text) > 1000))
+            //    txtDroneId.BorderBrush = Brushes.Red;
+            drone.Id = Convert.ToInt32(txtDroneId.Text);
         }
 
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -103,18 +143,24 @@ namespace PL
             return;
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
             drone.MaxWeight = weight;
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        private void TextBox_TextChanged_DroneModel(object sender, TextChangedEventArgs e)
         {
             drone.Model = Convert.ToString(txtDroneModel.Text);
         }
 
-        private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        private void TextBox_TextChanged_UpdateModel(object sender, TextChangedEventArgs e)
+        {
+            drone.Model = txtUpdateDroneModel.Text;
+        }
+
+
+        private void comboStationSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             drone.DroneStatus = IBL.BO.DroneStatus.Maintenance;
             stationId = Convert.ToInt32(comboStationSelector.SelectedItem);
@@ -140,6 +186,120 @@ namespace PL
         {
             this.Close();
         }
+
+        private void btnFinalUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            drone.Model = txtUpdateDroneModel.Text;
+            try
+            {
+                bl.UpdateDrone(drone);
+            }
+            catch(BL.NoUpdateException)
+            {
+                MessageBox.Show("No update was made \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnSendToCharge_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.rechargeDrone(drone);
+            }
+            catch(BL.ImpossibleOprationException)
+            {
+                MessageBox.Show("Couldn't send drone to charge \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnSendToDelivery_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.DroneToParcel(drone.Id);
+            }
+            catch(BL.ImpossibleOprationException)
+            {
+                MessageBox.Show("Couldn't pick up parcel \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnFreeDroneFromCharging_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.FreeDrone(drone.Id, stationId);
+            }
+            catch(BL.ImpossibleOprationException)
+            {
+                MessageBox.Show("Couldn't free drone from charging \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnPickUpParcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.PickUpParcel(drone);
+            }
+            catch(BL.NoMatchingIdException)
+            {
+                MessageBox.Show("No parcel could be picked-up \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnDeliverParcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.deliveryPackage(drone);
+            }
+            catch (BL.ImpossibleOprationException)
+            {
+                MessageBox.Show("Parcel can't be delivered \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+
 
         //private void ViewCurrentDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
