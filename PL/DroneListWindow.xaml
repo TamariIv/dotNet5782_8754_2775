@@ -21,8 +21,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <ComboBox x:Name="comboStatusSelector" ToolTip="Click to show list of drones by status" Grid.Column="1" SelectionChanged="comboStatusSelector_SelectionChanged" Margin="0,27,50,0" />
-            <ComboBox x:Name="comboMaxWeightSelector" ToolTip="Click to show list of drones by max weight" Grid.Column="3" SelectionChanged="comboMaxWeightSelector_SelectionChanged" Margin="0,27,50,0"/>
+            <ComboBox x:Name="comboStatusSelector" ToolTip="Click to show list of drones by status" Grid.Column="1" SelectionChanged="comboCombineStatusAndWeight_SelectionChanged" Margin="0,27,50,0" />
+            <ComboBox x:Name="comboMaxWeightSelector" ToolTip="Click to show list of drones by max weight" Grid.Column="3" SelectionChanged="comboCombineStatusAndWeight_SelectionChanged" Margin="0,27,50,0"/>
             <Label x:Name="lblTBD" Grid.Column="0" Content="Label" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"/>
         </Grid>
 

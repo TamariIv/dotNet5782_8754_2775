@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using IBL;
+using IBL.BO;
 
 namespace PL
 {
@@ -30,8 +32,8 @@ namespace PL
             drone = new IBL.BO.Drone();
             InitializeComponent();
 
-            DataContext = drone;
-            comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            //DataContext = drone;
+            comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
 
             List<int> listOfStationIds = new List<int>();
             foreach (var s in bl.GetListOfStations(item=> item.AvailableChargeSlots > 0))
@@ -49,13 +51,15 @@ namespace PL
         }
 
         // actions with drone ctor
-        public DroneWindow(IBL.IBL bl, IBL.BO.Drone d)
+        public DroneWindow(IBL.IBL bl, IBL.BO.DroneToList d)
         {
-            InitializeComponent();
             this.bl = bl;
-            
-            
-            //ViewCurrentDrone.Resources = d;
+            drone = bl.GetDrone(d.Id);
+            InitializeComponent();
+
+            ShowDroneData();
+
+            //ViewCurrentDrone.i
 
             // hide comboboxes for weight and charging station
             comboStationSelector.IsEnabled = false;
@@ -69,7 +73,7 @@ namespace PL
             lblEnterId.Visibility = Visibility.Hidden;
             lblEnterModel.Visibility = Visibility.Hidden;
 
-            switch(drone.DroneStatus)
+            switch(d.DroneStatus)
             {
                 case IBL.BO.DroneStatus.Available:
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
@@ -157,6 +161,7 @@ namespace PL
         private void TextBox_TextChanged_UpdateModel(object sender, TextChangedEventArgs e)
         {
             drone.Model = txtUpdateDroneModel.Text;
+            bl.UpdateDrone(drone);
         }
 
 
@@ -175,10 +180,13 @@ namespace PL
             catch (BL.IdAlreadyExistsException)
             {
                 MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show(bl.GetDroneToList(drone.Id).ToString(), "Drone Details");
-            new DroneListWindow(bl).Show();
+            MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            //new DroneListWindow(bl).Show();
+            DroneListWindow newWindow = new DroneListWindow(bl);
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
             this.Close();
         }
 
@@ -295,6 +303,60 @@ namespace PL
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
             }
         }
+
+        private void ShowDroneData()
+        {
+            txtIdData.Text = drone.Id.ToString();
+            txtModelData.Text = drone.Model;
+            txtWeightData.Text = drone.MaxWeight.ToString();
+            txtStatusData.Text = drone.DroneStatus.ToString();
+            txtLocationData.Text = drone.CurrentLocation.ToString();
+            txtBatteryData.Text = drone.Battery.ToString() + "%";
+            txtParcelInDeliveryData.Text = (Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString());
+
+        }
+
+
+
+        private void txtIdData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtIdData.Text = drone.Id.ToString();
+        }
+
+        private void txtModelData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtModelData.Text = drone.Model;
+        }
+
+        private void txtWeightData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtWeightData.Text = drone.MaxWeight.ToString();
+        }
+
+        private void txtStatusData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtStatusData.Text = drone.DroneStatus.ToString();
+        }
+
+        private void txtLocationData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtLocationData.Text = drone.CurrentLocation.ToString();
+        }
+
+        private void txtBatteryData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtBatteryData.Text = drone.Battery.ToString() + "%";
+        }
+
+        private void txtParcelInDeliveryData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtParcelInDeliveryData.Text = (Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString()); 
+        }
+
+
+
+
+
 
 
 

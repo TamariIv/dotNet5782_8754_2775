@@ -58,7 +58,7 @@
             <Label x:Name="lblNewModel" Content="Enter new model:" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Row="1"/>
 
         </Grid>
-        <Viewbox x:Name="ViewCurrentDrone" Grid.Column="0"  Margin="34,31,42,106" Grid.RowSpan="2" Selector.SelectionChanged="ViewCurrentDrone_SelectionChanged" Grid.ColumnSpan="2" />
+
         <TextBox x:Name="txtUpdateDroneModel" HorizontalAlignment="Left" TextChanged="TextBox_TextChanged_UpdateModel" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Height="40" Grid.Column="2" Margin="0,10,0,0" Grid.Row="1"/>
         <Button x:Name="btnFinalUpdate" Content="Update" Grid.Column="2" HorizontalAlignment="Left" Margin="0,71,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnFinalUpdate_Click"/>
         <Button x:Name="btnSendToCharge" Content="Send to Charge" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnSendToCharge_Click"/>
@@ -67,6 +67,20 @@
         <Button x:Name="btnPickUpParcel" Content="Pick-Up Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnPickUpParcel_Click"/>
         <Button x:Name="btnDeliverParcel" Content="Deliver" Grid.Column="2" HorizontalAlignment="Left" Margin="0,113,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="97" Click="btnDeliverParcel_Click"/>
 
+        <Label x:Name="lblIdData" Content="Drone ID:" FontWeight="Bold"  HorizontalAlignment="Left" Margin="67,81,0,0" VerticalAlignment="Top" Height="40" Width="113" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtIdData" HorizontalAlignment="Left" Margin="52,81,0,0" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="35" TextChanged="txtIdData_TextChanged" Grid.Column="1" Grid.RowSpan="2"/>
+        <Label x:Name="lblModelData" Content="Model:"  FontWeight="Bold" HorizontalAlignment="Left" Margin="67,21,0,0" Grid.Row="1" VerticalAlignment="Top" Height="39" Width="113" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtModelData" Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Left" Margin="52,22,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="41" TextChanged="txtModelData_TextChanged"/>
+        <Label x:Name="lblWeightData" Content="Maximum weight:"  FontWeight="Bold" HorizontalAlignment="Left" Margin="67,56,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="113" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtWeightData" HorizontalAlignment="Left"  IsReadOnly="True"  Margin="52,63,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="33" Grid.Column="1" TextChanged="txtWeightData_TextChanged"/>
+        <Label x:Name="lblStatusData" Content="Status:"  FontWeight="Bold" HorizontalAlignment="Left" Margin="67,92,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="113" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtStatusData" HorizontalAlignment="Left" Margin="52,96,0,0"  IsReadOnly="True" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Grid.Column="1" Height="29" TextChanged="txtStatusData_TextChanged"/>
+        <Label x:Name="lblLocationData" Content="Location:"  FontWeight="Bold" HorizontalAlignment="Left" Margin="67,128,0,0" Grid.Row="1" VerticalAlignment="Top" Height="38" Width="113" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtLocationData" HorizontalAlignment="Left" IsReadOnly="True" Margin="52,125,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Grid.Column="1" Height="48" TextChanged="txtLocationData_TextChanged"/>
+        <Label x:Name="lblBatteryData" Content="Battery:" FontWeight="Bold" HorizontalAlignment="Left" Margin="67,166,0,0" Grid.Row="1" VerticalAlignment="Top" Height="34" Width="113" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtBatteryData" HorizontalAlignment="Left"  IsReadOnly="True" Margin="52,173,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Grid.Column="1" Height="34" TextChanged="txtBatteryData_TextChanged"/>
+        <Label x:Name="lblParcelInDeliveryData" Content="ID of parcel:" FontWeight="Bold" HorizontalAlignment="Left" Margin="67,205,0,0" Grid.Row="1" VerticalAlignment="Top" Height="36" Width="113" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtParcelInDeliveryData" BorderBrush="White"  HorizontalAlignment="Left" IsReadOnly="True"  Margin="52,207,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Grid.Column="1" Height="34" TextChanged="txtParcelInDeliveryData_TextChanged"/>
 
 
     </Grid>
