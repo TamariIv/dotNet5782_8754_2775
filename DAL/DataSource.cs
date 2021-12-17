@@ -20,10 +20,10 @@ namespace DalObject
         internal class Config
         {
             internal static int ParcelId = 1000000;
-            internal static double WhenAvailable { get { return 1; } }
-            internal static double WhenLightWeight { get { return 5; } }
-            internal static double WhenMediumWeight { get { return 8; } }
-            internal static double WhenHeavyWeight { get { return 10; } }
+            internal static double WhenAvailable { get { return 5; } }
+            internal static double WhenLightWeight { get { return 10; } }
+            internal static double WhenMediumWeight { get { return 15; } }
+            internal static double WhenHeavyWeight { get { return 18; } }
             internal static double ChargingRate { get { return 15; } }
         }
         /// <summary>
@@ -35,10 +35,10 @@ namespace DalObject
             createStation();
             //initialize 10 customers:
             createCustomer(10);
+            //initialize 10 drones:
+            createDrone(10);
             //initialize 10 parcels:
             createParcel();
-            //initialize 5 drones:
-            createDrone(5);
         }
 
         private static void createStation()
@@ -46,9 +46,9 @@ namespace DalObject
             Station s = new Station
             {
                 Id = r.Next(10000, 100000),
-                Name = "Pisgat Zeev",
-                Longitude = 31.831146,
-                Latitude = 35.242632,
+                Name = "Romema",
+                Longitude = 31.79160,
+                Latitude = 35.20553,
                 AvailableChargeSlots = r.Next(11)
             };
             Stations.Add(s);
@@ -65,6 +65,11 @@ namespace DalObject
         }
         private static void createCustomer(int numOfCustomers)
         {
+            // minLat, minLon, maxLat,maxLon are variables for making sure the latitude and longitude are in the range
+            double minLat = 35.195;
+            double minLon = 31.79;
+            double maxLat = 35.2;
+            double maxLon = 31.791;
             string[] namesArray = { "Avraham Cohen", "Yitshak Levi", "Yaakov Israeli", "Sarah Shalom", "Rivka Silver", "Rahel Shushan", "Leah Yosefi", "David Dayan", "Moshe Biton", "Aharon Uzan" };
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
@@ -74,12 +79,25 @@ namespace DalObject
                     Id = r.Next(100000000, 1000000000),
                     Name = namesArray[i],
                     Phone = firstDigits[r.Next(3)] + r.Next(1000000, 10000000).ToString(),
-                    Latitude = 35 + r.NextDouble(),
-                    Longitude = 31 + r.NextDouble()
+                    Latitude = minLat + (maxLat - minLat) * r.NextDouble(),
+                    Longitude = minLon + (maxLon - minLon) * r.NextDouble()
                 };
                 Customers.Add(c);
             }
 
+        }
+        private static void createDrone(int numOfDrones)
+        {
+            for (int i = 0; i < numOfDrones; i++)
+            {
+                Drone d = new Drone()
+                {
+                    Id = r.Next(1001, 10000),
+                    Model = (char)r.Next(65, 91) + ((char)r.Next(65, 91) + r.Next(111, 999).ToString()), // for example: SE503
+                    MaxWeight = (WeightCategories)r.Next(3),
+                };
+                Drones.Add(d);
+            }
         }
         private static void createParcel()
         {
@@ -94,7 +112,7 @@ namespace DalObject
                 Scheduled = new DateTime(2020, 05, 09, 8, 30, 00),
                 PickedUp = null,
                 Delivered = null,
-                DroneId = 0
+                DroneId = Drones[0].Id
             };
             Parcels.Add(p);
 
@@ -109,7 +127,7 @@ namespace DalObject
                 Scheduled = new DateTime(2020, 09, 09, 21, 10, 00),
                 PickedUp = new DateTime(2020, 09, 09, 21, 30, 00),
                 Delivered = null,
-                DroneId = 0
+                DroneId = Drones[1].Id
             };
             Parcels.Add(p);
 
@@ -124,7 +142,7 @@ namespace DalObject
                 Scheduled = new DateTime(2020, 09, 12, 21, 10, 00),
                 PickedUp = new DateTime(2020, 09, 12, 21, 30, 00),
                 Delivered = new DateTime(2020, 09, 12, 22, 00, 00),
-                DroneId = 0
+                DroneId = Drones[2].Id
             };
             Parcels.Add(p);
 
@@ -139,7 +157,7 @@ namespace DalObject
                 Scheduled = new DateTime(2020, 11, 10, 21, 10, 00),
                 PickedUp = new DateTime(2020, 11, 10, 21, 30, 00),
                 Delivered = null,
-                DroneId = 0
+                DroneId = Drones[3].Id
             };
             Parcels.Add(p);
 
@@ -184,7 +202,7 @@ namespace DalObject
                 Scheduled = new DateTime(2021, 8, 2, 12, 0, 0),
                 PickedUp = new DateTime(2021, 8, 2, 16, 15, 00),
                 Delivered = null,
-                DroneId = 0
+                DroneId = Drones[4].Id
             };
             Parcels.Add(p);
 
@@ -199,7 +217,7 @@ namespace DalObject
                 Scheduled = new DateTime(2020, 10, 05, 12, 10, 00),
                 PickedUp = new DateTime(2020, 10, 05, 12, 30, 00),
                 Delivered = new DateTime(2020, 10, 05, 13, 00, 00),
-                DroneId = 0
+                DroneId = Drones[5].Id
             };
             Parcels.Add(p);
 
@@ -214,7 +232,7 @@ namespace DalObject
                 Scheduled = new DateTime(2021, 01, 05, 12, 00, 00),
                 PickedUp = new DateTime(2021, 01, 05, 12, 30, 00),
                 Delivered = new DateTime(2021, 01, 05, 13, 00, 00),
-                DroneId = 0
+                DroneId = Drones[6].Id
             };
             Parcels.Add(p);
 
@@ -229,28 +247,12 @@ namespace DalObject
                 Scheduled = new DateTime(2021, 10, 2, 12, 0, 0),
                 PickedUp = new DateTime(2021, 10, 2, 16, 15, 0),
                 Delivered = new DateTime(2021, 10, 2, 17, 0, 0),
-                DroneId = 0
+                DroneId = Drones[7].Id
             };
             Parcels.Add(p);
         }
-
-        private static void createDrone(int numOfDrones)
-        {
-            for (int i = 0; i < numOfDrones; i++)
-            {
-                Drone d = new Drone()
-                {
-                    Id = r.Next(1001, 10000),
-                    Model = (char)r.Next(65, 91) + ((char)r.Next(65, 91) + r.Next(111, 999).ToString()), // for example: SE503
-                    MaxWeight = (WeightCategories)r.Next(3),
-                };
-                Drones.Add(d);
-            }
-
-
-        }
     }
-    }
+}
 
 
 

@@ -36,7 +36,7 @@ namespace PL
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
 
             List<int> listOfStationIds = new List<int>();
-            foreach (var s in bl.GetListOfStations(item=> item.AvailableChargeSlots > 0))
+            foreach (var s in bl.GetListOfStationsWithAvailableChargeSlots())
                 listOfStationIds.Add(s.Id);
             comboStationSelector.ItemsSource = listOfStationIds;
 
@@ -177,7 +177,7 @@ namespace PL
             {
                 bl.AddDrone(drone, stationId);
             }
-            catch (BL.IdAlreadyExistsException)
+            catch (IdAlreadyExistsException)
             {
                 MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -202,7 +202,7 @@ namespace PL
             {
                 bl.UpdateDrone(drone);
             }
-            catch(BL.NoUpdateException)
+            catch(NoUpdateException)
             {
                 MessageBox.Show("No update was made \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
@@ -218,9 +218,9 @@ namespace PL
         {
             try
             {
-                bl.rechargeDrone(drone);
+                bl.rechargeDrone(drone.Id);
             }
-            catch(BL.ImpossibleOprationException)
+            catch(ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't send drone to charge \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
@@ -238,7 +238,7 @@ namespace PL
             {
                 bl.DroneToParcel(drone.Id);
             }
-            catch(BL.ImpossibleOprationException)
+            catch(ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't pick up parcel \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
@@ -256,7 +256,7 @@ namespace PL
             {
                 bl.FreeDrone(drone.Id, stationId);
             }
-            catch(BL.ImpossibleOprationException)
+            catch(ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't free drone from charging \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
@@ -274,7 +274,7 @@ namespace PL
             {
                 bl.PickUpParcel(drone);
             }
-            catch(BL.NoMatchingIdException)
+            catch(NoMatchingIdException)
             {
                 MessageBox.Show("No parcel could be picked-up \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
@@ -292,7 +292,7 @@ namespace PL
             {
                 bl.deliveryPackage(drone);
             }
-            catch (BL.ImpossibleOprationException)
+            catch (ImpossibleOprationException)
             {
                 MessageBox.Show("Parcel can't be delivered \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);

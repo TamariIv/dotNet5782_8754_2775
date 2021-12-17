@@ -217,9 +217,17 @@ namespace DalObject
         /// <returns> the id of the next new parcel </returns> 
         public int AddParcel(Parcel p)
         {
-            if (DataSource.Customers.Exists(parcel => parcel.Id == p.Id))
+            if (DataSource.Parcels.Exists(parcel => parcel.Id == p.Id))
             {
-                throw new IdAlreadyExistsException($"parcel with id {p.Id} already exists !!");
+                throw new NoMatchingIdException($"parcel with id {p.Id} already exists !!");
+            }
+            if(!DataSource.Customers.Exists(c => c.Id == p.SenderId))
+            {
+                throw new NoMatchingIdException($"sender with id {p.SenderId} doesn't exist");
+            }
+            if (!DataSource.Customers.Exists(c => c.Id == p.TargetId))
+            {
+                throw new NoMatchingIdException($"target with id {p.TargetId} doesn't exist");
             }
             p.Id = DataSource.Config.ParcelId;
             DataSource.Parcels.Add(p);
@@ -352,9 +360,9 @@ namespace DalObject
 
         public void UpdateStation(Station s)
         {
-            Station newStation = GetStation(s.Id);
-            DataSource.Stations.Remove(s);
-            DataSource.Stations.Add(newStation);
+            Station oldStation = GetStation(s.Id);
+            DataSource.Stations.Remove(oldStation);
+            DataSource.Stations.Add(s);
         }
 
         public double[] GetElectricity()
@@ -388,16 +396,16 @@ namespace DalObject
             return result;
         }
 
-        public List<Customer> GetCustomersWithParcels(List<IDAL.DO.Parcel> parcels, List<IDAL.DO.Customer> customers)
+        public List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers)
         {
-            List<IDAL.DO.Customer> clients = new List<Customer>();
+            List<Customer> clients = new List<Customer>();
             foreach (var customer in customers)
             {
                 foreach (var parcel in parcels)
                 {
                     if (customer.Id == parcel.TargetId && parcel.Delivered != null)
                     {
-                        IDAL.DO.Customer client = GetCustomer(parcel.TargetId);                  
+                        Customer client = GetCustomer(parcel.TargetId);                  
                         clients.Add(client);
                     }
                 }
