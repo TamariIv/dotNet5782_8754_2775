@@ -23,7 +23,7 @@ namespace IBL.BO
                 "Id is: {0}\n" +
                 "model: {1}\n" +
                 "max weight is: {2}\n" +
-                "battery: {3}\n" +
+                "battery: {3}%\n" +
                 "drone status: {4}\n" +
                 "parcel in delivery: {5}\n" +
                 "current location: {6}\n",

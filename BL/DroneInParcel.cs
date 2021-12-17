@@ -15,7 +15,7 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            return string.Format("Id is: {0}\n Battery is: {1} Location is: {2}", Id, Battery, CurrentLocation);
+            return string.Format("Id is: {0}\n Battery is: {1}% Location is: {2}", Id, Battery, CurrentLocation);
         }
     }
 }
