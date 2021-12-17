@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL
 {
@@ -13,48 +10,81 @@ namespace BL
         /// </summary>
         /// <param name="newStation"></param>
         public void AddStation(IBL.BO.Station newStation)
-        {         
+        {     
+            try
+            {
                 IDAL.DO.Station dalStation = new IDAL.DO.Station
                 {
                     Id = newStation.Id,
                     Name = newStation.Name,
                     AvailableChargeSlots = newStation.AvailableChargeSlots,
-                    Latitude=newStation.Location.Latitude,
-                    Longitude=newStation.Location.Longitude
+                    Latitude = newStation.Location.Latitude,
+                    Longitude = newStation.Location.Longitude
                 };
-                dal.AddStation(dalStation);       
+                dal.AddStation(dalStation);
+            }
+            catch(IDAL.DO.IdAlreadyExistsException ex)
+            {
+                throw new IBL.BO.IdAlreadyExistsException(ex.Message);
+            }
+
         }
 
-        public void UpdateStation(IBL.BO.Station newStation)
+        public void UpdateStation(int id, string name, int chargeSlots)
         {
-            IDAL.DO.Station dalStation = dal.GetStation(newStation.Id);
-            if (newStation.Name == "" && newStation.AvailableChargeSlots.ToString() == "")
-                throw new NoUpdateException("no update to station was received\n");
-            if (newStation.Name != "")
-                dalStation.Name = newStation.Name;
-            if (newStation.AvailableChargeSlots.ToString() == "")
-                dalStation.AvailableChargeSlots = newStation.AvailableChargeSlots + newStation.DronesCharging.Count();
-            dal.UpdateStation(dalStation);
+            try
+            {
+                IDAL.DO.Station dalStation = dal.GetStation(id);
+                if (name == "" && chargeSlots.ToString() == "")
+                    throw new IBL.BO.NoUpdateException("no update to station was received\n");
+                if (name!= "")
+                    dalStation.Name = name;
+                if (chargeSlots.ToString() != "")
+                {
+                   int unavailableChargeSlots = dal.GetDroneCharges(d => d.StationId == id).Count();
+                    dalStation.AvailableChargeSlots = chargeSlots - unavailableChargeSlots;
+                }
+                dal.UpdateStation(dalStation);
+            }
+            catch (IDAL.DO.NoMatchingIdException ex)
+            {
+                throw new IBL.BO.NoMatchingIdException(ex.Message);
+            }
+            catch (IDAL.DO.IdAlreadyExistsException ex)
+            {
+                throw new IBL.BO.IdAlreadyExistsException(ex.Message);
+            }
         }
 
         public IBL.BO.Station GetStation(int id)
         {
-            IDAL.DO.Station dalStation = dal.GetStation(id);
-            List<IBL.BO.DroneInCharging> dronesCharging = new List<IBL.BO.DroneInCharging>();
-            foreach (var droneCharge in dal.GetDroneCharges())
+            try
             {
-                if (droneCharge.StationId == id)
-                    dronesCharging.Add(new IBL.BO.DroneInCharging { Id = droneCharge.DroneId, Battery = GetDroneToList(droneCharge.DroneId).Battery });
+                IDAL.DO.Station dalStation = dal.GetStation(id);
+                List<IBL.BO.DroneInCharging> dronesCharging = new List<IBL.BO.DroneInCharging>();
+                foreach (var droneCharge in dal.GetDroneCharges())
+                {
+                    if (droneCharge.StationId == id)
+                        dronesCharging.Add(new IBL.BO.DroneInCharging { Id = droneCharge.DroneId, Battery = GetDroneToList(droneCharge.DroneId).Battery });
+                }
+                IBL.BO.Station station = new IBL.BO.Station
+                {
+                    Id = dalStation.Id,
+                    Name = dalStation.Name,
+                    Location = new IBL.BO.Location { Latitude = dalStation.Latitude, Longitude = dalStation.Longitude },
+                    AvailableChargeSlots = dalStation.AvailableChargeSlots,
+                    DronesCharging = dronesCharging
+                };
+                return station;
             }
-            IBL.BO.Station station = new IBL.BO.Station
+            catch (IDAL.DO.NoMatchingIdException ex)
             {
-                Id = dalStation.Id,
-                Name = dalStation.Name,
-                Location = new IBL.BO.Location { Latitude = dalStation.Latitude, Longitude = dalStation.Longitude },
-                AvailableChargeSlots = dalStation.AvailableChargeSlots,
-                DronesCharging = dronesCharging
-            };
-            return station;
+                throw new IBL.BO.NoMatchingIdException(ex.Message);
+            }
+            catch (IDAL.DO.IdAlreadyExistsException ex)
+            {
+                throw new IBL.BO.IdAlreadyExistsException(ex.Message);
+            }
         }
 
 
@@ -78,17 +108,24 @@ namespace BL
             return blStation;
         }
 
-        public IEnumerable<IBL.BO.StationToList> GetListOfStations(Func<IBL.BO.StationToList, bool> predicate = null)
+        public IEnumerable<IBL.BO.StationToList> GetListOfStationsWithAvailableChargeSlots()
+        {
+            List<IBL.BO.StationToList> stationsWithAvailableChargeSlots = new List<IBL.BO.StationToList>();
+            foreach (var station in dal.GetStations(s => s.AvailableChargeSlots > 0)) //send a predicate to DAL
+            {
+                stationsWithAvailableChargeSlots.Add(convertStationToStationToList(station));
+            }
+            return stationsWithAvailableChargeSlots;
+        }
+
+        public IEnumerable<IBL.BO.StationToList> GetListOfStations()
         {
             List<IBL.BO.StationToList> stations = new List<IBL.BO.StationToList>();
             foreach (var s in dal.GetStations())
             {
                 stations.Add(convertStationToStationToList(s));
             }
-
-            if (predicate == null)
-                return stations;
-            return stations.Where(predicate);
+            return stations;
         }
     }
 }

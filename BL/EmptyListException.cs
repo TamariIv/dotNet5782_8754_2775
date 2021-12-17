@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace BL
+namespace IBL.BO
 {
     [Serializable]
     public class EmptyListException : Exception

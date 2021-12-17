@@ -15,10 +15,10 @@ namespace IBL
         //Update functions:
         void UpdateCustomer(Customer newCustomer);
         void UpdateDrone(Drone d);
-        void UpdateStation(Station newStation);
+        void UpdateStation(int id, string name, int chargeSlots);
         void FreeDrone(int droneId, double timeInCharging);
         void DroneToParcel(int id);
-        void rechargeDrone(Drone drone);
+        void rechargeDrone(int id);
         void PickUpParcel(Drone drone);
         void deliveryPackage(Drone drone);
 
@@ -28,12 +28,12 @@ namespace IBL
         Station GetStation(int id);
         Customer GetCustomer(int id);
         Parcel GetParcel(int id);
-        IEnumerable<StationToList> GetListOfStations(Func<StationToList, bool> predicate = null);
-        IEnumerable<ParcelToList> GetListofParcels(Func<ParcelToList, bool> predicate = null);
-        IEnumerable<DroneToList> GetListOfDrones(Func<DroneToList, bool> predicate = null);
-        //IEnumerable<ParcelToList> GetListofParcelsWithoutDrone(Func<ParcelToList, bool> predicate = null);
-        //IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots(Func<StationToList, bool> predicate = null);
-        IEnumerable<CustomerToList> GetListOfCustomers(Func<CustomerToList, bool> predicate = null);
+        IEnumerable<StationToList> GetListOfStations();
+        IEnumerable<ParcelToList> GetListofParcels();
+        IEnumerable<DroneToList> GetListOfDrones();
+        IEnumerable<ParcelToList> GetListofParcelsWithoutDrone();
+        IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots();
+        IEnumerable<CustomerToList> GetListOfCustomers();
 
     }
 }

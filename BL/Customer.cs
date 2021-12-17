@@ -24,7 +24,7 @@ namespace IBL.BO
                 "Id is: {0}\n" +
                 "Name of customer: {1}\n" +
                 "Phone number: {2}\n" +
-                "Location: {3}\n Parcels from customer: {4}\n parcels to customer: {5}", Id, Name, Phone, Location, senderParcels, recieverParcels);
+                "Location: {3}\nParcels from customer: {4}\nparcels to customer: {5}", Id, Name, Phone, Location, senderParcels, recieverParcels);
         }
 
 

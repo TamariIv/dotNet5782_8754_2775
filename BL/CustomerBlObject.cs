@@ -6,32 +6,46 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public partial class BlObject:IBL.IBL
+    public partial class BlObject : IBL.IBL
     {
         public void UpdateCustomer(IBL.BO.Customer newCustomer)
         {
-            IDAL.DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
-            if (newCustomer.Name == "" && newCustomer.Phone == "")
-                throw new NoUpdateException("no update to customer was received\n");
-            if (newCustomer.Name != "")
-                dalCustomer.Name = newCustomer.Name;
-            if (newCustomer.Phone != "")
-                dalCustomer.Phone = newCustomer.Phone;
-            dal.UpdateCustomer(dalCustomer);
+            try
+            {
+                IDAL.DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
+                if (newCustomer.Name == "" && newCustomer.Phone == "")
+                    throw new IBL.BO.NoUpdateException("no update to customer was received\n");
+                if (newCustomer.Name != "")
+                    dalCustomer.Name = newCustomer.Name;
+                if (newCustomer.Phone != "")
+                    dalCustomer.Phone = newCustomer.Phone;
+                dal.UpdateCustomer(dalCustomer);
+            }
+            catch (IDAL.DO.NoMatchingIdException)
+            {
+                throw new IBL.BO.NoMatchingIdException($"customer with id {newCustomer.Id} doesn't exist !!");
+            }
         }
 
         public void AddCustomer(IBL.BO.Customer newCustomer)
         {
-            IDAL.DO.Customer dalCustomer = new IDAL.DO.Customer
+            try
             {
-                Id = newCustomer.Id,
-                Name = newCustomer.Name,
-                Phone = newCustomer.Phone,
-                Longitude = newCustomer.Location.Longitude,
-                Latitude = newCustomer.Location.Latitude
+                IDAL.DO.Customer dalCustomer = new IDAL.DO.Customer
+                {
+                    Id = newCustomer.Id,
+                    Name = newCustomer.Name,
+                    Phone = newCustomer.Phone,
+                    Longitude = newCustomer.Location.Longitude,
+                    Latitude = newCustomer.Location.Latitude
 
-            };
-            dal.AddCustomer(dalCustomer);
+                };
+                dal.AddCustomer(dalCustomer);
+            }
+            catch (IDAL.DO.IdAlreadyExistsException)
+            {
+                throw new IBL.BO.IdAlreadyExistsException($"drone with id {newCustomer.Id} already exists !!");
+            }
         }
 
         private IBL.BO.CustomerToList convertCustomerToCustomerToList(IDAL.DO.Customer dalCustomer)
@@ -79,7 +93,7 @@ namespace BL
                 Location = new IBL.BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
                 Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
                 Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id)
-        };
+            };
             return customer;
         }
 
@@ -95,7 +109,7 @@ namespace BL
 
         private IBL.BO.ParcelInCustomer convertParcelToParcelInCustomer(IDAL.DO.Parcel parcel, int id)
         {
-            IBL.BO.ParcelInCustomer parcelInCustomer=new IBL.BO.ParcelInCustomer
+            IBL.BO.ParcelInCustomer parcelInCustomer = new IBL.BO.ParcelInCustomer
             {
                 Id = parcel.Id,
                 Weight = (IBL.BO.WeightCategories)parcel.Weight,
@@ -104,22 +118,20 @@ namespace BL
                 TargetOrSender = new IBL.BO.CustomerInParcel
                 {
                     Id = id,
-                    Name = GetCustomer(id).Name
+                    Name = dal.GetCustomer(id).Name
                 }
             };
             return parcelInCustomer;
 
         }
-        public IEnumerable<IBL.BO.CustomerToList> GetListOfCustomers(Func<IBL.BO.CustomerToList, bool> predicate=null)
+        public IEnumerable<IBL.BO.CustomerToList> GetListOfCustomers()
         {
             List<IBL.BO.CustomerToList> customers = new List<IBL.BO.CustomerToList>();
             foreach (var dalCustomer in dal.GetCustomers())
             {
                 customers.Add(convertCustomerToCustomerToList(dalCustomer));
             }
-            if (predicate == null)
-                return customers;
-            return customers.Where(predicate);
+            return customers;
         }
     }
 }
