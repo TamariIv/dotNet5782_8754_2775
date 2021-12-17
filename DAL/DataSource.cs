@@ -20,10 +20,10 @@ namespace DalObject
         internal class Config
         {
             internal static int ParcelId = 1000000;
-            internal static double WhenAvailable { get { return 5; } }
-            internal static double WhenLightWeight { get { return 10; } }
-            internal static double WhenMediumWeight { get { return 15; } }
-            internal static double WhenHeavyWeight { get { return 18; } }
+            internal static double WhenAvailable { get { return 4; } }
+            internal static double WhenLightWeight { get { return 8; } }
+            internal static double WhenMediumWeight { get { return 12; } }
+            internal static double WhenHeavyWeight { get { return 16; } }
             internal static double ChargingRate { get { return 15; } }
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace DalObject
             double minLat = 35.195;
             double minLon = 31.79;
             double maxLat = 35.2;
-            double maxLon = 31.791;
+            double maxLon = 31.78;
             string[] namesArray = { "Avraham Cohen", "Yitshak Levi", "Yaakov Israeli", "Sarah Shalom", "Rivka Silver", "Rahel Shushan", "Leah Yosefi", "David Dayan", "Moshe Biton", "Aharon Uzan" };
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
