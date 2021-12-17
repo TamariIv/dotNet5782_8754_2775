@@ -31,7 +31,7 @@ namespace IBL.BO
                 "scheduled date: {6}\n" +
                 "pickedUp date: {7}\n" +
                 "delivered date: {8}\n",
-                Id, Sender, Target, Weight, Priority, Requested, Scheduled, PickedUp, Delivered);
+                Id, Sender.Id, Target.Id, Weight, Priority, Requested, Scheduled, PickedUp, Delivered);
         }
     }
 }
