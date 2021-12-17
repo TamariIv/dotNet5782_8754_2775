@@ -86,10 +86,12 @@ namespace BL
                     }
                     else // if the parcel already delivered
                     {
-                        droneBl.DroneStatus = DroneStatus.Assigned;
-                    }
+                        droneBl.DroneStatus = (DroneStatus)r.Next(2); //Maintenance or Available
+                        droneBl.ParcelInDeliveryId = 0; //there is no parcel that assigned to this drone so the parcel id is null(0).                    }
 
+                    }
                 }
+
                 else //the drone is not assigned
                 {
                     droneBl.DroneStatus = (DroneStatus)r.Next(2); //Maintenance or Available

@@ -69,7 +69,7 @@ namespace DalObject
             double minLat = 35.195;
             double minLon = 31.79;
             double maxLat = 35.2;
-            double maxLon = 31.791;
+            double maxLon = 31.78;
             string[] namesArray = { "Avraham Cohen", "Yitshak Levi", "Yaakov Israeli", "Sarah Shalom", "Rivka Silver", "Rahel Shushan", "Leah Yosefi", "David Dayan", "Moshe Biton", "Aharon Uzan" };
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
