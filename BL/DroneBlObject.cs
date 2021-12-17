@@ -205,16 +205,16 @@ namespace BL
             {
 
                 // make list of parcels with highest priority possible
-                IEnumerable<IDAL.DO.Parcel> parcels = dal.GetParcels().Where(parcel => parcel.Priority == IDAL.DO.Priorities.Emergency);
+                List<IDAL.DO.Parcel> parcels = dal.GetParcels().Where(parcel => parcel.Priority == IDAL.DO.Priorities.Emergency).ToList();
                 if (!parcels.Any())
-                    parcels = dal.GetParcels().Where(parcel => parcel.Priority == IDAL.DO.Priorities.Rapid);
+                    parcels = dal.GetParcels().Where(parcel => parcel.Priority == IDAL.DO.Priorities.Rapid).ToList();
                 if (!parcels.Any())
-                    parcels = dal.GetParcels().Where(parcel => parcel.Priority == IDAL.DO.Priorities.Regular);
+                    parcels = dal.GetParcels().Where(parcel => parcel.Priority == IDAL.DO.Priorities.Regular).ToList();
                 if (!parcels.Any())
                     throw new EmptyListException("no parcel was found\n");
 
                 // delete from the list parcels that are too heavy for the drone
-                parcels = parcels.Where(parcel => (int)parcel.Weight >= (int)blDrone.MaxWeight);
+                parcels = parcels.Where(parcel => (int)parcel.Weight >= (int)blDrone.MaxWeight).ToList();
 
                 // find a parcel in that is [ossible for the drone to take
                 IDAL.DO.Parcel posibleDistanceParcel = parcels.First();

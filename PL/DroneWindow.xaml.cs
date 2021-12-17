@@ -32,7 +32,6 @@ namespace PL
             drone = new IBL.BO.Drone();
             InitializeComponent();
 
-            //DataContext = drone;
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
 
             List<int> listOfStationIds = new List<int>();
@@ -40,14 +39,9 @@ namespace PL
                 listOfStationIds.Add(s.Id);
             comboStationSelector.ItemsSource = listOfStationIds;
 
-            btnFinalUpdate.Visibility = Visibility.Hidden;
-            btnSendToCharge.Visibility = Visibility.Hidden;
-            btnSendToDelivery.Visibility = Visibility.Hidden;
-            btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
-            btnPickUpParcel.Visibility = Visibility.Hidden;
-            btnDeliverParcel.Visibility = Visibility.Hidden;
-            txtUpdateDroneModel.Visibility = Visibility.Hidden;
-            lblNewModel.Visibility = Visibility.Hidden;
+            ActionsGrid.Visibility = Visibility.Hidden;
+
+
         }
 
         // actions with drone ctor
@@ -56,22 +50,10 @@ namespace PL
             this.bl = bl;
             drone = bl.GetDrone(d.Id);
             InitializeComponent();
-
             ShowDroneData();
 
-            //ViewCurrentDrone.i
+            AddDroneGrid.Visibility = Visibility.Hidden;
 
-            // hide comboboxes for weight and charging station
-            comboStationSelector.IsEnabled = false;
-            comboStationSelector.Visibility = Visibility.Hidden;
-            comboWeightSelcetor.IsEnabled = false;
-            comboWeightSelcetor.Visibility = Visibility.Hidden;
-            txtDroneId.Visibility = Visibility.Hidden;
-            txtDroneModel.Visibility = Visibility.Hidden;
-            lblChooseStation.Visibility = Visibility.Hidden;
-            lblChooseWeight.Visibility = Visibility.Hidden;
-            lblEnterId.Visibility = Visibility.Hidden;
-            lblEnterModel.Visibility = Visibility.Hidden;
 
             switch(d.DroneStatus)
             {
@@ -117,35 +99,37 @@ namespace PL
             drone.Id = Convert.ToInt32(txtDroneId.Text);
         }
 
-        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            txtDroneId.BorderBrush = Brushes.Red;
-            txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
-            //allow get out of the text box
-            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
-                return;
 
-            //allow list of system keys (add other key here if you want to allow)
-            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
-                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
-             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
-                return;
+        //PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"
+        //private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        //{
+        //    txtDroneId.BorderBrush = Brushes.Red;
+        //    txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
+        //    //allow get out of the text box
+        //    if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+        //        return;
 
-            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+        //    //allow list of system keys (add other key here if you want to allow)
+        //    if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+        //        e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
+        //     || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+        //        return;
 
-            //allow control system keys
-            if (Char.IsControl(c)) return;
+        //    char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
 
-            //allow digits (without Shift or Alt)
-            if (Char.IsDigit(c))
-                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
-                    return; //let this key be written inside the textbox
+        //    //allow control system keys
+        //    if (Char.IsControl(c)) return;
 
-            //forbid letters and signs (#,$, %, ...)
-            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+        //    //allow digits (without Shift or Alt)
+        //    if (Char.IsDigit(c))
+        //        if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+        //            return; //let this key be written inside the textbox
 
-            return;
-        }
+        //    //forbid letters and signs (#,$, %, ...)
+        //    e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+
+        //    return;
+        //}
 
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -157,13 +141,6 @@ namespace PL
         {
             drone.Model = Convert.ToString(txtDroneModel.Text);
         }
-
-        private void TextBox_TextChanged_UpdateModel(object sender, TextChangedEventArgs e)
-        {
-            drone.Model = txtUpdateDroneModel.Text;
-            bl.UpdateDrone(drone);
-        }
-
 
         private void comboStationSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -195,23 +172,33 @@ namespace PL
             this.Close();
         }
 
+
+
+        // ACTIONS WITH DRONE FUNCTIONS
+
         private void btnFinalUpdate_Click(object sender, RoutedEventArgs e)
         {
-            drone.Model = txtUpdateDroneModel.Text;
+            Drone tmpDrone = drone;
+            tmpDrone.Model = txtModelData.Text;
             try
             {
                 bl.UpdateDrone(drone);
             }
             catch(BL.NoUpdateException)
             {
-                MessageBox.Show("No update was made \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show("No update was made \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
-                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show("Error \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            drone = tmpDrone;
+            MessageBox.Show($"Drone {drone.Id} model was updated successfully \npress OK to continue", "Success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnSendToCharge_Click(object sender, RoutedEventArgs e)
@@ -222,14 +209,18 @@ namespace PL
             }
             catch(BL.ImpossibleOprationException)
             {
-                MessageBox.Show("Couldn't send drone to charge \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show("Couldn't send drone to charge \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch(Exception)
             {
-                MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                MessageBox.Show("Error \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            MessageBox.Show($"Drone {drone.Id} was sent to charge successfully\npress OK to continue", "Success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnSendToDelivery_Click(object sender, RoutedEventArgs e)
@@ -248,6 +239,10 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
             }
+            MessageBox.Show($"Drone {drone.Id} was sent on delivery successfully\npress OK to continue", "Success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnFreeDroneFromCharging_Click(object sender, RoutedEventArgs e)
@@ -266,6 +261,10 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
             }
+            MessageBox.Show($"Drone {drone.Id} was freed from station successfully\npress OK to continue", "Success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnPickUpParcel_Click(object sender, RoutedEventArgs e)
@@ -284,6 +283,10 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
             }
+            MessageBox.Show($"Drone {drone.Id} picked-up parcel {drone.ParcelInDelivery.Id} successfully\npress OK to continue", "Success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnDeliverParcel_Click(object sender, RoutedEventArgs e)
@@ -302,6 +305,10 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OKCancel, MessageBoxImage.Error);
             }
+            MessageBox.Show($"Drone {drone.Id} completed delivery successfully\npress OK to continue", "Success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void ShowDroneData()
@@ -311,63 +318,13 @@ namespace PL
             txtWeightData.Text = drone.MaxWeight.ToString();
             txtStatusData.Text = drone.DroneStatus.ToString();
             txtLocationData.Text = drone.CurrentLocation.ToString();
-            txtBatteryData.Text = drone.Battery.ToString() + "%";
+            txtBatteryData.Text = ((int)drone.Battery).ToString() + "%";
             txtParcelInDeliveryData.Text = (Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString());
-
         }
 
-
-
-        private void txtIdData_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            txtIdData.Text = drone.Id.ToString();
+            this.Close();
         }
-
-        private void txtModelData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtModelData.Text = drone.Model;
-        }
-
-        private void txtWeightData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtWeightData.Text = drone.MaxWeight.ToString();
-        }
-
-        private void txtStatusData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtStatusData.Text = drone.DroneStatus.ToString();
-        }
-
-        private void txtLocationData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtLocationData.Text = drone.CurrentLocation.ToString();
-        }
-
-        private void txtBatteryData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtBatteryData.Text = drone.Battery.ToString() + "%";
-        }
-
-        private void txtParcelInDeliveryData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txtParcelInDeliveryData.Text = (Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString()); 
-        }
-
-
-
-
-
-
-
-
-
-
-
-        //private void ViewCurrentDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-
-        //}
-
-
     }
 }
