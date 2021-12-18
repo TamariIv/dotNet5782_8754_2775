@@ -352,11 +352,11 @@ namespace BL
                 DroneToList droneToList = GetDroneToList(drone.Id);
                 if (droneToList.ParcelInDeliveryId != 0)
                 {
-                    IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.Id);
+                    IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.ParcelInDeliveryId);
                     if (dalParcel.PickedUp != null && dalParcel.Delivered == null)
                     {
                         IDAL.DO.Customer target = dal.GetCustomer(dalParcel.TargetId);
-                        double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, target.Latitude, target.Longitude);
+                        double distance = Tools.Utils.DistanceCalculation(droneToList.Location.Latitude, droneToList.Location.Longitude, target.Latitude, target.Longitude);
                         double batteryConsumption = getBatteryConsumption(dalParcel.Weight);
                         double battery = distance * batteryConsumption;
 

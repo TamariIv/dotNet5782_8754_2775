@@ -25,12 +25,12 @@ namespace IBL.BO
                 "Pick-up ststus: {1}\n" +
                 "Weight is: {2}\n" +
                 "priority: {3}\n" +
-                "Sender: {4}\n" +
-                "Target: {5}\n" +
+                "Sender: \n{4}\n" +
+                "Target: \n{5}\n" +
                 "Pick-up locatoin: {6}\n" +
                 "Target location: {7}\n" +
                 "Distance from the sender to the target: {8}\n",
-                Id, PickUpStatus == true? "was picked up" : "wasn't picked up", Weight, Priority, Sender, Target, PickUpLocation, TargetLocation, Distance);
+                Id, PickUpStatus == true? "was picked up" : "wasn't picked up", Weight, Priority, Sender.ToString(), Target.ToString(), PickUpLocation, TargetLocation, (float)Distance);
         }
     }
 

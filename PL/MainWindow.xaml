@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="800">
+    <!--Window Background="pack://siteoforigin:,,,/shutterstock_547640359132541713991042368.jpg">-->
 
-    <Grid x:Name="MainGrid" Background="White">
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="173*"/>
             <RowDefinition Height="35*"/>
@@ -16,7 +17,21 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Users\Hodaya\source\repos\TamariIv\dotNet5782_8754_2775\PL\images\Drone1.jpg" Stretch="UniformToFill" />
+           
+        </Grid.Background>
+        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="200,519,200,40" Click="showListOfDronesBtn_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" FontWeight="Bold" Cursor="Hand">
+            <Button.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="7"/>
+            </Style>
+            </Button.Resources>
+        </Button> 
 
-        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="80,80,80,80" Click="showListOfDronesBtn_Click" Grid.RowSpan="2"/>
+
+
+        <!--<Image Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="117,464,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100"/>
+            <Image Margin="-110,-25,-90,-13" Grid.RowSpan="2" Stretch="Fill" Grid.ColumnSpan="2"/>-->
     </Grid>
 </Window>

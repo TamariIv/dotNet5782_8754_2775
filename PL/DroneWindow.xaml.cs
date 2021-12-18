@@ -45,7 +45,7 @@ namespace PL
         }
 
         // actions with drone ctor
-        public DroneWindow(IBL.IBL bl, IBL.BO.DroneToList d)
+        public DroneWindow(IBL.IBL bl, DroneToList d)
         {
             this.bl = bl;
             drone = bl.GetDrone(d.Id);
@@ -319,7 +319,7 @@ namespace PL
             txtStatusData.Text = drone.DroneStatus.ToString();
             txtLocationData.Text = drone.CurrentLocation.ToString();
             txtBatteryData.Text = ((int)drone.Battery).ToString() + "%";
-            txtParcelInDeliveryData.Text = (Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString());
+            txtParcelInDeliveryData.Text = Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
