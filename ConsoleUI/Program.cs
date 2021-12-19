@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
-using DalObject;
-
+using DalApi;
 
 namespace ConsoleUI
 {
@@ -16,7 +15,7 @@ namespace ConsoleUI
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, DroneToParcel, PickedUp, Delivery, Recharge, FreeDrone }
 
-        static DalObject.DalObject mydal;
+        static DalApi.IDal mydal;
 
         static void Main(string[] args)
         {
