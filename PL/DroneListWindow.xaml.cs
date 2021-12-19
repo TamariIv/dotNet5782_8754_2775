@@ -11,8 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL;
-using IBL.BO;
+using BlApi;
+using BO;
 
 namespace PL
 {
@@ -21,8 +21,8 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        IBL.IBL bl;
-        public DroneListWindow(IBL.IBL bl)
+        IBL bl;
+        public DroneListWindow(IBL bl)
         {
             this.bl = bl;
             InitializeComponent();
@@ -39,11 +39,11 @@ namespace PL
         public void comboCombineStatusAndWeight_SelectionChanged(/*object sender, SelectionChangedEventArgs e*/)
         {
             if (comboMaxWeightSelector.SelectedItem != null && comboStatusSelector.SelectedItem != null)
-                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (IBL.BO.WeightCategories)comboMaxWeightSelector.SelectedItem && d.DroneStatus == (IBL.BO.DroneStatus)comboStatusSelector.SelectedItem);
+                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem && d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
             else if (comboMaxWeightSelector.SelectedItem != null)
-                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (IBL.BO.WeightCategories)comboMaxWeightSelector.SelectedItem);
+                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem);
             else if (comboStatusSelector.SelectedItem != null)
-                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == (IBL.BO.DroneStatus)comboStatusSelector.SelectedItem);
+                DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
         }
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
