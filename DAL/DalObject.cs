@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
+using DO;
+using DalApi;
 
-
-namespace DalObject
+namespace Dal
 {
-    public partial class DalObject : IDal
+    sealed class DalObject : IDal
     {
-        //DalObject dalObject = new DalObject();
 
-        public DalObject() //constructor
-        {
-            DataSource.Initialize();
-        }
+        static readonly IDal instance = new DalObject();
+        public static IDal Instance { get => instance; }
+        static DalObject() { }
+
+        private DalObject() => DataSource.Initialize();    //constructor
+
 
         /// <summary>
         ///  search station by idNumber
@@ -221,7 +222,7 @@ namespace DalObject
             {
                 throw new NoMatchingIdException($"parcel with id {p.Id} already exists !!");
             }
-            if(!DataSource.Customers.Exists(c => c.Id == p.SenderId))
+            if (!DataSource.Customers.Exists(c => c.Id == p.SenderId))
             {
                 throw new NoMatchingIdException($"sender with id {p.SenderId} doesn't exist");
             }
@@ -346,7 +347,7 @@ namespace DalObject
 
         public void UpdateCustomer(Customer c)
         {
-            Customer newCustomer =  GetCustomer(c.Id);
+            Customer newCustomer = GetCustomer(c.Id);
             DataSource.Customers.Remove(newCustomer);
             DataSource.Customers.Add(c);
         }
@@ -387,7 +388,7 @@ namespace DalObject
             foreach (var item in DataSource.Stations)
             {
                 double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
-                if(dist <  distance)
+                if (dist < distance)
                 {
                     distance = dist;
                     result = item;
@@ -405,7 +406,7 @@ namespace DalObject
                 {
                     if (customer.Id == parcel.TargetId && parcel.Delivered != null)
                     {
-                        Customer client = GetCustomer(parcel.TargetId);                  
+                        Customer client = GetCustomer(parcel.TargetId);
                         clients.Add(client);
                     }
                 }

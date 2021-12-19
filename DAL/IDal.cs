@@ -1,4 +1,4 @@
-﻿using IDAL.DO;
+﻿using DO;
 using System;
 using System.Collections.Generic;
 
@@ -44,6 +44,6 @@ namespace DalApi
 
         double[] GetElectricity();
         Station getClosestStation(double latitude, double longitude);
-        List<Customer> GetCustomersWithParcels(List<IDAL.DO.Parcel> parcels, List<IDAL.DO.Customer> customers);
+        List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers);
     }
 }
