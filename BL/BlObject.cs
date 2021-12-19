@@ -7,8 +7,8 @@ namespace BL
 {
     public partial class BlObject : IBL.IBL
     {
-        IDAL.DO.IDal dal;
-        public List<IDAL.DO.Drone> drones = new List<IDAL.DO.Drone>();
+        DO.IDal dal;
+        public List<DO.Drone> drones = new List<DO.Drone>();
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<DroneToList> dronesToList;
 
@@ -31,7 +31,7 @@ namespace BL
 
             //initializeDrones(drones);
 
-            List<IDAL.DO.Parcel> parcels = dal.GetParcels().ToList();
+            List<DO.Parcel> parcels = dal.GetParcels().ToList();
             DroneToList droneBl;
             foreach (var droneDal in drones)
             {
@@ -45,7 +45,7 @@ namespace BL
                 int parcelIndex = parcels.FindIndex(p => p.DroneId == droneDal.Id);
                 if (parcelIndex != -1) //there is a parcel that assigned to this drone
                 {
-                    IDAL.DO.Parcel parcel = parcels[parcelIndex];
+                    DO.Parcel parcel = parcels[parcelIndex];
                     droneBl.ParcelInDeliveryId = parcel.Id;
                     //assigned but wasn't delivered:
                     if (parcel.Delivered == null)
@@ -58,7 +58,7 @@ namespace BL
                             //the location will be in the closest station to the sender
                             double senderLatitude = dal.GetCustomer(parcel.SenderId).Latitude;
                             double senderLongitude = dal.GetCustomer(parcel.SenderId).Longitude;
-                            IDAL.DO.Station st = dal.getClosestStation(senderLatitude, senderLongitude);
+                            DO.Station st = dal.getClosestStation(senderLatitude, senderLongitude);
                             droneBl.Location = new Location { Latitude = st.Latitude, Longitude = st.Longitude };
                         }
 
@@ -76,7 +76,7 @@ namespace BL
                         }
                         //Battery status will be raffled between a minimal charge that will allow the drone to make the shipment and arrive at the station closest to the shipment destination and a full charge
                         Customer customer = GetCustomer(parcel.TargetId);
-                        IDAL.DO.Station closestStation = dal.getClosestStation(customer.Location.Latitude, customer.Location.Longitude);
+                        DO.Station closestStation = dal.getClosestStation(customer.Location.Latitude, customer.Location.Longitude);
                         double distance1 = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
                         double distance2 = Tools.Utils.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                         double battery = getBatteryConsumption(parcel.Weight);
@@ -115,13 +115,13 @@ namespace BL
                 else if (droneBl.DroneStatus == DroneStatus.Available)
                 {
                     //the location is a random betwwen customers that get a parcel
-                    List<IDAL.DO.Customer> customers = dal.GetCustomersWithParcels(parcels, dal.GetCustomers().ToList());
+                    List<DO.Customer> customers = dal.GetCustomersWithParcels(parcels, dal.GetCustomers().ToList());
                     int rand = r.Next(customers.Count());
                     Location location = new Location { Latitude = customers[rand].Latitude, Longitude = customers[rand].Longitude };
                     droneBl.Location = location;
 
                     //Battery status will be raffled off between minimal charging that will allow it to reach the station closest to charging and full charging
-                    IDAL.DO.Station closestStation = dal.getClosestStation(droneBl.Location.Latitude, droneBl.Location.Longitude);
+                    DO.Station closestStation = dal.getClosestStation(droneBl.Location.Latitude, droneBl.Location.Longitude);
                     double distance = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                     double minBattery = distance * whenAvailable;
                     droneBl.Battery = r.Next((int)minBattery, 100);  // minBattery + r.NextDouble() * (100 - minBattery);
@@ -134,15 +134,15 @@ namespace BL
         /// <summary>
         /// get a weight and returns the appropriate battery consumption
         /// </summary>
-        private double getBatteryConsumption(IDAL.DO.WeightCategories weight)
+        private double getBatteryConsumption(DO.WeightCategories weight)
         {
             switch (weight)
             {
-                case IDAL.DO.WeightCategories.Light:
+                case DO.WeightCategories.Light:
                     return whenLight;
-                case IDAL.DO.WeightCategories.Medium:
+                case DO.WeightCategories.Medium:
                     return whenMedium;
-                case IDAL.DO.WeightCategories.Heavy:
+                case DO.WeightCategories.Heavy:
                     return whenHeavy;
                 default:
                     return whenAvailable;

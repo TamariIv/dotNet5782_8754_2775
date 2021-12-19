@@ -13,7 +13,7 @@ namespace BL
         {     
             try
             {
-                IDAL.DO.Station dalStation = new IDAL.DO.Station
+                DO.Station dalStation = new DO.Station
                 {
                     Id = newStation.Id,
                     Name = newStation.Name,
@@ -23,7 +23,7 @@ namespace BL
                 };
                 dal.AddStation(dalStation);
             }
-            catch(IDAL.DO.IdAlreadyExistsException ex)
+            catch(DO.IdAlreadyExistsException ex)
             {
                 throw new IBL.BO.IdAlreadyExistsException(ex.Message);
             }
@@ -34,7 +34,7 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Station dalStation = dal.GetStation(id);
+                DO.Station dalStation = dal.GetStation(id);
                 if (name == "" && chargeSlots.ToString() == "")
                     throw new IBL.BO.NoUpdateException("no update to station was received\n");
                 if (name!= "")
@@ -46,11 +46,11 @@ namespace BL
                 }
                 dal.UpdateStation(dalStation);
             }
-            catch (IDAL.DO.NoMatchingIdException ex)
+            catch (DO.NoMatchingIdException ex)
             {
                 throw new IBL.BO.NoMatchingIdException(ex.Message);
             }
-            catch (IDAL.DO.IdAlreadyExistsException ex)
+            catch (DO.IdAlreadyExistsException ex)
             {
                 throw new IBL.BO.IdAlreadyExistsException(ex.Message);
             }
@@ -60,7 +60,7 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Station dalStation = dal.GetStation(id);
+                DO.Station dalStation = dal.GetStation(id);
                 List<IBL.BO.DroneInCharging> dronesCharging = new List<IBL.BO.DroneInCharging>();
                 foreach (var droneCharge in dal.GetDroneCharges())
                 {
@@ -77,18 +77,18 @@ namespace BL
                 };
                 return station;
             }
-            catch (IDAL.DO.NoMatchingIdException ex)
+            catch (DO.NoMatchingIdException ex)
             {
                 throw new IBL.BO.NoMatchingIdException(ex.Message);
             }
-            catch (IDAL.DO.IdAlreadyExistsException ex)
+            catch (DO.IdAlreadyExistsException ex)
             {
                 throw new IBL.BO.IdAlreadyExistsException(ex.Message);
             }
         }
 
 
-        private IBL.BO.StationToList convertStationToStationToList(IDAL.DO.Station dalStation)
+        private IBL.BO.StationToList convertStationToStationToList(DO.Station dalStation)
         {
             // find how many drones are charging in the station using dal droneCharge type
             int OccupiedChargeSlots = 0;

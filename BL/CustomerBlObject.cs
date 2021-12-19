@@ -12,7 +12,7 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
+                DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
                 if (newCustomer.Name == "" && newCustomer.Phone == "")
                     throw new IBL.BO.NoUpdateException("no update to customer was received\n");
                 if (newCustomer.Name != "")
@@ -21,7 +21,7 @@ namespace BL
                     dalCustomer.Phone = newCustomer.Phone;
                 dal.UpdateCustomer(dalCustomer);
             }
-            catch (IDAL.DO.NoMatchingIdException)
+            catch (DO.NoMatchingIdException)
             {
                 throw new IBL.BO.NoMatchingIdException($"customer with id {newCustomer.Id} doesn't exist !!");
             }
@@ -31,7 +31,7 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Customer dalCustomer = new IDAL.DO.Customer
+                DO.Customer dalCustomer = new DO.Customer
                 {
                     Id = newCustomer.Id,
                     Name = newCustomer.Name,
@@ -42,13 +42,13 @@ namespace BL
                 };
                 dal.AddCustomer(dalCustomer);
             }
-            catch (IDAL.DO.IdAlreadyExistsException)
+            catch (DO.IdAlreadyExistsException)
             {
                 throw new IBL.BO.IdAlreadyExistsException($"drone with id {newCustomer.Id} already exists !!");
             }
         }
 
-        private IBL.BO.CustomerToList convertCustomerToCustomerToList(IDAL.DO.Customer dalCustomer)
+        private IBL.BO.CustomerToList convertCustomerToCustomerToList(DO.Customer dalCustomer)
         {
             int sentAndDelivered = 0, sentAndNotDelivered = 0, received = 0, inDeliveryToCustomer = 0;
             foreach (var p in dal.GetParcels())
@@ -82,9 +82,9 @@ namespace BL
 
         public IBL.BO.Customer GetCustomer(int id)
         {
-            IDAL.DO.Customer dalCustomer = dal.GetCustomer(id);
-            List<IDAL.DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
-            List<IDAL.DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
+            DO.Customer dalCustomer = dal.GetCustomer(id);
+            List<DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
+            List<DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
             IBL.BO.Customer customer = new IBL.BO.Customer
             {
                 Id = dalCustomer.Id,
@@ -97,7 +97,7 @@ namespace BL
             return customer;
         }
 
-        private List<IBL.BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<IDAL.DO.Parcel> parcelsOfSender, int id)
+        private List<IBL.BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)
         {
             List<IBL.BO.ParcelInCustomer> parcels = new List<IBL.BO.ParcelInCustomer>();
             foreach (var item in parcelsOfSender)
@@ -107,7 +107,7 @@ namespace BL
             return parcels;
         }
 
-        private IBL.BO.ParcelInCustomer convertParcelToParcelInCustomer(IDAL.DO.Parcel parcel, int id)
+        private IBL.BO.ParcelInCustomer convertParcelToParcelInCustomer(DO.Parcel parcel, int id)
         {
             IBL.BO.ParcelInCustomer parcelInCustomer = new IBL.BO.ParcelInCustomer
             {

@@ -12,12 +12,12 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Parcel parcel = new IDAL.DO.Parcel
+                DO.Parcel parcel = new DO.Parcel
                 {
                     SenderId = newParcel.Sender.Id,
                     TargetId = newParcel.Target.Id,
-                    Weight = (IDAL.DO.WeightCategories)newParcel.Weight,
-                    Priority = (IDAL.DO.Priorities)newParcel.Priority,
+                    Weight = (DO.WeightCategories)newParcel.Weight,
+                    Priority = (DO.Priorities)newParcel.Priority,
                     Requested = DateTime.Now,
                     Scheduled = null,
                     PickedUp = null,
@@ -26,11 +26,11 @@ namespace BL
                 };
                 dal.AddParcel(parcel);
             }
-            catch (IDAL.DO.IdAlreadyExistsException ex)
+            catch (DO.IdAlreadyExistsException ex)
             {
                 throw new IBL.BO.IdAlreadyExistsException(ex.Message);
             }
-            catch(IDAL.DO.NoMatchingIdException ex)
+            catch(DO.NoMatchingIdException ex)
             {
                 throw new IBL.BO.NoMatchingIdException(ex.Message);
             }
@@ -40,7 +40,7 @@ namespace BL
         {
             try
             {
-                IDAL.DO.Parcel dalParcel = dal.GetParcel(id);
+                DO.Parcel dalParcel = dal.GetParcel(id);
                 IBL.BO.Parcel blParcel = new IBL.BO.Parcel
                 {
                     Id = dalParcel.Id,
@@ -56,11 +56,11 @@ namespace BL
                 };
                 return blParcel;
             }
-            catch (IDAL.DO.NoMatchingIdException ex)
+            catch (DO.NoMatchingIdException ex)
             {
                 throw new IBL.BO.NoMatchingIdException(ex.Message);
             }
-            catch (IDAL.DO.IdAlreadyExistsException ex)
+            catch (DO.IdAlreadyExistsException ex)
             {
                 throw new IBL.BO.IdAlreadyExistsException(ex.Message);
             }
@@ -79,7 +79,7 @@ namespace BL
             return blParcels;
         }
 
-        private IBL.BO.ParcelToList convertParcelToParcelToList(IDAL.DO.Parcel dalParcel)
+        private IBL.BO.ParcelToList convertParcelToParcelToList(DO.Parcel dalParcel)
         {
             IBL.BO.ParcelToList blParcel = new IBL.BO.ParcelToList
             {
@@ -94,7 +94,7 @@ namespace BL
         }
 
 
-        private IBL.BO.ParcelStatus getParcelStatus(IDAL.DO.Parcel parcel)
+        private IBL.BO.ParcelStatus getParcelStatus(DO.Parcel parcel)
         {
             if (parcel.Scheduled == null)
                 return IBL.BO.ParcelStatus.Requested;
