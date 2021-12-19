@@ -352,7 +352,7 @@ namespace BL
                 DroneToList droneToList = GetDroneToList(drone.Id);
                 if (droneToList.ParcelInDeliveryId != 0)
                 {
-                    IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.Id);
+                    IDAL.DO.Parcel dalParcel = dal.GetParcel(droneToList.ParcelInDeliveryId);
                     if (dalParcel.PickedUp != null && dalParcel.Delivered == null)
                     {
                         IDAL.DO.Customer target = dal.GetCustomer(dalParcel.TargetId);

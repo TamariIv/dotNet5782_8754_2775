@@ -54,30 +54,45 @@ namespace PL
 
             AddDroneGrid.Visibility = Visibility.Hidden;
 
-
-            switch(d.DroneStatus)
+            int status = 0;
+            if (d.ParcelInDeliveryId == 0)
             {
-                case IBL.BO.DroneStatus.Available:
+                if (d.DroneStatus == DroneStatus.Available)
+                    status = 1;
+                else status = 2;
+            }
+            else
+            {
+                Parcel tmpParcel = bl.GetParcel(d.ParcelInDeliveryId);
+                if (tmpParcel.PickedUp == null)
+                    status = 3;
+                else status = 4;
+            }
+
+
+            switch(status)
+            {
+                case 1:
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
                     btnPickUpParcel.Visibility = Visibility.Hidden;
                     btnDeliverParcel.Visibility = Visibility.Hidden;
                     break;
 
-                case IBL.BO.DroneStatus.Assigned:
+                case 3:
                     btnSendToCharge.Visibility = Visibility.Hidden;
                     btnSendToDelivery.Visibility = Visibility.Hidden;
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
                     btnDeliverParcel.Visibility = Visibility.Hidden;
                     break;
 
-                case IBL.BO.DroneStatus.Maintenance:
+                case 2:
                     btnSendToCharge.Visibility = Visibility.Hidden;
                     btnSendToDelivery.Visibility = Visibility.Hidden;
                     btnPickUpParcel.Visibility = Visibility.Hidden;
                     btnDeliverParcel.Visibility = Visibility.Hidden;
                     break;
 
-                case IBL.BO.DroneStatus.Delivery:
+                case 4:
                     btnSendToCharge.Visibility = Visibility.Hidden;
                     btnSendToDelivery.Visibility = Visibility.Hidden;
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
@@ -164,6 +179,7 @@ namespace PL
             DroneListWindow newWindow = new DroneListWindow(bl);
             Application.Current.MainWindow = newWindow;
             newWindow.Show();
+            newWindow.comboCombineStatusAndWeight_SelectionChanged();
             this.Close();
         }
 
@@ -221,6 +237,7 @@ namespace PL
                 MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
+
         }
 
         private void btnSendToDelivery_Click(object sender, RoutedEventArgs e)
@@ -228,21 +245,22 @@ namespace PL
             try
             {
                 bl.DroneToParcel(drone.Id);
+                MessageBox.Show($"Drone {drone.Id} was sent on delivery successfully\npress OK to continue", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch(ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't pick up parcel \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch(Exception)
             {
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show($"Drone {drone.Id} was sent on delivery successfully\npress OK to continue", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
-            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
+
         }
 
         private void btnFreeDroneFromCharging_Click(object sender, RoutedEventArgs e)
@@ -250,21 +268,21 @@ namespace PL
             try
             {
                 bl.FreeDrone(drone.Id, stationId);
+                MessageBox.Show($"Drone {drone.Id} was freed from station successfully\npress OK to continue", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch(ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't free drone from charging \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show($"Drone {drone.Id} was freed from station successfully\npress OK to continue", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
-            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnPickUpParcel_Click(object sender, RoutedEventArgs e)
@@ -272,21 +290,22 @@ namespace PL
             try
             {
                 bl.PickUpParcel(drone);
+                MessageBox.Show($"Drone {drone.Id} picked-up parcel {drone.ParcelInDelivery.Id} successfully\npress OK to continue", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch(NoMatchingIdException)
             {
                 MessageBox.Show("No parcel could be picked-up \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show($"Drone {drone.Id} picked-up parcel {drone.ParcelInDelivery.Id} successfully\npress OK to continue", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
-            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
+
         }
 
         private void btnDeliverParcel_Click(object sender, RoutedEventArgs e)
@@ -294,21 +313,22 @@ namespace PL
             try
             {
                 bl.deliveryPackage(drone);
+                MessageBox.Show($"Drone {drone.Id} completed delivery successfully\npress OK to continue", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch (ImpossibleOprationException)
             {
                 MessageBox.Show("Parcel can't be delivered \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show($"Drone {drone.Id} completed delivery successfully\npress OK to continue", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
-            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
+
         }
 
         private void ShowDroneData()
