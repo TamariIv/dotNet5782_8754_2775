@@ -1,4 +1,5 @@
-﻿using IBL.BO;
+﻿using BlApi;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public partial class BlObject : IBL.IBL
+    public partial class BlObject : IBL
     {
         public void AddDrone(Drone newDrone, int stationId)
         {
@@ -38,11 +39,11 @@ namespace BL
             }
             catch (DO.IdAlreadyExistsException)
             {
-                throw new IdAlreadyExistsException($"drone with id {newDrone.Id} already exists !!");
+                throw new BO.IdAlreadyExistsException($"drone with id {newDrone.Id} already exists !!");
             }
             catch (DO.NoMatchingIdException ex)
             {
-                throw new NoMatchingIdException(ex.Message);
+                throw new BO.NoMatchingIdException(ex.Message);
             }
         }
 
@@ -75,7 +76,7 @@ namespace BL
         ///  the function receives an updated drone, deletes the old drone with the same id and adds the new one
         /// </summary>
         /// <param name="newDrone"> the updated drone </param>
-        public void UpdateBlDrone(IBL.BO.DroneToList newDrone)
+        public void UpdateBlDrone(BO.DroneToList newDrone)
         {
             dronesToList.Remove(GetDroneToList(newDrone.Id));
             dronesToList.Add(newDrone);
@@ -252,7 +253,7 @@ namespace BL
 
                     // find a parcel in that is [ossible for the drone to take
                     DO.Parcel posibleDistanceParcel = parcels.First();
-                    IBL.BO.Parcel finalParcel = new IBL.BO.Parcel();
+                    Parcel finalParcel = new BO.Parcel();
                     bool parcelWasFound = false;
                     foreach (var p in parcels)
                     {
@@ -366,8 +367,8 @@ namespace BL
                             Model = droneToList.Model,
                             MaxWeight = droneToList.MaxWeight,
                             Battery = droneToList.Battery - battery,
-                            Location = new IBL.BO.Location { Latitude = target.Latitude, Longitude = target.Longitude },
-                            DroneStatus = IBL.BO.DroneStatus.Available
+                            Location = new BO.Location { Latitude = target.Latitude, Longitude = target.Longitude },
+                            DroneStatus = BO.DroneStatus.Available
                         };
                         dronesToList.Remove(droneToList);
                         dronesToList.Add(newDrone);

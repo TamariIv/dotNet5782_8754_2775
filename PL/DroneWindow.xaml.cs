@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL;
-using IBL.BO;
+using BlApi;
+using BO;
+
 
 namespace PL
 {
@@ -21,15 +22,15 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
-        IBL.IBL bl;
-        IBL.BO.Drone drone;
+        IBL bl;
+        Drone drone;
         int stationId;
 
         // add drone ctor
-        public DroneWindow(IBL.IBL bl)
+        public DroneWindow(IBL bl)
         {
             this.bl = bl;
-            drone = new IBL.BO.Drone();
+            drone = new BO.Drone();
             InitializeComponent();
 
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -45,7 +46,7 @@ namespace PL
         }
 
         // actions with drone ctor
-        public DroneWindow(IBL.IBL bl, DroneToList d)
+        public DroneWindow(IBL bl, DroneToList d)
         {
             this.bl = bl;
             drone = bl.GetDrone(d.Id);
@@ -148,7 +149,7 @@ namespace PL
 
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
+            WeightCategories weight = (WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
             drone.MaxWeight = weight;
         }
 
@@ -159,7 +160,7 @@ namespace PL
 
         private void comboStationSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            drone.DroneStatus = IBL.BO.DroneStatus.Maintenance;
+            drone.DroneStatus = DroneStatus.Maintenance;
             stationId = Convert.ToInt32(comboStationSelector.SelectedItem);
         }
 

@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Linq;
-using IBL.BO;
 using System.Collections.Generic;
+using BlApi;
+using DalApi;
+using BO;
 
 namespace BL
 {
-    public partial class BlObject : IBL.IBL
+   sealed partial class BlObject : IBL
     {
-        DO.IDal dal;
+        static readonly IBL instance = new BlObject();
+        public static IBL Instance { get => instance; }
+        internal IDal dal = DalFactory.GetDal();
+        static BlObject() { }
+
+
         public List<DO.Drone> drones = new List<DO.Drone>();
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<DroneToList> dronesToList;
-
         internal static Random r = new Random();
 
 
-        public BlObject()
+        private BlObject()
         {
-            dal = new DalObject.DalObject();
             dronesToList = new List<DroneToList>();
             drones = dal.GetDrones().ToList();
 
@@ -39,7 +44,7 @@ namespace BL
                 {
                     Id = droneDal.Id,
                     Model = droneDal.Model,
-                    MaxWeight = (WeightCategories)droneDal.MaxWeight
+                    MaxWeight = (BO.WeightCategories)droneDal.MaxWeight
                 };
 
                 int parcelIndex = parcels.FindIndex(p => p.DroneId == droneDal.Id);
@@ -75,7 +80,7 @@ namespace BL
                             };
                         }
                         //Battery status will be raffled between a minimal charge that will allow the drone to make the shipment and arrive at the station closest to the shipment destination and a full charge
-                        Customer customer = GetCustomer(parcel.TargetId);
+                        BO.Customer customer = GetCustomer(parcel.TargetId);
                         DO.Station closestStation = dal.getClosestStation(customer.Location.Latitude, customer.Location.Longitude);
                         double distance1 = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
                         double distance2 = Tools.Utils.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
