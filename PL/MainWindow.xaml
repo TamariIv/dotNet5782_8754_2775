@@ -18,7 +18,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Users\Hodaya\source\repos\TamariIv\dotNet5782_8754_2775\PL\images\Drone1.jpg" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
            
         </Grid.Background>
         <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="200,519,200,40" Click="showListOfDronesBtn_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" FontWeight="Bold" Cursor="Hand">

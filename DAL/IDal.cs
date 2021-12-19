@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IDAL.DO
+namespace DalApi
 {
     public interface IDal
     {
