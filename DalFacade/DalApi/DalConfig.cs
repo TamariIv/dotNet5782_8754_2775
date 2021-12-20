@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Linq;
+using System.IO;
 
 namespace DalApi
 {
@@ -9,6 +10,8 @@ namespace DalApi
     {
         internal static string DalName;
         internal static Dictionary<string, string> DalPackages;
+       
+
         static DalConfig()
         {
             XElement dalConfig = XElement.Load(@"xml\dal-config.xml");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BlApi;
 
+
 namespace PL
 {
     /// <summary>
@@ -24,7 +26,7 @@ namespace PL
         IBL mybl;
         public MainWindow()
         {
-            mybl = BlFactory.GetBl();
+            mybl = BlApi.BlFactory.GetBl();
             InitializeComponent();
         }
 

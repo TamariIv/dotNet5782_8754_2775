@@ -7,11 +7,11 @@ using BO;
 
 namespace BL
 {
-   sealed partial class BlObject : IBL
+   public sealed  partial class BlObject : IBL
     {
-        static readonly IBL instance = new BlObject();
+        public static readonly IBL instance = new BlObject();
         public static IBL Instance { get => instance; }
-        internal IDal dal = DalFactory.GetDal();
+        internal IDal dal; //l = DalFactory.GetDal();
         static BlObject() { }
 
 
@@ -23,6 +23,7 @@ namespace BL
 
         private BlObject()
         {
+            dal = DalFactory.GetDal();
             dronesToList = new List<DroneToList>();
             drones = dal.GetDrones().ToList();
 
@@ -85,6 +86,7 @@ namespace BL
                         double distance1 = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
                         double distance2 = Tools.Utils.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
                         double battery = getBatteryConsumption(parcel.Weight);
+
                         double minBattery = (distance1 + distance2) * battery;
                         droneBl.Battery = minBattery + r.NextDouble() * (100 - minBattery);
 
