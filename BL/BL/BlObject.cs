@@ -18,7 +18,7 @@ namespace BL
         public List<DO.Drone> drones = new List<DO.Drone>();
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<DroneToList> dronesToList;
-        internal static Random r = new Random();
+        internal Random r = new Random();
 
 
         private BlObject()
@@ -118,6 +118,7 @@ namespace BL
                         Longitude = dal.GetStations().ToList()[index].Longitude
                     };
                     droneBl.Location = location;
+                    dal.SendDroneToCharge(droneDal, dal.GetStations().ToList()[index]);
                 }
                 else if (droneBl.DroneStatus == DroneStatus.Available)
                 {

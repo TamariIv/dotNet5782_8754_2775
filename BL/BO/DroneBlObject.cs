@@ -76,7 +76,7 @@ namespace BL
         ///  the function receives an updated drone, deletes the old drone with the same id and adds the new one
         /// </summary>
         /// <param name="newDrone"> the updated drone </param>
-        public void UpdateBlDrone(BO.DroneToList newDrone)
+        public void UpdateBlDrone(DroneToList newDrone)
         {
             dronesToList.Remove(GetDroneToList(newDrone.Id));
             dronesToList.Add(newDrone);

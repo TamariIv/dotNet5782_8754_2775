@@ -14,7 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="images\Drone1.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Drone1.jpg" />
   </ItemGroup>
 
 </Project>
