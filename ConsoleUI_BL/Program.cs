@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using BlApi;
 
 namespace ConsoleUI_BL
 {
@@ -11,11 +12,10 @@ namespace ConsoleUI_BL
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel, DeliveryPackageByDrone }
 
-        public static IBL.IBL mybl/* = new BL.BlObject()*/;
+        static IBL mybl = BlFactory.GetBl();
 
         static void Main(string[] args)
         {
-            mybl = new BL.BlObject();
             Console.WriteLine("press 1 to add an item");
             Console.WriteLine("press 2 to update an item");
             Console.WriteLine("press 3 to view details of specific item");
@@ -192,23 +192,23 @@ namespace ConsoleUI_BL
                             break;
                     }
                 }
-                catch (IBL.BO.IdAlreadyExistsException ex)
+                catch (BO.IdAlreadyExistsException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (IBL.BO.ImpossibleOprationException ex)
+                catch (BO.ImpossibleOprationException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (IBL.BO.EmptyListException ex)
+                catch (BO.EmptyListException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (IBL.BO.NoMatchingIdException ex)
+                catch (BO.NoMatchingIdException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (IBL.BO.NoUpdateException ex)
+                catch (BO.NoUpdateException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -238,7 +238,7 @@ namespace ConsoleUI_BL
         {
             int droneId, stationId;
             string model;
-            IBL.BO.WeightCategories weight;
+            BO.WeightCategories weight;
             Console.WriteLine("Enter drone ID: ");
             if (!int.TryParse(Console.ReadLine(), out droneId))
                 throw new WrongInputFormatException("input must be a number/n");
@@ -247,12 +247,12 @@ namespace ConsoleUI_BL
             Console.WriteLine("Maximum weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
             int tmp;
             int.TryParse(Console.ReadLine(), out tmp);
-            weight = (IBL.BO.WeightCategories)(tmp - 1);
+            weight = (BO.WeightCategories)(tmp - 1);
             Console.WriteLine("Enter ID of station to charge: ");
             if (!int.TryParse(Console.ReadLine(), out stationId))
                 throw new WrongInputFormatException("input must be a number/n");
 
-            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            BO.Drone newDrone = new BO.Drone
             {
                 Id = droneId,
                 Model = model,
@@ -279,13 +279,13 @@ namespace ConsoleUI_BL
             double.TryParse(Console.ReadLine(), out longitude);
             Console.WriteLine("Enter number of charging slots: ");
             int.TryParse(Console.ReadLine(), out slots);
-            IBL.BO.Station newStation = new IBL.BO.Station
+            BO.Station newStation = new BO.Station
             {
                 Id = id,
                 Name = name,
                 AvailableChargeSlots = slots,
-                Location = new IBL.BO.Location { Latitude = latitude, Longitude = longitude },
-                DronesCharging = new List<IBL.BO.DroneInCharging>()
+                Location = new BO.Location { Latitude = latitude, Longitude = longitude },
+                DronesCharging = new List<BO.DroneInCharging>()
             };
             mybl.AddStation(newStation);
             Console.WriteLine("station was added successfully!");
@@ -308,13 +308,13 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter customer latitude: ");
             double.TryParse(Console.ReadLine(), out latitude);
 
-            IBL.BO.Location location = new IBL.BO.Location
+            BO.Location location = new BO.Location
             {
                 Longitude = longitude,
                 Latitude = latitude
             };
 
-            IBL.BO.Customer newCustomer = new IBL.BO.Customer
+            BO.Customer newCustomer = new BO.Customer
             {
                 Id = id,
                 Name = name,
@@ -336,13 +336,13 @@ namespace ConsoleUI_BL
             if (!int.TryParse(Console.ReadLine(), out targetId))
                 throw new WrongInputFormatException("input was not int");
             Console.WriteLine("Weight of the parcel: press 1 for heavy, 2 for medium and 3 for light: ");
-            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)Enum.Parse(typeof(IBL.BO.WeightCategories), Console.ReadLine());
+            BO.WeightCategories weight = (BO.WeightCategories)Enum.Parse(typeof(BO.WeightCategories), Console.ReadLine());
             Console.WriteLine("Priorities of the parcel: press 1 for regular, 2 for rapid and 3 for emergency: ");
-            IBL.BO.Priorities priority = (IBL.BO.Priorities)Enum.Parse(typeof(IBL.BO.Priorities), Console.ReadLine());
-            IBL.BO.Parcel parcel = new IBL.BO.Parcel
+            BO.Priorities priority = (BO.Priorities)Enum.Parse(typeof(BO.Priorities), Console.ReadLine());
+            BO.Parcel parcel = new BO.Parcel
             {
-                Sender = new IBL.BO.CustomerInParcel { Id = senderId },
-                Target = new IBL.BO.CustomerInParcel { Id = targetId },
+                Sender = new BO.CustomerInParcel { Id = senderId },
+                Target = new BO.CustomerInParcel { Id = targetId },
                 Weight = weight,
                 Priority = priority
             };
@@ -362,7 +362,7 @@ namespace ConsoleUI_BL
                 throw new WrongInputFormatException("input must be a number");
             Console.WriteLine("Enter model of the drone");
             model = Console.ReadLine();
-            IBL.BO.Drone newDrone = new IBL.BO.Drone()
+            BO.Drone newDrone = new BO.Drone()
             {
                 Id = id,
                 Model = model,
@@ -378,7 +378,7 @@ namespace ConsoleUI_BL
             int id;
             Console.WriteLine("Enter ID of drone");
             int.TryParse(Console.ReadLine(), out id);
-            //IBL.BO.Drone newDrone = new IBL.BO.Drone()
+            //BO.Drone newDrone = new BO.Drone()
             //{
             //    Id = id
             //};
@@ -393,7 +393,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone ID");
             if (!int.TryParse(Console.ReadLine(), out id))
                 throw new WrongInputFormatException("input must be a number");
-            IBL.BO.Drone newDrone = new IBL.BO.Drone
+            BO.Drone newDrone = new BO.Drone
             {
                 Id = id
             };
@@ -408,7 +408,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter drone ID");
             if (!int.TryParse(Console.ReadLine(), out id))
                 throw new WrongInputFormatException("input must be a number");
-            IBL.BO.Drone newDrone = new IBL.BO.Drone { Id = id };
+            BO.Drone newDrone = new BO.Drone { Id = id };
             mybl.deliveryPackage(newDrone);
             Console.WriteLine("Delivery parcel action was done succesfpully!");
 
@@ -468,7 +468,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter phone number: ");
             phone = Console.ReadLine();
 
-            IBL.BO.Customer newCustomer = new IBL.BO.Customer
+            BO.Customer newCustomer = new BO.Customer
             {
                 Id = id,
                 Name = name,
@@ -488,7 +488,7 @@ namespace ConsoleUI_BL
             id = int.Parse(Console.ReadLine());
             if (id.ToString() == "")
                 throw new WrongInputFormatException("input must be a number\n");
-            IBL.BO.Parcel parcelForView = mybl.GetParcel(id);
+            BO.Parcel parcelForView = mybl.GetParcel(id);
             Console.WriteLine(parcelForView);
         }
 
@@ -509,7 +509,7 @@ namespace ConsoleUI_BL
             id = int.Parse(Console.ReadLine());
             if (id.ToString() == "")
                 throw new WrongInputFormatException("input must be a number\n");
-            IBL.BO.Station stationForView = mybl.GetStation(id);
+            BO.Station stationForView = mybl.GetStation(id);
             Console.WriteLine(stationForView);
         }
 
@@ -520,7 +520,7 @@ namespace ConsoleUI_BL
             id = int.Parse(Console.ReadLine());
             if (id.ToString() == "")
                 throw new WrongInputFormatException("input must be a number\n");
-            IBL.BO.Customer customerForView = mybl.GetCustomer(id);
+            BO.Customer customerForView = mybl.GetCustomer(id);
             Console.WriteLine(customerForView);
         }
 

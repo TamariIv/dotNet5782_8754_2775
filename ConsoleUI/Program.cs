@@ -15,7 +15,7 @@ namespace ConsoleUI
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, DroneToParcel, PickedUp, Delivery, Recharge, FreeDrone }
 
-        static DalApi.IDal mydal;
+        static IDal mydal = DalFactory.GetDal();
 
         static void Main(string[] args)
         {
@@ -23,7 +23,6 @@ namespace ConsoleUI
             MenuOptions menuOptions;
             EntityOptions entityOptions;
             ListOptions listOptions;
-            mydal = new DalObject.DalObject();
             Console.WriteLine("press 1 to add an item");
             Console.WriteLine("press 2 to update an item");
             Console.WriteLine("press 3 to view details of specific item");
