@@ -212,6 +212,9 @@ namespace PL
             try
             {
                 bl.UpdateDrone(drone);
+                drone = tmpDrone;
+                MessageBox.Show($"Drone {drone.Id} model was updated successfully \npress OK to continue", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch(NoUpdateException)
             {
@@ -223,9 +226,6 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            drone = tmpDrone;
-            MessageBox.Show($"Drone {drone.Id} model was updated successfully \npress OK to continue", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
@@ -235,6 +235,8 @@ namespace PL
             try
             {
                 bl.rechargeDrone(drone.Id);
+                MessageBox.Show($"Drone {drone.Id} was sent to charge successfully\npress OK to continue", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch(ImpossibleOprationException)
             {
@@ -246,8 +248,7 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show($"Drone {drone.Id} was sent to charge successfully\npress OK to continue", "Success",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+
             this.Close();
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
 
@@ -260,8 +261,6 @@ namespace PL
                 bl.DroneToParcel(drone.Id);
                 MessageBox.Show($"Drone {drone.Id} was sent on delivery successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
-                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch(ImpossibleOprationException)
             {
@@ -273,7 +272,8 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnFreeDroneFromCharging_Click(object sender, RoutedEventArgs e)
@@ -283,8 +283,6 @@ namespace PL
                 bl.FreeDrone(drone.Id, stationId);
                 MessageBox.Show($"Drone {drone.Id} was freed from station successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
-                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch(ImpossibleOprationException)
             {
@@ -296,6 +294,8 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnPickUpParcel_Click(object sender, RoutedEventArgs e)
@@ -305,8 +305,6 @@ namespace PL
                 bl.PickUpParcel(drone);
                 MessageBox.Show($"Drone {drone.Id} picked-up parcel {drone.ParcelInDelivery.Id} successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
-                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch(NoMatchingIdException)
             {
@@ -318,7 +316,8 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnDeliverParcel_Click(object sender, RoutedEventArgs e)
@@ -328,8 +327,6 @@ namespace PL
                 bl.deliveryPackage(drone);
                 MessageBox.Show($"Drone {drone.Id} completed delivery successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
-                new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
             }
             catch (ImpossibleOprationException)
             {
@@ -341,7 +338,8 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
+            this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void ShowDroneData()
@@ -361,10 +359,6 @@ namespace PL
             new DroneListWindow(bl).Show();
         }
 
-        private void txtDroneId_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (txtDroneId.Text == "" || Convert.ToInt32(txtDroneId.Text) < 1000)
-                txtDroneId.BorderBrush = Brushes.Red;
-        }
+
     }
 }
