@@ -136,6 +136,7 @@ namespace BL
                 DroneToList blDrone = GetDroneToList(droneId);
                 if (blDrone.DroneStatus == DroneStatus.Maintenance)
                 {
+                    
                     dronesToList.Remove(blDrone);
                     blDrone.Battery += (int)(timeInCharging * chargeRate);
                     blDrone.DroneStatus = DroneStatus.Available;
