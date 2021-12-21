@@ -80,5 +80,12 @@ namespace PL
         {
             comboCombineStatusAndWeight_SelectionChanged();
         }
+
+        private void btnClearWeight_Click(object sender, RoutedEventArgs e)
+        {
+            //comboMaxWeightSelector.SelectedItem = null;
+            DronesListView.ItemsSource = bl.GetListOfDrones();
+            //comboCombineStatusAndWeight_SelectionChanged();
+        }
     }
 }

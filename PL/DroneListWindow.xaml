@@ -24,11 +24,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <ComboBox x:Name="comboStatusSelector" ToolTip="Click to show list of drones by status" Grid.Column="1"  Margin="0,27,50,0" SelectionChanged="comboStatusSelector_SelectionChanged" />
-            <ComboBox x:Name="comboMaxWeightSelector" ToolTip="Click to show list of drones by max weight" Grid.Column="3" Margin="0,27,50,0" SelectionChanged="comboMaxWeightSelector_SelectionChanged"/>
+            <ComboBox x:Name="comboStatusSelector" ToolTip="Click to show list of drones by status" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" SelectionChanged="comboStatusSelector_SelectionChanged" Width="140" />
+            <ComboBox x:Name="comboMaxWeightSelector" ToolTip="Click to show list of drones by max weight" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"  SelectionChanged="comboMaxWeightSelector_SelectionChanged" Width="140"/>
             <!--SelectionChanged="comboCombineStatusAndWeight_SelectionChanged"-->
             <!--SelectionChanged="comboCombineStatusAndWeight_SelectionChanged"-->
-            <Label x:Name="lblTBD" Grid.Column="0" Content="Label" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"/>
+            <Label x:Name="lblFilterWeight" FontSize="10" Grid.Column="0" Content="Filter weight" TextElement.Foreground="Gray" HorizontalAlignment="Left" Margin="54,11,0,0" VerticalAlignment="Top" Height="21" Width="74"/>
+            <Label x:Name="lblFilterStatus" FontSize="10" Content="Filter status" Grid.Column="1" TextElement.Foreground="Gray" HorizontalAlignment="Left" Margin="55,11,0,0" VerticalAlignment="Top" Height="21" Width="67"/>
+            <Button x:Name="btnClearWeight" Content="clear filters" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue"  Grid.Column="2" HorizontalAlignment="Left" Margin="53,31,0,0" VerticalAlignment="Top" Height="21" Width="73" Click="btnClearWeight_Click"/>
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">
@@ -59,7 +61,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="btnAddDrone" Content="Add Drone" HorizontalAlignment="Center" ToolTip="Add drone" VerticalAlignment="Top" Height="30" Width="116" Click="btnAddDrone_Click" Grid.Column="1"/>
-            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Center" ToolTip="Back" VerticalAlignment="Top" Height="30" Width="116" Click="btnBack_Click"/>
+            <Button x:Name="btnBack" Content="Close" HorizontalAlignment="Center" ToolTip="Back" VerticalAlignment="Top" Height="30" Width="116" Click="btnBack_Click"/>
         </Grid>
 
 

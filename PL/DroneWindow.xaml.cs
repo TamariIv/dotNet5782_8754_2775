@@ -115,37 +115,41 @@ namespace PL
             drone.Id = Convert.ToInt32(txtDroneId.Text);
         }
 
+        /// <summary>
+        /// function will only allow user to enter numbers
+        /// other chars won't e shown in the textbosx
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            txtDroneId.BorderBrush = Brushes.Red;
+            txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
+            //allow get out of the text box
+            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+                return;
 
-        //PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"
-        //private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
-        //{
-        //    txtDroneId.BorderBrush = Brushes.Red;
-        //    txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
-        //    //allow get out of the text box
-        //    if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
-        //        return;
+            //allow list of system keys (add other key here if you want to allow)
+            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
+             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                return;
 
-        //    //allow list of system keys (add other key here if you want to allow)
-        //    if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
-        //        e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
-        //     || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
-        //        return;
+            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
 
-        //    char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+            //allow control system keys
+            if (Char.IsControl(c)) return;
 
-        //    //allow control system keys
-        //    if (Char.IsControl(c)) return;
+            //allow digits (without Shift or Alt)
+            if (Char.IsDigit(c))
+                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                    return; //let this key be written inside the textbox
 
-        //    //allow digits (without Shift or Alt)
-        //    if (Char.IsDigit(c))
-        //        if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
-        //            return; //let this key be written inside the textbox
+            //forbid letters and signs (#,$, %, ...)
+            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
 
-        //    //forbid letters and signs (#,$, %, ...)
-        //    e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
-
-        //    return;
-        //}
+            return;
+        }
 
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -169,24 +173,32 @@ namespace PL
             try
             {
                 bl.AddDrone(drone, stationId);
+                MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //DroneListWindow dlw = new DroneListWindow(bl);
+                //Application.Current.MainWindow = dlw;
+                //dlw.Show();
+
+
+                DroneListWindow newWindow = new DroneListWindow(bl);
+                Application.Current.MainWindow = newWindow;
+                newWindow.Show();
+                newWindow.comboCombineStatusAndWeight_SelectionChanged();
+                this.Close();
             }
             catch (IdAlreadyExistsException)
             {
                 MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            //new DroneListWindow(bl).Show();
-            DroneListWindow newWindow = new DroneListWindow(bl);
-            Application.Current.MainWindow = newWindow;
-            newWindow.Show();
-            newWindow.comboCombineStatusAndWeight_SelectionChanged();
-            this.Close();
+
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
+
         }
 
 
@@ -346,6 +358,13 @@ namespace PL
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            new DroneListWindow(bl).Show();
+        }
+
+        private void txtDroneId_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (txtDroneId.Text == "" || Convert.ToInt32(txtDroneId.Text) < 1000)
+                txtDroneId.BorderBrush = Brushes.Red;
         }
     }
 }
