@@ -16,7 +16,7 @@ namespace BlApi
         void UpdateCustomer(Customer newCustomer);
         void UpdateDrone(Drone d);
         void UpdateStation(int id, string name, int chargeSlots);
-        void FreeDrone(int droneId, double timeInCharging);
+        void FreeDrone(int droneId);
         void DroneToParcel(int id);
         void rechargeDrone(int id);
         void PickUpParcel(Drone drone);

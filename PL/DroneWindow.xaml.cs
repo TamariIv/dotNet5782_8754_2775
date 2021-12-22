@@ -206,6 +206,11 @@ namespace PL
                 MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (NoMatchingIdException)
+            {
+                MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 
@@ -301,7 +306,7 @@ namespace PL
         {
             try
             {
-                bl.FreeDrone(drone.Id, stationId);
+                bl.FreeDrone(drone.Id);
                 MessageBox.Show($"Drone {drone.Id} was freed from station successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
