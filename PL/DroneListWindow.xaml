@@ -24,18 +24,19 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <ComboBox x:Name="comboStatusSelector" Text="Filter weight" ToolTip="Click to show list of drones by status" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboStatusSelector_SelectionChanged" Width="140" />
-            <ComboBox x:Name="comboMaxWeightSelector" Text="Filter status" ToolTip="Click to show list of drones by max weight" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboMaxWeightSelector_SelectionChanged" Width="140"/>
+            <ComboBox x:Name="comboStatusSelector" Text="Filter weight" ToolTip="Click to show list of drones by status" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboCombineStatusAndWeight_SelectionChanged" Width="140" />
+            <ComboBox x:Name="comboMaxWeightSelector" Text="Filter status" ToolTip="Click to show list of drones by max weight" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboCombineStatusAndWeight_SelectionChanged" Width="140"/>
 
 
-            <Button x:Name="btnClear" Content="clear filters" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue"  Grid.Column="2" HorizontalAlignment="Left" Margin="53,31,0,0" VerticalAlignment="center" Height="21" Width="73" Click="btnClearWeight_Click"/>
+            <Button x:Name="btnClear" Content="clear filters" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue"  Grid.Column="2" HorizontalAlignment="Left" Margin="53,31,0,0" VerticalAlignment="center" Height="21" Width="73" Click="btnClear_Click"/>
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="81*"/>
+                <ColumnDefinition Width="319*"/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="DronesListView" Margin="15,20,15,20" MouseDoubleClick="DronesListView_MouseDoubleClick">
+            <ListView x:Name="DronesListView" Margin="15,20,15,20" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.ColumnSpan="2">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding Id}" />
@@ -60,7 +61,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="btnAddDrone" Content="Add Drone" HorizontalAlignment="Center" ToolTip="Add drone" VerticalAlignment="Top" Height="30" Width="116" Click="btnAddDrone_Click" Grid.Column="1"/>
             <Button x:Name="btnBack" Content="Close" HorizontalAlignment="Center" ToolTip="Back" VerticalAlignment="Top" Height="30" Width="116" Click="btnBack_Click"/>
-        
+
         </Grid>
     </Grid>
 </Window>

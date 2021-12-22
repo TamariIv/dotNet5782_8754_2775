@@ -26,7 +26,21 @@ namespace PL
         {
             this.bl = bl;
             InitializeComponent();
+
             DronesListView.ItemsSource = bl.GetListOfDrones();
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
+            view.GroupDescriptions.Add(groupDescription);
+
+
+            //var result = from d in bl.GetListOfDrones()
+            //             group d by d.DroneStatus into g
+            //             select new { status = g.Key, Drones = g };
+            //DronesListView.ItemsSource = result;
+
+
+
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }

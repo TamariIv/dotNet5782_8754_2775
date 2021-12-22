@@ -25,7 +25,7 @@
         </Grid>
 
 
-        <ListView x:Name="StationsListView" Margin="10,10,10,52" Grid.Column="1" >
+        <ListView x:Name="StationsListView" Margin="10,10,10,10" Grid.Column="1" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" Width="120" DisplayMemberBinding="{Binding Id}"/>
