@@ -33,7 +33,7 @@ namespace PL
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
             view.GroupDescriptions.Add(groupDescription);
 
-
+          
             //var result = from d in bl.GetListOfDrones()
             //             group d by d.DroneStatus into g
             //             select new { status = g.Key, Drones = g };
@@ -105,6 +105,10 @@ namespace PL
             DronesListView.ItemsSource = bl.GetListOfDrones();
         }
 
-
+        private void cBox_Checked(object sender, RoutedEventArgs e)
+        {
+            DronesListView.ItemsSource = from item in bl.GetListOfDrones()
+                                         group item by item.DroneStatus;
+        }
     }
 }
