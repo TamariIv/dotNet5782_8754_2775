@@ -39,11 +39,11 @@ namespace BL
             }
             catch (DO.IdAlreadyExistsException)
             {
-                throw new BO.IdAlreadyExistsException($"drone with id {newDrone.Id} already exists !!");
+                throw new IdAlreadyExistsException($"drone with id {newDrone.Id} already exists !!");
             }
             catch (DO.NoMatchingIdException ex)
             {
-                throw new BO.NoMatchingIdException(ex.Message);
+                throw new NoMatchingIdException(ex.Message);
             }
         }
 
@@ -88,6 +88,7 @@ namespace BL
         /// <param name="drone"></param>
         public void rechargeDrone(int id)
         {
+            time = DateTime.Now;
             Drone drone = GetDrone(id);
             try
             {
@@ -129,7 +130,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId"></param>
         /// <param name="timeInCharging"></param>
-        public void FreeDrone(int droneId, double timeInCharging)
+        public void FreeDrone(int droneId)
         {
             try
             {
@@ -138,7 +139,8 @@ namespace BL
                 {
                     
                     dronesToList.Remove(blDrone);
-                    blDrone.Battery += (int)(timeInCharging * chargeRate);
+                    TimeSpan timeOfRelease = DateTime.Now - time; //calculate the time of charging
+                    blDrone.Battery += timeOfRelease.TotalMinutes * chargeRate; 
                     blDrone.DroneStatus = DroneStatus.Available;
                     dronesToList.Add(blDrone);
 

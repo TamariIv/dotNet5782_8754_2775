@@ -24,7 +24,7 @@ namespace Dal
             internal static double WhenLightWeight { get { return 8; } }
             internal static double WhenMediumWeight { get { return 12; } }
             internal static double WhenHeavyWeight { get { return 16; } }
-            internal static double ChargingRate { get { return 15; } }
+            internal static double ChargingRate { get { return 15; } } //15% for each hour
         }
         /// <summary>
         /// initialize the data lists 

@@ -428,14 +428,10 @@ namespace ConsoleUI_BL
         private static void FreeDrone()
         {
             int id;
-            double timeInCharging;
             Console.WriteLine("Enter drone ID: ");
             if (!int.TryParse(Console.ReadLine(), out id))
                 throw new WrongInputFormatException("input must be a number\n");
-            Console.WriteLine("Enter drone time in charging: ");
-            if (!double.TryParse(Console.ReadLine(), out timeInCharging))
-                throw new WrongInputFormatException("double was expected\n");
-            mybl.FreeDrone(id, timeInCharging);
+            mybl.FreeDrone(id);
             Console.WriteLine("Free drone action was done successfully!");
 
         }

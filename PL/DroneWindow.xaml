@@ -83,8 +83,8 @@
             <TextBox x:Name="txtLocationData" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="47" Grid.Column="2" BorderBrush="LightGray" Grid.Row="5" Margin="0,47,0,0" Grid.RowSpan="2"/>
             <Label x:Name="lblBatteryData" Content="Battery:" Width="170" FontWeight="Bold" HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Stretch" Grid.Column="1"/>
             <TextBox x:Name="txtBatteryData" HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="25"  Grid.Column="2" Grid.Row="4" BorderBrush="LightGray" Margin="0,46,0,0" Grid.RowSpan="2"/>
-            <Label x:Name="lblParcelInDeliveryData" Content="Parcel in delivery:" Width="170" FontWeight="Bold" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="166,0,0,0"/>
-            <TextBox x:Name="txtParcelInDeliveryData" HorizontalAlignment="Center" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="280"  Grid.Column="4" Grid.Row="1" Grid.RowSpan="6" BorderBrush="LightGray"/>
+            <Label x:Name="lblParcelInDeliveryData" Content="Parcel in delivery:" Width="170" FontWeight="Bold" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="166,0,0,0" BorderThickness="0.5"/>
+            <TextBox x:Name="txtParcelInDeliveryData" HorizontalAlignment="Center" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="280"  Grid.Column="4" Grid.Row="1" Grid.RowSpan="6"/>
 
             <Grid x:Name="ActionButtonsGrid" Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="4">
                 <Grid.ColumnDefinitions>
@@ -95,7 +95,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Grid.Column="0" Click="btnClose_Click" />
-                <Button x:Name="btnFinalUpdate" Content="Update" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFinalUpdate_Click"/>
+                <Button x:Name="btnFinalUpdate" Content="Update Model" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFinalUpdate_Click"/>
                 <Button x:Name="btnSendToCharge" Content="Send to Charge" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToCharge_Click"/>
                 <Button x:Name="btnSendToDelivery" Content="Delivery" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToDelivery_Click"/>
                 <Button x:Name="btnFreeDroneFromCharging" Content="Free" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFreeDroneFromCharging_Click" />

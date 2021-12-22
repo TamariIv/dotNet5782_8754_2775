@@ -19,6 +19,7 @@ namespace BL
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<DroneToList> dronesToList;
         internal Random r = new Random();
+        DateTime time = DateTime.Now; //This variable is initialized for the charging function of the drone and with this variable we calculate the charging time
 
 
         private BlObject()
@@ -45,7 +46,7 @@ namespace BL
                 {
                     Id = droneDal.Id,
                     Model = droneDal.Model,
-                    MaxWeight = (BO.WeightCategories)droneDal.MaxWeight
+                    MaxWeight = (WeightCategories)droneDal.MaxWeight
                 };
 
                 int parcelIndex = parcels.FindIndex(p => p.DroneId == droneDal.Id);
@@ -118,7 +119,7 @@ namespace BL
                         Longitude = dal.GetStations().ToList()[index].Longitude
                     };
                     droneBl.Location = location;
-                    dal.SendDroneToCharge(droneDal, dal.GetStations().ToList()[index]);
+                    dal.SendDroneToCharge(droneDal, dal.GetStations().ToList()[index]); //send this drone to charge
                 }
                 else if (droneBl.DroneStatus == DroneStatus.Available)
                 {

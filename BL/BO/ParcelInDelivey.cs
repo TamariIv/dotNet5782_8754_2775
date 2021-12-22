@@ -29,7 +29,7 @@ namespace BO
                 "Target: \n{5}\n" +
                 "Pick-up locatoin: {6}\n" +
                 "Target location: {7}\n" +
-                "Distance from the sender to the target: {8}\n",
+                "Distance from the sender to the target: {8}KM\n",
                 Id, PickUpStatus == true? "was picked up" : "wasn't picked up", Weight, Priority, Sender.ToString(), Target.ToString(), PickUpLocation, TargetLocation, (float)Distance);
         }
     }
