@@ -41,8 +41,6 @@ namespace PL
             comboStationSelector.ItemsSource = listOfStationIds;
 
             ActionsGrid.Visibility = Visibility.Hidden;
-
-
         }
 
         // actions with drone ctor
@@ -69,7 +67,6 @@ namespace PL
                     status = 3;
                 else status = 4;
             }
-
 
             switch(status)
             {
@@ -102,16 +99,17 @@ namespace PL
             }    
         }
 
-        private void ViewCurrentDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
 
+        // ADD DRONE WINDOW FUNCTIONS 
+
+        /// <summary>
+        /// the event saves id the user input in a drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_TextChanged_DroneId(object sender, TextChangedEventArgs e)
         {
-            //if (!(Convert.ToInt32(txtDroneId.Text) > 1000))
-            //    txtDroneId.BorderBrush = Brushes.Red;
             drone.Id = Convert.ToInt32(txtDroneId.Text);
         }
 
@@ -151,23 +149,43 @@ namespace PL
             return;
         }
 
+        /// <summary>
+        /// the event saves the weight the user chose in drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
             drone.MaxWeight = weight;
         }
 
+        /// <summary>
+        /// the event saves the model user input in a drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_TextChanged_DroneModel(object sender, TextChangedEventArgs e)
         {
             drone.Model = Convert.ToString(txtDroneModel.Text);
         }
 
+        /// <summary>
+        /// the event saves the station the user chose in drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboStationSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             drone.DroneStatus = DroneStatus.Maintenance;
             stationId = Convert.ToInt32(comboStationSelector.SelectedItem);
         }
 
+        /// <summary>
+        /// the event sends the new drone to the addDrone method in BL
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -175,16 +193,13 @@ namespace PL
                 bl.AddDrone(drone, stationId);
                 MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //DroneListWindow dlw = new DroneListWindow(bl);
-                //Application.Current.MainWindow = dlw;
-                //dlw.Show();
-
-
-                DroneListWindow newWindow = new DroneListWindow(bl);
-                Application.Current.MainWindow = newWindow;
-                newWindow.Show();
-                newWindow.comboCombineStatusAndWeight_SelectionChanged();
                 this.Close();
+                new DroneListWindow(bl).Show();
+
+                //DroneListWindow newWindow = new DroneListWindow(bl);
+                //Application.Current.MainWindow = newWindow;
+                //newWindow.Show();
+                //this.Close();
             }
             catch (IdAlreadyExistsException)
             {
@@ -197,9 +212,15 @@ namespace PL
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
-
+            //new DroneListWindow(bl).Show();
+            //new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
+            //DroneListWindow dw = new DroneListWindow(bl)/*.ShowDialog()*/;
+            //dw.Closed += dw.RefreshListView;
+            //dw.Show();
+            //DroneListWindow dlw = new DroneListWindow(bl);
+            //dlw.Closed += Dlw_Closed;
         }
+
 
 
 
@@ -356,7 +377,7 @@ namespace PL
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            new DroneListWindow(bl).Show();
+            //new DroneListWindow(bl).Show();
         }
 
 

@@ -31,12 +31,7 @@ namespace PL
             comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
-        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DronesListView.ItemsSource = bl.GetListOfDrones();
-        }
-
-        public void comboCombineStatusAndWeight_SelectionChanged(/*object sender, SelectionChangedEventArgs e*/)
+        private void comboCombineStatusAndWeight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboMaxWeightSelector.SelectedItem != null && comboStatusSelector.SelectedItem != null)
                 DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem && d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
@@ -48,8 +43,9 @@ namespace PL
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            //this.Close();
             new DroneWindow(bl).Show();
+            
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -61,31 +57,33 @@ namespace PL
         {
             DroneToList tmpDrone = new DroneToList();
             tmpDrone = (DroneToList)DronesListView.SelectedItem;
-            new DroneWindow(bl, tmpDrone).ShowDialog();
-            this.Close();
+            DroneWindow  dw = new DroneWindow(bl, tmpDrone)/*.ShowDialog()*/;
+            dw.Closed += Dw_Closed;
+            dw.Show();
+
+            //this.Close();
            
         }
 
-        private void DronesListView_KeyDown(object sender, KeyEventArgs e)
+        private void Dw_Closed(object sender, EventArgs e)
         {
-             
+            DronesListView.Items.Refresh();
+            //this.Show();
+            comboCombineStatusAndWeight_SelectionChanged(this, null);
         }
 
-        private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            comboCombineStatusAndWeight_SelectionChanged();
-        }
+        //private void RefreshListView(object ob, EventArgs e)
+        //{
+        //    DronesListView.Items.Refresh();
+        //    comboCombineStatusAndWeight_SelectionChanged(this, null);
+        //}
 
-        private void comboMaxWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            comboCombineStatusAndWeight_SelectionChanged();
-        }
 
-        private void btnClearWeight_Click(object sender, RoutedEventArgs e)
+        private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            //comboMaxWeightSelector.SelectedItem = null;
             DronesListView.ItemsSource = bl.GetListOfDrones();
-            //comboCombineStatusAndWeight_SelectionChanged();
         }
+
+
     }
 }
