@@ -34,6 +34,8 @@ namespace PL
         private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DronesListView.ItemsSource = bl.GetListOfDrones();
+            //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
+            //                             group item by item.DroneStatus;
         }
 
         public void comboCombineStatusAndWeight_SelectionChanged(/*object sender, SelectionChangedEventArgs e*/)

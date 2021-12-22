@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <ComboBox x:Name="comboStatusSelector" Text="Filter weight" ToolTip="Click to show list of drones by status" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboStatusSelector_SelectionChanged" Width="140" />
+            <ComboBox x:Name="comboStatusSelector"  Text="Filter weight" ToolTip="Click to show list of drones by status" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboStatusSelector_SelectionChanged" Width="140" />
             <ComboBox x:Name="comboMaxWeightSelector" Text="Filter status" ToolTip="Click to show list of drones by max weight" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboMaxWeightSelector_SelectionChanged" Width="140"/>
             <!--SelectionChanged="comboCombineStatusAndWeight_SelectionChanged"-->
             <!--SelectionChanged="comboCombineStatusAndWeight_SelectionChanged"-->
