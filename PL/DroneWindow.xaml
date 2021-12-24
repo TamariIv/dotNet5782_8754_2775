@@ -8,7 +8,7 @@
         Title="DroneWindow" Height="450" Width="800">
 
     <Grid>
-        <Grid x:Name="AddDroneGrid">
+        <Grid x:Name="AddDroneGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition Width="*"/>
@@ -50,7 +50,7 @@
         </Grid>
 
 
-        <Grid x:Name="ActionsGrid" d:IsHidden="True">
+        <Grid x:Name="ActionsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>

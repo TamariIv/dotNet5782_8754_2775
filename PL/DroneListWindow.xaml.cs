@@ -29,9 +29,9 @@ namespace PL
 
             DronesListView.ItemsSource = bl.GetListOfDrones();
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
-            view.GroupDescriptions.Add(groupDescription);
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+            //PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
+            //view.GroupDescriptions.Add(groupDescription);
 
           
             //var result = from d in bl.GetListOfDrones()
@@ -47,13 +47,9 @@ namespace PL
 
         private void comboCombineStatusAndWeight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DronesListView.ItemsSource = bl.GetListOfDrones();
+            //DronesListView.ItemsSource = bl.GetListOfDrones();
             //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
             //                             group item by item.DroneStatus;
-        }
-
-        public void comboCombineStatusAndWeight_SelectionChanged(/*object sender, SelectionChangedEventArgs e*/)
-        {
             if (comboMaxWeightSelector.SelectedItem != null && comboStatusSelector.SelectedItem != null)
                 DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem && d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
             else if (comboMaxWeightSelector.SelectedItem != null)
@@ -62,10 +58,25 @@ namespace PL
                 DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
         }
 
+        //public void comboCombineStatusAndWeight_SelectionChanged(/*object sender, SelectionChangedEventArgs e*/)
+        //{
+        //    if (comboMaxWeightSelector.SelectedItem != null && comboStatusSelector.SelectedItem != null)
+        //        DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem && d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
+        //    else if (comboMaxWeightSelector.SelectedItem != null)
+        //        DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem);
+        //    else if (comboStatusSelector.SelectedItem != null)
+        //        DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
+        //}
+
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
             //this.Close();
-            new DroneWindow(bl).Show();
+            DroneToList tmpDrone = new DroneToList();
+            tmpDrone = (DroneToList)DronesListView.SelectedItem;
+            DroneWindow dw = new DroneWindow(bl);
+            dw.Closed += Dw_Closed;
+            dw.Show();
+            //new DroneWindow(bl).Show();
             
         }
 
@@ -78,7 +89,7 @@ namespace PL
         {
             DroneToList tmpDrone = new DroneToList();
             tmpDrone = (DroneToList)DronesListView.SelectedItem;
-            DroneWindow  dw = new DroneWindow(bl, tmpDrone)/*.ShowDialog()*/;
+            DroneWindow  dw = new DroneWindow(bl, tmpDrone);
             dw.Closed += Dw_Closed;
             dw.Show();
 
@@ -93,22 +104,16 @@ namespace PL
             comboCombineStatusAndWeight_SelectionChanged(this, null);
         }
 
-        //private void RefreshListView(object ob, EventArgs e)
-        //{
-        //    DronesListView.Items.Refresh();
-        //    comboCombineStatusAndWeight_SelectionChanged(this, null);
-        //}
-
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             DronesListView.ItemsSource = bl.GetListOfDrones();
         }
 
-        private void cBox_Checked(object sender, RoutedEventArgs e)
-        {
-            DronesListView.ItemsSource = from item in bl.GetListOfDrones()
-                                         group item by item.DroneStatus;
-        }
+        //private void cBox_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    DronesListView.ItemsSource = from item in bl.GetListOfDrones()
+        //                                 group item by item.DroneStatus;
+        //}
     }
 }

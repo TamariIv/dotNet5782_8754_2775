@@ -33,13 +33,16 @@ namespace PL
             drone = new BO.Drone();
             InitializeComponent();
 
+            // initialize source of the choose weight combobox
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
 
+            // initialize xource of the choose station combobox
             List<int> listOfStationIds = new List<int>();
             foreach (var s in bl.GetListOfStationsWithAvailableChargeSlots())
                 listOfStationIds.Add(s.Id);
             comboStationSelector.ItemsSource = listOfStationIds;
 
+            // hide action mode grid
             ActionsGrid.Visibility = Visibility.Hidden;
         }
 
@@ -51,24 +54,32 @@ namespace PL
             InitializeComponent();
             ShowDroneData();
 
+            // hide add drone mode grid
             AddDroneGrid.Visibility = Visibility.Hidden;
 
+
+            // find the 
             int status = 0;
             if (d.ParcelInDeliveryId == 0)
+                //if the drone doesn't carry a parcel
             {
                 if (d.DroneStatus == DroneStatus.Available)
-                    status = 1;
-                else status = 2;
+                    status = 1;         // the drone is available 
+                else status = 2;        // the drone is in maintenance
             }
             else
+                // the drone is carrying a parcel
             {
                 Parcel tmpParcel = bl.GetParcel(d.ParcelInDeliveryId);
-                if (tmpParcel.PickedUp == null)
-                    status = 3;
-                else status = 4;
+                // check status of the parcel that is being carried
+                if (tmpParcel.PickedUp == null) 
+                    // if the parcel wasn't picked up
+                    status = 3;         // the drone is picking up parcel
+                else status = 4;        // the drone is in delivery
             }
 
             switch(status)
+                // hide the irrelevant buttons according to the drone status 
             {
                 case 1:
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
@@ -121,8 +132,6 @@ namespace PL
         /// <param name="e"></param>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            txtDroneId.BorderBrush = Brushes.Red;
-            txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
             //allow get out of the text box
             if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
                 return;
@@ -194,7 +203,7 @@ namespace PL
                 MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 this.Close();
-                new DroneListWindow(bl).Show();
+                //new DroneListWindow(bl).Show();
 
                 //DroneListWindow newWindow = new DroneListWindow(bl);
                 //Application.Current.MainWindow = newWindow;
@@ -217,13 +226,6 @@ namespace PL
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            //new DroneListWindow(bl).Show();
-            //new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
-            //DroneListWindow dw = new DroneListWindow(bl)/*.ShowDialog()*/;
-            //dw.Closed += dw.RefreshListView;
-            //dw.Show();
-            //DroneListWindow dlw = new DroneListWindow(bl);
-            //dlw.Closed += Dlw_Closed;
         }
 
 
@@ -382,7 +384,6 @@ namespace PL
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            //new DroneListWindow(bl).Show();
         }
 
 
