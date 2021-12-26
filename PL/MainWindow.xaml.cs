@@ -26,7 +26,7 @@ namespace PL
         IBL mybl;
         public MainWindow()
         {
-            mybl = BlApi.BlFactory.GetBl();
+            mybl = BlFactory.GetBl();
             InitializeComponent();
         }
 
