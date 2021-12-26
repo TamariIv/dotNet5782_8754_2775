@@ -25,20 +25,21 @@
 
 
             <Button x:Name="btnClear" Content="clear filters" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue" HorizontalAlignment="Left" Margin="17,6,0,0" VerticalAlignment="Top" Height="21" Width="73" Click="btnClear_Click" RenderTransformOrigin="-0.107,0.504"/>
-            <CheckBox x:Name="cBox" Content="sort by status" Grid.Column="3" HorizontalAlignment="Left" Margin="67,38,0,0" VerticalAlignment="Top" Checked="cBox_Checked"/>
+            <CheckBox x:Name="cboxStatusSort" IsChecked="False" Content="sort by status" Grid.Column="3" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"  Unchecked="cboxStatusSort_Unchecked" Checked="cboxStatusSort_Checked"/>
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="162*"/>
                 <ColumnDefinition Width="179*"/>
-                <ColumnDefinition Width="358*"/>
+                <ColumnDefinition Width="82*"/>
+                <ColumnDefinition Width="276*"/>
                 <ColumnDefinition Width="17*"/>
                 <ColumnDefinition Width="0*"/>
                 <ColumnDefinition Width="24*"/>
                 <ColumnDefinition Width="60*"/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="DronesListView" Margin="15,20,15,20" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.ColumnSpan="7">
+            <ListView x:Name="DronesListView" Margin="15,20,15,20" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.ColumnSpan="8">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Drone Status" Width="120" DisplayMemberBinding="{Binding DroneStatus}" />
@@ -54,13 +55,13 @@
 
                 <ListView.GroupStyle>
                     <GroupStyle>
-                        
-                <GroupStyle.HeaderTemplate>
+
+                        <GroupStyle.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
-                
+
                         <GroupStyle.ContainerStyle>
                             <Style TargetType="{x:Type GroupItem}">
                                 <Setter Property="Template">

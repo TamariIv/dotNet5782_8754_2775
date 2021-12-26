@@ -21,14 +21,20 @@
             <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
 
         </Grid.Background>
-        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="200,519,200,40" Click="showListOfDronesBtn_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" FontWeight="Bold" Cursor="Hand">
+        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="189,19,189,0" Click="showListOfDronesBtn_Click" Grid.ColumnSpan="2" VerticalAlignment="Top" FontWeight="Bold" Cursor="Hand" Grid.Row="1" Height="50">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="7"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="70,456,0,0" FontWeight="Bold" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="53" Width="384" Click="btnShowListOfStations_Click"/>
+        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="70,461,0,91" FontWeight="Bold" Grid.ColumnSpan="2" Width="384" Click="btnShowListOfStations_Click" Cursor="Hand" Grid.RowSpan="2" Height="50">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
 
 

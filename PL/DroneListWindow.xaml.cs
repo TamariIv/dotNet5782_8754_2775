@@ -124,7 +124,9 @@ namespace PL
 
         private void cboxStatusSort_Unchecked(object sender, RoutedEventArgs e)
         {
-            DronesListView.ItemsSource = bl.GetListOfDrones();
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+            view.GroupDescriptions.Clear();
         }
 
         //private void cBox_Checked(object sender, RoutedEventArgs e)
