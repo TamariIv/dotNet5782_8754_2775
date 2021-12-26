@@ -35,5 +35,10 @@ namespace PL
            // btnShowListOfDrones.Foreground = Brushes.Blue;
             new DroneListWindow(mybl).Show();
         }
+
+        private void btnShowListOfStations_Click(object sender, RoutedEventArgs e)
+        {
+            new StationListWindow(mybl).Show();
+        }
     }
 }

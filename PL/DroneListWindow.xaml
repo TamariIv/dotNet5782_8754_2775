@@ -6,9 +6,6 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="450" Width="800">
     <Grid>
-        <!--<Grid.Background>
-            <SolidColorBrush Color="LightGray" />
-        </Grid.Background>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="6*"/>
@@ -52,14 +49,34 @@
                         <GridViewColumn Header="Location" Width="100" DisplayMemberBinding="{Binding Location}" />
                         <GridViewColumn Header="Serial Number of Parcel" Width="150" DisplayMemberBinding="{Binding ParcelInDeliveryId}" />
                     </GridView>
+
                 </ListView.View>
+
                 <ListView.GroupStyle>
                     <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
+                        
+                <GroupStyle.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
+                
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Expander IsExpanded="False">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                </Expander.Header>
+                                                <ItemsPresenter />
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
                     </GroupStyle>
                 </ListView.GroupStyle>
             </ListView>

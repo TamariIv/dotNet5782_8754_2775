@@ -33,42 +33,58 @@ namespace PL
             drone = new BO.Drone();
             InitializeComponent();
 
+            // initialize source of the choose weight combobox
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
 
+            // initialize xource of the choose station combobox
             List<int> listOfStationIds = new List<int>();
             foreach (var s in bl.GetListOfStationsWithAvailableChargeSlots())
                 listOfStationIds.Add(s.Id);
             comboStationSelector.ItemsSource = listOfStationIds;
 
+            // hide action mode grid
             ActionsGrid.Visibility = Visibility.Hidden;
         }
 
         // actions with drone ctor
         public DroneWindow(IBL bl, DroneToList d)
         {
-            this.bl = bl;
-            drone = bl.GetDrone(d.Id);
             InitializeComponent();
+            this.bl = bl;
+            //if ((d is DroneToList))
+
+            MessageBox.Show("ERROR");
+            this.Close();
+
+            drone = bl.GetDrone(d.Id);
             ShowDroneData();
 
+            // hide add drone mode grid
             AddDroneGrid.Visibility = Visibility.Hidden;
 
+
+            // find the 
             int status = 0;
             if (d.ParcelInDeliveryId == 0)
+            //if the drone doesn't carry a parcel
             {
                 if (d.DroneStatus == DroneStatus.Available)
-                    status = 1;
-                else status = 2;
+                    status = 1;         // the drone is available 
+                else status = 2;        // the drone is in maintenance
             }
             else
+            // the drone is carrying a parcel
             {
                 Parcel tmpParcel = bl.GetParcel(d.ParcelInDeliveryId);
+                // check status of the parcel that is being carried
                 if (tmpParcel.PickedUp == null)
-                    status = 3;
-                else status = 4;
+                    // if the parcel wasn't picked up
+                    status = 3;         // the drone is picking up parcel
+                else status = 4;        // the drone is in delivery
             }
 
-            switch(status)
+            switch (status)
+            // hide the irrelevant buttons according to the drone status 
             {
                 case 1:
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
@@ -96,7 +112,8 @@ namespace PL
                     btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
                     btnPickUpParcel.Visibility = Visibility.Hidden;
                     break;
-            }    
+            }
+
         }
 
 
@@ -121,8 +138,6 @@ namespace PL
         /// <param name="e"></param>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            txtDroneId.BorderBrush = Brushes.Red;
-            txtDroneId.BorderBrush = System.Windows.Media.Brushes.Red;
             //allow get out of the text box
             if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
                 return;
@@ -194,7 +209,7 @@ namespace PL
                 MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 this.Close();
-                new DroneListWindow(bl).Show();
+                //new DroneListWindow(bl).Show();
 
                 //DroneListWindow newWindow = new DroneListWindow(bl);
                 //Application.Current.MainWindow = newWindow;
@@ -217,13 +232,6 @@ namespace PL
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            //new DroneListWindow(bl).Show();
-            //new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
-            //DroneListWindow dw = new DroneListWindow(bl)/*.ShowDialog()*/;
-            //dw.Closed += dw.RefreshListView;
-            //dw.Show();
-            //DroneListWindow dlw = new DroneListWindow(bl);
-            //dlw.Closed += Dlw_Closed;
         }
 
 
@@ -242,7 +250,7 @@ namespace PL
                 MessageBox.Show($"Drone {drone.Id} model was updated successfully \npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(NoUpdateException)
+            catch (NoUpdateException)
             {
                 MessageBox.Show("No update was made \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -264,12 +272,12 @@ namespace PL
                 MessageBox.Show($"Drone {drone.Id} was sent to charge successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(ImpossibleOprationException)
+            catch (ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't send drone to charge \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Error \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -288,12 +296,12 @@ namespace PL
                 MessageBox.Show($"Drone {drone.Id} was sent on delivery successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(ImpossibleOprationException)
+            catch (ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't pick up parcel \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -310,7 +318,7 @@ namespace PL
                 MessageBox.Show($"Drone {drone.Id} was freed from station successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(ImpossibleOprationException)
+            catch (ImpossibleOprationException)
             {
                 MessageBox.Show("Couldn't free drone from charging \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -332,7 +340,7 @@ namespace PL
                 MessageBox.Show($"Drone {drone.Id} picked-up parcel {drone.ParcelInDelivery.Id} successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(NoMatchingIdException)
+            catch (NoMatchingIdException)
             {
                 MessageBox.Show("No parcel could be picked-up \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -382,7 +390,6 @@ namespace PL
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            //new DroneListWindow(bl).Show();
         }
 
 
