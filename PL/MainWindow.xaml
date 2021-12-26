@@ -19,15 +19,17 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
-           
+
         </Grid.Background>
         <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="200,519,200,40" Click="showListOfDronesBtn_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" FontWeight="Bold" Cursor="Hand">
             <Button.Resources>
-            <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="7"/>
-            </Style>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
             </Button.Resources>
-        </Button> 
+        </Button>
+        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="70,456,0,0" FontWeight="Bold" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="53" Width="384" Click="btnShowListOfStations_Click"/>
+
 
 
 

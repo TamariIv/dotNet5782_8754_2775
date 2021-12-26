@@ -49,7 +49,7 @@ namespace Dal
                 Name = "Romema",
                 Longitude = 31.79160,
                 Latitude = 35.20553,
-                AvailableChargeSlots = r.Next(11)
+                AvailableChargeSlots = r.Next(5,11)
             };
             Stations.Add(s);
 
@@ -59,7 +59,7 @@ namespace Dal
                 Name = "Givat Shaul",
                 Longitude = 31.790835,
                 Latitude = 35.195144,
-                AvailableChargeSlots = r.Next(11)
+                AvailableChargeSlots = r.Next(5,11)
             };
             Stations.Add(s);
         }
