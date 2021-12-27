@@ -105,6 +105,11 @@ namespace PL
 
         private void cboxStatusSort_Checked(object sender, RoutedEventArgs e)
         {
+            var kukus = from dr in bl.GetListOfDrones()
+                        group dr by dr.DroneStatus into g
+                        select g;
+
+           // DronesListView.ItemsSource = kukus;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
