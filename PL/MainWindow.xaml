@@ -19,18 +19,36 @@
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
-
         </Grid.Background>
-        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="200,519,200,40" Click="showListOfDronesBtn_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" FontWeight="Bold" Cursor="Hand">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="7"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="70,456,0,0" FontWeight="Bold" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="53" Width="384" Click="btnShowListOfStations_Click"/>
+
+        <Grid>
+            <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="200,519,200,40" Click="showListOfDronesBtn_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" FontWeight="Bold" Cursor="Hand" d:IsHidden="True">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="7"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="70,456,0,0" FontWeight="Bold" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="53" Width="384" Click="btnShowListOfStations_Click" d:IsHidden="True"/>
+        </Grid>
+
+        <Grid x:Name="CustomerGrid"  >
+            <Border>
+                <Border.OpacityMask>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Border CornerRadius="10" Height="100" Width="100" Background="White"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Border.OpacityMask>
+
+                <Rectangle Fill="WhiteSmoke" RadiusX="53" RadiusY="53" Margin="457,1,-471,-106"/>
+            </Border>
 
 
+        </Grid>
+        <PasswordBox x:Name="passboxCustomerPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="136,260,0,0" VerticalAlignment="Top" Width="193" Height="37"/>
+        <TextBlock x:Name="txtbEnterPassword" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="136,239,0,0" Text="Password" Foreground="DimGray"  TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="193"/>
 
 
         <!--<Image Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="117,464,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100"/>

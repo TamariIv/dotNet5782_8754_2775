@@ -53,8 +53,8 @@ namespace PL
             this.bl = bl;
             //if ((d is DroneToList))
 
-            MessageBox.Show("ERROR");
-            this.Close();
+            //MessageBox.Show("ERROR");
+            //this.Close();
 
             drone = bl.GetDrone(d.Id);
             ShowDroneData();
