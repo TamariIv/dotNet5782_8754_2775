@@ -7,7 +7,7 @@ using BO;
 
 namespace BL
 {
-   public sealed  partial class BlObject : IBL
+    sealed  partial class BlObject : IBL
     {
         public static readonly IBL instance = new BlObject();
         public static IBL Instance { get => instance; }

@@ -7,7 +7,7 @@ using DO;
 
 namespace Dal
 {
-    public class DataSource
+    internal class DataSource
     {
         internal static List<Drone> Drones = new List<Drone>();
         internal static List<Station> Stations = new List<Station>();

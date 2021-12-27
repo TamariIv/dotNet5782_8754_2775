@@ -41,6 +41,7 @@ namespace PL
             //DronesListView.ItemsSource = bl.GetListOfDrones();
             //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
             //                             group item by item.DroneStatus;
+            cboxStatusSort.IsChecked = false;
             if (comboMaxWeightSelector.SelectedItem != null && comboStatusSelector.SelectedItem != null)
                 DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.MaxWeight == (WeightCategories)comboMaxWeightSelector.SelectedItem && d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
             else if (comboMaxWeightSelector.SelectedItem != null)
@@ -98,6 +99,7 @@ namespace PL
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
+            cboxStatusSort.IsChecked = false;
             DronesListView.ItemsSource = bl.GetListOfDrones();
         }
 
@@ -124,7 +126,9 @@ namespace PL
 
         private void cboxStatusSort_Unchecked(object sender, RoutedEventArgs e)
         {
-            DronesListView.ItemsSource = bl.GetListOfDrones();
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+            view.GroupDescriptions.Clear();
         }
 
         //private void cBox_Checked(object sender, RoutedEventArgs e)
