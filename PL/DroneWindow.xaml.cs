@@ -30,7 +30,7 @@ namespace PL
         public DroneWindow(IBL bl)
         {
             this.bl = bl;
-            drone = new BO.Drone();
+            drone = new Drone();
             InitializeComponent();
 
             // initialize source of the choose weight combobox

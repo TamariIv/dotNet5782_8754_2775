@@ -24,22 +24,23 @@
             <ComboBox x:Name="comboMaxWeightSelector" Text="Filter status" ToolTip="Click to show list of drones by max weight" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboCombineStatusAndWeight_SelectionChanged" Width="140" Grid.ColumnSpan="2" Margin="0,0,76,0"/>
 
 
-            <Button x:Name="btnClear" Content="clear filters" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue" HorizontalAlignment="Left" Margin="17,6,0,0" VerticalAlignment="Top" Height="21" Width="73" Click="btnClear_Click" RenderTransformOrigin="-0.107,0.504"/>
+            <Button x:Name="btnClear" Content="clear" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue" HorizontalAlignment="Left" Margin="17,6,0,0" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="20" Width="70" Click="btnClear_Click" RenderTransformOrigin="-0.107,0.504"/>
             <CheckBox x:Name="cboxStatusSort" IsChecked="False" Content="sort by status" Grid.Column="3" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"  Unchecked="cboxStatusSort_Unchecked" Checked="cboxStatusSort_Checked"/>
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="162*"/>
-                <ColumnDefinition Width="179*"/>
-                <ColumnDefinition Width="82*"/>
-                <ColumnDefinition Width="276*"/>
-                <ColumnDefinition Width="17*"/>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="24*"/>
-                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="140*"/>
+                <ColumnDefinition Width="101*"/>
+                <ColumnDefinition Width="99*"/>
+                <ColumnDefinition Width="102*"/>
+                <ColumnDefinition Width="99*"/>
+                <ColumnDefinition Width="101*"/>
+                <ColumnDefinition Width="144*"/>
+                <ColumnDefinition Width="14*"/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="DronesListView" Margin="15,20,15,20" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.ColumnSpan="8">
+
+            <ListView x:Name="DronesListView" Margin="15,20,0,20" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.ColumnSpan="7">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Drone Status" Width="120" DisplayMemberBinding="{Binding DroneStatus}" />
@@ -50,7 +51,6 @@
                         <GridViewColumn Header="Location" Width="100" DisplayMemberBinding="{Binding Location}" />
                         <GridViewColumn Header="Serial Number of Parcel" Width="150" DisplayMemberBinding="{Binding ParcelInDeliveryId}" />
                     </GridView>
-
                 </ListView.View>
 
                 <ListView.GroupStyle>

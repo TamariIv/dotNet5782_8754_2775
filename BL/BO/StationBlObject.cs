@@ -38,15 +38,35 @@ namespace BL
                 DO.Station dalStation = dal.GetStation(id);
                 if (name == "" && chargeSlots.ToString() == "")
                     throw new BO.NoUpdateException("no update to station was received\n");
-                if (name!= "")
-                    dalStation.Name = name;
-                if (chargeSlots.ToString() != "")
+                else
                 {
-                   int unavailableChargeSlots = dal.GetDroneCharges(d => d.StationId == id).Count();
-                    dalStation.AvailableChargeSlots = chargeSlots - unavailableChargeSlots;
+                    bool nameIsUpdated = false;
+                    if (name != "")
+                    {
+                        dalStation.Name = name;
+                        nameIsUpdated = true;
+                        dal.UpdateStation(dalStation);
+                    }
+
+                    int unavailableChargeSlots = dal.GetDroneCharges(d => d.StationId == id).Count();
+                    bool slotsIsUpdated = false;
+
+                    if (chargeSlots.ToString() != "")
+                    {
+                        if (chargeSlots >= unavailableChargeSlots)
+                        {
+                            dalStation.AvailableChargeSlots = chargeSlots - unavailableChargeSlots;
+                            slotsIsUpdated = true;
+                            dal.UpdateStation(dalStation);
+                        }
+                        else throw new BO.ImpossibleOprationException("can't update the station with number smaller than the number of drones charging");
+                    }
+
+                    if (nameIsUpdated== false && slotsIsUpdated ==false)
+                        throw new BO.NoUpdateException("no update to station was received\n");
                 }
-                dal.UpdateStation(dalStation);
             }
+
             catch (DO.NoMatchingIdException ex)
             {
                 throw new BO.NoMatchingIdException(ex.Message);
@@ -54,6 +74,14 @@ namespace BL
             catch (DO.IdAlreadyExistsException ex)
             {
                 throw new BO.IdAlreadyExistsException(ex.Message);
+            }
+            catch (BO.NoUpdateException ex)
+            {
+                throw new BO.NoUpdateException(ex.Message);
+            }
+            catch (BO.ImpossibleOprationException ex)
+            {
+                throw new BO.ImpossibleOprationException(ex.Message);
             }
         }
 
@@ -86,6 +114,11 @@ namespace BL
             {
                 throw new BO.IdAlreadyExistsException(ex.Message);
             }
+        }
+
+        public BO.StationToList GetStationToList(int id)
+        {
+            return convertStationToStationToList(dal.GetStation(id));
         }
 
 

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BO;
 
 namespace PL
 {
@@ -21,19 +22,85 @@ namespace PL
     public partial class StationWindow : Window
     {
         private IBL bl;
-        StationWindow station;
+        Station station;
 
         public StationWindow(IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
+            station = new Station();
+            StationDetailsGrid.Visibility = Visibility.Hidden;
         }
 
-        public StationWindow(BlApi.IBL bl, BO.StationToList tmpStation)
+        public StationWindow(IBL bl, BO.StationToList station)
         {
             InitializeComponent();
             this.bl = bl;
+            this.station = bl.GetStation(station.Id);
+            DataContext = this.station;
+            AddStationGrid.Visibility = Visibility.Hidden;
+        }
 
+        // STATION DETAILS FUNCTIONS
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.UpdateStation(station.Id, txtNameData.Text, Convert.ToInt32(txtAvailableSlotsData.Text));
+            }
+            catch(NoMatchingIdException)
+            {
+                MessageBox.Show($"No station with ID {station.Id} could be updated \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);        
+            }
+            catch (NoUpdateException)
+            {
+                MessageBox.Show("No update was made \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            this.Close();
+            new StationWindow(bl, bl.GetStationToList(station.Id)).Show();
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        // ADD STATION FUNCTIONS
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Station tmpStation = new Station()
+            {
+                Id = Convert.ToInt32(txtEnterId.Text),
+                Name = txtEnterName.Text,
+                Location = new Location() { Latitude = Convert.ToDouble(txtEnterLatitude.Text), Longitude = Convert.ToDouble(txtEnterLongitude.Text) },
+                AvailableChargeSlots = Convert.ToInt32(txtEnterAvailableSlots.Text)
+            };
+            try
+            {
+                bl.AddStation(tmpStation);
+                station = tmpStation;
+                MessageBox.Show("Station was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+            }
+            catch (IdAlreadyExistsException)
+            {
+                MessageBox.Show($"Station with ID {tmpStation.Id} already exists \npress OK to continue", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void listvDronesChargingData_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new DroneWindow(bl, bl.GetDroneToList(((DroneInCharging)listvDronesChargingData.SelectedItem).Id)).Show();
         }
     }
 }

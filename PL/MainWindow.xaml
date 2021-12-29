@@ -18,7 +18,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="\images\Drone1.jpg" Opacity="0.7" Stretch="UniformToFill" />
         </Grid.Background>
 
         <Grid>
@@ -32,7 +32,7 @@
             <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="16,439,0,0" FontWeight="Bold" VerticalAlignment="Top" Height="53" Width="384" Click="btnShowListOfStations_Click"/>
         </Grid>
 
-        <!--<Grid x:Name="CustomerGrid"  >
+        <Grid x:Name="CustomerGrid" d:IsHidden="True"  >
             <Border>
                 <Border.OpacityMask>
                     <VisualBrush>
@@ -44,10 +44,11 @@
 
                 <Rectangle Fill="WhiteSmoke" RadiusX="53" RadiusY="53" Margin="457,1,-471,-106"/>
             </Border>
-        </Grid>-->
 
-        <!--<PasswordBox x:Name="passboxCustomerPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="136,260,0,0" VerticalAlignment="Top" Width="193" Height="37"/>-->
-        <!--<TextBlock x:Name="txtbEnterPassword" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="136,239,0,0" Text="Password" Foreground="DimGray"  TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="193"/>-->
+            <PasswordBox x:Name="passboxCustomerPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="136,260,0,0" VerticalAlignment="Top" Width="193" Height="37"/>
+            <TextBlock x:Name="txtbEnterPassword" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="136,239,0,0" Text="Password" Foreground="DimGray"  TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="193"/>
+
+        </Grid>
 
 
 
