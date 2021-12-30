@@ -74,7 +74,7 @@ namespace PL
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -76,7 +76,7 @@ namespace Dal
             {
                 Customer c = new Customer()
                 {
-                    Id = r.Next(100000000, 1000000000),
+                    Id = r.Next(100000000, 300000000),
                     Name = namesArray[i],
                     Phone = firstDigits[r.Next(3)] + r.Next(1000000, 10000000).ToString(),
                     Latitude = minLat + (maxLat - minLat) * r.NextDouble(),

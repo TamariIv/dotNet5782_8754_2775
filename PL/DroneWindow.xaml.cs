@@ -30,7 +30,7 @@ namespace PL
         public DroneWindow(IBL bl)
         {
             this.bl = bl;
-            drone = new BO.Drone();
+            drone = new Drone();
             InitializeComponent();
 
             // initialize source of the choose weight combobox
@@ -51,20 +51,20 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            //if ((d is DroneToList))
-
             //MessageBox.Show("ERROR");
             //this.Close();
 
             drone = bl.GetDrone(d.Id);
-            ShowDroneData();
+            DataContext = drone;
+
+            txtParcelInDeliveryData.Text = Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString();
 
             // hide add drone mode grid
             AddDroneGrid.Visibility = Visibility.Hidden;
 
 
             // find the 
-            int status = 0;
+            int status;
             if (d.ParcelInDeliveryId == 0)
             //if the drone doesn't carry a parcel
             {
@@ -208,7 +208,7 @@ namespace PL
                 bl.AddDrone(drone, stationId);
                 MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                this.Close();
+                Close();
                 //new DroneListWindow(bl).Show();
 
                 //DroneListWindow newWindow = new DroneListWindow(bl);
@@ -231,7 +231,7 @@ namespace PL
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
 
@@ -245,7 +245,7 @@ namespace PL
             tmpDrone.Model = txtModelData.Text;
             try
             {
-                bl.UpdateDrone(drone);
+                bl.UpdateDrone(tmpDrone);
                 drone = tmpDrone;
                 MessageBox.Show($"Drone {drone.Id} model was updated successfully \npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
@@ -376,22 +376,21 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
-        private void ShowDroneData()
-        {
-            txtIdData.Text = drone.Id.ToString();
-            txtModelData.Text = drone.Model;
-            txtWeightData.Text = drone.MaxWeight.ToString();
-            txtStatusData.Text = drone.DroneStatus.ToString();
-            txtLocationData.Text = drone.CurrentLocation.ToString();
-            txtBatteryData.Text = ((int)drone.Battery).ToString() + "%";
-            txtParcelInDeliveryData.Text = Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString();
-        }
+        //private void ShowDroneData()
+        //{
+        //    txtIdData.Text = drone.Id.ToString();
+        //    txtModelData.Text = drone.Model;
+        //    txtWeightData.Text = drone.MaxWeight.ToString();
+        //    txtStatusData.Text = drone.DroneStatus.ToString();
+        //    txtLocationData.Text = drone.CurrentLocation.ToString();
+        //    txtBatteryData.Text = ((int)drone.Battery).ToString() + "%";
+        //    txtParcelInDeliveryData.Text = Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString();
+        //}
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
 
     }
 }

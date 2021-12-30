@@ -18,17 +18,25 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill"/>
 
         </Grid.Background>
-        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="189,19,189,0" Click="showListOfDronesBtn_Click" Grid.ColumnSpan="2" VerticalAlignment="Top" FontWeight="Bold" Cursor="Hand" Grid.Row="1" Height="50">
+        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="34,412,34,0" Click="showListOfDronesBtn_Click" VerticalAlignment="Top" FontWeight="Bold" Cursor="Hand" Height="50" Grid.Column="1">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="7"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="70,461,0,91" FontWeight="Bold" Grid.ColumnSpan="2" Width="384" Click="btnShowListOfStations_Click" Cursor="Hand" Grid.RowSpan="2" Height="50">
+        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Center" Margin="0,287,0,182" FontWeight="Bold" Width="332" Click="btnShowListOfStations_Click" Cursor="Hand" Height="50" Grid.Column="1">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="btnShowListOfCustomers" FontSize="22" Content="Show List Of Customers" HorizontalAlignment="Center" Margin="0,173,0,296" FontWeight="Bold" Width="332" Click="btnShowListOfCustomers_Click" Cursor="Hand" Height="50" Grid.Column="1">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="7"/>

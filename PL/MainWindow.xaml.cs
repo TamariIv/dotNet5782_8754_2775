@@ -32,13 +32,17 @@ namespace PL
 
         private void showListOfDronesBtn_Click(object sender, RoutedEventArgs e)
         {
-           // btnShowListOfDrones.Foreground = Brushes.Blue;
             new DroneListWindow(mybl).Show();
         }
 
         private void btnShowListOfStations_Click(object sender, RoutedEventArgs e)
         {
             new StationListWindow(mybl).Show();
+        }
+
+        private void btnShowListOfCustomers_Click(object sender, RoutedEventArgs e)
+        {
+            new CustomerListWindow(mybl).Show();
         }
     }
 }

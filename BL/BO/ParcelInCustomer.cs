@@ -13,5 +13,16 @@ namespace BO
         public Priorities Priority { get; set; }
         public ParcelStatus ParcelStatus { get; set; }
         public CustomerInParcel TargetOrSender { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "Id is: {0}\n" +
+                "Maximum Weight: {1}\n" +
+                "Priority: {2}\n" +
+                "Status of Parcel: {3}\n" +
+                "Customer of this Parcel: {4}\n", Id, Weight, Priority, ParcelStatus, TargetOrSender.ToString());
+        }
+
     }
 }
