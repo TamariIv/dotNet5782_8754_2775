@@ -42,7 +42,9 @@ namespace PL
         private void Sw_Closed(object sender, EventArgs e)
         {
             StationsListView.Items.Refresh();
+            StationsListView.ItemsSource = bl.GetListOfStations();
         }
+
 
         private void comboChooseSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -75,6 +77,11 @@ namespace PL
             StationWindow sw = new StationWindow(bl);
             sw.Closed += Sw_Closed;
             sw.Show();
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            StationsListView.ItemsSource = bl.GetListOfStations();
         }
     }
 }

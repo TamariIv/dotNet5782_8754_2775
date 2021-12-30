@@ -119,6 +119,5 @@ namespace BL
             return parcelsWithoutDrones;
         }
 
-
     }
 }

@@ -24,6 +24,7 @@ namespace BlApi
 
         //Get functions:
         DroneToList GetDroneToList(int id);
+        StationToList GetStationToList(int id);
         Drone GetDrone(int id);
         Station GetStation(int id);
         Customer GetCustomer(int id);
