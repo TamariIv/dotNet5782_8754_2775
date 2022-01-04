@@ -8,13 +8,13 @@ namespace BO
 {
     public class CustomerInParcel
     {
-        public int Id { get; init; }
-        public string Name { get; init; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
         public override string ToString()
         {
             return string.Format
-                ("id: {0} \nname: {1}\n", Id, Name);
+                ("Id: {0}\nName: {1}\n", Id, Name);
         }
     }
 }

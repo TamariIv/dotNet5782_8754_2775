@@ -208,22 +208,21 @@ namespace PL
                 bl.AddDrone(drone, stationId);
                 MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                Close();
-                //new DroneListWindow(bl).Show();
-
-                //DroneListWindow newWindow = new DroneListWindow(bl);
-                //Application.Current.MainWindow = newWindow;
-                //newWindow.Show();
-                //this.Close();
+                Close();             
             }
-            catch (IdAlreadyExistsException)
+            catch (IdAlreadyExistsException ex)
             {
-                MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (NoMatchingIdException)
+            catch (NoMatchingIdException ex)
             {
-                MessageBox.Show("Couldn't add drone \npress OK to continue, else press Cancel", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Insert details of the drone!", "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 

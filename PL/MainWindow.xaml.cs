@@ -44,5 +44,10 @@ namespace PL
         {
             new CustomerListWindow(mybl).Show();
         }
+        private void btnShowListOfParcels_Click(object sender, RoutedEventArgs e)
+        {
+            new ParcelListWindow(mybl).Show();
+        }
+
     }
 }

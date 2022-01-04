@@ -49,10 +49,10 @@ namespace PL
             {
                 bl.UpdateStation(station.Id, txtNameData.Text, Convert.ToInt32(txtAvailableSlotsData.Text));
             }
-            catch(NoMatchingIdException)
+            catch (NoMatchingIdException)
             {
                 MessageBox.Show($"No station with ID {station.Id} could be updated \npress OK to continue", "Error Occurred",
-                    MessageBoxButton.OK, MessageBoxImage.Error);        
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (NoUpdateException)
             {
@@ -77,24 +77,36 @@ namespace PL
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Station tmpStation = new Station()
-            {
-                Id = Convert.ToInt32(txtEnterId.Text),
-                Name = txtEnterName.Text,
-                Location = new Location() { Latitude = Convert.ToDouble(txtEnterLatitude.Text), Longitude = Convert.ToDouble(txtEnterLongitude.Text) },
-                AvailableChargeSlots = Convert.ToInt32(txtEnterAvailableSlots.Text)
-            };
             try
             {
+                Station tmpStation = new Station()
+                {
+                    Id = Convert.ToInt32(txtEnterId.Text),
+                    Name = txtEnterName.Text,
+                    Location = new Location() { Latitude = Convert.ToDouble(txtEnterLatitude.Text), Longitude = Convert.ToDouble(txtEnterLongitude.Text) },
+                    AvailableChargeSlots = Convert.ToInt32(txtEnterAvailableSlots.Text)
+                };
+
+
                 bl.AddStation(tmpStation);
                 station = tmpStation;
                 MessageBox.Show("Station was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
             }
-            catch (IdAlreadyExistsException)
+            catch (IdAlreadyExistsException ex)
             {
-                MessageBox.Show($"Station with ID {tmpStation.Id} already exists \npress OK to continue", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Insert details of the station!", "Error Occurred",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

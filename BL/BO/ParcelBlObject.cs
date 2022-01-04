@@ -53,7 +53,7 @@ namespace BL
                     Scheduled = dalParcel.Scheduled,
                     PickedUp = dalParcel.PickedUp,
                     Delivered = dalParcel.Delivered,
-                    AssignedDrone = new BO.DroneInParcel { Id = dalParcel.DroneId, Battery = dronesToList.Find(d => d.Id == dalParcel.DroneId).Battery, CurrentLocation = dronesToList.Find(d => d.Id == dalParcel.DroneId).Location }
+                    AssignedDrone = dalParcel.DroneId != 0 ? new BO.DroneInParcel { Id = dalParcel.DroneId, Battery = dronesToList.Find(d => d.Id == dalParcel.DroneId).Battery, CurrentLocation = dronesToList.Find(d => d.Id == dalParcel.DroneId).Location } : new BO.DroneInParcel { Id = 0, Battery = 0, CurrentLocation = new BO.Location { Latitude = 0, Longitude = 0 } }
                 };
                 return blParcel;
             }

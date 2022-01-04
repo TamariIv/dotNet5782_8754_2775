@@ -88,7 +88,6 @@ namespace BL
         /// <param name="drone"></param>
         public void rechargeDrone(int id)
         {
-            time = DateTime.Now;
             Drone drone = GetDrone(id);
             try
             {
@@ -139,7 +138,7 @@ namespace BL
                 {
                     
                     dronesToList.Remove(blDrone);
-                    TimeSpan timeOfRelease = DateTime.Now - time; //calculate the time of charging
+                    TimeSpan timeOfRelease = DateTime.Now - dal.GetDroneCharge(blDrone.Id).chargingTime; //calculate the time of charging
                     blDrone.Battery += timeOfRelease.TotalMinutes * chargeRate; 
                     blDrone.DroneStatus = DroneStatus.Available;
                     dronesToList.Add(blDrone);
