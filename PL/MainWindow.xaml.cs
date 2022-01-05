@@ -13,8 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-
+using BO;
 
 namespace PL
 {
@@ -43,6 +42,17 @@ namespace PL
         private void btnShowListOfCustomers_Click(object sender, RoutedEventArgs e)
         {
             new CustomerListWindow(mybl).Show();
+        }
+
+        private void btnSignIn_Click(object sender, RoutedEventArgs e)
+        {
+            //try
+            {
+                Customer tmpCustomer = mybl.GetCustomer(mybl.GetListOfCustomers().First(c => c.Name == txtEnterName.Text).Id);
+                //if (passboxCustomerPassword.Password == tmpCustomer.Password)
+                    
+
+            }
         }
     }
 }

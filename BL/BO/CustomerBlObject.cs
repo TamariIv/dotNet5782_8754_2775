@@ -38,8 +38,8 @@ namespace BL
                     Name = newCustomer.Name,
                     Phone = newCustomer.Phone,
                     Longitude = newCustomer.Location.Longitude,
-                    Latitude = newCustomer.Location.Latitude
-
+                    Latitude = newCustomer.Location.Latitude,
+                    Password = newCustomer.Password
                 };
                 dal.AddCustomer(dalCustomer);
             }
@@ -93,7 +93,8 @@ namespace BL
                 Phone = dalCustomer.Phone,
                 Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
                 Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
-                Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id)
+                Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id),
+                Password = dalCustomer.Password
             };
             return customer;
         }
@@ -123,8 +124,8 @@ namespace BL
                 }
             };
             return parcelInCustomer;
-
         }
+
         public IEnumerable<BO.CustomerToList> GetListOfCustomers()
         {
             List<BO.CustomerToList> customers = new List<BO.CustomerToList>();

@@ -53,7 +53,7 @@
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
             <Rectangle Fill="AliceBlue"/>
-            <Ellipse Fill="LightSalmon" Grid.Column="1" Opacity="0.5" Margin="400,252,-109,-87"/>
+            <Ellipse Fill="LightSalmon" Grid.Column="1" Opacity="0.7" Margin="400,252,-109,-87"/>
         </Grid>
 
         <Grid x:Name="AddStationGrid" d:IsHidden="True">

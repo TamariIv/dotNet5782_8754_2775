@@ -8,9 +8,22 @@
         Title="DroneWindow" Height="450" Width="800">
 
     <Grid>
-        <Rectangle Fill="AliceBlue" Margin="0,0,377,0"/>
-        <Ellipse Fill="LightSalmon" Margin="572,271,-118,-143" Opacity="0.75"/>
-        <Grid x:Name="AddDroneGrid">
+        <Grid x:Name="DesignGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Rectangle Fill="AliceBlue" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,0,377,0"/>
+            <Ellipse Fill="LightSalmon" Margin="178,87,-89,-57" Opacity="0.75" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
+        </Grid>
+
+        <Grid x:Name="AddDroneGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition Width="*"/>
@@ -41,7 +54,7 @@
         </Grid>
 
 
-        <Grid x:Name="ActionsGrid" d:IsHidden="True">
+        <Grid x:Name="ActionsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
