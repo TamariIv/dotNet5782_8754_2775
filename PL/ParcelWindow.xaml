@@ -9,7 +9,7 @@
     <Grid>
         <Rectangle Fill="AliceBlue" Margin="0,0,377,0"/>
         <Ellipse Fill="SandyBrown" Margin="574,217,-109,-105" Opacity="0.7"/>
-        <Grid  x:Name="AddParcelGrid" d:IsHidden="True">
+        <Grid  x:Name="AddParcelGrid">
             <Label Content="Insert details of parcel you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Height="48" Width="472"/>
             <Label x:Name="lblEnterSenderId" Content="Enter Id of Sender:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="200" Margin="200,90,0,0"/>
             <TextBox x:Name="txtSenderId" HorizontalAlignment="Left" TextWrapping="Wrap" MaxLength="9" VerticalAlignment="Top" Width="225" Height="40" TextChanged="TextBox_TextChanged_SenderId" Margin="465,90,0,0"/>
@@ -34,7 +34,7 @@
         </Grid>
 
 
-        <Grid x:Name="ViewGrid">
+        <Grid x:Name="ViewGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="84*"/>
                 <ColumnDefinition Width="168*"/>

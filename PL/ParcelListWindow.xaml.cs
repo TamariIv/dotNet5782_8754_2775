@@ -81,10 +81,7 @@ namespace PL
             }
         }
         private void btnClear_Click(object sender, RoutedEventArgs e)
-        {
-            //comboWeightSelector. = Content;
-            //comboStatusSelector.SelectedItem = Content;
-            //comboPrioritySelector.SelectedItem = Content;
+        {            
             ParcelsListView.ItemsSource = bl.GetListofParcels();
         }
     }

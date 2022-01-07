@@ -295,9 +295,9 @@ namespace Dal
 
         /// <summary>
         /// the function receives a drone and a station and send the drone to charge in that station 
-        /// (also update the number of available chraging slots in the station)
+        /// also update the number of available chraging slots in the station and update the time of charging
         /// </summary>
-        public void SendDroneToCharge(Drone d, Station s)
+        public void SendDroneToCharge(Station s, Drone d)
         {
             if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
             {
@@ -306,115 +306,115 @@ namespace Dal
                     Drone newDrone = d;
                     Station newStation = s;
                     newStation.AvailableChargeSlots--;
-                    DroneCharge dc = new DroneCharge();
-                    dc.DroneId = newDrone.Id;
-                    dc.StationId = newStation.Id;
-                    dc.chargingTime = DateTime.Now;
-                    DataSource.DroneCharges.Add(dc);
+                    DroneCharge dc = new DroneCharge()
+                    {
+                        DroneId = newDrone.Id,
+                        StationId = newStation.Id,
+                        ChargingTime = DateTime.Now
+                    };
 
-                    DataSource.Drones.Remove(d);
-                    DataSource.Drones.Add(newDrone);
+                    DataSource.DroneCharges.Add(dc);
                     DataSource.Stations.Remove(s);
                     DataSource.Stations.Add(newStation);
                 }
                 else throw new NoMatchingIdException($"station with id {s.Id} doesn't exist !!");
             }
+
             else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist !!");
-        }
+    }
 
-        /// <summary>
-        /// the function sends drone from charging 
-        /// </summary>
-        public void SendDroneFromStation(Drone d)
+    /// <summary>
+    /// the function releases drone from charging 
+    /// </summary>
+    public void ReleaseDroneFromCharge(Station s,Drone d)
+    {
+        if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
         {
-            if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
-            {
-                DroneCharge dronecharge = GetDroneCharge(d.Id);
-                Station s = GetStation(dronecharge.StationId);
-                Station newStation = s;
-                newStation.AvailableChargeSlots++;
-                Drone newDrone = d;
-                DataSource.DroneCharges.Remove(dronecharge);
-                DataSource.Drones.Remove(d);
-                DataSource.Drones.Add(newDrone);
-                DataSource.Stations.Remove(s);
-                DataSource.Stations.Add(newStation);
-            }
-            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+            DroneCharge dronecharge = GetDroneCharge(d.Id);
+            Station newStation = s;
+            newStation.AvailableChargeSlots++;
+            Drone newDrone = d;
+            DataSource.DroneCharges.Remove(dronecharge);
+            DataSource.Drones.Remove(d);
+            DataSource.Drones.Add(newDrone);
+            DataSource.Stations.Remove(s);
+            DataSource.Stations.Add(newStation);
         }
+        else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+    }
 
 
-        public void UpdateCustomer(Customer c)
+    public void UpdateCustomer(Customer c)
+    {
+        Customer newCustomer = GetCustomer(c.Id);
+        DataSource.Customers.Remove(newCustomer);
+        DataSource.Customers.Add(c);
+    }
+
+    public void UpdateDrone(Drone d)
+    {
+        Drone newDrone = GetDrone(d.Id);
+        DataSource.Drones.Remove(newDrone);
+        DataSource.Drones.Add(d);
+    }
+
+    public void UpdateStation(Station s)
+    {
+        Station oldStation = GetStation(s.Id);
+        DataSource.Stations.Remove(oldStation);
+        DataSource.Stations.Add(s);
+    }
+
+    public double[] GetElectricity()
+    {
+        double[] electricityRates =
         {
-            Customer newCustomer = GetCustomer(c.Id);
-            DataSource.Customers.Remove(newCustomer);
-            DataSource.Customers.Add(c);
-        }
-
-        public void UpdateDrone(Drone d)
-        {
-            Drone newDrone = GetDrone(d.Id);
-            DataSource.Drones.Remove(newDrone);
-            DataSource.Drones.Add(d);
-        }
-
-        public void UpdateStation(Station s)
-        {
-            Station oldStation = GetStation(s.Id);
-            DataSource.Stations.Remove(oldStation);
-            DataSource.Stations.Add(s);
-        }
-
-        public double[] GetElectricity()
-        {
-            double[] electricityRates =
-            {
                 DataSource.Config.WhenAvailable,
                 DataSource.Config.WhenLightWeight,
                 DataSource.Config.WhenMediumWeight,
                 DataSource.Config.WhenHeavyWeight,
                 DataSource.Config.ChargingRate
             };
-            return electricityRates;
-        }
+        return electricityRates;
+    }
 
-        // thanks to tzivya RotLevy Talita
-        public Station getClosestStation(double latitude, double longitude)
+    // thanks to tzivya RotLevy Talita
+    public Station getClosestStation(double latitude, double longitude)
+    {
+        Station result = default;
+        double distance = double.MaxValue;
+
+        foreach (var item in DataSource.Stations)
         {
-            Station result = default;
-            double distance = double.MaxValue;
-
-            foreach (var item in DataSource.Stations)
+            double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
+            if (dist < distance)
             {
-                double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
-                if (dist < distance)
+                distance = dist;
+                result = item;
+            }
+        }
+        return result;
+    }
+
+    public List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers)
+    {
+        List<Customer> clients = new List<Customer>();
+        foreach (var customer in customers)
+        {
+            foreach (var parcel in parcels)
+            {
+                if (customer.Id == parcel.TargetId && parcel.Delivered != null)
                 {
-                    distance = dist;
-                    result = item;
+                    Customer client = GetCustomer(parcel.TargetId);
+                    clients.Add(client);
                 }
             }
-            return result;
         }
-
-        public List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers)
-        {
-            List<Customer> clients = new List<Customer>();
-            foreach (var customer in customers)
-            {
-                foreach (var parcel in parcels)
-                {
-                    if (customer.Id == parcel.TargetId && parcel.Delivered != null)
-                    {
-                        Customer client = GetCustomer(parcel.TargetId);
-                        clients.Add(client);
-                    }
-                }
-            }
-            return clients;
-
-        }
+        return clients;
 
     }
+
+}
 }
 
 

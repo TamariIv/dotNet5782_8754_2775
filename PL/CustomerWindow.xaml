@@ -9,9 +9,9 @@
     <Grid>
         <Rectangle Fill="AliceBlue" Margin="0,0,377,0"/>
         <Ellipse Fill="SandyBrown" Margin="574,217,-109,-105" Opacity="0.7"/>
-        <Grid  x:Name="AddCustomerGrid" d:IsHidden="True">
+        <Grid  x:Name="AddCustomerGrid">
             <Label x:Name="lblEnterId" Content="Enter customer ID: " FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height=" 40" Width="200" Margin="273,90,0,0"/>
-            <TextBox x:Name="txtCustomerId" HorizontalAlignment="Left" MaxLength="9" TextWrapping="Wrap" VerticalAlignment="Top" Width="225" Height="40"  TextChanged="TextBox_TextChanged_CustomerId" PreviewKeyDown = "TextBox_OnlyNumbers_PreviewKeyDown" Margin="465,90,0,0"/>
+            <TextBox x:Name="txtCustomerId" HorizontalAlignment="Left" MaxLength="9" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" Height="40"  TextChanged="TextBox_TextChanged_CustomerId" PreviewKeyDown = "TextBox_OnlyNumbers_PreviewKeyDown" Margin="478,90,0,0"/>
             <Label x:Name="lblEnterName" Content="Enter Name:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="200" Margin="273,155,0,0"/>
             <TextBox x:Name="txtCustomerName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" Height="40" TextChanged="TextBox_TextChanged_CustomerName" Margin="478,156,0,0"/>
             <Label x:Name="lblEnterPhone" Content="Enter Phone Number:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="200" Margin="273,217,0,0"/>
@@ -34,7 +34,7 @@
             </Grid>
             <Label Content="Insert details of customer you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="48" Width="472"/>
         </Grid>
-        <Grid x:Name="ActionsGrid">
+        <Grid x:Name="ActionsGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="84*"/>
                 <ColumnDefinition Width="48*"/>

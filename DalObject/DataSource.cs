@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using DO;
 
 namespace Dal
@@ -24,7 +26,7 @@ namespace Dal
             internal static double WhenLightWeight { get { return 8; } }
             internal static double WhenMediumWeight { get { return 12; } }
             internal static double WhenHeavyWeight { get { return 16; } }
-            internal static double ChargingRate { get { return 15; } } //15% for each hour
+            internal static double ChargingRate { get { return 5; } }
         }
         /// <summary>
         /// initialize the data lists 
@@ -39,6 +41,10 @@ namespace Dal
             createDrone(10);
             //initialize 10 parcels:
             createParcel();
+            SaveListToXmlSerializer(Drones, @"Drones.xml");
+            SaveListToXmlSerializer(Stations, @"BaseStations.xml");
+            SaveListToXmlSerializer(Customers, @"Customers.xml");
+            SaveListToXmlSerializer(Parcels, @"Parcels.xml");
         }
 
         private static void createStation()
@@ -47,9 +53,9 @@ namespace Dal
             {
                 Id = r.Next(10000, 100000),
                 Name = "Romema",
-                Longitude = 31.79160,
-                Latitude = 35.20553,
-                AvailableChargeSlots = r.Next(5,11)
+                Longitude = 35.20553,
+                Latitude = 31.79160,
+                AvailableChargeSlots = r.Next(5, 11)
             };
             Stations.Add(s);
 
@@ -57,19 +63,19 @@ namespace Dal
             {
                 Id = r.Next(10000, 100000),
                 Name = "Givat Shaul",
-                Longitude = 31.790835,
-                Latitude = 35.195144,
-                AvailableChargeSlots = r.Next(5,11)
+                Longitude = 35.195144,
+                Latitude = 31.790835,
+                AvailableChargeSlots = r.Next(5, 11)
             };
             Stations.Add(s);
         }
         private static void createCustomer(int numOfCustomers)
         {
             // minLat, minLon, maxLat,maxLon are variables for making sure the latitude and longitude are in the range
-            double minLat = 35.195;
-            double minLon = 31.79;
-            double maxLat = 35.2;
-            double maxLon = 31.78;
+            double minLat = 31.79;
+            double minLon = 35.1;
+            double maxLat = 31.81;
+            double maxLon = 35.21;
             string[] namesArray = { "Avraham Cohen", "Yitshak Levi", "Yaakov Israeli", "Sarah Shalom", "Rivka Silver", "Rahel Shushan", "Leah Yosefi", "David Dayan", "Moshe Biton", "Aharon Uzan" };
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
@@ -251,8 +257,24 @@ namespace Dal
             };
             Parcels.Add(p);
         }
+
+        static void SaveListToXmlSerializer<T>(IEnumerable<T> list, string filePath)
+        {
+            string dirPath = @"xml\";
+            try
+            {
+                FileStream file = new FileStream(dirPath + filePath, FileMode.Create);
+                XmlSerializer x = new XmlSerializer(list.GetType());
+
+                x.Serialize(file, list);
+                file.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new XmlFailedToLoadCreatException(filePath, $"fail to create xml file: {filePath}", ex);
+            }
+        }
     }
 }
-
 
 

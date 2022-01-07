@@ -205,10 +205,12 @@ namespace PL
         {
             try
             {
+                if (string.IsNullOrEmpty(txtDroneId.Text) || string.IsNullOrEmpty(txtDroneModel.Text) || string.IsNullOrEmpty(comboWeightSelcetor.Text) || string.IsNullOrEmpty(comboStationSelector.Text))
+                    throw new EmptyInputException("Insert all details of the drone!");
                 bl.AddDrone(drone, stationId);
                 MessageBox.Show("Drone was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                Close();             
+                Close();
             }
             catch (IdAlreadyExistsException ex)
             {
@@ -220,9 +222,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (EmptyInputException ex)
             {
-                MessageBox.Show("Insert details of the drone!", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -375,20 +377,9 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
-        //private void ShowDroneData()
-        //{
-        //    txtIdData.Text = drone.Id.ToString();
-        //    txtModelData.Text = drone.Model;
-        //    txtWeightData.Text = drone.MaxWeight.ToString();
-        //    txtStatusData.Text = drone.DroneStatus.ToString();
-        //    txtLocationData.Text = drone.CurrentLocation.ToString();
-        //    txtBatteryData.Text = ((int)drone.Battery).ToString() + "%";
-        //    txtParcelInDeliveryData.Text = Convert.ToInt32(drone.ParcelInDelivery.Id) == 0 ? "none" : drone.ParcelInDelivery.ToString();
-        //}
-
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
     }

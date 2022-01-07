@@ -45,7 +45,7 @@
                 <ColumnDefinition Width="14*"/>
             </Grid.ColumnDefinitions>
 
-            <ListView x:Name="ParcelsListView" Margin="10,79,10,79" MouseDoubleClick="ParcelsListView_MouseDoubleClick" Grid.ColumnSpan="8" >
+            <ListView x:Name="ParcelsListView" Margin="10,79,10,79" MouseDoubleClick="ParcelsListView_MouseDoubleClick" Grid.ColumnSpan="8">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" Width="120" DisplayMemberBinding="{Binding Id}" />

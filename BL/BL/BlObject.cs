@@ -117,7 +117,7 @@ namespace BL
                         Longitude = dal.GetStations().ToList()[index].Longitude
                     };
                     droneBl.Location = location;
-                    dal.SendDroneToCharge(droneDal, dal.GetStations().ToList()[index]); //send this drone to charge
+                    dal.SendDroneToCharge(dal.GetStations().ToList()[index], droneDal); //send this drone to charge
                 }
                 else if (droneBl.DroneStatus == DroneStatus.Available)
                 {

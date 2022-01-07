@@ -11,7 +11,7 @@
         <Rectangle Fill="AliceBlue" Margin="0,0,377,0"/>
         <Ellipse Fill="SandyBrown" Margin="574,217,-109,-105" Opacity="0.7"/>
 
-        <Grid x:Name="AddDroneGrid" d:IsHidden="True">
+        <Grid x:Name="AddDroneGrid">
             <Label Content="Insert details of drone you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="26,19,0,0" VerticalAlignment="Top" Height="48" Width="472" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
             <Label x:Name="lblEnterId" FontSize="15" HorizontalAlignment="Center"  Content="Enter drone ID:" VerticalAlignment="Top" Height=" 40" Width="200" Grid.Row="1" Grid.Column="1" Margin="0,45,0,0" Grid.RowSpan="2"/>
             <TextBox x:Name="txtDroneId" HorizontalAlignment="Left" MaxLength="4" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="225" Height="40"  TextChanged="TextBox_TextChanged_DroneId" Grid.Row="1" Grid.Column="2" PreviewKeyDown = "TextBox_OnlyNumbers_PreviewKeyDown" Margin="10,0,0,43" Grid.RowSpan="2"/>
@@ -43,7 +43,7 @@
         </Grid>
 
 
-        <Grid x:Name="ActionsGrid">
+        <Grid x:Name="ActionsGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>

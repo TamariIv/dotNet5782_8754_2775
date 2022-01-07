@@ -162,16 +162,17 @@ namespace ConsoleUI_BL
                             switch (listOptions)
                             {
                                 case ListOptions.BaseStations:
-                                    PrintBaseStationsList();
+                                    ShowList(mybl.GetListOfStations());
                                     break;
                                 case ListOptions.Drones:
-                                    printDronesList();
+                                    ShowList(mybl.GetListOfDrones());
+
                                     break;
                                 case ListOptions.Customers:
-                                    PrintCustomersList();
+                                    ShowList(mybl.GetListOfCustomers());
                                     break;
                                 case ListOptions.Parcels:
-                                    printParcelsList();
+                                    ShowList(mybl.GetListofParcels());
                                     break;
                                 case ListOptions.ParcelsWithoutDrone:
                                     PrintParcelsWithoutDroneList();
@@ -520,38 +521,7 @@ namespace ConsoleUI_BL
             Console.WriteLine(customerForView);
         }
 
-        private static void printParcelsList()
-        {
-            foreach (var parcel in mybl.GetListofParcels())
-            {
-                Console.WriteLine(parcel);
-            }
-        }
-
-        private static void printDronesList()
-        {
-            foreach (var drone in mybl.GetListOfDrones())
-            {
-                Console.WriteLine(drone);
-            }
-        }
-
-        private static void PrintBaseStationsList()
-        {
-            foreach (var station in mybl.GetListOfStations())
-            {
-                Console.WriteLine(station);
-            }
-        }
-
-        private static void PrintCustomersList()
-        {
-            foreach (var customer in mybl.GetListOfCustomers())
-            {
-                Console.WriteLine(customer);
-            }
-        }
-
+      
         private static void PrintParcelsWithoutDroneList()
         {
             foreach (var parcelWithoutDrone in mybl.GetListofParcelsWithoutDrone())
@@ -565,6 +535,13 @@ namespace ConsoleUI_BL
             foreach (var station in mybl.GetListOfStationsWithAvailableChargeSlots())
             {
                 Console.WriteLine(station);
+            }
+        }
+        private static void ShowList<T>(IEnumerable<T> collection)
+        {
+            foreach (var item in collection)
+            {
+                Console.WriteLine(item);
             }
         }
 

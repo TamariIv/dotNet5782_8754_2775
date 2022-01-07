@@ -106,8 +106,9 @@ namespace PL
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
-            { 
-                //if(string.IsNullOrEmpty(txtSenderId))
+            {
+                if (string.IsNullOrEmpty(txtSenderId.Text) || string.IsNullOrEmpty(txtTargetId.Text) || string.IsNullOrEmpty(comboWeightSelcetor.Text) || string.IsNullOrEmpty(comboPrioritySelcetor.Text))
+                    throw new EmptyInputException("Insert all details of the parcel!");
                 bl.AddParcel(parcel);
                 MessageBox.Show("Parcel was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -123,9 +124,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (EmptyInputException ex)
             {
-                MessageBox.Show("Insert details of the parcel!", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -158,7 +159,7 @@ namespace PL
             {
                 MessageBox.Show("There isn't assigned drone to this parcel", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch(NoMatchingObjectException ex)
+            catch (NoMatchingObjectException ex)
             {
                 MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
             }

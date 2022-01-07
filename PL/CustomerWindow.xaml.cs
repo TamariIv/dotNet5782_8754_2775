@@ -84,6 +84,8 @@ namespace PL
         {
             try
             {
+                if (string.IsNullOrEmpty(txtCustomerId.Text) || string.IsNullOrEmpty(txtCustomerName.Text) || string.IsNullOrEmpty(txtCustomerPhone.Text) || string.IsNullOrEmpty(txtCustomerLat.Text) || string.IsNullOrEmpty(txtCustomerLong.Text))
+                    throw new EmptyInputException("Insert all details of the customer!");
                 bl.AddCustomer(customer);
                 MessageBox.Show("Customer was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -99,9 +101,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (EmptyInputException ex)
             {
-                MessageBox.Show("Insert details of the customer!", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
