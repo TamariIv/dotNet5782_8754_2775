@@ -24,8 +24,8 @@
             <ComboBox x:Name="comboMaxWeightSelector" Text="Filter status" ToolTip="Click to show list of drones by max weight" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEditable="True" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="comboCombineStatusAndWeight_SelectionChanged" Width="140" Grid.ColumnSpan="2" Margin="0,0,76,0"/>
 
 
-            <Button x:Name="btnClear" Content="clear" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue" HorizontalAlignment="Left" Margin="17,6,0,0" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="20" Width="70" Click="btnClear_Click" RenderTransformOrigin="-0.107,0.504"/>
-            <CheckBox x:Name="cboxStatusSort" IsChecked="False" Content="sort by status" Grid.Column="3" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"  Unchecked="cboxStatusSort_Unchecked" Checked="cboxStatusSort_Checked"/>
+            <Button x:Name="btnClear" Content="No Filters" BorderBrush="White" Background="White" TextElement.Foreground="CornflowerBlue" HorizontalAlignment="Left" Margin="37,7,0,0" HorizontalContentAlignment="Left" VerticalAlignment="Top" Height="20" Width="106" Click="btnClear_Click" RenderTransformOrigin="-0.107,0.504"/>
+            <CheckBox x:Name="cboxStatusSort" IsChecked="False" Content="sort by status" Grid.Column="3" HorizontalAlignment="Left" Margin="82,35,0,0" VerticalAlignment="Top"  Unchecked="cboxStatusSort_Unchecked" Checked="cboxStatusSort_Checked"/>
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">

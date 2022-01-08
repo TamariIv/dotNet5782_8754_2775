@@ -29,9 +29,40 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>-->
         <Grid.Background>
-            <ImageBrush ImageSource="\images\Drone1.jpg" Opacity="0.7" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
         </Grid.Background>
 
+        <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="24,83,24,184" Click="showListOfDronesBtn_Click" FontWeight="Bold" Cursor="Hand" Grid.Row="1">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Center" Margin="0,46,0,0" FontWeight="Bold" VerticalAlignment="Top" Height="53" Width="352" Click="btnShowListOfStations_Click" Grid.Column="1" Cursor="Hand" Grid.Row="1">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnShowListOfParcels" FontSize="22" Content="Show List Of Parcels" HorizontalAlignment="Center" Margin="0,113,0,0" FontWeight="Bold" VerticalAlignment="Top" Height="53" Width="352" Click="btnShowListOfParcels_Click" Grid.Column="1" Cursor="Hand" Grid.Row="1">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnShowListOfCustomers" FontSize="22" Content="Show List Of Customers" Margin="24,204,24,63" Click="btnShowListOfCustomers_Click" FontWeight="Bold" Cursor="Hand" Grid.Row="1">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+       
+        <!--<Grid x:Name="CustomerGrid" Margin="0,5,0,100" Grid.RowSpan="2" d:IsHidden="True"  >
+            <Border Margin="-42,19,42,-19" d:IsHidden="True">
         <Grid x:Name="managerPageGrid" d:IsHidden="True">
             <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="20,256,404,180" Click="showListOfDronesBtn_Click" FontWeight="Bold" Cursor="Hand">
                 <Button.Resources>
@@ -89,7 +120,7 @@
             </Button>
             <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,55,0,0" FontSize="20" FontWeight="DemiBold" Foreground="DimGray" Text="Log in to see your profile or send a parcel" TextWrapping="Wrap" VerticalAlignment="Top" Height="96" Width="192"/>
 
-        </Grid>
+        </Grid>-->
 
 
 

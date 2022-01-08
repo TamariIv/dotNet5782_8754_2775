@@ -19,8 +19,6 @@ namespace BL
         private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<DroneToList> dronesToList;
         internal Random r = new Random();
-        DateTime time = DateTime.Now; //This variable is initialized for the charging function of the drone and with this variable we calculate the charging time
-
 
         private BlObject()
         {

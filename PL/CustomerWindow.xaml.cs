@@ -49,7 +49,7 @@ namespace PL
         //    //    //ParcelsReceivedListView.ItemsSource = newCustomer.ParcelsToCustomer;
         //    DataContext = customer;
         //}
-        private void btnFinalUpdate_Click(object sender, RoutedEventArgs e) //לבדוק למה הרשימה לא מתרעננת!!!
+        private void btnFinalUpdate_Click(object sender, RoutedEventArgs e)
         {
             Customer tmpCustomer = customer;
             tmpCustomer.Name = txtNameData.Text;
@@ -80,10 +80,6 @@ namespace PL
             Close();
         }
 
-        private void ParcelsReceivedListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -93,14 +89,19 @@ namespace PL
 
                 Close();
             }
-            catch (IdAlreadyExistsException)
+            catch (IdAlreadyExistsException ex)
             {
-                MessageBox.Show("Couldn't add customer \npress OK to continue, else press Cancel", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (NoMatchingIdException)
+            catch (NoMatchingIdException ex)
             {
-                MessageBox.Show("Couldn't add customer \npress OK to continue, else press Cancel", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Insert details of the customer!", "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -163,6 +164,17 @@ namespace PL
 
             return;
         }
-
+        private void ReceivedlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ParcelInCustomer tmpParcel = (ParcelInCustomer)ParcelsReceivedListView.SelectedItem;
+            Parcel p = bl.GetParcel(tmpParcel.Id);
+            new ParcelWindow(bl, p).Show();
+        }
+        private void DeliveredlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ParcelInCustomer tmpParcel = (ParcelInCustomer)ParcelsSentListView.SelectedItem;
+            Parcel p = bl.GetParcel(tmpParcel.Id);
+            new ParcelWindow(bl, p).Show();
+        }
     }
 }

@@ -46,8 +46,9 @@
     </Window.Resources>
 
     <Grid>
-
-        <Grid x:Name="DesignGrid">
+        <Rectangle Fill="AliceBlue" Margin="0,0,365,0"/>
+        <Ellipse Fill="SandyBrown" Margin="574,217,-109,-105" Opacity="0.7"/>
+        <!--<Grid x:Name="DesignGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2.5*"/>
                 <ColumnDefinition Width="6*"/>
@@ -56,7 +57,7 @@
             <Ellipse Fill="LightSalmon" Grid.Column="1" Opacity="0.7" Margin="400,252,-109,-87"/>
         </Grid>
 
-        <Grid x:Name="AddStationGrid" d:IsHidden="True">
+        <Grid x:Name="AddStationGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="*"/>
@@ -97,7 +98,7 @@
         </Grid>
 
 
-        <Grid x:Name="StationDetailsGrid" >
+        <Grid x:Name="StationDetailsGrid" d:IsHidden="True" >
             <Label x:Name="lblIdData" Style="{StaticResource lbldata}" Content="Station ID:" Grid.Row="1"  Grid.Column="1"/>
             <TextBox x:Name="txtIdData" IsReadOnly="True" Style="{StaticResource txtboxData}" Text="{Binding Id, Mode=OneWay}" Grid.Row="1" Grid.Column="2" />
             <Label x:Name="lblNameData" Style="{StaticResource lbldata}" Content="Name:" Grid.Row="2" Grid.Column="1"/>

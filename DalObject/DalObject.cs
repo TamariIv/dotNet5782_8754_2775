@@ -309,6 +309,7 @@ namespace Dal
                     DroneCharge dc = new DroneCharge();
                     dc.DroneId = newDrone.Id;
                     dc.StationId = newStation.Id;
+                    dc.chargingTime = DateTime.Now;
                     DataSource.DroneCharges.Add(dc);
 
                     DataSource.Drones.Remove(d);

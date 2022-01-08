@@ -24,6 +24,7 @@
 
             <!--<Rectangle Fill="AliceBlue"/>-->
             <Ellipse Fill="LightSalmon" Opacity="0.75" Margin="-65,16,10,36" Grid.RowSpan="4" />
+            <!--<Rectangle Fill="AliceBlue" Margin="-32,-23,-684,36" Grid.RowSpan="3"/>-->
             <Label Content="Stations" Foreground="White" FontSize="40" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Height="63" Width="180" Margin="0,72,0,0" Grid.RowSpan="2"/>
 
 
