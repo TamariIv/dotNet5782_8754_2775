@@ -34,15 +34,10 @@ namespace DalApi
         void ReleaseDroneFromCharge(Station s, Drone d);
         void SendDroneToCharge( Station s, Drone d);
         void UpdateDrone(Drone d);
-        #endregion
-        //IEnumerable<Customer> GetCustomers();
-
         void UpdateCustomer(Customer c);
         void UpdateStation(Station s);
-        //void UpdateDrone(Drone d);
+        #endregion
 
-        Station getClosestStation(double latitude, double longitude);
-        List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers);
         double[] GetElectricity();
     }
 }

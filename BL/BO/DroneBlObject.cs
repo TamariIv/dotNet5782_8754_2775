@@ -94,7 +94,7 @@ namespace BL
                 if (drone.DroneStatus != DroneStatus.Available)
                     throw new ImpossibleOprationException("Drone can't be sent to recharge");
 
-                DO.Station tempStation = dal.getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
+                DO.Station tempStation = getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
                 double rate = whenAvailable;
 
@@ -264,7 +264,7 @@ namespace BL
                     {
                         DO.Customer tempSender = dal.GetCustomer(p.SenderId);
                         DO.Customer tempTarget = dal.GetCustomer(p.TargetId);
-                        DO.Station closestStation = dal.getClosestStation(tempTarget.Latitude, tempTarget.Longitude);
+                        DO.Station closestStation = getClosestStation(tempTarget.Latitude, tempTarget.Longitude);
                         double droneToSenderBatterty = Tools.Utils.DistanceCalculation(blDrone.Location.Latitude, blDrone.Location.Longitude, tempSender.Latitude, tempSender.Longitude) * whenAvailable;
                         double senderToTargetBattery = Tools.Utils.DistanceCalculation(tempSender.Latitude, tempSender.Longitude, tempTarget.Latitude, tempTarget.Longitude) * getBatteryConsumption(p.Weight);
                         double targetToStationBattery = Tools.Utils.DistanceCalculation(tempTarget.Latitude, tempTarget.Longitude, closestStation.Latitude, closestStation.Longitude) * whenAvailable;

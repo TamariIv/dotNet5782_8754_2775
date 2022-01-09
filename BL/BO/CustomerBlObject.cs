@@ -134,5 +134,24 @@ namespace BL
             }
             return customers;
         }
+        /// <summary>
+        /// help function that returns a list of customers that have parcels which still weren't delivered
+        /// </summary>
+        private IEnumerable<DO.Customer> GetCustomersWithParcels()
+        {
+            List<DO.Customer> clients = new List<DO.Customer>();
+            foreach (var customer in dal.GetCustomers())
+            {
+                foreach (var parcel in dal.GetParcels())
+                {
+                    if (customer.Id == parcel.TargetId && parcel.Delivered != null)
+                    {
+                        DO.Customer client = dal.GetCustomer(parcel.TargetId);
+                        clients.Add(client);
+                    }
+                }
+            }
+            return clients;
+        }
     }
 }

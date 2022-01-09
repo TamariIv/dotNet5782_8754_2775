@@ -376,45 +376,11 @@ namespace Dal
                 DataSource.Config.ChargingRate
             };
         return electricityRates;
-    }
-
-    // thanks to tzivya RotLevy Talita
-    public Station getClosestStation(double latitude, double longitude)
-    {
-        Station result = default;
-        double distance = double.MaxValue;
-
-        foreach (var item in DataSource.Stations)
-        {
-            double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
-            if (dist < distance)
-            {
-                distance = dist;
-                result = item;
-            }
-        }
-        return result;
-    }
-
-    public List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers)
-    {
-        List<Customer> clients = new List<Customer>();
-        foreach (var customer in customers)
-        {
-            foreach (var parcel in parcels)
-            {
-                if (customer.Id == parcel.TargetId && parcel.Delivered != null)
-                {
-                    Customer client = GetCustomer(parcel.TargetId);
-                    clients.Add(client);
-                }
-            }
-        }
-        return clients;
+    }  
+    
 
     }
 
-}
 }
 
 

@@ -30,17 +30,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalFacade", "DalFacade\DalF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{81BAA544-D786-4A66-A452-716C53AD9518}"
 	ProjectSection(SolutionItems) = preProject
-		BaseStations.xml = BaseStations.xml
-		Customers.xml = Customers.xml
 		xml\dal-config.xml = xml\dal-config.xml
-		DroneCharges.xml = DroneCharges.xml
-		Drones.xml = Drones.xml
-		Parcels.xml = Parcels.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DalObject\DalObject.csproj", "{1DFDDE70-0A58-4097-AB2F-6347C1970852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalXML", "DalXml\DalXML.csproj", "{6336FFC0-BD34-4E96-932D-CC9A692FD78B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXML", "DalXml\DalXML.csproj", "{6336FFC0-BD34-4E96-932D-CC9A692FD78B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

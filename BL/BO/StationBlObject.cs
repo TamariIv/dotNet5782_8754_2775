@@ -161,6 +161,28 @@ namespace BL
             }
             return stations;
         }
+        /// <summary>
+        /// help function that returns the closest station to a location
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
+        private DO.Station getClosestStation(double latitude, double longitude)
+        {
+            DO.Station result = default;
+            double distance = double.MaxValue;
+
+            foreach (var item in dal.GetStations())
+            {
+                double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
+                if (dist < distance)
+                {
+                    distance = dist;
+                    result = item;
+                }
+            }
+            return result;
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using DalApi;
@@ -9,21 +10,41 @@ namespace Dal
 {
     sealed class DalXml : IDal
     {
-        private readonly string configPath = "dal-config.xml";
+        private readonly string configFilename = @"ConfigXML.xml";
         private readonly string baseStationsPath = "BaseStations.xml";
         private readonly string dronesPath = "Drones.xml";
         private readonly string parcelsPath = "Parcels.xml";
         private readonly string customersPath = "Customers.xml";
         private readonly string droneChargesPath = "DroneCharges.xml";
-        static readonly IDal instance = new DalXml();
-        public static IDal Instance { get => instance; }
+        public static readonly DalXml instance = new DalXml();
+        public static DalXml Instance { get => instance; }
         static DalXml() { } // static ctor to ensure instance init is done just before first usage
-        private DalXml() { }
+        private static string solutionDirectory = Directory.GetCurrentDirectory();
+        
+
+         private static string filePath = Path.Combine(solutionDirectory, "data");
+        //private static string configPath = Path.Combine(solutionDirectory, "DalXML", "data");
+
+        private DalXml()
+        {
+            DataSource.Initialize();
+            //List<DroneCharge> droneCharge = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
+            //foreach (var item in droneCharge)
+            //{
+            //    //UpdatePluseChargeSlots(item.StationId);
+            //}
+            //droneCharge.Clear();
+            //XMLTools.SaveListToXmlSerializer(droneCharge, droneChargesPath);
+        }
 
         public double[] GetElectricity()
         {
-            return XMLTools.LoadListFromXmlElement(configPath).Element("GetElectricity").Elements()
-                .Select(e => Convert.ToDouble(e.Value)).ToArray();
+            var temp1 = XMLTools.LoadListFromXmlElement(Path.Combine(filePath, configFilename));
+            var temp2 = temp1.Element("electricityRates").Elements();
+            var temp3 =temp2.Select(e => Convert.ToDouble(e.Value)).ToArray();
+            return temp3;
+            //return XMLTools.LoadListFromXmlElement(Path.Combine(configPath, configFilename)).Element("electricityRates").Elements()
+            //    .Select(e => Convert.ToDouble(e.Value)).ToArray();
         }
 
         #region Get Entity
@@ -57,7 +78,7 @@ namespace Dal
             XElement droneChargeXml = XMLTools
                 .LoadListFromXmlElement(droneChargesPath)
                 .Elements().FirstOrDefault(dc => dc.Element("DroneId").Value == $"{droneId}");
-            return XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath).Find(dc => dc.DroneId == droneId);       
+            return XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath).Find(dc => dc.DroneId == droneId);
         }
         #endregion
 
@@ -119,8 +140,8 @@ namespace Dal
                     new XElement("Id", addBaseStation.Id),
                     new XElement("Name", addBaseStation.Name),
                     new XElement("Longitude", addBaseStation.Longitude),
-                    new XElement("Latitude",addBaseStation.Latitude),
-                    new XElement("AvailableChargeSlots",addBaseStation.AvailableChargeSlots)
+                    new XElement("Latitude", addBaseStation.Latitude),
+                    new XElement("AvailableChargeSlots", addBaseStation.AvailableChargeSlots)
                 )
             );
         }
@@ -156,21 +177,71 @@ namespace Dal
             return parcel.Id;
         }
 
-        public void AddDroneCharge(int droneId, int baseStationId)
+        //public void AddDroneCharge(int droneId, int baseStationId)
+        //{
+        //    XElement droneCharges = XMLTools.LoadListFromXmlElement(droneChargesPath);
+        //    droneCharges.Add(
+        //        new XElement("DroneCharge",
+        //            new XElement("DroneId", droneId),
+        //            new XElement("StationId", baseStationId),
+        //            new XElement("ChargingTime", DateTime.Now.ToString("O"))
+        //            )
+        //        );
+        //}
+        #endregion
+        #region Update Functions
+        public void UpdateDrone(Drone d)
         {
-            XElement droneCharges = XMLTools.LoadListFromXmlElement(droneChargesPath);
-            droneCharges.Add(
-                new XElement("DroneCharge",
-                    new XElement("DroneId", droneId),
-                    new XElement("StationId", baseStationId),
-                    new XElement("ChargingTime", DateTime.Now.ToString("O"))
-                    )
-                );
+            XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
+            XElement removeElement = (from dr in drones.Elements()
+                                      where dr.Element("Id").Value == $"{d.Id}"
+                                      select dr).FirstOrDefault();
+            removeElement.Remove();
+            drones.Add(
+           new XElement("Drone",
+               new XElement("Id", d.Id),
+               new XElement("MaxWeight", d.MaxWeight),
+               new XElement("Model", d.Model)
+           )
+       );
+        }
+        public void UpdateCustomer(Customer c)
+        {
+            XElement customers = XMLTools.LoadListFromXmlElement(customersPath);
+            XElement removeElement = (from cr in customers.Elements()
+                                      where cr.Element("Id").Value == $"{c.Id}"
+                                      select cr).FirstOrDefault();
+            removeElement.Remove();
+            customers.Add(
+           new XElement("Customer",
+               new XElement("Id", c.Id),
+               new XElement("Name", c.Name),
+               new XElement("Phone", c.Phone),
+               new XElement("Longitude", c.Longitude),
+               new XElement("Latitude", c.Latitude)
+           )
+       );
+        }
+        public void UpdateStation(Station s)
+        {
+            XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
+            XElement removeElement = (from st in stations.Elements()
+                                      where st.Element("Id").Value == $"{s.Id}"
+                                      select st).FirstOrDefault();
+            removeElement.Remove();
+            stations.Add(
+           new XElement("Station",
+               new XElement("Id", s.Id),
+               new XElement("Name", s.Name),
+               new XElement("Longitude", s.Longitude),
+               new XElement("Latitude", s.Latitude),
+               new XElement("AvailableChargeSlots", s.AvailableChargeSlots)
+           )
+       );
         }
         #endregion
-
         #region  Actions on Parcel 
-        public void MatchDroneToParcel(Parcel p,Drone d)
+        public void MatchDroneToParcel(Parcel p, Drone d)
         {
             XElement parcels = XMLTools.LoadListFromXmlElement(parcelsPath);
             XElement parcel = (from prcl in parcels.Elements()
@@ -233,8 +304,8 @@ namespace Dal
                 );
         }
 
-        public void ReleaseDroneFromCharge(Station s,Drone d)
-        {     
+        public void ReleaseDroneFromCharge(Station s, Drone d)
+        {
             XElement baseStations = XMLTools.LoadListFromXmlElement(baseStationsPath);
             XElement baseStation = (from bs in baseStations.Elements()
                                     where bs.Element("Id").Value == $"{s.Id}"
