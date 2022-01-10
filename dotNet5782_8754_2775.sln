@@ -37,6 +37,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DalObject\DalO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXML", "DalXml\DalXML.csproj", "{6336FFC0-BD34-4E96-932D-CC9A692FD78B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{28E386E1-50FF-426B-935B-6CC135AF7598}"
+	ProjectSection(SolutionItems) = preProject
+		data\BaseStations.xml = data\BaseStations.xml
+		data\ConfigXML.xml = data\ConfigXML.xml
+		data\ConfigXML.xml.bak = data\ConfigXML.xml.bak
+		data\Customers.xml = data\Customers.xml
+		data\Drones.xml = data\Drones.xml
+		data\Parcels.xml = data\Parcels.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
