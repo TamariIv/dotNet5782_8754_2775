@@ -39,7 +39,6 @@ namespace BL
                     Phone = newCustomer.Phone,
                     Longitude = newCustomer.Location.Longitude,
                     Latitude = newCustomer.Location.Latitude,
-                    Password = newCustomer.Password
                 };
                 dal.AddCustomer(dalCustomer);
             }
@@ -83,20 +82,28 @@ namespace BL
 
         public BO.Customer GetCustomer(int id)
         {
-            DO.Customer dalCustomer = dal.GetCustomer(id);
-            List<DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
-            List<DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
-            BO.Customer customer = new BO.Customer
+            try
             {
-                Id = dalCustomer.Id,
-                Name = dalCustomer.Name,
-                Phone = dalCustomer.Phone,
-                Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
-                Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
-                Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id),
-                Password = dalCustomer.Password
-            };
-            return customer;
+                DO.Customer dalCustomer = dal.GetCustomer(id);
+                List<DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
+                List<DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
+                BO.Customer customer = new BO.Customer
+                {
+                    Id = dalCustomer.Id,
+                    Name = dalCustomer.Name,
+                    Phone = dalCustomer.Phone,
+                    Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
+                    Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
+                    Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id),
+                };
+                return customer;
+            }
+            catch (DO.NoMatchingIdException ex)
+            {
+                throw new BO.NoMatchingIdException(ex.Message);
+            }
+
+
         }
 
         private List<BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)

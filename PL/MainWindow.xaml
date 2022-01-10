@@ -13,21 +13,18 @@
             <Setter Property="Width" Value="190" />
         </Style>
 
-        <Style x:Key="lblNewAccount" TargetType="Label">
-
+        <Style x:Key="HandCursor" TargetType="Control">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
 
 
     <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="173*"/>
-            <RowDefinition Height="35*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>-->
+
         <Grid.Background>
             <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill" />
         </Grid.Background>
@@ -60,18 +57,10 @@
                 </Style>
             </Button.Resources>
         </Button>
-       
-        <!--<Grid x:Name="CustomerGrid" Margin="0,5,0,100" Grid.RowSpan="2" d:IsHidden="True"  >
-            <Border Margin="-42,19,42,-19" d:IsHidden="True">
+
+
         <Grid x:Name="managerPageGrid" d:IsHidden="True">
-            <Button x:Name="btnShowListOfDrones" FontSize="22" Content="Show List Of Drones" Margin="20,256,404,180" Click="showListOfDronesBtn_Click" FontWeight="Bold" Cursor="Hand">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="7"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button x:Name="btnShowListOfStations" FontSize="22" Content="Show List Of Stations" HorizontalAlignment="Left" Margin="16,309,0,0" FontWeight="Bold" VerticalAlignment="Top" Height="53" Width="384" Click="btnShowListOfStations_Click"/>
+
         </Grid>
 
         <Grid x:Name="CustomerGrid" Grid.RowSpan="2" Grid.ColumnSpan="2" >
@@ -80,7 +69,7 @@
                 <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
 
-            <!--<Border Margin="88,96,-88,-96">
+            <Border Margin="88,96,-88,-96">
                 <Border.OpacityMask>
                     <VisualBrush>
                         <VisualBrush.Visual>
@@ -89,15 +78,20 @@
                     </VisualBrush>
                 </Border.OpacityMask>
 
-                <Rectangle Fill="WhiteSmoke" RadiusX="53" RadiusY="53" Margin="457,1,-471,-106"/>
-            </Border>-->
+            </Border>
+            <Grid/>
+
+
+
+
+
+
+
             <Rectangle Fill="White" Grid.Column="1" RadiusX="80" RadiusY="70" Margin="0,0,-69,0"/>
 
-            <PasswordBox x:Name="passboxCustomerPassword" Background="WhiteSmoke" Grid.Column="1" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" Width="192" Height="32"/>
-            <TextBlock x:Name="txtbEnterPassword" FontSize="14" Grid.Column="1" HorizontalAlignment="Center" Margin="0,221,0,0" Text="Enter password" Foreground="DimGray"  TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="192"/>
-            <TextBox x:Name="txtEnterName" Background="WhiteSmoke" Grid.Column="1" HorizontalAlignment="Center" Margin="0,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="32"/>
-            <TextBlock Text="Enter Name" FontSize="14" TextAlignment="Left" Foreground="DimGray" Grid.Column="1" HorizontalAlignment="Center" Margin="0,163,0,0" VerticalAlignment="Top" Height="28" Width="192"/>
-            <TextBlock x:Name="lblNoAccount" TextAlignment="Center" Text="Don't have an account? Sign-up!" Grid.Column="1" HorizontalAlignment="Center" Margin="0,344,0,0" VerticalAlignment="Top" Height="33" Width="192">
+            <TextBox x:Name="txtEnterName" Background="WhiteSmoke" Grid.Column="1" HorizontalAlignment="Center" Margin="0,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="32"/>
+            <TextBlock Text="Enter Name" FontSize="14" TextAlignment="Left" Foreground="DimGray" Grid.Column="1" HorizontalAlignment="Center" Margin="0,169,0,0" VerticalAlignment="Top" Height="28" Width="192"/>
+            <TextBlock x:Name="lblNoAccount" TextAlignment="Center" Text="Don't have an account? Sign-up!" Grid.Column="1" HorizontalAlignment="Center" Margin="0,305,0,0" VerticalAlignment="Top" Height="33" Width="192" MouseDown="lblNoAccount_MouseDown_1" >
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Foreground" Value="DimGray" />
@@ -111,7 +105,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <Button x:Name="btnSignIn" Opacity="0.9" Content="Log in" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Background="DodgerBlue" Grid.Column="1" HorizontalAlignment="Center" Margin="0,295,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.093,0.62" Height="27" Width="192" Click="btnSignIn_Click">
+            <Button x:Name="btnSignIn" Style="{StaticResource HandCursor}" Opacity="0.9" Content="Log in" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Background="DodgerBlue" Grid.Column="1" HorizontalAlignment="Center" Margin="0,251,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.093,0.62" Height="27" Width="192" Click="btnSignIn_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -120,9 +114,7 @@
             </Button>
             <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="0,55,0,0" FontSize="20" FontWeight="DemiBold" Foreground="DimGray" Text="Log in to see your profile or send a parcel" TextWrapping="Wrap" VerticalAlignment="Top" Height="96" Width="192"/>
 
-        </Grid>-->
-
-
-
+        </Grid>
     </Grid>
+
 </Window>

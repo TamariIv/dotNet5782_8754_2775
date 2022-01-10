@@ -48,13 +48,12 @@
     <Grid>
         <Rectangle Fill="AliceBlue" Margin="0,0,365,0"/>
         <Ellipse Fill="SandyBrown" Margin="574,217,-109,-105" Opacity="0.7"/>
-        <!--<Grid x:Name="DesignGrid">
+
+        <Grid x:Name="DesignGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2.5*"/>
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Fill="AliceBlue"/>
-            <Ellipse Fill="LightSalmon" Grid.Column="1" Opacity="0.7" Margin="400,252,-109,-87"/>
         </Grid>
 
         <Grid x:Name="AddStationGrid">

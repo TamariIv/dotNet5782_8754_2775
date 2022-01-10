@@ -90,7 +90,6 @@ namespace PL
             parcel.Target = customerInParcel;
         }
 
-
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);

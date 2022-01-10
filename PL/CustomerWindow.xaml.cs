@@ -176,5 +176,10 @@ namespace PL
             Parcel p = bl.GetParcel(tmpParcel.Id);
             new ParcelWindow(bl, p).Show();
         }
+
+        private void btnNewParcel_Click(object sender, RoutedEventArgs e)
+        {
+            new ParcelWindow(bl).Show();
+        }
     }
 }

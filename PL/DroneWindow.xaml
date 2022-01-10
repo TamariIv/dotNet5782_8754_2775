@@ -6,6 +6,51 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="labelSideHeader" TargetType="Label">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="200" />
+        </Style>
+
+        <Style x:Key="txtboxOrComboEnter" TargetType="Control">
+            <Setter Property="Width" Value="225" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="comboEnter" TargetType="ComboBox" BasedOn="{StaticResource txtboxOrComboEnter}"/>
+        <Style x:Key="txtboxEnter" TargetType="TextBox" BasedOn="{StaticResource txtboxOrComboEnter}">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="btnHandCursor" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="lblData" TargetType="Label">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style x:Key="txtboxData" TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="Width" Value="140" />
+        </Style>
+
+    </Window.Resources>
+
 
     <Grid>
         <Grid x:Name="DesignGrid">
@@ -31,16 +76,31 @@
                 <ColumnDefinition Width="0.3*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="1.5*"/>
             </Grid.RowDefinitions>
+            <Label Content="Insert details of drone you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="26,19,0,0" VerticalAlignment="Top" Height="48" Width="472" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+            <Label x:Name="lblEnterId" Style="{StaticResource labelSideHeader}" Content="Enter drone ID:" Grid.Row="1" Grid.Column="1" />
+            <TextBox x:Name="txtDroneId" Style="{StaticResource txtboxEnter}" MaxLength="4" TextChanged="TextBox_TextChanged_DroneId" Grid.Row="1" Grid.Column="2" PreviewKeyDown = "TextBox_OnlyNumbers_PreviewKeyDown" />
+            <Label x:Name="lblEnterFourDigitNumber" Content="Enter a four digits number" FontSize="10" Foreground="DimGray" HorizontalAlignment="Left" Margin="33,17,0,0" VerticalAlignment="Top" Width="177" Height="24" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="lblEnterModel" Style="{StaticResource labelSideHeader}" Content="Enter model:"  Grid.Row="2" Grid.Column="1" />
+            <TextBox x:Name="txtDroneModel" Style="{StaticResource txtboxEnter}" TextChanged="TextBox_TextChanged_DroneModel" Grid.Row="2" Grid.Column="2" />
+            <Label x:Name="lblChooseWeight" Style="{StaticResource labelSideHeader}" Content="Choose maximum weight:" Grid.Row="3" Grid.Column="1"/>
+            <ComboBox x:Name="comboWeightSelcetor" Style="{StaticResource comboEnter}" Grid.Row="3" Grid.Column="2" SelectionChanged="comboWeightSelcetor_SelectionChanged"/>
+            <Label x:Name="lblChooseStation" Style="{StaticResource labelSideHeader}" Content="Choose station:" Grid.Row="4" Grid.Column="1" />
+            <ComboBox x:Name="comboStationSelector" Style="{StaticResource comboEnter}" Grid.Column="2" Grid.Row="4" SelectionChanged="comboStationSelector_SelectionChanged"/>
+
+            <Grid x:Name="AddButtonsGrid" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2">
+                <Button x:Name="btnAdd" Style="{StaticResource btnHandCursor}" Content="Add" HorizontalAlignment="Left" Grid.Column="0" VerticalAlignment="Center" Height="28" Width="115" Click="btnAdd_Click"/>
+                <Button x:Name="btnCancel" Style="{StaticResource btnHandCursor}" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Center" Height="28" Width="115" Click="btnCancel_Click" Margin="-137,0,0,0"/>
+
+            </Grid>
+
         </Grid>
-
-
         <Grid x:Name="ActionsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
@@ -62,20 +122,20 @@
                 <RowDefinition Height="56*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="lblIdData" Content="Drone ID:" FontWeight="Bold" Width="170" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <TextBox x:Name="txtIdData" Text="{Binding Id, Mode=OneWay}" HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="25" Grid.Column="2" Grid.Row="1" BorderBrush="LightGray"/>
-            <Label x:Name="lblModelData" Content="Model:" FontWeight="Bold" Width="170" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Grid.Column="1" />
-            <TextBox x:Name="txtModelData" Text="{Binding Model, Mode=OneWay}" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="25" BorderBrush="DarkGray" BorderThickness="2"/>
-            <Label x:Name="lblWeightData" Content="Maximum weight:" FontWeight="Bold" Width="170" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1" VerticalAlignment="Stretch" />
-            <TextBox x:Name="txtWeightData" Text="{Binding MaxWeight, Mode=OneWay}" HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top"  Width="140" Height="25" Grid.Column="2" Grid.Row="3" BorderBrush="LightGray"/>
-            <Label x:Name="lblStatusData" Content="Status:" FontWeight="Bold" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Width="170" Grid.Column="1"/>
-            <TextBox x:Name="txtStatusData" Text="{Binding DroneStatus , Mode=OneWay}"  HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top"  Width="140" Height="25" Grid.Column="2" Grid.Row="4" BorderBrush="LightGray"/>
-            <Label x:Name="lblLocationData" Content="Location:" Width="170" FontWeight="Bold" HorizontalAlignment="Stretch" Grid.Row="6" VerticalAlignment="Stretch" Grid.Column="1"/>
-            <TextBox x:Name="txtLocationData" Text="{Binding CurrentLocation, Mode=OneWay}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Height="47" Grid.Column="2" BorderBrush="LightGray" Grid.Row="5" Margin="0,47,28,0" Grid.RowSpan="2"/>
-            <Label x:Name="lblBatteryData" Content="Battery:" Width="170" FontWeight="Bold" HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Stretch" Grid.Column="1"/>
-            <TextBox x:Name="txtBatteryData" Text="{Binding Battery, Mode=OneWay,StringFormat=N0}" HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Height="25"  Grid.Column="2" Grid.Row="4" BorderBrush="LightGray" Margin="0,46,0,0" Grid.RowSpan="2"/>
-            <Label x:Name="lblParcelInDeliveryData" Content="Parcel in delivery:" Width="170" FontWeight="Bold" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="166,0,0,0" BorderThickness="0.5"/>
-            <TextBox x:Name="txtParcelInDeliveryData" HorizontalAlignment="Left" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="280"  Grid.Column="3" Grid.Row="1" Grid.RowSpan="6" Grid.ColumnSpan="2" Margin="128,0,0,0"/>
+            <Label x:Name="lblIdData" Style="{StaticResource lblData}" Content="Drone ID:" Grid.Column="1" Grid.Row="1" />
+            <TextBox x:Name="txtIdData" Style="{StaticResource txtboxData}" Text="{Binding Id, Mode=OneWay}" IsReadOnly="True" Height="25" Grid.Column="2" Grid.Row="1" />
+            <Label x:Name="lblModelData" Style="{StaticResource lblData}" Content="Model:" Grid.Row="2" Grid.Column="1" />
+            <TextBox x:Name="txtModelData" Style="{StaticResource txtboxData}" Text="{Binding Model, Mode=OneWay}" Grid.Row="2" Grid.Column="2" Height="25" BorderBrush="DarkGray" BorderThickness="2"/>
+            <Label x:Name="lblWeightData" Style="{StaticResource lblData}" Content="Maximum weight:" Grid.Row="3" Grid.Column="1" />
+            <TextBox x:Name="txtWeightData" Style="{StaticResource txtboxData}" Text="{Binding MaxWeight, Mode=OneWay}" IsReadOnly="True" Height="25" Grid.Column="2" Grid.Row="3" />
+            <Label x:Name="lblStatusData" Style="{StaticResource lblData}" Content="Status:" Grid.Row="4" Grid.Column="1"/>
+            <TextBox x:Name="txtStatusData" Style="{StaticResource txtboxData}" Text="{Binding DroneStatus, Mode=OneWay}" IsReadOnly="True" Height="25" Grid.Column="2" Grid.Row="4" />
+            <Label x:Name="lblLocationData" Style="{StaticResource lblData}" Content="Location:" Grid.Row="6" Grid.Column="1"/>
+            <TextBox x:Name="txtLocationData"  Style="{StaticResource txtboxData}" Text="{Binding CurrentLocation, Mode=OneWay}" IsReadOnly="True" Height="48" Grid.Column="2" Grid.Row="5" Margin="0,47,28,0" Grid.RowSpan="2"/>
+            <Label x:Name="lblBatteryData" Style="{StaticResource lblData}" Content="Battery:"  Grid.Row="5" Grid.Column="1"/>
+            <TextBox x:Name="txtBatteryData" Style="{StaticResource txtboxData}" Text="{Binding Battery, Mode=OneWay, StringFormat=N0}" IsReadOnly="True" Height="25" Grid.Column="2" Grid.Row="5" />
+            <Label x:Name="lblParcelInDeliveryData" Style="{StaticResource lblData}" Content="Parcel in delivery:" Grid.Row="1" Grid.Column="3" />
+            <TextBox x:Name="txtParcelInDeliveryData" Style="{StaticResource txtboxData}" IsReadOnly="True" Width="182" Height="280"  Grid.Column="3" Grid.Row="1" Grid.RowSpan="6" Grid.ColumnSpan="2" Margin="128,0,0,0"/>
 
             <Grid x:Name="ActionButtonsGrid" Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="4">
                 <Grid.ColumnDefinitions>
@@ -85,13 +145,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Grid.Column="0" Click="btnClose_Click" />
-                <Button x:Name="btnFinalUpdate" Content="Update Model" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFinalUpdate_Click"/>
-                <Button x:Name="btnSendToCharge" Content="Send to Charge" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToCharge_Click"/>
-                <Button x:Name="btnSendToDelivery" Content="Delivery" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToDelivery_Click"/>
-                <Button x:Name="btnFreeDroneFromCharging" Content="Free" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFreeDroneFromCharging_Click" />
-                <Button x:Name="btnPickUpParcel" Content="Pick-Up Parcel" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnPickUpParcel_Click"/>
-                <Button x:Name="btnDeliverParcel" Content="Deliver" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnDeliverParcel_Click"/>
+                <Button x:Name="btnClose" Style="{StaticResource btnHandCursor}" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Grid.Column="0" Click="btnClose_Click" />
+                <Button x:Name="btnFinalUpdate" Style="{StaticResource btnHandCursor}" Content="Update Model" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFinalUpdate_Click"/>
+                <Button x:Name="btnSendToCharge" Style="{StaticResource btnHandCursor}" Content="Send to Charge" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToCharge_Click"/>
+                <Button x:Name="btnSendToDelivery" Style="{StaticResource btnHandCursor}" Content="Delivery" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToDelivery_Click"/>
+                <Button x:Name="btnFreeDroneFromCharging" Style="{StaticResource btnHandCursor}" Content="Free" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFreeDroneFromCharging_Click" />
+                <Button x:Name="btnPickUpParcel" Style="{StaticResource btnHandCursor}" Content="Pick-Up Parcel" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnPickUpParcel_Click"/>
+                <Button x:Name="btnDeliverParcel" Style="{StaticResource btnHandCursor}" Content="Deliver" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnDeliverParcel_Click"/>
             </Grid>
             <Label x:Name="lblModelEditable" Content="Click update to save edit" FontSize="9" HorizontalAlignment="Left" Margin="84,21,0,0" Grid.Row="2" Foreground="DimGray" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="26" Width="116"/>
             <Label x:Name="lblParcelScroll" Content="Scroll down for more datails" FontSize="9" Foreground="DimGray" Grid.Column="2" HorizontalAlignment="Left" Margin="168,18,0,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Width="128" Grid.ColumnSpan="2"/>

@@ -51,13 +51,25 @@ namespace PL
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            //try
+            try
             {
-                Customer tmpCustomer = mybl.GetCustomer(mybl.GetListOfCustomers().First(c => c.Name == txtEnterName.Text).Id);
-                //if (passboxCustomerPassword.Password == tmpCustomer.Password)
-                    
+                if (!mybl.GetListOfCustomers().Where(c => c.Name == txtEnterName.Text).Any())
+                    throw new NoMatchingIdException($"no customer named {txtEnterName.Text} was found");
+                CustomerToList tmpCustomer = mybl.GetListOfCustomers().First(c => c.Name == txtEnterName.Text);
+                Customer customer = mybl.GetCustomer(tmpCustomer.Id);
+                new CustomerWindow(mybl, customer).Show();
 
             }
+            catch(NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void lblNoAccount_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            new SignUpWindow(mybl).Show();
         }
     }
 }
