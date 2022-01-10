@@ -17,14 +17,14 @@ namespace Dal
         internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
-        private const string configPath = @"ConfigXML.xml";
-        private const string baseStationsPath = @"BaseStations.xml";
-        private const string dronesPath = @"Drones.xml";
-        private const string parcelsPath = @"Parcels.xml";
-        private const string customersPath = @"Customers.xml";
-        private const string droneChargesPath = @"DroneCharges.xml";
-        private const string DataDirectory = @"data\\";
+        private const string DataDirectory = @"data";
 
+        private static string configPath = Path.Combine(DataDirectory, @"ConfigXML.xml");
+        private static string baseStationsPath = Path.Combine(DataDirectory, @"BaseStations.xml");
+        private static string dronesPath = Path.Combine(DataDirectory, @"Drones.xml");
+        private static string parcelsPath = Path.Combine(DataDirectory, @"Parcels.xml");
+        private static string customersPath = Path.Combine(DataDirectory, @"Customers.xml");
+        private static string droneChargesPath = Path.Combine(DataDirectory, @"DroneCharges.xml");
         internal static Random r = new Random();
 
         internal class Config
@@ -49,10 +49,10 @@ namespace Dal
             createDrone(10);
             //initialize 10 parcels:
             createParcel();
-            SaveListToXmlSerializer(Drones, DataDirectory + dronesPath);
-            SaveListToXmlSerializer(Stations, DataDirectory + baseStationsPath);
-            SaveListToXmlSerializer(Customers, DataDirectory + customersPath);
-            SaveListToXmlSerializer(Parcels, DataDirectory + parcelsPath);
+            SaveListToXmlSerializer(Drones, dronesPath);
+            SaveListToXmlSerializer(Stations, baseStationsPath);
+            SaveListToXmlSerializer(Customers, customersPath);
+            SaveListToXmlSerializer(Parcels, parcelsPath);
         }
 
         private static void createStation()

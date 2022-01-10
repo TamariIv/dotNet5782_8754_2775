@@ -23,7 +23,7 @@ namespace Dal
         {
             try
             {
-                rootElem.Save(/*dirPath + */filePath);
+                rootElem.Save(filePath);
             }
             catch (Exception ex)
             {

@@ -10,17 +10,19 @@ namespace Dal
 {
     sealed class DalXml : IDal
     {
-        private const string configPath = @"ConfigXML.xml";
-        private const string baseStationsPath = @"BaseStations.xml";
-        private const string dronesPath = @"Drones.xml";
-        private const string parcelsPath = @"Parcels.xml";
-        private const string customersPath = @"Customers.xml";
-        private const string droneChargesPath = @"DroneCharges.xml";
-        private const string DataDirectory = @"data\\";
+        private static string DataDirectory = @"data";
+
+        private static string configPath = Path.Combine(DataDirectory , @"ConfigXML.xml");
+        private static string baseStationsPath = Path.Combine(DataDirectory,  @"BaseStations.xml");
+        private static string dronesPath = Path.Combine(DataDirectory, @"Drones.xml");
+        private static string parcelsPath = Path.Combine(DataDirectory,  @"Parcels.xml");
+        private static string customersPath = Path.Combine(DataDirectory,  @"Customers.xml");
+        private static string droneChargesPath = Path.Combine(DataDirectory, @"DroneCharges.xml");
+
         public static readonly DalXml instance = new DalXml();
         public static DalXml Instance { get => instance; }
         static DalXml() { } // static ctor to ensure instance init is done just before first usage
-        
+
 
         //private static string configPath = Path.Combine(solutionDirectory, "DalXML", "data");
 
@@ -38,9 +40,9 @@ namespace Dal
 
         public double[] GetElectricity()
         {
-            var temp1 = XMLTools.LoadListFromXmlElement(DataDirectory + configPath);
+            var temp1 = XMLTools.LoadListFromXmlElement(configPath);
             var temp2 = temp1.Element("electricityRates").Elements();
-            var temp3 =temp2.Select(e => Convert.ToDouble(e.Value)).ToArray();
+            var temp3 = temp2.Select(e => Convert.ToDouble(e.Value)).ToArray();
             return temp3;
             //return XMLTools.LoadListFromXmlElement(Path.Combine(configPath, configFilename)).Element("electricityRates").Elements()
             //    .Select(e => Convert.ToDouble(e.Value)).ToArray();
@@ -84,7 +86,7 @@ namespace Dal
         #region Get collections
         public IEnumerable<Station> GetBaseStations()
         {
-            XElement baseStationsXML = XMLTools.LoadListFromXmlElement(DataDirectory + baseStationsPath);
+            XElement baseStationsXML = XMLTools.LoadListFromXmlElement(baseStationsPath);
 
             List<Station> baseStations = new();
             foreach (var baseStationElement in baseStationsXML.Elements())
@@ -282,25 +284,39 @@ namespace Dal
         /// <param name="Drone d"></param>
         public void SendDroneToCharge(Station s, Drone d)
         {
-            XElement baseStations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-            XElement baseStation = (from bs in baseStations.Elements()
-                                    where bs.Element("Id").Value == $"{s.Id}"
-                                    select bs).FirstOrDefault();
-            int availableChargingPorts = Convert.ToInt32(baseStation.Element("AvailableChargeSlots").Value);
-            --availableChargingPorts; //update the available charge slots
-            baseStation.Element("AvailableChargeSlots").Value = availableChargingPorts.ToString();
+            s.AvailableChargeSlots--;
+            DroneCharge dc = new DroneCharge()
+            {
+                DroneId = d.Id,
+                StationId = s.Id,
+                ChargingTime = DateTime.Now
 
-            XMLTools.SaveListToXmlElement(baseStations, baseStationsPath);
+            };
+            List<DroneCharge> droneCharges = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
+            droneCharges.Add(dc);
+            XMLTools.SaveListToXmlSerializer<DroneCharge>(droneCharges, droneChargesPath);
 
-            //add one drone to the list of drone charges
-            XElement droneCharges = XMLTools.LoadListFromXmlElement(droneChargesPath);
-            droneCharges.Add(
-                new XElement("DroneCharge",
-                    new XElement("DroneId", d.Id),
-                    new XElement("StationId", s.Id),
-                    new XElement("ChargingTime", DateTime.Now.ToString("O"))
-                    )
-                );
+
+            //XElement baseStations = XMLTools.LoadListFromXmlElement(baseStationsPath);
+            //XElement baseStation = (from bs in baseStations.Elements()
+            //                        where bs.Element("Id").Value == $"{s.Id}"
+            //                        select bs).FirstOrDefault();
+            //int availableChargingPorts = Convert.ToInt32(baseStation.Element("AvailableChargeSlots").Value);
+            //--availableChargingPorts; //update the available charge slots
+            //baseStation.Element("AvailableChargeSlots").Value = availableChargingPorts.ToString();
+
+            //XMLTools.SaveListToXmlElement(baseStations, baseStationsPath);
+
+            ////add one drone to the list of drone charges
+            //XElement droneCharges = XMLTools.LoadListFromXmlElement(droneChargesPath);
+            //droneCharges.Add(
+            //    new XElement("DroneCharge",
+            //        new XElement("DroneId", d.Id),
+            //        new XElement("StationId", s.Id),
+            //        new XElement("ChargingTime", DateTime.Now.ToString("O"))
+            //        )
+            //    );
+
         }
 
         public void ReleaseDroneFromCharge(Station s, Drone d)
