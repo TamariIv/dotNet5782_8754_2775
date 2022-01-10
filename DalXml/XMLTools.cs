@@ -11,7 +11,7 @@ namespace Dal
 {
     class XMLTools
     {
-        private static readonly string dirPath = @"xml";
+        private static readonly string dirPath = @"data\\";
 
         static XMLTools()
         {
@@ -41,7 +41,7 @@ namespace Dal
                 }
                 else
                 {
-                    XElement rootElem = new XElement( filePath);
+                    XElement rootElem = new XElement(filePath);
                     rootElem.Save( filePath);
                     return rootElem;
                 }

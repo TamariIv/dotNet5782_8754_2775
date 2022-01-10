@@ -1,53 +1,53 @@
 <?xml version="1.0"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
-    <Id>1393</Id>
-    <Model>FA198</Model>
-    <MaxWeight>Medium</MaxWeight>
+    <Id>3901</Id>
+    <Model>BI412</Model>
+    <MaxWeight>Light</MaxWeight>
   </Drone>
   <Drone>
-    <Id>6182</Id>
-    <Model>RP556</Model>
+    <Id>8205</Id>
+    <Model>WP198</Model>
+    <MaxWeight>Light</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>3719</Id>
+    <Model>VF741</Model>
     <MaxWeight>Heavy</MaxWeight>
   </Drone>
   <Drone>
-    <Id>6202</Id>
-    <Model>VN325</Model>
-    <MaxWeight>Light</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>4723</Id>
-    <Model>KN819</Model>
-    <MaxWeight>Medium</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>7827</Id>
-    <Model>UN871</Model>
-    <MaxWeight>Medium</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>2949</Id>
-    <Model>NE784</Model>
-    <MaxWeight>Medium</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>9688</Id>
-    <Model>QF955</Model>
+    <Id>9842</Id>
+    <Model>HT526</Model>
     <MaxWeight>Heavy</MaxWeight>
   </Drone>
   <Drone>
-    <Id>8273</Id>
-    <Model>KY899</Model>
-    <MaxWeight>Light</MaxWeight>
-  </Drone>
-  <Drone>
-    <Id>9090</Id>
-    <Model>QC649</Model>
+    <Id>9115</Id>
+    <Model>GI895</Model>
     <MaxWeight>Medium</MaxWeight>
   </Drone>
   <Drone>
-    <Id>6577</Id>
-    <Model>JQ621</Model>
+    <Id>7455</Id>
+    <Model>XI114</Model>
+    <MaxWeight>Heavy</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>5297</Id>
+    <Model>FB499</Model>
     <MaxWeight>Light</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>9737</Id>
+    <Model>CV301</Model>
+    <MaxWeight>Light</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>7471</Id>
+    <Model>SR229</Model>
+    <MaxWeight>Light</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>6628</Id>
+    <Model>OC439</Model>
+    <MaxWeight>Medium</MaxWeight>
   </Drone>
 </ArrayOfDrone>

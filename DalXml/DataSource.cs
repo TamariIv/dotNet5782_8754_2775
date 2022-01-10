@@ -17,6 +17,14 @@ namespace Dal
         internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
+        private const string configPath = @"ConfigXML.xml";
+        private const string baseStationsPath = @"BaseStations.xml";
+        private const string dronesPath = @"Drones.xml";
+        private const string parcelsPath = @"Parcels.xml";
+        private const string customersPath = @"Customers.xml";
+        private const string droneChargesPath = @"DroneCharges.xml";
+        private const string DataDirectory = @"data\\";
+
         internal static Random r = new Random();
 
         internal class Config
@@ -41,10 +49,10 @@ namespace Dal
             createDrone(10);
             //initialize 10 parcels:
             createParcel();
-            SaveListToXmlSerializer(Drones, @"Drones.xml");
-            SaveListToXmlSerializer(Stations, @"BaseStations.xml");
-            SaveListToXmlSerializer(Customers, @"Customers.xml");
-            SaveListToXmlSerializer(Parcels, @"Parcels.xml");
+            SaveListToXmlSerializer(Drones, DataDirectory + dronesPath);
+            SaveListToXmlSerializer(Stations, DataDirectory + baseStationsPath);
+            SaveListToXmlSerializer(Customers, DataDirectory + customersPath);
+            SaveListToXmlSerializer(Parcels, DataDirectory + parcelsPath);
         }
 
         private static void createStation()
@@ -260,10 +268,10 @@ namespace Dal
 
         static void SaveListToXmlSerializer<T>(IEnumerable<T> list, string filePath)
         {
-            string dirPath = @"xml\";
+            //string dirPath = @"xml\";
             try
             {
-                FileStream file = new FileStream(dirPath + filePath, FileMode.Create);
+                FileStream file = new FileStream(filePath, FileMode.Create);
                 XmlSerializer x = new XmlSerializer(list.GetType());
 
                 x.Serialize(file, list);

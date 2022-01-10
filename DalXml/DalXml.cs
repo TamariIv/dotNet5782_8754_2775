@@ -10,19 +10,18 @@ namespace Dal
 {
     sealed class DalXml : IDal
     {
-        private readonly string configFilename = @"ConfigXML.xml";
-        private readonly string baseStationsPath = "BaseStations.xml";
-        private readonly string dronesPath = "Drones.xml";
-        private readonly string parcelsPath = "Parcels.xml";
-        private readonly string customersPath = "Customers.xml";
-        private readonly string droneChargesPath = "DroneCharges.xml";
+        private const string configPath = @"ConfigXML.xml";
+        private const string baseStationsPath = @"BaseStations.xml";
+        private const string dronesPath = @"Drones.xml";
+        private const string parcelsPath = @"Parcels.xml";
+        private const string customersPath = @"Customers.xml";
+        private const string droneChargesPath = @"DroneCharges.xml";
+        private const string DataDirectory = @"data\\";
         public static readonly DalXml instance = new DalXml();
         public static DalXml Instance { get => instance; }
         static DalXml() { } // static ctor to ensure instance init is done just before first usage
-        private static string solutionDirectory = Directory.GetCurrentDirectory();
         
 
-         private static string filePath = Path.Combine(solutionDirectory, "data");
         //private static string configPath = Path.Combine(solutionDirectory, "DalXML", "data");
 
         private DalXml()
@@ -39,7 +38,7 @@ namespace Dal
 
         public double[] GetElectricity()
         {
-            var temp1 = XMLTools.LoadListFromXmlElement(Path.Combine(filePath, configFilename));
+            var temp1 = XMLTools.LoadListFromXmlElement(DataDirectory + configPath);
             var temp2 = temp1.Element("electricityRates").Elements();
             var temp3 =temp2.Select(e => Convert.ToDouble(e.Value)).ToArray();
             return temp3;
@@ -85,7 +84,7 @@ namespace Dal
         #region Get collections
         public IEnumerable<Station> GetBaseStations()
         {
-            XElement baseStationsXML = XMLTools.LoadListFromXmlElement(baseStationsPath);
+            XElement baseStationsXML = XMLTools.LoadListFromXmlElement(DataDirectory + baseStationsPath);
 
             List<Station> baseStations = new();
             foreach (var baseStationElement in baseStationsXML.Elements())
