@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DalObject\DalO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXML", "DalXml\DalXML.csproj", "{6336FFC0-BD34-4E96-932D-CC9A692FD78B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{57638660-FFF6-480D-9661-48A73ADFB3E7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{28E386E1-50FF-426B-935B-6CC135AF7598}"
 	ProjectSection(SolutionItems) = preProject
 		data\BaseStations.xml = data\BaseStations.xml
 		data\ConfigXML.xml = data\ConfigXML.xml
