@@ -32,7 +32,7 @@ namespace PL
             StationDetailsGrid.Visibility = Visibility.Hidden;
         }
 
-        public StationWindow(IBL bl, BO.StationToList station)
+        public StationWindow(IBL bl, StationToList station)
         {
             InitializeComponent();
             this.bl = bl;
@@ -48,6 +48,8 @@ namespace PL
             try
             {
                 bl.UpdateStation(station.Id, txtNameData.Text, Convert.ToInt32(txtAvailableSlotsData.Text));
+                MessageBox.Show($"Station {station.Id} was updated successfully", "Success",
+                   MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NoMatchingIdException)
             {
@@ -60,7 +62,7 @@ namespace PL
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
             this.Close();
-            new StationWindow(bl, bl.GetStationToList(station.Id)).Show();
+            new StationWindow(bl, bl.GetStationToList(station.Id)).Show(); 
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
