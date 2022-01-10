@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>228101715</Id>
+    <Name>Avraham Cohen</Name>
+    <Phone>052-1817815</Phone>
+    <Longitude>35.19400223708898</Longitude>
+    <Latitude>31.80043528439963</Latitude>
+  </Customer>
+  <Customer>
+    <Id>252862254</Id>
+    <Name>Yitshak Levi</Name>
+    <Phone>054-7836661</Phone>
+    <Longitude>35.17325294453337</Longitude>
+    <Latitude>31.796662846601876</Latitude>
+  </Customer>
+  <Customer>
+    <Id>100290591</Id>
+    <Name>Yaakov Israeli</Name>
+    <Phone>052-9525801</Phone>
+    <Longitude>35.18712299717456</Longitude>
+    <Latitude>31.79945992299796</Latitude>
+  </Customer>
+  <Customer>
+    <Id>257727892</Id>
+    <Name>Sarah Shalom</Name>
+    <Phone>052-5463987</Phone>
+    <Longitude>35.11650214131293</Longitude>
+    <Latitude>31.790073644965922</Latitude>
+  </Customer>
+  <Customer>
+    <Id>239801266</Id>
+    <Name>Rivka Silver</Name>
+    <Phone>054-9241885</Phone>
+    <Longitude>35.18512217352406</Longitude>
+    <Latitude>31.79363072601316</Latitude>
+  </Customer>
+  <Customer>
+    <Id>186651929</Id>
+    <Name>Rahel Shushan</Name>
+    <Phone>050-3440683</Phone>
+    <Longitude>35.11894382240202</Longitude>
+    <Latitude>31.802042949205283</Latitude>
+  </Customer>
+  <Customer>
+    <Id>124121375</Id>
+    <Name>Leah Yosefi</Name>
+    <Phone>054-7177811</Phone>
+    <Longitude>35.20961742994358</Longitude>
+    <Latitude>31.804565479017125</Latitude>
+  </Customer>
+  <Customer>
+    <Id>173569077</Id>
+    <Name>David Dayan</Name>
+    <Phone>054-2198304</Phone>
+    <Longitude>35.11664141461563</Longitude>
+    <Latitude>31.798854832625413</Latitude>
+  </Customer>
+  <Customer>
+    <Id>187032948</Id>
+    <Name>Moshe Biton</Name>
+    <Phone>054-3537070</Phone>
+    <Longitude>35.19915407537909</Longitude>
+    <Latitude>31.79217248013344</Latitude>
+  </Customer>
+  <Customer>
+    <Id>239369361</Id>
+    <Name>Aharon Uzan</Name>
+    <Phone>052-3652384</Phone>
+    <Longitude>35.10984743854024</Longitude>
+    <Latitude>31.801225940720748</Latitude>
+  </Customer>
+</ArrayOfCustomer>
