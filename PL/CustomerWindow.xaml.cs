@@ -58,7 +58,7 @@ namespace PL
             {
                 bl.UpdateCustomer(tmpCustomer);
                 customer = tmpCustomer;
-                MessageBox.Show($"Customer {customer.Id} was updated successfully \npress OK to continue", "Success",
+                MessageBox.Show($"Customer {customer.Id} was updated successfully", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NoUpdateException)
