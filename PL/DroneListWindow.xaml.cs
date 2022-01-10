@@ -27,7 +27,7 @@ namespace PL
             this.bl = bl;
             InitializeComponent();
 
-            DronesListView.ItemsSource = bl.GetListOfDrones();
+            DronesListView.ItemsSource = bl.GetListOfDrones().ToList();
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
