@@ -1,73 +1,73 @@
 <?xml version="1.0"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
-    <Id>188383604</Id>
+    <Id>172280048</Id>
     <Name>Avraham Cohen</Name>
-    <Phone>052-7581080</Phone>
-    <Longitude>35.170521157197896</Longitude>
-    <Latitude>31.799408404682488</Latitude>
+    <Phone>052-7010210</Phone>
+    <Longitude>35.174101718270265</Longitude>
+    <Latitude>31.79447982567571</Latitude>
   </Customer>
   <Customer>
-    <Id>226952358</Id>
+    <Id>237554849</Id>
     <Name>Yitshak Levi</Name>
-    <Phone>052-1748163</Phone>
-    <Longitude>35.128908855551344</Longitude>
-    <Latitude>31.80345079078034</Latitude>
+    <Phone>052-4668814</Phone>
+    <Longitude>35.174356316502376</Longitude>
+    <Latitude>31.801933600051296</Latitude>
   </Customer>
   <Customer>
-    <Id>204220499</Id>
+    <Id>126339858</Id>
     <Name>Yaakov Israeli</Name>
-    <Phone>052-6728198</Phone>
-    <Longitude>35.18878579288665</Longitude>
-    <Latitude>31.794771413907768</Latitude>
+    <Phone>052-1392723</Phone>
+    <Longitude>35.19836433185654</Longitude>
+    <Latitude>31.805013093228922</Latitude>
   </Customer>
   <Customer>
-    <Id>230477820</Id>
+    <Id>136456566</Id>
     <Name>Sarah Shalom</Name>
-    <Phone>054-5430840</Phone>
-    <Longitude>35.12043519531863</Longitude>
-    <Latitude>31.80890320449085</Latitude>
+    <Phone>050-9779946</Phone>
+    <Longitude>35.17044302223271</Longitude>
+    <Latitude>31.808408652682978</Latitude>
   </Customer>
   <Customer>
-    <Id>292840439</Id>
+    <Id>149881783</Id>
     <Name>Rivka Silver</Name>
-    <Phone>050-8565769</Phone>
-    <Longitude>35.1535727658186</Longitude>
-    <Latitude>31.800173441995945</Latitude>
+    <Phone>052-5170312</Phone>
+    <Longitude>35.144559449928146</Longitude>
+    <Latitude>31.798562286202124</Latitude>
   </Customer>
   <Customer>
-    <Id>255456479</Id>
+    <Id>192140905</Id>
     <Name>Rahel Shushan</Name>
-    <Phone>052-7339292</Phone>
-    <Longitude>35.19563773041388</Longitude>
-    <Latitude>31.794987643307532</Latitude>
+    <Phone>054-1972754</Phone>
+    <Longitude>35.10063160549879</Longitude>
+    <Latitude>31.80511644782271</Latitude>
   </Customer>
   <Customer>
-    <Id>259199043</Id>
+    <Id>118048911</Id>
     <Name>Leah Yosefi</Name>
-    <Phone>052-8880473</Phone>
-    <Longitude>35.19706823365627</Longitude>
-    <Latitude>31.802669362049862</Latitude>
+    <Phone>052-4296070</Phone>
+    <Longitude>35.14763148668112</Longitude>
+    <Latitude>31.800863793841966</Latitude>
   </Customer>
   <Customer>
-    <Id>101677827</Id>
+    <Id>167157708</Id>
     <Name>David Dayan</Name>
-    <Phone>054-4490344</Phone>
-    <Longitude>35.1558912731688</Longitude>
-    <Latitude>31.794032525012284</Latitude>
+    <Phone>054-2981693</Phone>
+    <Longitude>35.108567534307284</Longitude>
+    <Latitude>31.80810118183405</Latitude>
   </Customer>
   <Customer>
-    <Id>139022616</Id>
+    <Id>184263445</Id>
     <Name>Moshe Biton</Name>
-    <Phone>052-5015271</Phone>
-    <Longitude>35.19292041355414</Longitude>
-    <Latitude>31.795848113496717</Latitude>
+    <Phone>052-2333690</Phone>
+    <Longitude>35.14264127161011</Longitude>
+    <Latitude>31.807566239823384</Latitude>
   </Customer>
   <Customer>
-    <Id>132235167</Id>
+    <Id>288644453</Id>
     <Name>Aharon Uzan</Name>
-    <Phone>050-2701500</Phone>
-    <Longitude>35.14244889994266</Longitude>
-    <Latitude>31.804930579129106</Latitude>
+    <Phone>052-8170329</Phone>
+    <Longitude>35.11036458503006</Longitude>
+    <Latitude>31.7969261689982</Latitude>
   </Customer>
 </ArrayOfCustomer>
