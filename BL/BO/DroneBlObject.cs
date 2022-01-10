@@ -35,7 +35,7 @@ namespace BL
                 };
                 dal.AddDrone(dalDrone);
                 DO.Station dalStation = dal.GetStation(stationId);
-                dal.SendDroneToCharge(dalDrone, dalStation);
+                dal.SendDroneToCharge(dalStation, dalDrone);
             }
             catch (DO.IdAlreadyExistsException)
             {
@@ -94,14 +94,14 @@ namespace BL
                 if (drone.DroneStatus != DroneStatus.Available)
                     throw new ImpossibleOprationException("Drone can't be sent to recharge");
 
-                DO.Station tempStation = dal.getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
+                DO.Station tempStation = getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
                 double rate = whenAvailable;
 
                 if (tempStation.AvailableChargeSlots > 0 && distance * rate < drone.Battery)
                 {
                     DO.Drone dalDrone = ConvertDroneToDal(drone);
-                    dal.SendDroneToCharge(dalDrone, tempStation);
+                    dal.SendDroneToCharge(tempStation, dalDrone);
 
                     DroneToList newDrone = new DroneToList
                     {
@@ -138,16 +138,19 @@ namespace BL
                 {
                     
                     dronesToList.Remove(blDrone);
-                    TimeSpan timeOfRelease = DateTime.Now - dal.GetDroneCharge(blDrone.Id).chargingTime; //calculate the time of charging
+                    DO.DroneCharge dc = dal.GetDroneCharge(blDrone.Id);
+
+                    TimeSpan timeOfRelease = DateTime.Now - dc.ChargingTime; //calculate the time of charging
                     blDrone.Battery += timeOfRelease.TotalMinutes * chargeRate; 
                     blDrone.DroneStatus = DroneStatus.Available;
                     dronesToList.Add(blDrone);
 
                     DO.Drone dalDrone = dal.GetDrone(droneId);
-                    dal.SendDroneFromStation(dalDrone);
+                    DO.Station station = dal.GetStation(dc.StationId);
+                    dal.ReleaseDroneFromCharge(station , dalDrone);
 
                 }
-                else throw new ImpossibleOprationException("drone can't be freed from chraging\n");
+                else throw new ImpossibleOprationException("drone can't be free from chraging\n");
             }
             catch(DO.NoMatchingIdException)
             {
@@ -219,7 +222,7 @@ namespace BL
             {
                 Id = d.Id,
                 Model = d.Model,
-                MaxWeight = d.MaxWeight,
+                MaxWeight = (WeightCategories)d.MaxWeight,
                 Battery = d.Battery,
                 DroneStatus = d.DroneStatus,
                 ParcelInDelivery = parcelInDrone,
@@ -261,7 +264,7 @@ namespace BL
                     {
                         DO.Customer tempSender = dal.GetCustomer(p.SenderId);
                         DO.Customer tempTarget = dal.GetCustomer(p.TargetId);
-                        DO.Station closestStation = dal.getClosestStation(tempTarget.Latitude, tempTarget.Longitude);
+                        DO.Station closestStation = getClosestStation(tempTarget.Latitude, tempTarget.Longitude);
                         double droneToSenderBatterty = Tools.Utils.DistanceCalculation(blDrone.Location.Latitude, blDrone.Location.Longitude, tempSender.Latitude, tempSender.Longitude) * whenAvailable;
                         double senderToTargetBattery = Tools.Utils.DistanceCalculation(tempSender.Latitude, tempSender.Longitude, tempTarget.Latitude, tempTarget.Longitude) * getBatteryConsumption(p.Weight);
                         double targetToStationBattery = Tools.Utils.DistanceCalculation(tempTarget.Latitude, tempTarget.Longitude, closestStation.Latitude, closestStation.Longitude) * whenAvailable;

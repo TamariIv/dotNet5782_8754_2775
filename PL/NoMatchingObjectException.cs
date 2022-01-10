@@ -21,6 +21,7 @@ namespace PL
         protected NoMatchingObjectException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
         public override string ToString()
         {
             return Message;

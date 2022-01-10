@@ -101,7 +101,7 @@
         </Grid>
 
 
-        <Grid x:Name="ViewGrid">
+        <Grid x:Name="ViewGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition Width="*"/>

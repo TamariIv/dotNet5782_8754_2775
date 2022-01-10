@@ -25,26 +25,19 @@ namespace DalApi
         IEnumerable<Station> GetStations(Func<Station, bool> predicate = null);
         IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null);
         IEnumerable<DroneCharge> GetDroneCharges(Func<DroneCharge, bool> predicate = null);
-        //IEnumerable<Parcel> GetParcelWithoutDrone();
         #endregion
 
         #region Update part of C.R.U.D
         void MatchDroneToParcel(Parcel p, Drone d);
         void ParcelDelivered(Parcel p);
         void PickUpParcel(Parcel p);
-        void SendDroneFromStation(Drone d);
-        void SendDroneToCharge(Drone d, Station s);
+        void ReleaseDroneFromCharge(Station s, Drone d);
+        void SendDroneToCharge( Station s, Drone d);
         void UpdateDrone(Drone d);
-        #endregion
-        //IEnumerable<Customer> GetCustomers();
-
         void UpdateCustomer(Customer c);
         void UpdateStation(Station s);
-        //void UpdateDrone(Drone d);
-
+        #endregion
 
         double[] GetElectricity();
-        Station getClosestStation(double latitude, double longitude);
-        List<Customer> GetCustomersWithParcels(List<Parcel> parcels, List<Customer> customers);
     }
 }

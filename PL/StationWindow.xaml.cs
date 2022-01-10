@@ -79,6 +79,8 @@ namespace PL
         {
             try
             {
+                if (string.IsNullOrEmpty(txtEnterId.Text) || string.IsNullOrEmpty(txtEnterName.Text) || string.IsNullOrEmpty(txtEnterLatitude.Text) || string.IsNullOrEmpty(txtEnterLongitude.Text) || string.IsNullOrEmpty(txtEnterAvailableSlots.Text))
+                    throw new EmptyInputException("Insert all details of the station!");
                 Station tmpStation = new Station()
                 {
                     Id = Convert.ToInt32(txtEnterId.Text),
@@ -103,9 +105,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (EmptyInputException ex)
             {
-                MessageBox.Show("Insert details of the station!", "Error Occurred",
+                MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

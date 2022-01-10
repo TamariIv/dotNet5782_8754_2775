@@ -158,28 +158,40 @@ namespace ConsoleUI
                         switch (listOptions)
                         {
                             case ListOptions.BaseStations:
-                                IEnumerable<Station> stations = mydal.GetStations();
-                                PrintBaseStationsList(stations);
+                                foreach (var item in mydal.GetStations())
+                                {
+                                    Console.WriteLine(item);
+                                }
                                 break;
                             case ListOptions.Drones:
-                                IEnumerable<Drone> drones = mydal.GetDrones();
-                                PrintDronesList(drones);
+                                foreach (var item in mydal.GetDrones())
+                                {
+                                    Console.WriteLine(item);
+                                }
                                 break;
                             case ListOptions.Customers:
-                                IEnumerable<Customer> customers = mydal.GetCustomers();
-                                PrintCustomersList(customers);
+                                foreach (var item in mydal.GetCustomers())
+                                {
+                                    Console.WriteLine(item);
+                                }
                                 break;
                             case ListOptions.Parcels:
-                                IEnumerable<Parcel> parcels = mydal.GetParcels();
-                                PrintParcelsList(parcels);
+                                foreach (var item in mydal.GetParcels())
+                                {
+                                    Console.WriteLine(item);
+                                }
                                 break;
                             case ListOptions.ParcelsWithoutDrone:
-                                IEnumerable<Parcel> parcelsWithoutDrones = mydal.GetParcels(item => item.DroneId == 0);
-                                PrintParcelsWithoutDroneList(parcelsWithoutDrones);
+                                foreach (var item in mydal.GetParcels(item=>item.DroneId==0))
+                                {
+                                    Console.WriteLine(item);
+                                }
                                 break;
                             case ListOptions.AvailableChargingStation:
-                                IEnumerable<Station> s = mydal.GetStations(item => item.AvailableChargeSlots != 0);
-                                PrintAvailableChargeSlotsList(s);
+                                foreach (var item in mydal.GetStations(item=>item.AvailableChargeSlots > 0))
+                                {
+                                    Console.WriteLine(item);
+                                }
                                 break;
                             case ListOptions.Exit:
                                 break;
@@ -203,81 +215,7 @@ namespace ConsoleUI
         }
 
 
-        #region print list functions
-        /// <summary>
-        /// the function prints each item in the list stations
-        /// </summary>
-        /// <param name="baseStations"> list of stations </param>
-        public static void PrintBaseStationsList(IEnumerable<Station> baseStations)
-        {
-            foreach (var item in baseStations)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        /// <summary>
-        /// the function prints each item in the list drones
-        /// </summary>
-        /// <param name="drones"> the list of drones </param>
-        public static void PrintDronesList(IEnumerable<Drone> drones)
-        {
-            foreach (var item in drones)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        /// <summary>
-        /// the function prints each item in the list parcels
-        /// </summary>
-        /// <param name="parcels"> the list of parcels </param>
-        public static void PrintParcelsList(IEnumerable<Parcel> parcels)
-        {
-            foreach (var item in parcels)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        /// <summary>
-        /// the function prints each item in the list customers
-        /// </summary>
-        /// <param name="customers"> the list of customers </param>
-        public static void PrintCustomersList(IEnumerable<Customer> customers)
-        {
-            foreach (var item in customers)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        /// <summary>
-        /// the function prints the list of drones that are being charged
-        /// </summary>
-        /// <param name="droneCharges"></param>
-        public static void PrintAvailableChargeSlotsList(IEnumerable<Station> droneCharges)
-        {
-            foreach (var item in droneCharges)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        /// <summary>
-        /// the function prints each item in the list of parcels that don't have a drone assighned to them
-        /// </summary>
-        /// <param name="parcelsWithoutDrone"> the list of parcels without drone </param>
-        public static void PrintParcelsWithoutDroneList(IEnumerable<Parcel> parcelsWithoutDrone)
-        {
-            foreach (var item in parcelsWithoutDrone)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        #endregion
-
+       
         #region addition functions
         /// <summary>
         /// get from user the senderId, targetId, weight of the parcel, and priority 
@@ -422,7 +360,6 @@ namespace ConsoleUI
         public static void PickUpParcel()
         {
             int id;
-            PrintParcelsList(mydal.GetParcels()); //print all the parcels for the user
             Console.WriteLine("Enter the ID of the parcel you want to pick up: ");
             int.TryParse(Console.ReadLine(), out id);
             mydal.PickUpParcel(mydal.GetParcel(id));
@@ -435,7 +372,6 @@ namespace ConsoleUI
         {
             int id;
             Console.WriteLine("Enter the ID of the parcel you want to deliver: ");
-            PrintParcelsList(mydal.GetParcels()); //print the list of parcels for the user
             int.TryParse(Console.ReadLine(), out id);
             mydal.ParcelDelivered(mydal.GetParcel(id));
         }
@@ -455,7 +391,7 @@ namespace ConsoleUI
             //PrintBaseStationsList(mydal.GetStations());
             Console.WriteLine("Enter the ID of the station you want to charge in: ");
             int.TryParse(Console.ReadLine(), out stationId);
-            mydal.SendDroneToCharge(mydal.GetDrone(droneId), mydal.GetStation(stationId));
+            mydal.SendDroneToCharge(mydal.GetStation(stationId), mydal.GetDrone(droneId));
         }
 
         /// <summary>
@@ -464,12 +400,11 @@ namespace ConsoleUI
         /// </summary>
         public static void FreeDrone()
         {
-            int droneId;
-            //IEnumerable<Drone> temp = mydal.GetDrones();
-            //foreach (var item in temp) { if (item.Status == DroneStatus.Maintenance) Console.WriteLine(item); } //print all the drones that in charge
+            int droneId;      
             Console.WriteLine("Enter the ID of the drone you want to free: ");
             droneId = int.Parse(Console.ReadLine());
-            mydal.SendDroneFromStation(mydal.GetDrone(droneId));
+            DroneCharge dc = mydal.GetDroneCharge(droneId);
+            mydal.ReleaseDroneFromCharge(mydal.GetStation(dc.StationId), mydal.GetDrone(droneId));
         }
         #endregion
     }
