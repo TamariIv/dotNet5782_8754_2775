@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-  <dal>DalXml</dal>
   <dal-packages>
     <DalObject class ="DalObject" namespace ="Dal">DalObject</DalObject>
     <DalXml class="DalXml" namespace="Dal">DalXml</DalXml>
