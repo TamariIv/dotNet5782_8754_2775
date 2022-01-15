@@ -383,7 +383,7 @@ namespace ConsoleUI_BL
             //{
             //    Id = id
             //};
-            mybl.rechargeDrone(id);
+            mybl.RechargeDrone(id);
             Console.WriteLine("Recharge drone action was done successfully!");
 
         }

@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -10,6 +11,7 @@ namespace BL
         /// get station of BL and add it into the stations list of DAL
         /// </summary>
         /// <param name="newStation"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(BO.Station newStation)
         {
             try
@@ -38,6 +40,7 @@ namespace BL
         /// <param name="id">id of station</param>
         /// <param name="name">possible change of name</param>
         /// <param name="chargeSlots">possible change of charge slots number</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             try
@@ -103,6 +106,7 @@ namespace BL
         /// </summary>
         /// <param name="id">id of station to find</param>
         /// <returns>station</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Station GetStation(int id)
         {
             try
@@ -147,6 +151,7 @@ namespace BL
         /// </summary>
         /// <param name="id">id ofstation to list to look for</param>
         /// <returns>the stationToList with the id that was received</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.StationToList GetStationToList(int id)
         {
             return convertStationToStationToList(dal.GetStation(id));
@@ -182,6 +187,7 @@ namespace BL
         /// the function returns a list of station that have availbale charge slots
         /// </summary>
         /// <returns>ienumerable of the list that was created</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.StationToList> GetListOfStationsWithAvailableChargeSlots()
         {
             List<BO.StationToList> stationsWithAvailableChargeSlots = new List<BO.StationToList>();
@@ -196,6 +202,7 @@ namespace BL
         /// the function converts the whole DO stations list in dal to a list of BO stationToLists
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.StationToList> GetListOfStations()
         {
             List<BO.StationToList> stations = new List<BO.StationToList>();
@@ -233,6 +240,7 @@ namespace BL
         /// the function receives an id number and marks the station with that id as not active
         /// </summary>
         /// <param name="id">id of statoin to delete</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
             try

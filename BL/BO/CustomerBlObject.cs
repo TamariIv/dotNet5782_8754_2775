@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BlObject : IBL
     {
+        /// <summary>
+        /// the fucntion receives an updated existing customer and updates the old one 
+        /// </summary>
+        /// <param name="newCustomer"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(BO.Customer newCustomer)
         {
             try
@@ -28,6 +34,11 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// the function receives a new customer and adds if to the customer list in dal
+        /// </summary>
+        /// <param name="newCustomer"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(BO.Customer newCustomer)
         {
             try
@@ -48,6 +59,11 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// the function receives a DO customer and converts it to BO custoerToList
+        /// </summary>
+        /// <param name="dalCustomer">dal customer to convert</param>
+        /// <returns>the converted bo customer to list</returns>
         private BO.CustomerToList convertCustomerToCustomerToList(DO.Customer dalCustomer)
         {
             int sentAndDelivered = 0, sentAndNotDelivered = 0, received = 0, inDeliveryToCustomer = 0;
@@ -80,6 +96,12 @@ namespace BL
             return blCustomer;
         }
 
+        /// <summary>
+        /// the function return a customer by an id
+        /// </summary>
+        /// <param name="id">an id of acustomer to find</param>
+        /// <returns>the customer the id thar was received</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Customer GetCustomer(int id)
         {
             try
@@ -102,10 +124,14 @@ namespace BL
             {
                 throw new BO.NoMatchingIdException(ex.Message);
             }
-
-
         }
 
+        /// <summary>
+        /// the functon receives a list of parcels and an id of customer and returns the list of parcels that belong to that cusstomer
+        /// </summary>
+        /// <param name="parcelsOfSender">list of parcels</param>
+        /// <param name="id">id of customer to dinf his parcels</param>
+        /// <returns>list of the customer's parecls</returns>
         private List<BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)
         {
             List<BO.ParcelInCustomer> parcels = new List<BO.ParcelInCustomer>();
@@ -116,6 +142,12 @@ namespace BL
             return parcels;
         }
 
+        /// <summary>
+        /// the function receives a DO parcel and an id of a customer and converts the parcel to o parcalInCustomer of the customer 
+        /// </summary>
+        /// <param name="parcel">parcel to convert</param>
+        /// <param name="id">id of the parcel owner</param>
+        /// <returns>the parcel converted to parcelInCustomer</returns>
         private BO.ParcelInCustomer convertParcelToParcelInCustomer(DO.Parcel parcel, int id)
         {
             BO.ParcelInCustomer parcelInCustomer = new BO.ParcelInCustomer
@@ -133,6 +165,11 @@ namespace BL
             return parcelInCustomer;
         }
 
+        /// <summary>
+        /// the function return the the list of customers converted to BO customerTo/kist
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.CustomerToList> GetListOfCustomers()
         {
             List<BO.CustomerToList> customers = new List<BO.CustomerToList>();
@@ -142,6 +179,7 @@ namespace BL
             }
             return customers;
         }
+
         /// <summary>
         /// help function that returns a list of customers that have parcels which still weren't delivered
         /// </summary>
