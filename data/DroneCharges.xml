@@ -375,4 +375,14 @@
     <StationId>49734</StationId>
     <ChargingTime>2022-01-13T01:04:01.365847+02:00</ChargingTime>
   </DroneCharge>
+  <DroneCharge>
+    <DroneId>6447</DroneId>
+    <StationId>11832</StationId>
+    <ChargingTime>2022-01-15T20:34:11.610995+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5178</DroneId>
+    <StationId>72811</StationId>
+    <ChargingTime>2022-01-15T20:34:11.6661545+02:00</ChargingTime>
+  </DroneCharge>
 </ArrayOfDroneCharge>

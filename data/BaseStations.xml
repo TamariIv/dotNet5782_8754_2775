@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
-    <Id>98584</Id>
+    <Id>11832</Id>
     <Name>Romema</Name>
     <Longitude>35.20553</Longitude>
     <Latitude>31.7916</Latitude>
-    <AvailableChargeSlots>10</AvailableChargeSlots>
+    <AvailableChargeSlots>9</AvailableChargeSlots>
     <isActive>true</isActive>
   </Station>
   <Station>
-    <Id>49734</Id>
+    <Id>72811</Id>
     <Name>Givat Shaul</Name>
     <Longitude>35.195144</Longitude>
     <Latitude>31.790835</Latitude>
-    <AvailableChargeSlots>7</AvailableChargeSlots>
+    <AvailableChargeSlots>10</AvailableChargeSlots>
     <isActive>true</isActive>
   </Station>
 </ArrayOfStation>
