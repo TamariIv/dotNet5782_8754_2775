@@ -1,4 +1,4 @@
-﻿
+﻿using System.Runtime.CompilerServices;
 using DO;
 using System;
 using System.Collections.Generic;
@@ -38,6 +38,7 @@ namespace DalApi
         void UpdateStation(Station s);
         #endregion
 
+      
         #region Delete part of C.R.U.d
         void DeleteParcel(Parcel p);
         void DeleteCustomer(Customer c);

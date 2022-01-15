@@ -93,8 +93,8 @@ namespace BL
                     Name = dalCustomer.Name,
                     Phone = dalCustomer.Phone,
                     Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
-                    Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
-                    Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id),
+                    Send = convertParcelsToParcelsCustomer(parcelsOfsender, id).ToList(),
+                    Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id).ToList(),
                 };
                 return customer;
             }
@@ -106,7 +106,7 @@ namespace BL
 
         }
 
-        private List<BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)
+        private IEnumerable<BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)
         {
             List<BO.ParcelInCustomer> parcels = new List<BO.ParcelInCustomer>();
             foreach (var item in parcelsOfSender)

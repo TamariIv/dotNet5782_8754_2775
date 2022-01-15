@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -21,6 +22,7 @@ namespace Dal
         /// </summary>
         /// <param name="idNumber"> the station id </param>
         /// <returns> the station that was found </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int idNumber)
         {
             Station s = new Station();
@@ -37,6 +39,7 @@ namespace Dal
         /// </summary>
         /// <param name="idNumber"> the drone id </param>
         /// <returns> the drone that was found </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int idNumber)
         {
             Drone d = new Drone();
@@ -53,6 +56,7 @@ namespace Dal
         /// </summary>
         /// <param name="idNumber"> the customer id </param>
         /// <returns> the customer that was found </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int idNumber) //search the customer by idNumber and return it
         {
             Customer c = new Customer();
@@ -69,6 +73,7 @@ namespace Dal
         /// </summary>
         /// <param name="idNumber"> the parcel id </param>
         /// <returns> the parcel that was found </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int idNumber) //search the parcel by idNumber and return it
         {
             Parcel p = new Parcel();
@@ -86,6 +91,7 @@ namespace Dal
         /// </summary>
         /// <param name="idNumber"> the id of a drone that is charging </param>
         /// <returns> the droneCharge element with the drone id </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int idNumber)
         {
             DroneCharge d = new DroneCharge();
@@ -101,6 +107,7 @@ namespace Dal
         /// get the list of stations
         /// </summary>
         /// <returns> a copy of the list stations </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
             List<Station> copyStations = new List<Station>(DataSource.Stations);
@@ -110,7 +117,11 @@ namespace Dal
             return copyStations;
 
         }
-
+        /// <summary>
+        /// gets the list of drone charges
+        /// </summary>
+        /// <returns> a copy of the list droneCharge </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDroneCharges(Func<DroneCharge, bool> predicate = null)
         {
             List<DroneCharge> copyDroneCharges = new List<DroneCharge>(DataSource.DroneCharges);
@@ -123,6 +134,7 @@ namespace Dal
         /// get the list of drones
         /// </summary>
         /// <returns> a copy of the list drones </returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
             List<Drone> copyDrones = new List<Drone>(DataSource.Drones);
@@ -135,6 +147,7 @@ namespace Dal
         /// get the list of customers
         /// </summary>
         /// <returns> a copy of the list customers <</returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomers(Func<Customer, bool> predicate = null)
         {
             List<Customer> copyCustomers = new List<Customer>(DataSource.Customers);
@@ -147,6 +160,7 @@ namespace Dal
         /// get the list of parcels
         /// </summary>
         /// <returns> a copy of the list parcels <</returns>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
             List<Parcel> copyParcels = new List<Parcel>(DataSource.Parcels);
@@ -156,24 +170,10 @@ namespace Dal
         }
 
         /// <summary>
-        /// make a list of the stations that have available chraging slots
-        /// </summary>
-        /// <returns> list of stations with available chraging slots </returns>
-        //public IEnumerable<Station> AvailableCharger()
-        //{
-        //    List<Station> AvailableChargers = new List<Station>();
-        //    for (int i = 0; i < DataSource.Stations.Count(); i++)
-        //    {
-        //        if (DataSource.Stations[i].AvailableChargeSlots != 0)
-        //            AvailableChargers.Add(DataSource.Stations[i]);
-        //    }
-        //    return AvailableChargers;
-        //}
-
-        /// <summary>
         /// receive drone and add it to Drones
         /// </summary>
         /// <param name="drone"> the drone to add </param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone d)
         {
             if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
@@ -187,6 +187,7 @@ namespace Dal
         /// receive customer and add it to Customers 
         /// </summary>
         /// <param name="c"> the customer to add </param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer c)
         {
             if (DataSource.Customers.Exists(customer => customer.Id == c.Id))
@@ -200,6 +201,7 @@ namespace Dal
         ///  receive station and add it to Stations
         /// </summary>
         /// <param name="station"> the station to add </param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station s)
         {
             if (DataSource.Stations.Exists(station => station.Id == s.Id))
@@ -214,6 +216,7 @@ namespace Dal
         /// </summary>
         /// <param name="parcel"> the parcel to add </param>
         /// <returns> the id of the next new parcel </returns> 
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public int AddParcel(Parcel p)
         {
             if (DataSource.Parcels.Exists(parcel => parcel.Id == p.Id))
@@ -236,6 +239,7 @@ namespace Dal
         /// <summary>
         /// the function receives a drone and a parcel and assigns the drone to the parcel
         /// </summary>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
             if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
@@ -261,6 +265,7 @@ namespace Dal
         /// update the pick up time of a parcel
         /// </summary>
         /// <param name="p"> the parcel to update </param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void PickUpParcel(Parcel p)
         {
             if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
@@ -277,6 +282,7 @@ namespace Dal
         /// update the delivery time of a parcel
         /// </summary>
         /// <param name="p"> the parcel to update </param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelDelivered(Parcel p)
         {
             if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
@@ -297,6 +303,7 @@ namespace Dal
         /// the function receives a drone and a station and send the drone to charge in that station 
         /// also update the number of available chraging slots in the station and update the time of charging
         /// </summary>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void SendDroneToCharge(Station s, Drone d)
         {
             if (DataSource.Drones.Exists(drone => drone.Id == d.Id && drone.isActive))
@@ -326,6 +333,7 @@ namespace Dal
         /// <summary>
         /// the function releases drone from charging 
         /// </summary>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromCharge(Station s, Drone d)
         {
             if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
@@ -351,6 +359,7 @@ namespace Dal
         /// the function receives a customer to update, deletes the old one and adds the one that was received
         /// </summary>
         /// <param name="c">new customer</param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer c)
         {
             Customer newCustomer = GetCustomer(c.Id);
@@ -362,6 +371,7 @@ namespace Dal
         ///  the function receives a drone to update, deletes the old one and adds the one that was received
         /// </summary>
         /// <param name="d">new drone</param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone d)
         {
             Drone newDrone = GetDrone(d.Id);
@@ -377,6 +387,7 @@ namespace Dal
         ///  the function receives a station to update, deletes the old one and adds the one that was received
         /// </summary>
         /// <param name="s">new station</param>
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station s)
         {
             Station oldStation = GetStation(s.Id);
@@ -384,6 +395,7 @@ namespace Dal
             DataSource.Stations.Add(s);
         }
 
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public double[] GetElectricity()
         {
             double[] electricityRates =
@@ -396,24 +408,24 @@ namespace Dal
             };
             return electricityRates;
         }
-
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(Drone d)
         {
             d.isActive = false;
             UpdateDrone(d);
         }
-
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {
             s.isActive = false;
             UpdateStation(s);
         }
-
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer c)
         {
             // fill here
         }
-
+                //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel p)
         {
             // fill here
