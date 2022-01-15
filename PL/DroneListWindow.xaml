@@ -7,9 +7,9 @@
         Title="DroneListWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="6*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Name="UpGrid" Height="54" Grid.Row="0" Width="auto" VerticalAlignment="Bottom">
@@ -29,27 +29,25 @@
         </Grid>
 
         <Grid x:Name="MiddleGrid" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140*"/>
-                <ColumnDefinition Width="101*"/>
-                <ColumnDefinition Width="99*"/>
-                <ColumnDefinition Width="102*"/>
-                <ColumnDefinition Width="99*"/>
-                <ColumnDefinition Width="101*"/>
-                <ColumnDefinition Width="144*"/>
-                <ColumnDefinition Width="14*"/>
-            </Grid.ColumnDefinitions>
 
-            <ListView x:Name="DronesListView" Margin="15,20,0,20" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.ColumnSpan="7">
+
+            <ListView x:Name="DronesListView" Margin="8,10,8,30" MouseDoubleClick="DronesListView_MouseDoubleClick">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Drone Status" Width="120" DisplayMemberBinding="{Binding DroneStatus}" />
+                        <GridViewColumn Header="Drone Status" Width="100" DisplayMemberBinding="{Binding DroneStatus}" />
                         <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding Id}" />
                         <GridViewColumn Header="Model" Width="100" DisplayMemberBinding="{Binding Model}" />
                         <GridViewColumn Header="Max Weight" Width="100" DisplayMemberBinding="{Binding MaxWeight}" />
-                        <GridViewColumn Header="Battery" Width="100" DisplayMemberBinding="{Binding Battery,StringFormat = N0}" />
+                        <GridViewColumn Header="Battery" Width="80" DisplayMemberBinding="{Binding Battery,StringFormat = N0}" />
                         <GridViewColumn Header="Location" Width="100" DisplayMemberBinding="{Binding Location}" />
-                        <GridViewColumn Header="Serial Number of Parcel" Width="150" DisplayMemberBinding="{Binding ParcelInDeliveryId}" />
+                        <GridViewColumn Header="Serial Number of Parcel" Width="140" DisplayMemberBinding="{Binding ParcelInDeliveryId}" />
+                        <GridViewColumn Header="Is active" Width="50" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding isActive}" IsEnabled="False" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
 

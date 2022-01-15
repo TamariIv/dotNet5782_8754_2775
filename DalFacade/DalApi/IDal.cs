@@ -38,6 +38,13 @@ namespace DalApi
         void UpdateStation(Station s);
         #endregion
 
+        #region Delete part of C.R.U.d
+        void DeleteParcel(Parcel p);
+        void DeleteCustomer(Customer c);
+        void DeleteDrone(Drone d);
+        void DeleteStation(Station s);
+        #endregion
+
         double[] GetElectricity();
     }
 }

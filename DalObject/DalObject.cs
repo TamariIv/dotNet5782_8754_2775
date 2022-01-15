@@ -240,7 +240,7 @@ namespace Dal
         {
             if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
             {
-                if (DataSource.Drones.Exists(drone => d.Id == drone.Id))
+                if (DataSource.Drones.Exists(drone => d.Id == drone.Id && drone.isActive))
                 {
                     Parcel newParcel = p;
                     Drone newDrone = d;
@@ -299,9 +299,9 @@ namespace Dal
         /// </summary>
         public void SendDroneToCharge(Station s, Drone d)
         {
-            if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
+            if (DataSource.Drones.Exists(drone => drone.Id == d.Id && drone.isActive))
             {
-                if (DataSource.Stations.Exists(station => station.Id == s.Id))
+                if (DataSource.Stations.Exists(station => station.Id == s.Id && station.isActive))
                 {
                     Drone newDrone = d;
                     Station newStation = s;
@@ -321,64 +321,103 @@ namespace Dal
             }
 
             else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist !!");
-    }
-
-    /// <summary>
-    /// the function releases drone from charging 
-    /// </summary>
-    public void ReleaseDroneFromCharge(Station s,Drone d)
-    {
-        if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
-        {
-            DroneCharge dronecharge = GetDroneCharge(d.Id);
-            Station newStation = s;
-            newStation.AvailableChargeSlots++;
-            Drone newDrone = d;
-            DataSource.DroneCharges.Remove(dronecharge);
-            DataSource.Drones.Remove(d);
-            DataSource.Drones.Add(newDrone);
-            DataSource.Stations.Remove(s);
-            DataSource.Stations.Add(newStation);
         }
-        else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
-    }
 
-
-    public void UpdateCustomer(Customer c)
-    {
-        Customer newCustomer = GetCustomer(c.Id);
-        DataSource.Customers.Remove(newCustomer);
-        DataSource.Customers.Add(c);
-    }
-
-    public void UpdateDrone(Drone d)
-    {
-        Drone newDrone = GetDrone(d.Id);
-        DataSource.Drones.Remove(newDrone);
-        DataSource.Drones.Add(d);
-    }
-
-    public void UpdateStation(Station s)
-    {
-        Station oldStation = GetStation(s.Id);
-        DataSource.Stations.Remove(oldStation);
-        DataSource.Stations.Add(s);
-    }
-
-    public double[] GetElectricity()
-    {
-        double[] electricityRates =
+        /// <summary>
+        /// the function releases drone from charging 
+        /// </summary>
+        public void ReleaseDroneFromCharge(Station s, Drone d)
         {
+            if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
+            {
+                DroneCharge dronecharge = GetDroneCharge(d.Id);
+                Drone newDrone = d;
+                DataSource.DroneCharges.Remove(dronecharge);
+                DataSource.Drones.Remove(d);
+                DataSource.Drones.Add(newDrone);
+                Station newStation = s;
+                if (newStation.isActive)
+                {
+                    newStation.AvailableChargeSlots++;
+                    DataSource.Stations.Remove(s);
+                    DataSource.Stations.Add(newStation);
+                }
+
+            }
+            else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
+        }
+
+        /// <summary>
+        /// the function receives a customer to update, deletes the old one and adds the one that was received
+        /// </summary>
+        /// <param name="c">new customer</param>
+        public void UpdateCustomer(Customer c)
+        {
+            Customer newCustomer = GetCustomer(c.Id);
+            DataSource.Customers.Remove(newCustomer);
+            DataSource.Customers.Add(c);
+        }
+
+        /// <summary>
+        ///  the function receives a drone to update, deletes the old one and adds the one that was received
+        /// </summary>
+        /// <param name="d">new drone</param>
+        public void UpdateDrone(Drone d)
+        {
+            Drone newDrone = GetDrone(d.Id);
+            if(newDrone.isActive)
+            {
+                DataSource.Drones.Remove(newDrone);
+                DataSource.Drones.Add(d);
+            }
+
+        }
+
+        /// <summary>
+        ///  the function receives a station to update, deletes the old one and adds the one that was received
+        /// </summary>
+        /// <param name="s">new station</param>
+        public void UpdateStation(Station s)
+        {
+            Station oldStation = GetStation(s.Id);
+            DataSource.Stations.Remove(oldStation);
+            DataSource.Stations.Add(s);
+        }
+
+        public double[] GetElectricity()
+        {
+            double[] electricityRates =
+            {
                 DataSource.Config.WhenAvailable,
                 DataSource.Config.WhenLightWeight,
                 DataSource.Config.WhenMediumWeight,
                 DataSource.Config.WhenHeavyWeight,
                 DataSource.Config.ChargingRate
             };
-        return electricityRates;
-    }  
-    
+            return electricityRates;
+        }
 
+        public void DeleteDrone(Drone d)
+        {
+            d.isActive = false;
+            UpdateDrone(d);
+        }
+
+        public void DeleteStation(Station s)
+        {
+            s.isActive = false;
+            UpdateStation(s);
+        }
+
+        public void DeleteCustomer(Customer c)
+        {
+            // fill here
+        }
+
+        public void DeleteParcel(Parcel p)
+        {
+            // fill here
+        }
     }
 
 }

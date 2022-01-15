@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationListWindow" Height="450" Width="800">
+        Title="StationListWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2.5*"/>
@@ -41,10 +42,17 @@
         <ListView x:Name="StationsListView" Margin="10,10,10,10" Grid.Column="1" MouseDoubleClick="StationsListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" Width="120" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Available charge slots" Width="150" DisplayMemberBinding="{Binding AvailableChargeSlots}"/>
                     <GridViewColumn Header="Occupied charge slots" Width="150" DisplayMemberBinding="{Binding OccupiedChargeSlots}"/>
+                    <GridViewColumn Header="Is active" Width="50" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding isActive}" IsEnabled="False" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

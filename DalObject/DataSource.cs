@@ -55,7 +55,8 @@ namespace Dal
                 Name = "Romema",
                 Longitude = 35.20553,
                 Latitude = 31.79160,
-                AvailableChargeSlots = r.Next(5, 11)
+                AvailableChargeSlots = r.Next(5, 11),
+                isActive = true
             };
             Stations.Add(s);
 
@@ -65,7 +66,8 @@ namespace Dal
                 Name = "Givat Shaul",
                 Longitude = 35.195144,
                 Latitude = 31.790835,
-                AvailableChargeSlots = r.Next(5, 11)
+                AvailableChargeSlots = r.Next(5, 11),
+                isActive = true
             };
             Stations.Add(s);
         }
@@ -75,7 +77,7 @@ namespace Dal
             double minLat = 31.79;
             double minLon = 35.1;
             double maxLat = 31.81;
-            double maxLon = 35.21;
+            double maxLon = 35.18;
             string[] namesArray = { "Avraham Cohen", "Yitshak Levi", "Yaakov Israeli", "Sarah Shalom", "Rivka Silver", "Rahel Shushan", "Leah Yosefi", "David Dayan", "Moshe Biton", "Aharon Uzan" };
             string[] firstDigits = { "050-", "052-", "054-" };
             for (int i = 0; i < numOfCustomers; i++)
@@ -101,6 +103,7 @@ namespace Dal
                     Id = r.Next(1001, 10000),
                     Model = (char)r.Next(65, 91) + ((char)r.Next(65, 91) + r.Next(111, 999).ToString()), // for example: SE503
                     MaxWeight = (WeightCategories)r.Next(3),
+                    isActive = true
                 };
                 Drones.Add(d);
             }

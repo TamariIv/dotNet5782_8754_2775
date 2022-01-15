@@ -50,7 +50,7 @@ namespace PL
             tmpDrone = (DroneToList)DronesListView.SelectedItem;
             DroneWindow dw = new DroneWindow(bl);
             dw.Closed += Dw_Closed;
-            dw.Show();            
+            dw.Show();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -60,11 +60,28 @@ namespace PL
 
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DroneToList tmpDrone = new DroneToList();
-            tmpDrone = (DroneToList)DronesListView.SelectedItem;
-            DroneWindow  dw = new DroneWindow(bl, tmpDrone);
-            dw.Closed += Dw_Closed;
-            dw.Show();           
+            try
+            {
+                if ((DroneToList)DronesListView.SelectedItem is DroneToList)
+                {
+                    DroneToList tmpDrone = new DroneToList();
+                    tmpDrone = (DroneToList)DronesListView.SelectedItem;
+                    if (!tmpDrone.isActive)
+                        throw new NoMatchingIdException("The drone is not active !!");
+                    DroneWindow dw = new DroneWindow(bl, tmpDrone);
+                    dw.Closed += Dw_Closed;
+                    dw.Show();
+                }
+            }
+            catch(NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message + "\npress OK to continue, else press Cancel", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Error\npress OK to continue, else press Cancel", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         private void Dw_Closed(object sender, EventArgs e)
@@ -72,7 +89,7 @@ namespace PL
             DronesListView.Items.Refresh();
             comboCombineStatusAndWeight_SelectionChanged(this, null);
         }
-
+        
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -83,8 +100,8 @@ namespace PL
         private void cboxStatusSort_Checked(object sender, RoutedEventArgs e)
         {
             var groupingData = (from dr in bl.GetListOfDrones()
-                        group dr by dr.DroneStatus into g
-                        select g).ToList();
+                                group dr by dr.DroneStatus into g
+                                select g).ToList();
 
             DronesListView.ItemsSource = groupingData;
 
@@ -108,7 +125,6 @@ namespace PL
 
         private void cboxStatusSort_Unchecked(object sender, RoutedEventArgs e)
         {
-
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             view.GroupDescriptions.Clear();
         }

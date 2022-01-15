@@ -248,21 +248,21 @@ namespace PL
             {
                 bl.UpdateDrone(tmpDrone);
                 drone = tmpDrone;
-                MessageBox.Show($"Drone {drone.Id} model was updated successfully", "Success",
+                MessageBox.Show($"Drone {drone.Id} model was updated successfully \npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (NoUpdateException)
             {
-                MessageBox.Show("No update was made", "Error Occurred",
+                MessageBox.Show("No update was made \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "Error Occurred",
+                MessageBox.Show("Error \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
             this.Close();
-            new DroneWindow(bl, bl.GetDroneToList(drone.Id))/*.Show()*/;
+            new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
         private void btnSendToCharge_Click(object sender, RoutedEventArgs e)
@@ -382,5 +382,16 @@ namespace PL
             Close();
         }
 
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.DeleteDrone(drone.Id);
+            }
+            catch (NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message + "\npress OK to continue, else press Cancel", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

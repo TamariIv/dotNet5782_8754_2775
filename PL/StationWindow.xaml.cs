@@ -118,5 +118,23 @@ namespace PL
         {
             new DroneWindow(bl, bl.GetDroneToList(((DroneInCharging)listvDronesChargingData.SelectedItem).Id)).Show();
         }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.DeleteStation(station.Id);
+            }
+            catch(BO.NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            this.Close();
+            new StationWindow(bl, bl.GetStationToList(station.Id)).Show();
+        }
     }
 }

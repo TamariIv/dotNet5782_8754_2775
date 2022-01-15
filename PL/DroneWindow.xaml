@@ -33,6 +33,10 @@
                     <Setter Property="Cursor" Value="Hand" />
                 </Trigger>
             </Style.Triggers>
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Width" Value="95" />
         </Style>
 
         <Style x:Key="lblData" TargetType="Label">
@@ -143,15 +147,18 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="btnClose" Style="{StaticResource btnHandCursor}" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Grid.Column="0" Click="btnClose_Click" />
-                <Button x:Name="btnFinalUpdate" Style="{StaticResource btnHandCursor}" Content="Update Model" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFinalUpdate_Click"/>
-                <Button x:Name="btnSendToCharge" Style="{StaticResource btnHandCursor}" Content="Send to Charge" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToCharge_Click"/>
-                <Button x:Name="btnSendToDelivery" Style="{StaticResource btnHandCursor}" Content="Delivery" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnSendToDelivery_Click"/>
-                <Button x:Name="btnFreeDroneFromCharging" Style="{StaticResource btnHandCursor}" Content="Free" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnFreeDroneFromCharging_Click" />
-                <Button x:Name="btnPickUpParcel" Style="{StaticResource btnHandCursor}" Content="Pick-Up Parcel" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnPickUpParcel_Click"/>
-                <Button x:Name="btnDeliverParcel" Style="{StaticResource btnHandCursor}" Content="Deliver" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="95" Click="btnDeliverParcel_Click"/>
+                <Button x:Name="btnClose" Style="{StaticResource btnHandCursor}" Content="Close" Grid.Column="0" Click="btnClose_Click" />
+                <Button x:Name="btnDelete" Style="{StaticResource btnHandCursor}" Content="Delete" Grid.Column="1" Margin="0,0,0,31" VerticalAlignment="Stretch" Height="Auto" Click="btnDelete_Click"/>
+                <Button x:Name="btnFinalUpdate" Style="{StaticResource btnHandCursor}" Content="Update Model" Grid.Column="2" Click="btnFinalUpdate_Click"/>
+                <Button x:Name="btnSendToCharge" Style="{StaticResource btnHandCursor}" Content="Send to Charge" Grid.Column="3" Click="btnSendToCharge_Click"/>
+                <Button x:Name="btnFreeDroneFromCharging" Style="{StaticResource btnHandCursor}" Content="Free" Grid.Column="3" Click="btnFreeDroneFromCharging_Click" />
+                <Button x:Name="btnPickUpParcel" Style="{StaticResource btnHandCursor}" Content="Pick-Up Parcel" Grid.Column="3" Click="btnPickUpParcel_Click"/>
+                <Button x:Name="btnDeliverParcel" Style="{StaticResource btnHandCursor}" Content="Deliver" Grid.Column="3" Click="btnDeliverParcel_Click"/>
+                <Button x:Name="btnSendToDelivery" Style="{StaticResource btnHandCursor}" Content="Delivery" Grid.Column="4" Click="btnSendToDelivery_Click"/>
+
             </Grid>
             <Label x:Name="lblModelEditable" Content="Click update to save edit" FontSize="9" HorizontalAlignment="Left" Margin="84,21,0,0" Grid.Row="2" Foreground="DimGray" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="26" Width="116"/>
             <Label x:Name="lblParcelScroll" Content="Scroll down for more datails" FontSize="9" Foreground="DimGray" Grid.Column="2" HorizontalAlignment="Left" Margin="168,18,0,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Width="128" Grid.ColumnSpan="2"/>

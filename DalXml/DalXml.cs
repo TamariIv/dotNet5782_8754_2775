@@ -12,11 +12,11 @@ namespace Dal
     {
         private static string DataDirectory = @"data";
 
-        private static string configPath = Path.Combine(DataDirectory , @"ConfigXML.xml");
-        private static string baseStationsPath = Path.Combine(DataDirectory,  @"BaseStations.xml");
+        private static string configPath = Path.Combine(DataDirectory, @"ConfigXML.xml");
+        private static string baseStationsPath = Path.Combine(DataDirectory, @"BaseStations.xml");
         private static string dronesPath = Path.Combine(DataDirectory, @"Drones.xml");
-        private static string parcelsPath = Path.Combine(DataDirectory,  @"Parcels.xml");
-        private static string customersPath = Path.Combine(DataDirectory,  @"Customers.xml");
+        private static string parcelsPath = Path.Combine(DataDirectory, @"Parcels.xml");
+        private static string customersPath = Path.Combine(DataDirectory, @"Customers.xml");
         private static string droneChargesPath = Path.Combine(DataDirectory, @"DroneCharges.xml");
 
         public static readonly DalXml instance = new DalXml();
@@ -131,7 +131,6 @@ namespace Dal
                 XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath).Where(predicate);
         #endregion
 
-
         #region Add
         public void AddStation(Station addBaseStation)
         {
@@ -142,7 +141,8 @@ namespace Dal
                     new XElement("Name", addBaseStation.Name),
                     new XElement("Longitude", addBaseStation.Longitude),
                     new XElement("Latitude", addBaseStation.Latitude),
-                    new XElement("AvailableChargeSlots", addBaseStation.AvailableChargeSlots)
+                    new XElement("AvailableChargeSlots", addBaseStation.AvailableChargeSlots),
+                    new XElement("isActive", addBaseStation.isActive)
                 )
             );
         }
@@ -154,7 +154,8 @@ namespace Dal
                 new XElement("Drone",
                     new XElement("Id", droneDO.Id),
                     new XElement("MaxWeight", droneDO.MaxWeight),
-                    new XElement("Model", droneDO.Model)
+                    new XElement("Model", droneDO.Model),
+                    new XElement("isActive", droneDO.isActive)
                 )
             );
         }
@@ -173,13 +174,14 @@ namespace Dal
             List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
             if (parcels.FindIndex(x => x.Id == parcel.Id) != -1) //this parcel exists
                 throw new IdAlreadyExistsException("This parcel already exists");
-            parcel.Id= DataSource.Config.ParcelId;
+            parcel.Id = DataSource.Config.ParcelId;
             parcels.Add(parcel);
             XMLTools.SaveListToXmlSerializer(parcels, parcelsPath);
             return ++DataSource.Config.ParcelId;
         }
-        
+
         #endregion
+
         #region Update Functions
         public void UpdateDrone(Drone d)
         {
@@ -239,22 +241,23 @@ namespace Dal
             else
                 throw new NoMatchingIdException($"station {s.Id} doesn't exist");
             XMLTools.SaveListToXmlSerializer(stations, baseStationsPath);
-       //     XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-       //     XElement removeElement = (from st in stations.Elements()
-       //                               where st.Element("Id").Value == $"{s.Id}"
-       //                               select st).FirstOrDefault();
-       //     removeElement.Remove();
-       //     stations.Add(
-       //    new XElement("Station",
-       //        new XElement("Id", s.Id),
-       //        new XElement("Name", s.Name),
-       //        new XElement("Longitude", s.Longitude),
-       //        new XElement("Latitude", s.Latitude),
-       //        new XElement("AvailableChargeSlots", s.AvailableChargeSlots)
-       //    )
-       //);
+            //     XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
+            //     XElement removeElement = (from st in stations.Elements()
+            //                               where st.Element("Id").Value == $"{s.Id}"
+            //                               select st).FirstOrDefault();
+            //     removeElement.Remove();
+            //     stations.Add(
+            //    new XElement("Station",
+            //        new XElement("Id", s.Id),
+            //        new XElement("Name", s.Name),
+            //        new XElement("Longitude", s.Longitude),
+            //        new XElement("Latitude", s.Latitude),
+            //        new XElement("AvailableChargeSlots", s.AvailableChargeSlots)
+            //    )
+            //);
         }
         #endregion
+
         #region  Actions on Parcel 
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
@@ -351,6 +354,62 @@ namespace Dal
                                       select dc).FirstOrDefault();
             removeElement.Remove();
             XMLTools.SaveListToXmlElement(droneCharges, droneChargesPath);
+        }
+        #endregion
+
+        #region Delete
+        public void DeleteParcel(Parcel p)
+        {
+
+        }
+        public void DeleteCustomer(Customer c)
+        {
+
+        }
+        public void DeleteDrone(Drone d)
+        {
+            XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
+            XElement removeElement = (from dr in drones.Elements()
+                                      where dr.Element("Id").Value == $"{d.Id}" && dr.Element("isActive").Value == "true"
+                                      select dr).FirstOrDefault();
+            removeElement.Remove();
+            drones.Add(
+           new XElement("Drone",
+               new XElement("Id", d.Id),
+               new XElement("MaxWeight", d.MaxWeight),
+               new XElement("Model", d.Model),
+               new XElement("isActive", false)
+           )
+       );
+        }
+        public void DeleteStation(Station s)
+        {
+            XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
+            XElement removeElement = (from station in stations.Elements()
+                                      where station.Element("Id").Value == $"{s.Id}" && station.Element("isActive").Value == "true"
+                                      select station).FirstOrDefault();
+            removeElement.Remove();
+            stations.Add(
+           new XElement("Station",
+               new XElement("Id", s.Id),
+               new XElement("Name", s.Name),
+               new XElement("Longitude", s.Longitude),
+               new XElement("Latitude", s.Latitude),
+               new XElement("AvailableChargeSlots", s.AvailableChargeSlots),
+               new XElement("isActive", false)
+               )
+           );
+
+            //List <Station> stations = XMLTools.LoadListFromXmlSerializer<Station>(baseStationsPath);
+            //int idx = stations.FindIndex(p => p.Id == s.Id && p.isActive);
+            //if (idx != -1)
+            //{
+            //    s.isActive = false;
+            //    stations.Remove(stations[idx]);
+            //    stations.Add(s);
+            //}
+            //else
+            //    throw new NoMatchingIdException($"station {s.Id} doesn't exist");
         }
         #endregion
     }

@@ -15,7 +15,7 @@ namespace BO
         public DroneStatus DroneStatus { get; set; }
         public ParcelInDelivey ParcelInDelivery { get; set; }
         public Location CurrentLocation { get; set; }
-
+        public bool isActive { get; set; }
 
         public override string ToString()
         {

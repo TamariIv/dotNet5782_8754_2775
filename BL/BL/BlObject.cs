@@ -50,7 +50,8 @@ namespace BL
                 {
                     Id = droneDal.Id,
                     Model = droneDal.Model,
-                    MaxWeight = (WeightCategories)droneDal.MaxWeight
+                    MaxWeight = (WeightCategories)droneDal.MaxWeight,
+                    isActive = true
                 };
 
                 int parcelIndex = parcels.FindIndex(p => p.DroneId == droneDal.Id);

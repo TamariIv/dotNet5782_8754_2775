@@ -63,7 +63,8 @@ namespace Dal
                 Name = "Romema",
                 Longitude = 35.20553,
                 Latitude = 31.79160,
-                AvailableChargeSlots = r.Next(5, 11)
+                AvailableChargeSlots = r.Next(5, 11),
+                isActive = true
             };
             Stations.Add(s);
 
@@ -73,7 +74,8 @@ namespace Dal
                 Name = "Givat Shaul",
                 Longitude = 35.195144,
                 Latitude = 31.790835,
-                AvailableChargeSlots = r.Next(5, 11)
+                AvailableChargeSlots = r.Next(5, 11),
+                isActive = true
             };
             Stations.Add(s);
         }
@@ -100,6 +102,7 @@ namespace Dal
             }
 
         }
+
         private static void createDrone(int numOfDrones)
         {
             for (int i = 0; i < numOfDrones; i++)
@@ -109,10 +112,12 @@ namespace Dal
                     Id = r.Next(1001, 10000),
                     Model = (char)r.Next(65, 91) + ((char)r.Next(65, 91) + r.Next(111, 999).ToString()), // for example: SE503
                     MaxWeight = (WeightCategories)r.Next(3),
+                    isActive = true
                 };
                 Drones.Add(d);
             }
         }
+
         private static void createParcel()
         {
             Parcel p = new Parcel()

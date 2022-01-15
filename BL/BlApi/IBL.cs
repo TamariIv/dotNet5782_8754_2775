@@ -36,5 +36,9 @@ namespace BlApi
         IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots();
         IEnumerable<CustomerToList> GetListOfCustomers();
 
+
+        //Delete functions:
+        void DeleteStation(int id);
+        void DeleteDrone(int id);
     }
 }

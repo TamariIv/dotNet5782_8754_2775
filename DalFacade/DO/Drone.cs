@@ -10,6 +10,7 @@ namespace DO
         public int Id { get; set; }
         public string Model { get; set; }
         public WeightCategories MaxWeight { get; set; }
+        public bool isActive { get; set; }
 
         public override string ToString()
         {

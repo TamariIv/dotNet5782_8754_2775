@@ -12,6 +12,7 @@ namespace BO
         public string Name { get; set; }
         public int AvailableChargeSlots { get; set; }
         public int OccupiedChargeSlots { get; set; }
+        public bool isActive { get; set; }
 
         public override string ToString()
         {
