@@ -75,16 +75,16 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Label x:Name="lblEnterId" Content="Enter customer ID" Style="{StaticResource lblEnter}" Grid.Row="1"/>
-            <TextBox x:Name="txtCustomerId" Style="{StaticResource txtboxEnter}" MaxLength="9" Grid.Row="1" TextChanged="TextBox_TextChanged_CustomerId" PreviewKeyDown = "TextBox_OnlyNumbers_PreviewKeyDown" />
+            <TextBox x:Name="txtCustomerId" Style="{StaticResource txtboxEnter}" MaxLength="9" Grid.Row="1" PreviewKeyDown = "TextBox_OnlyNumbers_PreviewKeyDown" />
             <Label x:Name="lblEnterName" Content="Enter Name:" Style="{StaticResource lblEnter}" Grid.Row="2"/>
-            <TextBox x:Name="txtCustomerName" Style="{StaticResource txtboxEnter}" Grid.Row="2" TextChanged="TextBox_TextChanged_CustomerName" />
+            <TextBox x:Name="txtCustomerName" Style="{StaticResource txtboxEnter}" Grid.Row="2"  />
             <Label x:Name="lblEnterPhone" Content="Enter Phone Number:" Style="{StaticResource lblEnter}" Grid.Row="3"/>
-            <TextBox x:Name="txtCustomerPhone" Style="{StaticResource txtboxEnter}" Grid.Row="3" TextChanged="TextBox_TextChanged_CustomerPhone" />
+            <TextBox x:Name="txtCustomerPhone" Style="{StaticResource txtboxEnter}" Grid.Row="3" />
             <Label x:Name="lblEnterLocation" Content="Enter Location:" Style="{StaticResource lblEnter}" Grid.Row="4"/>
             <Label x:Name="lblEnterLong" Content="Longitude:" Style="{StaticResource lblEnter}" Grid.Column="2" Grid.Row="4" Width="82"/>
-            <TextBox x:Name="txtCustomerLong" Style="{StaticResource txtboxEnter}" Grid.Row="4" TextChanged="TextBox_TextChanged_CustomerLat" HorizontalAlignment="Center"  Width="100" />
+            <TextBox x:Name="txtCustomerLong" Style="{StaticResource txtboxEnter}" Grid.Row="4"  HorizontalAlignment="Center"  Width="100" />
             <Label x:Name="lblEnterLat" Content="Latitude:" Style="{StaticResource lblEnter}" Grid.Column="2" Grid.Row="4" VerticalAlignment="Bottom" Width="82"/>
-            <TextBox x:Name="txtCustomerLat"  Style="{StaticResource txtboxEnter}" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" TextChanged="TextBox_TextChanged_CustomerLong" Width="100"/>
+            <TextBox x:Name="txtCustomerLat"  Style="{StaticResource txtboxEnter}" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="100"/>
             
             <Grid x:Name="AddButtonsGrid" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>

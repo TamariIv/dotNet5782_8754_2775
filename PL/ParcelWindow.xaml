@@ -69,7 +69,7 @@
         <Ellipse Fill="SandyBrown" Grid.Column="1" Margin="574,217,-109,-105" Opacity="0.7"/>
         </Grid>
 
-        <Grid  x:Name="AddParcelGrid" d:IsHidden="True">
+        <Grid  x:Name="AddParcelGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
