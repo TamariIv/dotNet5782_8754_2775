@@ -82,9 +82,9 @@
             <TextBox x:Name="txtCustomerPhone" Style="{StaticResource txtboxEnter}" Grid.Row="3" TextChanged="TextBox_TextChanged_CustomerPhone" />
             <Label x:Name="lblEnterLocation" Content="Enter Location:" Style="{StaticResource lblEnter}" Grid.Row="4"/>
             <Label x:Name="lblEnterLong" Content="Longitude:" Style="{StaticResource lblEnter}" Grid.Column="2" Grid.Row="4" Width="82"/>
-            <TextBox x:Name="txtCustomerLong" Style="{StaticResource txtboxEnter}" Grid.Row="4" TextChanged="TextBox_TextChanged_CustomerLat" HorizontalAlignment="Center"  Width="100" />
+            <TextBox x:Name="txtCustomerLong" Style="{StaticResource txtboxEnter}" Grid.Row="4" HorizontalAlignment="Center"  Width="100" />
             <Label x:Name="lblEnterLat" Content="Latitude:" Style="{StaticResource lblEnter}" Grid.Column="2" Grid.Row="4" VerticalAlignment="Bottom" Width="82"/>
-            <TextBox x:Name="txtCustomerLat"  Style="{StaticResource txtboxEnter}" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" TextChanged="TextBox_TextChanged_CustomerLong" Width="100"/>
+            <TextBox x:Name="txtCustomerLat"  Style="{StaticResource txtboxEnter}" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="100"/>
             
             <Grid x:Name="AddButtonsGrid" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
