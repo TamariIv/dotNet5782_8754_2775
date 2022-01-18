@@ -269,7 +269,7 @@ namespace PL
         {
             try
             {
-                bl.rechargeDrone(drone.Id);
+                bl.RechargeDrone(drone.Id);
                 MessageBox.Show($"Drone {drone.Id} was sent to charge successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }

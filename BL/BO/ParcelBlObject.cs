@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BlObject : IBL
     {
+        /// <summary>
+        /// th function receives a parcel and adds it to the parcels list in dal
+        /// </summary>
+        /// <param name="newParcel"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(BO.Parcel newParcel)
         {
             try
@@ -37,6 +43,12 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// the function receives an id and rerturns the parcel eith that id
+        /// </summary>
+        /// <param name="id">id of parcel to search</param>
+        /// <returns>the parcel with the id that was eceived</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Parcel GetParcel(int id)
         {
             try
@@ -70,6 +82,7 @@ namespace BL
         /// <summary>
         /// create a list of parcelsToList and returns it
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.ParcelToList> GetListofParcels()
         {
             List<BO.ParcelToList> blParcels = new List<BO.ParcelToList>();
@@ -80,6 +93,11 @@ namespace BL
             return blParcels;
         }
 
+        /// <summary>
+        /// the function receives a DO parcel and returns the parcel converted to BO
+        /// </summary>
+        /// <param name="dalParcel">dal parcel to convert</param>
+        /// <returns>the converted BO parcel</returns>
         private BO.ParcelToList convertParcelToParcelToList(DO.Parcel dalParcel)
         {
             BO.ParcelToList blParcel = new BO.ParcelToList
@@ -94,7 +112,11 @@ namespace BL
             return blParcel;
         }
 
-
+        /// <summary>
+        /// the function receives a parcel and returns the parcel's status
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns>status of the parcel</returns>
         private BO.ParcelStatus getParcelStatus(DO.Parcel parcel)
         {
             if (parcel.Scheduled == null)
@@ -109,6 +131,7 @@ namespace BL
         // <summary>
         // create a list of parcels that are not assigned to drone and returns this list
         // </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.ParcelToList> GetListofParcelsWithoutDrone()
         {
             List<BO.ParcelToList> parcelsWithoutDrones = new List<BO.ParcelToList>();

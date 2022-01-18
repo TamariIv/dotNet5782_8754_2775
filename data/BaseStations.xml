@@ -13,7 +13,7 @@
     <Name>Givat Shaul</Name>
     <Longitude>35.195144</Longitude>
     <Latitude>31.790835</Latitude>
-    <AvailableChargeSlots>7</AvailableChargeSlots>
+    <AvailableChargeSlots>10</AvailableChargeSlots>
     <isActive>true</isActive>
   </Station>
 </ArrayOfStation>
