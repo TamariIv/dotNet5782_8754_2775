@@ -321,13 +321,24 @@ namespace Dal
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelDelivered(Parcel p)
         {
-            XElement parcels = XMLTools.LoadListFromXmlElement(parcelsPath);
-            XElement parcel = (from prcl in parcels.Elements()
-                               where Convert.ToInt32(prcl.Element("Id").Value) == p.Id
-                               select prcl).FirstOrDefault();
-            parcel.Element("Delivered").Value = DateTime.Now.ToString("O"); // datetime iso-8601 format
+            List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
+            Parcel parcel = parcels.Find(prcl => prcl.Id == p.Id);
+            if (!parcels.Exists(prcl => prcl.Id == p.Id))
+                throw new NoMatchingIdException($"parcel with id {p.Id} doesn't exist");
+            parcel.Delivered = DateTime.Now;
+            int index = parcels.FindIndex(prcl => prcl.Id == p.Id);
+            parcels.RemoveAt(index);
+            parcels.Insert(index, parcel);
+            XMLTools.SaveListToXmlSerializer<Parcel>(parcels, parcelsPath);
 
-            XMLTools.SaveListToXmlElement(parcels, parcelsPath);
+
+            //XElement parcels = XMLTools.LoadListFromXmlElement(parcelsPath);
+            //XElement parcel = (from prcl in parcels.Elements()
+            //                   where Convert.ToInt32(prcl.Element("Id").Value) == p.Id
+            //                   select prcl).FirstOrDefault();
+            //parcel.Element("Delivered").Value = DateTime.Now.ToString("O"); // datetime iso-8601 format
+
+            //XMLTools.SaveListToXmlElement(parcels, parcelsPath);
         }
         #endregion
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Parcel>
     <Id>1000000</Id>
@@ -22,7 +22,7 @@
     <Requested>2020-09-09T20:00:00</Requested>
     <Scheduled>2020-09-09T21:10:00</Scheduled>
     <PickedUp>2020-09-09T21:30:00</PickedUp>
-    <Delivered xsi:nil="true" />
+    <Delivered>2022-01-20T15:55:33.8979843+02:00</Delivered>
   </Parcel>
   <Parcel>
     <Id>1000002</Id>

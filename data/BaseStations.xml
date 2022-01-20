@@ -5,7 +5,7 @@
     <Name>Romema</Name>
     <Longitude>35.20553</Longitude>
     <Latitude>31.7916</Latitude>
-    <AvailableChargeSlots>8</AvailableChargeSlots>
+    <AvailableChargeSlots>7</AvailableChargeSlots>
     <isActive>true</isActive>
   </Station>
   <Station>
