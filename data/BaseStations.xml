@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
-    <Id>59440</Id>
+    <Id>88346</Id>
     <Name>Romema</Name>
     <Longitude>35.20553</Longitude>
     <Latitude>31.7916</Latitude>
@@ -9,11 +9,11 @@
     <isActive>true</isActive>
   </Station>
   <Station>
-    <Id>36183</Id>
+    <Id>39647</Id>
     <Name>Givat Shaul</Name>
     <Longitude>35.195144</Longitude>
     <Latitude>31.790835</Latitude>
-    <AvailableChargeSlots>6</AvailableChargeSlots>
+    <AvailableChargeSlots>10</AvailableChargeSlots>
     <isActive>true</isActive>
   </Station>
 </ArrayOfStation>

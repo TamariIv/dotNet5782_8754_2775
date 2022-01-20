@@ -279,18 +279,16 @@ namespace Dal
 
             //XMLTools.SaveListToXmlElement(parcels, parcelsPath);
             List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
+            List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
             Parcel parcel = parcels.Find(prcl => prcl.Id == p.Id);
             if (!parcels.Exists(prcl => prcl.Id == p.Id))
                 throw new NoMatchingIdException($"parcel with id {p.Id} doesn't exist");
-            //parcel.Id = p.Id;
-            parcel.DroneId = p.DroneId;
-            parcel.Delivered = p.Delivered;
-            parcel.Priority = p.Priority;
-            parcel.SenderId = p.SenderId;
-            parcel.TargetId = p.TargetId;
-            parcel.Requested = p.Requested;
-            parcel.Scheduled = p.Scheduled;
-            parcel.PickedUp = DateTime.Now;
+            Drone drone = drones.Find(dr => dr.Id == d.Id);
+            if (!drones.Exists(dr=>dr.Id==d.Id))
+                throw new NoMatchingIdException($"Drone with id {d.Id} doesn't exist");
+
+            parcel.DroneId = d.Id;
+            parcel.Scheduled = DateTime.Now;
 
             int index = parcels.FindIndex(prcl => prcl.Id == p.Id);
             parcels.RemoveAt(index);

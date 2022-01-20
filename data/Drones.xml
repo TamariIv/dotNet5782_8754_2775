@@ -1,63 +1,63 @@
 <?xml version="1.0"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
-    <Id>9853</Id>
-    <Model>EP754</Model>
+    <Id>3041</Id>
+    <Model>ZF770</Model>
     <MaxWeight>Light</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>7785</Id>
-    <Model>SK779</Model>
+    <Id>9537</Id>
+    <Model>MU855</Model>
+    <MaxWeight>Medium</MaxWeight>
+    <isActive>true</isActive>
+  </Drone>
+  <Drone>
+    <Id>5329</Id>
+    <Model>RI532</Model>
     <MaxWeight>Heavy</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>2055</Id>
-    <Model>QF947</Model>
+    <Id>6695</Id>
+    <Model>FO410</Model>
     <MaxWeight>Light</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>8601</Id>
-    <Model>FS126</Model>
+    <Id>6037</Id>
+    <Model>RM671</Model>
     <MaxWeight>Medium</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>7107</Id>
-    <Model>NL522</Model>
+    <Id>7737</Id>
+    <Model>DB392</Model>
     <MaxWeight>Light</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>2311</Id>
-    <Model>EY556</Model>
+    <Id>4026</Id>
+    <Model>SX943</Model>
     <MaxWeight>Heavy</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>4105</Id>
-    <Model>JJ689</Model>
+    <Id>3539</Id>
+    <Model>LJ315</Model>
     <MaxWeight>Heavy</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>7159</Id>
-    <Model>CB790</Model>
-    <MaxWeight>Medium</MaxWeight>
+    <Id>7862</Id>
+    <Model>UE942</Model>
+    <MaxWeight>Heavy</MaxWeight>
     <isActive>true</isActive>
   </Drone>
   <Drone>
-    <Id>4159</Id>
-    <Model>KJ752</Model>
-    <MaxWeight>Medium</MaxWeight>
-    <isActive>true</isActive>
-  </Drone>
-  <Drone>
-    <Id>1933</Id>
-    <Model>GS486</Model>
-    <MaxWeight>Medium</MaxWeight>
+    <Id>3309</Id>
+    <Model>ZS171</Model>
+    <MaxWeight>Light</MaxWeight>
     <isActive>true</isActive>
   </Drone>
 </ArrayOfDrone>
