@@ -86,16 +86,19 @@ namespace PL
             {
                 if (string.IsNullOrEmpty(txtCustomerId.Text) || string.IsNullOrEmpty(txtCustomerName.Text) || string.IsNullOrEmpty(txtCustomerPhone.Text) || string.IsNullOrEmpty(txtCustomerLat.Text) || string.IsNullOrEmpty(txtCustomerLong.Text))
                     throw new EmptyInputException("Insert all details of the customer!");
-                customer = new Customer()
+                Customer c = new Customer
                 {
-                    Id = Convert.ToInt32(txtCustomerId),
-                    Name = txtCustomerName.Text,
-                    Phone = txtCustomerPhone.Text,
-                    Receive = new List<ParcelInCustomer>(),
-                    Send = new List<ParcelInCustomer>(),
-                    Location = new Location() { Latitude = Convert.ToDouble(txtCustomerLat), Longitude = Convert.ToDouble(txtCustomerLong) }
+                    Id = Convert.ToInt32(txtCustomerId.Text),
+                    Name = Convert.ToString(txtCustomerName.Text),
+                    Phone = Convert.ToString(txtCustomerPhone.Text),
+                    Location = new Location
+                    {
+                        Longitude = Convert.ToDouble(txtCustomerLong.Text),
+                        Latitude = Convert.ToDouble(txtCustomerLat.Text)
+                    }
                 };
-                bl.AddCustomer(customer);
+                bl.AddCustomer(c);
+                customer = c;
                 MessageBox.Show("Customer was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 Close();
@@ -118,35 +121,10 @@ namespace PL
 
         }
 
-        //ADD function
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
-        private void TextBox_TextChanged_CustomerId(object sender, TextChangedEventArgs e)
-        {
-            customer.Id = Convert.ToInt32(txtCustomerId.Text);
-        }
-
-        private void TextBox_TextChanged_CustomerName(object sender, TextChangedEventArgs e)
-        {
-            customer.Name = Convert.ToString(txtCustomerName.Text);
-        }
-
-        private void TextBox_TextChanged_CustomerPhone(object sender, TextChangedEventArgs e)
-        {
-            customer.Phone = Convert.ToString(txtCustomerPhone.Text);
-        }
-
-        //private void TextBox_TextChanged_CustomerLong(object sender, TextChangedEventArgs e)
-        //{
-        //    customer.Location.Longitude = Convert.ToDouble(txtCustomerLong.Text);
-        //}
-        //private void TextBox_TextChanged_CustomerLat(object sender, TextChangedEventArgs e)
-        //{
-        //    customer.Location.Latitude = Convert.ToDouble(txtCustomerLong.Text);
-        //}
 
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {

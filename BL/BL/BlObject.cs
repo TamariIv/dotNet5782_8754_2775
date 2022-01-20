@@ -41,8 +41,11 @@ namespace BL
             whenHeavy = electricity[3];
             chargeRate = electricity[4];
 
-            //initializeDrones(drones);
+            initializeDrones();
+        }
 
+        void initializeDrones()
+        {
             List<DO.Parcel> parcels = dal.GetParcels().ToList();
             DroneToList droneBl;
             foreach (var droneDal in drones)
@@ -143,7 +146,6 @@ namespace BL
                 }
                 dronesToList.Add(droneBl);
             }
-
         }
 
         /// <summary>

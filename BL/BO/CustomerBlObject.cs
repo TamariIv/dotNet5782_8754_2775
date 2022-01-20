@@ -115,8 +115,8 @@ namespace BL
                     Name = dalCustomer.Name,
                     Phone = dalCustomer.Phone,
                     Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
-                    Send = convertParcelsToParcelsCustomer(parcelsOfsender, id),
-                    Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id),
+                    Send = convertParcelsToParcelsCustomer(parcelsOfsender, id).ToList(),
+                    Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id).ToList(),
                 };
                 return customer;
             }
@@ -132,7 +132,7 @@ namespace BL
         /// <param name="parcelsOfSender">list of parcels</param>
         /// <param name="id">id of customer to dinf his parcels</param>
         /// <returns>list of the customer's parecls</returns>
-        private List<BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)
+        private IEnumerable<BO.ParcelInCustomer> convertParcelsToParcelsCustomer(List<DO.Parcel> parcelsOfSender, int id)
         {
             List<BO.ParcelInCustomer> parcels = new List<BO.ParcelInCustomer>();
             foreach (var item in parcelsOfSender)
