@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DroneCharge>
     <DroneId>6063</DroneId>
@@ -1119,5 +1119,55 @@
     <DroneId>3309</DroneId>
     <StationId>88346</StationId>
     <ChargingTime>2022-01-20T15:58:19.4734379+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>6067</DroneId>
+    <StationId>75670</StationId>
+    <ChargingTime>2022-01-20T16:13:16.1909406+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>6572</DroneId>
+    <StationId>50501</StationId>
+    <ChargingTime>2022-01-20T16:19:01.1499684+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2504</DroneId>
+    <StationId>14641</StationId>
+    <ChargingTime>2022-01-20T16:19:01.1756204+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2405</DroneId>
+    <StationId>14641</StationId>
+    <ChargingTime>2022-01-20T16:19:01.1970521+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>6855</DroneId>
+    <StationId>50501</StationId>
+    <ChargingTime>2022-01-20T16:19:01.2120866+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>6896</DroneId>
+    <StationId>14641</StationId>
+    <ChargingTime>2022-01-20T16:19:14.6920672+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>9598</DroneId>
+    <StationId>15357</StationId>
+    <ChargingTime>2022-01-20T17:49:33.3756814+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2761</DroneId>
+    <StationId>15357</StationId>
+    <ChargingTime>2022-01-20T17:49:33.3990136+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2756</DroneId>
+    <StationId>15357</StationId>
+    <ChargingTime>2022-01-20T17:49:33.4061352+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1873</DroneId>
+    <StationId>15357</StationId>
+    <ChargingTime>2022-01-20T17:49:33.4354302+02:00</ChargingTime>
   </DroneCharge>
 </ArrayOfDroneCharge>

@@ -354,7 +354,7 @@ namespace BL
                         UpdateBlDrone(blDrone);
                     }
                     else throw new ImpossibleOprationException("the drone is not available\n");
-                }
+            }
             }
             catch (DO.NoMatchingIdException ex)
             {

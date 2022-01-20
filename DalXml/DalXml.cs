@@ -205,18 +205,29 @@ namespace Dal
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone d)
         {
-            XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
-            XElement removeElement = (from dr in drones.Elements()
-                                      where dr.Element("Id").Value == $"{d.Id}"
-                                      select dr).FirstOrDefault();
-            removeElement.Remove();
-            drones.Add(
-           new XElement("Drone",
-               new XElement("Id", d.Id),
-               new XElement("MaxWeight", d.MaxWeight),
-               new XElement("Model", d.Model)
-           )
-       );
+            // XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
+            // XElement removeElement = (from dr in drones.Elements()
+            //                           where dr.Element("Id").Value == $"{d.Id}"
+            //                           select dr).FirstOrDefault();
+            // removeElement.Remove();
+            // drones.Add(
+            //new XElement("Drone",
+            //    new XElement("Id", d.Id),
+            //    new XElement("MaxWeight", d.MaxWeight),
+            //    new XElement("Model", d.Model)
+            //)
+
+
+            List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
+            int index = drones.FindIndex(dr => dr.Id == dr.Id);
+            if (index != -1)
+            {
+                drones.RemoveAt(index);
+                drones.Insert(index,d);
+            }
+            else
+                throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist");
+            XMLTools.SaveListToXmlSerializer(drones, dronesPath);
         }
 
         //[MethodImpl(MethodImplOptions.Synchronized)]
