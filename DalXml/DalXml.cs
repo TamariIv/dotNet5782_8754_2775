@@ -234,6 +234,7 @@ namespace Dal
             XMLTools.SaveListToXmlSerializer(customers, customersPath);
         }
 
+        
 
                 //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station s)
@@ -287,6 +288,8 @@ namespace Dal
                                where Convert.ToInt32(prcl.Element("Id").Value) == p.Id
                                select prcl).FirstOrDefault();
             parcel.Element("PickedUp").Value = DateTime.Now.ToString("O"); // datetime iso-8601 format
+
+
 
             XMLTools.SaveListToXmlElement(parcels, parcelsPath);
         }

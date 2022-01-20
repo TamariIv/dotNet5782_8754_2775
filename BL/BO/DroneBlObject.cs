@@ -202,11 +202,26 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneToList GetDroneToList(int id)
         {
-            int droneIndex = dronesToList.FindIndex(d => d.Id == id);
-            if (droneIndex != -1) //this id of drone exists
-                return dronesToList[droneIndex];
-            throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
+            //int droneIndex = dronesToList.FindIndex(d => d.Id == id);
+            //if (droneIndex != -1) //this id of drone exists
+            //    return dronesToList[droneIndex];
+            DroneToList tmp = new DroneToList();
+            if (dronesToList.Exists(d => d.Id == id))
+                return dronesToList.Find(d => d.Id == id);
+            //DO.Drone dalDrone= dal.GetDrone(id);
+
+             else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
+
+        //private DroneToList convertDroneToDroneToList(DO.Drone dalDrone)
+        //{
+        //    DroneToList tmp = ge
+        //    return new DroneToList()
+        //    {
+        //        Id= dalDrone.Id,
+        //         Battery =
+        //    }
+        //}
 
         /// <summary>
         /// the function receives an id and returns the bl drone with the same id
@@ -381,7 +396,6 @@ namespace BL
                     if (oldDalParcel.PickedUp == null) //only drone that assigned to parcel but still didnt pick up can pick up this parcel
                     {
                         dal.PickUpParcel(oldDalParcel);
-
                         DO.Customer sender = dal.GetCustomer(oldDalParcel.SenderId);
                         double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, sender.Latitude, sender.Longitude);
                         double batteryConsumption = getBatteryConsumption(oldDalParcel.Weight);
