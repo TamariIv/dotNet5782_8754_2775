@@ -234,11 +234,11 @@ namespace Dal
         public void UpdateCustomer(Customer c)
         {
             List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
-            int client = customers.FindIndex(p => p.Id == c.Id);
-            if (client != -1)
+            int clientIndex = customers.FindIndex(p => p.Id == c.Id);
+            if (clientIndex != -1)
             {
-                customers.Remove(customers[client]);
-                customers.Add(c);
+                customers.RemoveAt(clientIndex);
+                customers.Insert(clientIndex,c);
             }
             else
                 throw new NoMatchingIdException($"customer {c.Id} doesn't exist");
@@ -253,8 +253,8 @@ namespace Dal
             int st = stations.FindIndex(p => p.Id == s.Id);
             if (st != -1)
             {
-                stations.Remove(stations[st]);
-                stations.Add(s);
+                stations.RemoveAt(st);
+                stations.Insert(st, s);
             }
             else
                 throw new NoMatchingIdException($"station {s.Id} doesn't exist");

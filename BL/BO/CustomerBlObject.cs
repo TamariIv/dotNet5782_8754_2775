@@ -19,14 +19,17 @@ namespace BL
         {
             try
             {
-                DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
-                if (newCustomer.Name == "" && newCustomer.Phone == "")
-                    throw new BO.NoUpdateException("no update to customer was received\n");
-                if (newCustomer.Name != "")
-                    dalCustomer.Name = newCustomer.Name;
-                if (newCustomer.Phone != "")
-                    dalCustomer.Phone = newCustomer.Phone;
-                dal.UpdateCustomer(dalCustomer);
+                lock (dal)
+                {
+                    DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
+                    if (newCustomer.Name == "" && newCustomer.Phone == "")
+                        throw new BO.NoUpdateException("no update to customer was received\n");
+                    if (newCustomer.Name != "")
+                        dalCustomer.Name = newCustomer.Name;
+                    if (newCustomer.Phone != "")
+                        dalCustomer.Phone = newCustomer.Phone;
+                    dal.UpdateCustomer(dalCustomer);
+                }
             }
             catch (DO.NoMatchingIdException)
             {
@@ -106,19 +109,22 @@ namespace BL
         {
             try
             {
-                DO.Customer dalCustomer = dal.GetCustomer(id);
-                List<DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
-                List<DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
-                BO.Customer customer = new BO.Customer
+                lock (dal)
                 {
-                    Id = dalCustomer.Id,
-                    Name = dalCustomer.Name,
-                    Phone = dalCustomer.Phone,
-                    Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
-                    Send = convertParcelsToParcelsCustomer(parcelsOfsender, id).ToList(),
-                    Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id).ToList(),
-                };
-                return customer;
+                    DO.Customer dalCustomer = dal.GetCustomer(id);
+                    List<DO.Parcel> parcelsOfsender = dal.GetParcels().ToList().FindAll(p => p.SenderId == id);
+                    List<DO.Parcel> parcelsOfreceiver = dal.GetParcels().ToList().FindAll(p => p.TargetId == id);
+                    BO.Customer customer = new BO.Customer
+                    {
+                        Id = dalCustomer.Id,
+                        Name = dalCustomer.Name,
+                        Phone = dalCustomer.Phone,
+                        Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
+                        Send = convertParcelsToParcelsCustomer(parcelsOfsender, id).ToList(),
+                        Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id).ToList(),
+                    };
+                    return customer;
+                }
             }
             catch (DO.NoMatchingIdException ex)
             {
@@ -185,19 +191,22 @@ namespace BL
         /// </summary>
         private IEnumerable<DO.Customer> GetCustomersWithParcels()
         {
-            List<DO.Customer> clients = new List<DO.Customer>();
-            foreach (var customer in dal.GetCustomers())
+            lock (dal)
             {
-                foreach (var parcel in dal.GetParcels())
+                List<DO.Customer> clients = new List<DO.Customer>();
+                foreach (var customer in dal.GetCustomers())
                 {
-                    if (customer.Id == parcel.TargetId && parcel.Delivered != null)
+                    foreach (var parcel in dal.GetParcels())
                     {
-                        DO.Customer client = dal.GetCustomer(parcel.TargetId);
-                        clients.Add(client);
+                        if (customer.Id == parcel.TargetId && parcel.Delivered != null)
+                        {
+                            DO.Customer client = dal.GetCustomer(parcel.TargetId);
+                            clients.Add(client);
+                        }
                     }
                 }
+                return clients;
             }
-            return clients;
         }
     }
 }

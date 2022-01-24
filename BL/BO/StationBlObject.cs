@@ -219,7 +219,7 @@ namespace BL
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         /// <returns></returns>
-        private DO.Station getClosestStation(double latitude, double longitude)
+        internal DO.Station getClosestStation(double latitude, double longitude)
         {
             DO.Station result = default;
             double distance = double.MaxValue;

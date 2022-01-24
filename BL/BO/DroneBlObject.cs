@@ -364,13 +364,13 @@ namespace BL
             {
                 throw new IdAlreadyExistsException(ex.Message);
             }
-            catch (BO.NoMatchingIdException ex)
+            catch (NoMatchingIdException ex)
             {
-                throw new BO.NoMatchingIdException(ex.Message);
+                throw new NoMatchingIdException(ex.Message);
             }
-            catch (BO.ImpossibleOprationException ex)
+            catch (ImpossibleOprationException ex)
             {
-                throw new BO.ImpossibleOprationException(ex.Message);
+                throw new ImpossibleOprationException(ex.Message);
             }
         }
 
@@ -523,5 +523,33 @@ namespace BL
                 throw new BO.NoMatchingIdException(ex.Message);
             }
         }
+
+
+        /// <summary>
+        /// the function calculates all the required battery for the drone according to the distance
+        /// first, it calculates battery consumption by the distance between the sender to the target
+        /// then, it adds the battery consumption according to the distance between the target to the closest station for charging
+        /// and finally, if the parcel wasn't still picked up, it adds the battery consumption according to the distance between the drone to the sender
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="bl"></param>
+        /// <param name="parcelId"></param>
+        internal static double RequiredBattery(DroneToList drone ,BlObject bl, int parcelId)
+        {
+            DO.Parcel parcel = bl.dal.GetParcel(parcelId);
+            Customer sender = bl.GetCustomer(parcel.SenderId);
+            Customer target = bl.GetCustomer(parcel.TargetId);
+            double senderLongitude = sender.Location.Longitude;
+            double senderLatitude = sender.Location.Latitude;
+            double targetLongitude = target.Location.Longitude;
+            double targetLatitude = target.Location.Latitude;
+            double battery = bl.getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLatitude);
+            DO.Station station = bl.getClosestStation(targetLatitude, targetLongitude);
+            battery += bl.electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude);
+            if (parcel.PickedUp is null)
+                battery += bl.electricity[0] * Tools.Utils.DistanceCalculation(drone.Location.Latitude, drone.Location.Longitude, senderLatitude, senderLongitude);    
+            return battery;
+        }
+
     }
 }
