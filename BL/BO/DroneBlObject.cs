@@ -312,7 +312,7 @@ namespace BL
                     {
 
                         // make list of parcels with highest priority possible
-                        List<DO.Parcel> parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Emergency).ToList();
+                        List<DO.Parcel> parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Emergency && parcel.Scheduled == null).ToList();
                         if (!parcels.Any())
                             parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Rapid).ToList();
                         if (!parcels.Any())
@@ -513,10 +513,13 @@ namespace BL
         {
             try
             {
-                dal.DeleteDrone(dal.GetDrone(id));
-                DroneToList deletedDrone = GetDroneToList(id);
-                deletedDrone.isActive = false;
-                UpdateBlDrone(deletedDrone);
+                lock (dal)
+                {
+                    dal.DeleteDrone(dal.GetDrone(id));
+                    DroneToList deletedDrone = GetDroneToList(id);
+                    deletedDrone.isActive = false;
+                    UpdateBlDrone(deletedDrone);
+                }
             }
             catch (DO.NoMatchingIdException ex)
             {

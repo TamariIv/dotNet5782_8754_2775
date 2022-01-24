@@ -16,16 +16,19 @@ namespace BL
         {
             try
             {
-                DO.Station dalStation = new DO.Station
+                lock (dal)
                 {
-                    Id = newStation.Id,
-                    Name = newStation.Name,
-                    AvailableChargeSlots = newStation.AvailableChargeSlots,
-                    Latitude = newStation.Location.Latitude,
-                    Longitude = newStation.Location.Longitude,
-                    isActive = true
-                };
-                dal.AddStation(dalStation);
+                    DO.Station dalStation = new DO.Station
+                    {
+                        Id = newStation.Id,
+                        Name = newStation.Name,
+                        AvailableChargeSlots = newStation.AvailableChargeSlots,
+                        Latitude = newStation.Location.Latitude,
+                        Longitude = newStation.Location.Longitude,
+                        isActive = true
+                    };
+                    dal.AddStation(dalStation);
+                }
             }
             catch (DO.IdAlreadyExistsException ex)
             {
@@ -45,37 +48,40 @@ namespace BL
         {
             try
             {
-                DO.Station dalStation = dal.GetStation(id);
-                if (!dalStation.isActive)
-                    throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
-                if (name == "" && chargeSlots.ToString() == "")
-                    throw new BO.NoUpdateException("no update to station was received\n");
-                else
+                lock (dal)
                 {
-                    bool nameIsUpdated = false;
-                    if (name != "")
+                    DO.Station dalStation = dal.GetStation(id);
+                    if (!dalStation.isActive)
+                        throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
+                    if (name == "" && chargeSlots.ToString() == "")
+                        throw new BO.NoUpdateException("no update to station was received\n");
+                    else
                     {
-                        dalStation.Name = name;
-                        nameIsUpdated = true;
-                        dal.UpdateStation(dalStation);
-                    }
-
-                    int unavailableChargeSlots = dal.GetDroneCharges(d => d.StationId == id).Count();
-                    bool slotsIsUpdated = false;
-
-                    if (chargeSlots.ToString() != "")
-                    {
-                        if (chargeSlots >= unavailableChargeSlots)
+                        bool nameIsUpdated = false;
+                        if (name != "")
                         {
-                            dalStation.AvailableChargeSlots = chargeSlots - unavailableChargeSlots;
-                            slotsIsUpdated = true;
+                            dalStation.Name = name;
+                            nameIsUpdated = true;
                             dal.UpdateStation(dalStation);
                         }
-                        else throw new BO.ImpossibleOprationException("can't update the station with number smaller than the number of drones charging");
-                    }
 
-                    if (nameIsUpdated == false && slotsIsUpdated == false)
-                        throw new BO.NoUpdateException("no update to station was received\n");
+                        int unavailableChargeSlots = dal.GetDroneCharges(d => d.StationId == id).Count();
+                        bool slotsIsUpdated = false;
+
+                        if (chargeSlots.ToString() != "")
+                        {
+                            if (chargeSlots >= unavailableChargeSlots)
+                            {
+                                dalStation.AvailableChargeSlots = chargeSlots - unavailableChargeSlots;
+                                slotsIsUpdated = true;
+                                dal.UpdateStation(dalStation);
+                            }
+                            else throw new BO.ImpossibleOprationException("can't update the station with number smaller than the number of drones charging");
+                        }
+
+                        if (nameIsUpdated == false && slotsIsUpdated == false)
+                            throw new BO.NoUpdateException("no update to station was received\n");
+                    }
                 }
             }
 
@@ -111,25 +117,28 @@ namespace BL
         {
             try
             {
-                DO.Station dalStation = dal.GetStation(id);
-                if (!dalStation.isActive)
-                    throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
-                List<BO.DroneInCharging> dronesCharging = new List<BO.DroneInCharging>();
-                foreach (var droneCharge in dal.GetDroneCharges())
+                lock (dal)
                 {
-                    if (droneCharge.StationId == id)
-                        dronesCharging.Add(new BO.DroneInCharging { Id = droneCharge.DroneId, Battery = GetDroneToList(droneCharge.DroneId).Battery });
+                    DO.Station dalStation = dal.GetStation(id);
+                    if (!dalStation.isActive)
+                        throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
+                    List<BO.DroneInCharging> dronesCharging = new List<BO.DroneInCharging>();
+                    foreach (var droneCharge in dal.GetDroneCharges())
+                    {
+                        if (droneCharge.StationId == id)
+                            dronesCharging.Add(new BO.DroneInCharging { Id = droneCharge.DroneId, Battery = GetDroneToList(droneCharge.DroneId).Battery });
+                    }
+                    BO.Station station = new BO.Station
+                    {
+                        Id = dalStation.Id,
+                        Name = dalStation.Name,
+                        Location = new BO.Location { Latitude = dalStation.Latitude, Longitude = dalStation.Longitude },
+                        AvailableChargeSlots = dalStation.AvailableChargeSlots,
+                        DronesCharging = dronesCharging,
+                        isActive = true
+                    };
+                    return station;
                 }
-                BO.Station station = new BO.Station
-                {
-                    Id = dalStation.Id,
-                    Name = dalStation.Name,
-                    Location = new BO.Location { Latitude = dalStation.Latitude, Longitude = dalStation.Longitude },
-                    AvailableChargeSlots = dalStation.AvailableChargeSlots,
-                    DronesCharging = dronesCharging,
-                    isActive = true
-                };
-                return station;
             }
             catch (DO.NoMatchingIdException ex)
             {
@@ -154,7 +163,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.StationToList GetStationToList(int id)
         {
-            return convertStationToStationToList(dal.GetStation(id));
+            lock (dal)
+            {
+                return convertStationToStationToList(dal.GetStation(id));
+            }
         }
 
         /// <summary>
@@ -164,23 +176,26 @@ namespace BL
         /// <returns>the converted station</returns>
         private BO.StationToList convertStationToStationToList(DO.Station dalStation)
         {
-            // find how many drones are charging in the station using dal droneCharge type
-            int OccupiedChargeSlots = 0;
-            foreach (var droneCharge in dal.GetDroneCharges())
+            lock (dal)
             {
-                if (droneCharge.StationId == dalStation.Id)
-                    // once you find another droneCharge with the station ID add ine to the number of occupied slots
-                    OccupiedChargeSlots++;
+                // find how many drones are charging in the station using dal droneCharge type
+                int OccupiedChargeSlots = 0;
+                foreach (var droneCharge in dal.GetDroneCharges())
+                {
+                    if (droneCharge.StationId == dalStation.Id)
+                        // once you find another droneCharge with the station ID add ine to the number of occupied slots
+                        OccupiedChargeSlots++;
+                }
+                BO.StationToList blStation = new BO.StationToList
+                {
+                    Id = dalStation.Id,
+                    Name = dalStation.Name,
+                    AvailableChargeSlots = dalStation.AvailableChargeSlots,
+                    OccupiedChargeSlots = OccupiedChargeSlots,
+                    isActive = dalStation.isActive
+                };
+                return blStation;
             }
-            BO.StationToList blStation = new BO.StationToList
-            {
-                Id = dalStation.Id,
-                Name = dalStation.Name,
-                AvailableChargeSlots = dalStation.AvailableChargeSlots,
-                OccupiedChargeSlots = OccupiedChargeSlots,
-                isActive = dalStation.isActive
-            };
-            return blStation;
         }
 
         /// <summary>
@@ -190,12 +205,15 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.StationToList> GetListOfStationsWithAvailableChargeSlots()
         {
-            List<BO.StationToList> stationsWithAvailableChargeSlots = new List<BO.StationToList>();
-            foreach (var station in dal.GetStations(s => s.AvailableChargeSlots > 0 && s.isActive)) //send a predicate to DAL
+            lock (dal)
             {
-                stationsWithAvailableChargeSlots.Add(convertStationToStationToList(station));
+                List<BO.StationToList> stationsWithAvailableChargeSlots = new List<BO.StationToList>();
+                foreach (var station in dal.GetStations(s => s.AvailableChargeSlots > 0 && s.isActive)) //send a predicate to DAL
+                {
+                    stationsWithAvailableChargeSlots.Add(convertStationToStationToList(station));
+                }
+                return stationsWithAvailableChargeSlots;
             }
-            return stationsWithAvailableChargeSlots;
         }
 
         /// <summary>
@@ -205,12 +223,15 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.StationToList> GetListOfStations()
         {
-            List<BO.StationToList> stations = new List<BO.StationToList>();
-            foreach (var s in dal.GetStations())
+            lock (dal)
             {
-                stations.Add(convertStationToStationToList(s));
+                List<BO.StationToList> stations = new List<BO.StationToList>();
+                foreach (var s in dal.GetStations())
+                {
+                    stations.Add(convertStationToStationToList(s));
+                }
+                return stations;
             }
-            return stations;
         }
 
         /// <summary>
@@ -221,19 +242,22 @@ namespace BL
         /// <returns></returns>
         private DO.Station getClosestStation(double latitude, double longitude)
         {
-            DO.Station result = default;
-            double distance = double.MaxValue;
-
-            foreach (var item in dal.GetStations())
+            lock (dal)
             {
-                double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
-                if (dist < distance && item.isActive)
+                DO.Station result = default;
+                double distance = double.MaxValue;
+
+                foreach (var item in dal.GetStations())
                 {
-                    distance = dist;
-                    result = item;
+                    double dist = Tools.Utils.DistanceCalculation(latitude, longitude, item.Latitude, item.Longitude);
+                    if (dist < distance && item.isActive)
+                    {
+                        distance = dist;
+                        result = item;
+                    }
                 }
+                return result;
             }
-            return result;
         }
 
         /// <summary>
@@ -243,13 +267,16 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
-            try
+            lock (dal)
             {
-                dal.DeleteStation(dal.GetStation(id));
-            }
-            catch (DO.NoMatchingIdException ex)
-            {
-                throw new BO.NoMatchingIdException(ex.Message);
+                try
+                {
+                    dal.DeleteStation(dal.GetStation(id));
+                }
+                catch (DO.NoMatchingIdException ex)
+                {
+                    throw new BO.NoMatchingIdException(ex.Message);
+                }
             }
         }
 

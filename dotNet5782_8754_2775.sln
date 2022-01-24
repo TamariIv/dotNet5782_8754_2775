@@ -43,6 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{28E386E1-5
 		data\ConfigXML.xml = data\ConfigXML.xml
 		data\ConfigXML.xml.bak = data\ConfigXML.xml.bak
 		data\Customers.xml = data\Customers.xml
+		data\DroneCharges.xml = data\DroneCharges.xml
 		data\Drones.xml = data\Drones.xml
 		data\Parcels.xml = data\Parcels.xml
 	EndProjectSection

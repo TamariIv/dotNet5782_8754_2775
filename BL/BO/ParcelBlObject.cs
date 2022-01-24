@@ -19,19 +19,22 @@ namespace BL
         {
             try
             {
-                DO.Parcel parcel = new DO.Parcel
+                lock (dal)
                 {
-                    SenderId = newParcel.Sender.Id,
-                    TargetId = newParcel.Target.Id,
-                    Weight = (DO.WeightCategories)newParcel.Weight,
-                    Priority = (DO.Priorities)newParcel.Priority,
-                    Requested = DateTime.Now,
-                    Scheduled = null,
-                    PickedUp = null,
-                    Delivered = null,
-                    DroneId = 0
-                };
-                dal.AddParcel(parcel);
+                    DO.Parcel parcel = new DO.Parcel
+                    {
+                        SenderId = newParcel.Sender.Id,
+                        TargetId = newParcel.Target.Id,
+                        Weight = (DO.WeightCategories)newParcel.Weight,
+                        Priority = (DO.Priorities)newParcel.Priority,
+                        Requested = DateTime.Now,
+                        Scheduled = null,
+                        PickedUp = null,
+                        Delivered = null,
+                        DroneId = 0
+                    };
+                    dal.AddParcel(parcel);
+                }
             }
             catch (DO.IdAlreadyExistsException ex)
             {
@@ -53,21 +56,24 @@ namespace BL
         {
             try
             {
-                DO.Parcel dalParcel = dal.GetParcel(id);
-                BO.Parcel blParcel = new BO.Parcel
+                lock (dal)
                 {
-                    Id = dalParcel.Id,
-                    Sender = new BO.CustomerInParcel { Id = dalParcel.SenderId, Name = dal.GetCustomer(dalParcel.SenderId).Name },
-                    Target = new BO.CustomerInParcel { Id = dalParcel.TargetId, Name = dal.GetCustomer(dalParcel.TargetId).Name },
-                    Weight = (BO.WeightCategories)dalParcel.Weight,
-                    Priority = (BO.Priorities)dalParcel.Priority,
-                    Requested = dalParcel.Requested,
-                    Scheduled = dalParcel.Scheduled,
-                    PickedUp = dalParcel.PickedUp,
-                    Delivered = dalParcel.Delivered,
-                    AssignedDrone = dalParcel.DroneId != 0 ? new BO.DroneInParcel { Id = dalParcel.DroneId, Battery = dronesToList.Find(d => d.Id == dalParcel.DroneId).Battery, CurrentLocation = dronesToList.Find(d => d.Id == dalParcel.DroneId).Location } : new BO.DroneInParcel { Id = 0, Battery = 0, CurrentLocation = new BO.Location { Latitude = 0, Longitude = 0 } }
-                };
-                return blParcel;
+                    DO.Parcel dalParcel = dal.GetParcel(id);
+                    BO.Parcel blParcel = new BO.Parcel
+                    {
+                        Id = dalParcel.Id,
+                        Sender = new BO.CustomerInParcel { Id = dalParcel.SenderId, Name = dal.GetCustomer(dalParcel.SenderId).Name },
+                        Target = new BO.CustomerInParcel { Id = dalParcel.TargetId, Name = dal.GetCustomer(dalParcel.TargetId).Name },
+                        Weight = (BO.WeightCategories)dalParcel.Weight,
+                        Priority = (BO.Priorities)dalParcel.Priority,
+                        Requested = dalParcel.Requested,
+                        Scheduled = dalParcel.Scheduled,
+                        PickedUp = dalParcel.PickedUp,
+                        Delivered = dalParcel.Delivered,
+                        AssignedDrone = dalParcel.DroneId != 0 ? new BO.DroneInParcel { Id = dalParcel.DroneId, Battery = dronesToList.Find(d => d.Id == dalParcel.DroneId).Battery, CurrentLocation = dronesToList.Find(d => d.Id == dalParcel.DroneId).Location } : new BO.DroneInParcel { Id = 0, Battery = 0, CurrentLocation = new BO.Location { Latitude = 0, Longitude = 0 } }
+                    };
+                    return blParcel;
+                }
             }
             catch (DO.NoMatchingIdException ex)
             {
@@ -85,12 +91,15 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.ParcelToList> GetListofParcels()
         {
-            List<BO.ParcelToList> blParcels = new List<BO.ParcelToList>();
-            foreach (var dalParcel in dal.GetParcels())
+            lock (dal)
             {
-                blParcels.Add(convertParcelToParcelToList(dalParcel));
+                List<BO.ParcelToList> blParcels = new List<BO.ParcelToList>();
+                foreach (var dalParcel in dal.GetParcels())
+                {
+                    blParcels.Add(convertParcelToParcelToList(dalParcel));
+                }
+                return blParcels;
             }
-            return blParcels;
         }
 
         /// <summary>
@@ -134,12 +143,15 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BO.ParcelToList> GetListofParcelsWithoutDrone()
         {
-            List<BO.ParcelToList> parcelsWithoutDrones = new List<BO.ParcelToList>();
-            foreach (var dalParcel in dal.GetParcels(p => p.DroneId == 0)) //send a predicate to DAL
+            lock (dal)
             {
-                parcelsWithoutDrones.Add(convertParcelToParcelToList(dalParcel));
+                List<BO.ParcelToList> parcelsWithoutDrones = new List<BO.ParcelToList>();
+                foreach (var dalParcel in dal.GetParcels(p => p.DroneId == 0)) //send a predicate to DAL
+                {
+                    parcelsWithoutDrones.Add(convertParcelToParcelToList(dalParcel));
+                }
+                return parcelsWithoutDrones;
             }
-            return parcelsWithoutDrones;
         }
 
     }
