@@ -206,29 +206,40 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone d)
         {
-            XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
-            XElement removeElement = (from dr in drones.Elements()
-                                      where dr.Element("Id").Value == $"{d.Id}"
-                                      select dr).FirstOrDefault();
-            removeElement.Remove();
-            drones.Add(
-           new XElement("Drone",
-               new XElement("Id", d.Id),
-               new XElement("MaxWeight", d.MaxWeight),
-               new XElement("Model", d.Model)
-           )
-       );
+            // XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
+            // XElement removeElement = (from dr in drones.Elements()
+            //                           where dr.Element("Id").Value == $"{d.Id}"
+            //                           select dr).FirstOrDefault();
+            // removeElement.Remove();
+            // drones.Add(
+            //new XElement("Drone",
+            //    new XElement("Id", d.Id),
+            //    new XElement("MaxWeight", d.MaxWeight),
+            //    new XElement("Model", d.Model)
+            //)
+
+
+            List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
+            int index = drones.FindIndex(dr => dr.Id == dr.Id);
+            if (index != -1)
+            {
+                drones.RemoveAt(index);
+                drones.Insert(index,d);
+            }
+            else
+                throw new NoMatchingIdException($"drone with id {d.Id} doesn't exist");
+            XMLTools.SaveListToXmlSerializer(drones, dronesPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer c)
         {
             List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
-            int client = customers.FindIndex(p => p.Id == c.Id);
-            if (client != -1)
+            int clientIndex = customers.FindIndex(p => p.Id == c.Id);
+            if (clientIndex != -1)
             {
-                customers.Remove(customers[client]);
-                customers.Add(c);
+                customers.RemoveAt(clientIndex);
+                customers.Insert(clientIndex,c);
             }
             else
                 throw new NoMatchingIdException($"customer {c.Id} doesn't exist");
@@ -243,8 +254,8 @@ namespace Dal
             int st = stations.FindIndex(p => p.Id == s.Id);
             if (st != -1)
             {
-                stations.Remove(stations[st]);
-                stations.Add(s);
+                stations.RemoveAt(st);
+                stations.Insert(st, s);
             }
             else
                 throw new NoMatchingIdException($"station {s.Id} doesn't exist");
@@ -280,18 +291,16 @@ namespace Dal
 
             //XMLTools.SaveListToXmlElement(parcels, parcelsPath);
             List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
+            List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
             Parcel parcel = parcels.Find(prcl => prcl.Id == p.Id);
             if (!parcels.Exists(prcl => prcl.Id == p.Id))
                 throw new NoMatchingIdException($"parcel with id {p.Id} doesn't exist");
-            //parcel.Id = p.Id;
-            parcel.DroneId = p.DroneId;
-            parcel.Delivered = p.Delivered;
-            parcel.Priority = p.Priority;
-            parcel.SenderId = p.SenderId;
-            parcel.TargetId = p.TargetId;
-            parcel.Requested = p.Requested;
-            parcel.Scheduled = p.Scheduled;
-            parcel.PickedUp = DateTime.Now;
+            Drone drone = drones.Find(dr => dr.Id == d.Id);
+            if (!drones.Exists(dr=>dr.Id==d.Id))
+                throw new NoMatchingIdException($"Drone with id {d.Id} doesn't exist");
+
+            parcel.DroneId = d.Id;
+            parcel.Scheduled = DateTime.Now;
 
             int index = parcels.FindIndex(prcl => prcl.Id == p.Id);
             parcels.RemoveAt(index);

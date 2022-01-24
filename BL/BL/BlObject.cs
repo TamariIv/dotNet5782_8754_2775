@@ -23,7 +23,8 @@ namespace BL
 
 
         public List<DO.Drone> drones = new List<DO.Drone>();
-        private double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
+        internal double[] electricity;
+        internal double chargeRate, whenAvailable, whenHeavy, whenMedium, whenLight;
         private List<DroneToList> dronesToList;
         internal Random r = new Random();
 
@@ -34,7 +35,7 @@ namespace BL
             drones = dal.GetDrones().ToList();
 
             //get the electricity rate from DAL:
-            double[] electricity = dal.GetElectricity();
+            electricity = dal.GetElectricity();
             whenAvailable = electricity[0];
             whenLight = electricity[1];
             whenMedium = electricity[2];
@@ -91,7 +92,7 @@ namespace BL
                             };
                         }
                         //Battery status will be raffled between a minimal charge that will allow the drone to make the shipment and arrive at the station closest to the shipment destination and a full charge
-                        BO.Customer customer = GetCustomer(parcel.TargetId);
+                        Customer customer = GetCustomer(parcel.TargetId);
                         DO.Station closestStation = getClosestStation(customer.Location.Latitude, customer.Location.Longitude);
                         double distance1 = Tools.Utils.DistanceCalculation(droneBl.Location.Latitude, droneBl.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
                         double distance2 = Tools.Utils.DistanceCalculation(customer.Location.Latitude, customer.Location.Longitude, closestStation.Latitude, closestStation.Longitude);
@@ -151,7 +152,7 @@ namespace BL
         /// <summary>
         /// get a weight and returns the appropriate battery consumption
         /// </summary>
-        private double getBatteryConsumption(DO.WeightCategories weight)
+        internal double getBatteryConsumption(DO.WeightCategories weight)
         {
             switch (weight)
             {
@@ -165,7 +166,7 @@ namespace BL
                     return whenAvailable;
             }
         }
-
+        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new Simulator(this, id, update, checkStop);
     }
 }
 
