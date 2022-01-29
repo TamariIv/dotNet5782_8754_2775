@@ -303,6 +303,11 @@ namespace PL
                 MessageBox.Show("Couldn't pick up parcel \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch(EmptyListException)
+            {
+                MessageBox.Show("No parcels to assign\npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception)
             {
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
@@ -345,6 +350,11 @@ namespace PL
             catch (NoMatchingIdException)
             {
                 MessageBox.Show("No parcel could be picked-up \npress OK to continue, else press Cancel", "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch(ImpossibleOprationException ex)
+            {
+                MessageBox.Show(ex + "\npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
