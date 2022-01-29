@@ -27,6 +27,9 @@ namespace PL
         {
             mybl = BlFactory.GetBl();
             InitializeComponent();
+            FirstWindow.Visibility = Visibility.Visible;
+            managerPageGrid.Visibility = Visibility.Hidden;
+            CustomerGrid.Visibility = Visibility.Hidden;
         }
 
         private void showListOfDronesBtn_Click(object sender, RoutedEventArgs e)
@@ -70,6 +73,18 @@ namespace PL
         private void lblNoAccount_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             new SignUpWindow(mybl).Show();
+        }
+
+        private void managerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FirstWindow.Visibility = Visibility.Hidden;
+            managerPageGrid.Visibility = Visibility.Visible;
+        }
+
+        private void customerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FirstWindow.Visibility = Visibility.Hidden;
+            CustomerGrid.Visibility = Visibility.Visible;
         }
     }
 }
