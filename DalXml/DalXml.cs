@@ -26,7 +26,7 @@ namespace Dal
 
 
         //private static string configPath = Path.Combine(solutionDirectory, "DalXML", "data");
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private DalXml()
         {
             DataSource.Initialize();
@@ -38,7 +38,7 @@ namespace Dal
             //droneCharge.Clear();
             //XMLTools.SaveListToXmlSerializer(droneCharge, droneChargesPath);
         }
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] GetElectricity()
         {
             var temp1 = XMLTools.LoadListFromXmlElement(configPath);
@@ -202,7 +202,7 @@ namespace Dal
 
         #region Update Functions
 
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone d)
         {
             // XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);

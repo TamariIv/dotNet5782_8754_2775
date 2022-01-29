@@ -111,9 +111,9 @@ namespace BL
             {
                 Drone drone = GetDrone(id);
                 if (!drone.isActive)
-                    throw new BO.NoMatchingIdException($"drone with id {id} in not active !!");
+                    throw new NoMatchingIdException($"drone with id {id} in not active !!");
                 if (drone.DroneStatus != DroneStatus.Available)
-                    throw new BO.ImpossibleOprationException("Drone can't be sent to recharge");
+                    throw new ImpossibleOprationException("Drone can't be sent to recharge");
 
                 DO.Station tempStation = getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
@@ -236,10 +236,9 @@ namespace BL
         }
 
         /// <summary>
-        /// the function receives a bl droneToList and return the equal dal drone
+        /// the function receives a bl droneToList and returns the equal dal drone
         /// </summary>
         /// <param name="d"> the bl droneToList </param>
-        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone ConvertDroneToListToDrone(DroneToList d)
         {
@@ -325,7 +324,7 @@ namespace BL
 
                         // find a parcel in that is [ossible for the drone to take
                         DO.Parcel posibleDistanceParcel = parcels.First();
-                        Parcel finalParcel = new BO.Parcel();
+                        Parcel finalParcel = new Parcel();
                         bool parcelWasFound = false;
                         foreach (var p in parcels)
                         {
@@ -534,20 +533,20 @@ namespace BL
         /// <param name="drone"></param>
         /// <param name="bl"></param>
         /// <param name="parcelId"></param>
-        internal static double RequiredBattery(DroneToList drone ,BlObject bl, int parcelId)
+        internal double RequiredBattery(DroneToList drone , int parcelId)
         {
-            DO.Parcel parcel = bl.dal.GetParcel(parcelId);
-            Customer sender = bl.GetCustomer(parcel.SenderId);
-            Customer target = bl.GetCustomer(parcel.TargetId);
+            DO.Parcel parcel = dal.GetParcel(parcelId);
+            Customer sender = GetCustomer(parcel.SenderId);
+            Customer target = GetCustomer(parcel.TargetId);
             double senderLongitude = sender.Location.Longitude;
             double senderLatitude = sender.Location.Latitude;
             double targetLongitude = target.Location.Longitude;
             double targetLatitude = target.Location.Latitude;
-            double battery = bl.getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLatitude);
-            DO.Station station = bl.getClosestStation(targetLatitude, targetLongitude);
-            battery += bl.electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude);
+            double battery = getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLatitude);
+            DO.Station station = getClosestStation(targetLatitude, targetLongitude);
+            battery += electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude);
             if (parcel.PickedUp is null)
-                battery += bl.electricity[0] * Tools.Utils.DistanceCalculation(drone.Location.Latitude, drone.Location.Longitude, senderLatitude, senderLongitude);    
+                battery += electricity[0] * Tools.Utils.DistanceCalculation(drone.Location.Latitude, drone.Location.Longitude, senderLatitude, senderLongitude);    
             return battery;
         }
 
