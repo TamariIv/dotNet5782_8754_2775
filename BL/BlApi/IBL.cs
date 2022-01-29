@@ -6,13 +6,14 @@ namespace BlApi
 {
     public interface IBL
     {
-        //Add functions:
+        #region Add functions:
         void AddStation(Station newStation);
         void AddCustomer(Customer customer);
         void AddParcel(Parcel parcel);
         void AddDrone(Drone newDrone, int stationId);
+        #endregion
 
-        //Update functions:
+        #region Update functions:
         void UpdateCustomer(Customer newCustomer);
         void UpdateDrone(Drone d);
         void UpdateStation(int id, string name, int chargeSlots);
@@ -21,8 +22,9 @@ namespace BlApi
         void RechargeDrone(int id);
         void PickUpParcel(Drone drone);
         void deliveryPackage(Drone drone);
+        #endregion
 
-        //Get functions:
+        #region Get functions:
         DroneToList GetDroneToList(int id);
         StationToList GetStationToList(int id);
         Drone GetDrone(int id);
@@ -35,15 +37,16 @@ namespace BlApi
         IEnumerable<ParcelToList> GetListofParcelsWithoutDrone();
         IEnumerable<StationToList> GetListOfStationsWithAvailableChargeSlots();
         IEnumerable<CustomerToList> GetListOfCustomers();
+        #endregion
 
-
-        //Delete functions:
+        #region Delete functions:
         void DeleteStation(int id);
         void DeleteDrone(int id);
         void DeleteCustomer(int id);
         void DeleteParcel(int id);
+        #endregion
 
-        void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
+        // void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
 
     }
 }

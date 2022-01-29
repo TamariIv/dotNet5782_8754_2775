@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -393,5 +394,46 @@ namespace PL
                 MessageBox.Show(ex.Message + "\npress OK to continue, else press Cancel", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        //private void btnSimulator_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //Auto = true;
+        //    worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
+        //    worker.DoWork += (sender, args) => bl.StartDroneSimulator((int)args.Argument, updateDrone, checkStop);
+        //    worker.RunWorkerCompleted += (sender, args) =>
+        //    {
+        //        //Auto = false;
+        //        worker = null;
+        //        if (closing) Close();
+        //    };
+        //    worker.ProgressChanged += (sender, args) => updateDroneView();
+        //    worker.RunWorkerAsync(drone.Id);
+        //}
+
+
+
+
+
+        BackgroundWorker worker;
+        private void updateDrone() => worker.ReportProgress(0);
+        private bool checkStop() => worker.CancellationPending;
+
+        private void Auto_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();
+
+        bool closing = false;
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (worker != null)
+            {
+                closing = true;
+                e.Cancel = true;
+            }
+        }
+
     }
 }

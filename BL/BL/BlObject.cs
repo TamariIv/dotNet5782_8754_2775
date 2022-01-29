@@ -166,7 +166,7 @@ namespace BL
                     return whenAvailable;
             }
         }
-        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new Simulator(this, id, update, checkStop);
+       // public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new Simulator(this, id, update, checkStop);
     }
 }
 
