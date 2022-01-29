@@ -59,7 +59,7 @@
             <Ellipse Fill="SandyBrown" Margin="264,166,-141,-54" Opacity="0.7" Grid.Column="1"/>
         </Grid>
 
-        <Grid  x:Name="AddCustomerGrid">
+        <Grid  x:Name="AddCustomerGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
@@ -99,7 +99,7 @@
         </Grid>
         
         
-        <Grid x:Name="ActionsGrid" d:IsHidden="True">
+        <Grid x:Name="ActionsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -168,9 +168,24 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-                <Button x:Name="btnClose" Style="{StaticResource btnAddPage}" Content="Close" Grid.Row="5" Grid.Column="1" Click="btnClose_Click"  />
-            <Button x:Name="btnFinalUpdate" Style="{StaticResource btnAddPage}" Content="Update" Grid.Row="5" Grid.Column="2" Click="btnFinalUpdate_Click" />
-            <Button x:Name="btnNewParcel"  Style="{StaticResource btnAddPage}" Content="New Parcel" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Click="btnNewParcel_Click"/>
+
+            <Grid Grid.Row="6" Grid.ColumnSpan="7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnClose" Style="{StaticResource btnAddPage}" Content="Close" Grid.Column="1" Click="btnClose_Click"  />
+                <Button x:Name="btnFinalUpdate" Style="{StaticResource btnAddPage}" Content="Update" Grid.Column="3" Click="btnFinalUpdate_Click" />
+                <Button x:Name="btnDelete" Style="{StaticResource btnAddPage}" Content="Delete" Grid.Column="2" Click="btnDelete_Click" />
+                <Button x:Name="btnNewParcel"  Style="{StaticResource btnAddPage}" Content="New Parcel" Grid.Column="4" Click="btnNewParcel_Click"/>
+            </Grid>
+
+            
+
         </Grid>
     </Grid>
 </Window>

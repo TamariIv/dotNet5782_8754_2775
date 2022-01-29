@@ -425,13 +425,31 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel p)
         {
-
+            List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
+            int parcelIndex = parcels.FindIndex(pr => p.Id == pr.Id);
+            if (parcelIndex != -1)
+            {
+                parcels.RemoveAt(parcelIndex);
+            }
+            else
+                throw new NoMatchingIdException($"parcel {p.Id} doesn't exist");
+            XMLTools.SaveListToXmlSerializer(parcels, customersPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(Customer c)
         {
-
+            List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
+            int clientIndex = customers.FindIndex(p => p.Id == c.Id);
+            if (clientIndex != -1)
+            {
+                c.isActive = false;
+                customers.RemoveAt(clientIndex);
+                customers.Insert(clientIndex, c);
+            }
+            else
+                throw new NoMatchingIdException($"customer {c.Id} doesn't exist");
+            XMLTools.SaveListToXmlSerializer(customers, customersPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

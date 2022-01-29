@@ -16,13 +16,14 @@ namespace Dal
 
         private DalObject() => DataSource.Initialize();    //constructor
 
+        #region get single functions
 
         /// <summary>
         ///  search station by idNumber
         /// </summary>
         /// <param name="idNumber"> the station id </param>
         /// <returns> the station that was found </returns>
-                //[MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int idNumber)
         {
             Station s = new Station();
@@ -103,11 +104,15 @@ namespace Dal
             else throw new NoMatchingIdException($"drone being charged with id {idNumber} doesn't exist !!");
         }
 
+        #endregion
+
+        #region get list function
+
         /// <summary>
         /// get the list of stations
         /// </summary>
         /// <returns> a copy of the list stations </returns>
-                //[MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
             List<Station> copyStations = new List<Station>(DataSource.Stations);
@@ -169,17 +174,22 @@ namespace Dal
             return copyParcels.Where(predicate);
         }
 
+        #endregion
+
+        #region add functions
+
         /// <summary>
         /// receive drone and add it to Drones
         /// </summary>
         /// <param name="drone"> the drone to add </param>
-                //[MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone d)
         {
             if (DataSource.Drones.Exists(drone => drone.Id == d.Id))
             {
                 throw new IdAlreadyExistsException($"drone with id {d.Id} already exists !!");
             }
+            d.isActive = true;
             DataSource.Drones.Add(d);
         }
 
@@ -194,6 +204,7 @@ namespace Dal
             {
                 throw new IdAlreadyExistsException($"customer with id {c.Id} already exists !!");
             }
+            c.isActive = true;
             DataSource.Customers.Add(c);
         }
 
@@ -208,6 +219,7 @@ namespace Dal
             {
                 throw new IdAlreadyExistsException($"station with id {s.Id} already exists !!");
             }
+            s.isActive = true;
             DataSource.Stations.Add(s);
         }
 
@@ -236,10 +248,14 @@ namespace Dal
             return ++DataSource.Config.ParcelId;
         }
 
+        #endregion
+
+        #region drone functions
+
         /// <summary>
         /// the function receives a drone and a parcel and assigns the drone to the parcel
         /// </summary>
-                //[MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
             if (DataSource.Parcels.Exists(parcel => p.Id == parcel.Id))
@@ -355,11 +371,15 @@ namespace Dal
             else throw new NoMatchingIdException($"drone with id {d.Id} doesn't exists !!");
         }
 
+        #endregion
+
+        #region update functions
+
         /// <summary>
         /// the function receives a customer to update, deletes the old one and adds the one that was received
         /// </summary>
         /// <param name="c">new customer</param>
-                //[MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer c)
         {
             Customer newCustomer = GetCustomer(c.Id);
@@ -395,7 +415,37 @@ namespace Dal
             DataSource.Stations.Add(s);
         }
 
-                //[MethodImpl(MethodImplOptions.Synchronized)]
+        #endregion
+
+        #region delete functioins
+
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteDrone(Drone d)
+        {
+            d.isActive = false;
+            UpdateDrone(d);
+        }
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteStation(Station s)
+        {
+            s.isActive = false;
+            UpdateStation(s);
+        }
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteCustomer(Customer c)
+        {
+            c.isActive = false;
+            UpdateCustomer(c);
+        }
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteParcel(Parcel p)
+        {
+            GetParcels().ToList().Remove(p);
+        }
+
+        #endregion
+
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public double[] GetElectricity()
         {
             double[] electricityRates =
@@ -408,28 +458,7 @@ namespace Dal
             };
             return electricityRates;
         }
-                //[MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteDrone(Drone d)
-        {
-            d.isActive = false;
-            UpdateDrone(d);
-        }
-                //[MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteStation(Station s)
-        {
-            s.isActive = false;
-            UpdateStation(s);
-        }
-                //[MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteCustomer(Customer c)
-        {
-            // fill here
-        }
-                //[MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteParcel(Parcel p)
-        {
-            // fill here
-        }
+
     }
 
 }

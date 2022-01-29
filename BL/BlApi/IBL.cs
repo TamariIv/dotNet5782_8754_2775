@@ -40,6 +40,8 @@ namespace BlApi
         //Delete functions:
         void DeleteStation(int id);
         void DeleteDrone(int id);
+        void DeleteCustomer(int id);
+        void DeleteParcel(int id);
 
         void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
 

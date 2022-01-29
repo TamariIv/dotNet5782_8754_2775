@@ -15,6 +15,7 @@ namespace BO
         public int SentAndNotDeliverd { get; init; }
         public int Recieved { get; init; }
         public int InDeliveryToCustomer { get; init; }
+        public bool isActive { get; set; }
 
 
         public override string ToString()

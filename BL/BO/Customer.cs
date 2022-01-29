@@ -14,7 +14,7 @@ namespace BO
         public Location Location { get; set; }
         public List<ParcelInCustomer> Send { get; set; }
         public List<ParcelInCustomer> Receive { get; set; }
-        //public string Password { get; set; }
+        public bool isActive { get; set; }
 
 
 

@@ -22,6 +22,8 @@ namespace BL
                 lock (dal)
                 {
                     DO.Customer dalCustomer = dal.GetCustomer(newCustomer.Id);
+                    if (dalCustomer.isActive == false)
+                        throw new BO.NoMatchingIdException($"customer with id {newCustomer.Id} doesn't exist !!");
                     if (newCustomer.Name == "" && newCustomer.Phone == "")
                         throw new BO.NoUpdateException("no update to customer was received\n");
                     if (newCustomer.Name != "")
@@ -94,7 +96,8 @@ namespace BL
                 SentAndDelivered = sentAndDelivered,
                 SentAndNotDeliverd = sentAndNotDelivered,
                 Recieved = received,
-                InDeliveryToCustomer = inDeliveryToCustomer
+                InDeliveryToCustomer = inDeliveryToCustomer,
+                isActive = dalCustomer.isActive
             };
             return blCustomer;
         }
@@ -196,16 +199,31 @@ namespace BL
                 List<DO.Customer> clients = new List<DO.Customer>();
                 foreach (var customer in dal.GetCustomers())
                 {
-                    foreach (var parcel in dal.GetParcels())
+                    if (customer.isActive)
                     {
-                        if (customer.Id == parcel.TargetId && parcel.Delivered != null)
+                        foreach (var parcel in dal.GetParcels())
                         {
-                            DO.Customer client = dal.GetCustomer(parcel.TargetId);
-                            clients.Add(client);
+                            if (customer.Id == parcel.TargetId && parcel.Delivered != null)
+                            {
+                                DO.Customer client = dal.GetCustomer(parcel.TargetId);
+                                clients.Add(client);
+                            }
                         }
                     }
                 }
                 return clients;
+            }
+        }
+
+        public void DeleteCustomer(int id)
+        {
+            try
+            {
+                dal.DeleteCustomer(dal.GetCustomer(id));
+            }
+            catch(DO.NoMatchingIdException ex)
+            {
+                throw new BO.NoMatchingIdException(ex.Message);
             }
         }
     }

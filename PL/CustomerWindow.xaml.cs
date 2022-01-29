@@ -170,5 +170,19 @@ namespace PL
         {
             new ParcelWindow(bl).Show();
         }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.DeleteCustomer(customer.Id);
+                MessageBox.Show($"Customer {customer.Id} was deleted successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+            }
+            catch(BO.NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message + "\npress OK to continue", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

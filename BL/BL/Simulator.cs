@@ -50,7 +50,7 @@ namespace BL
 
 
                     case DroneStatus.Maintenance:
-                       
+
                         break;
 
 
@@ -58,8 +58,8 @@ namespace BL
                     case DroneStatus.Delivery:
                         lock (bl) lock (dal)
                             {
-                                try { if (parcelId == 0) delivery(drone.ParcelInDeliveryId); }
-                                catch (DO.IdAlreadyExistsException ex) { throw new BadStatusException("Internal error getting parcel", ex); }
+                                //try { if (parcelId == 0) delivery(drone.ParcelInDeliveryId); }
+                                //catch (DO.IdAlreadyExistsException ex) { throw new BadStatusException("Internal error getting parcel", ex); }
                                 distance = Tools.Utils.DistanceCalculation(drone.Location.Latitude, drone.Location.Longitude, customer.Location.Latitude, customer.Location.Longitude);
                             }
 
@@ -80,29 +80,30 @@ namespace BL
                                         pickedUp = true;
                                     }
                                 }
-                        else
-                        {
-                            if (!sleepSimulator()) break;
-                            lock (bl)
-                            {
-                                double delta = distance < STEP ? distance : STEP;
-                                double proportion = delta / distance;
-                                drone.Battery = Max(0.0, drone.Battery - delta * bl.BatteryUsages[pickedUp ? batteryUsage : DRONE_FREE]);
-                                double lat = drone.Location.Latitude + (customer.Location.Latitude - drone.Location.Latitude) * proportion;
-                                double lon = drone.Location.Longitude + (customer.Location.Longitude - drone.Location.Longitude) * proportion;
-                                drone.Location = new() { Latitude = lat, Longitude = lon };
-                            }
-                        }
+                        //else
+                        //{
+                        //    if (!sleepSimulator()) break;
+                        //    lock (bl)
+                        //    {
+                        //        double delta = distance < STEP ? distance : STEP;
+                        //        double proportion = delta / distance;
+                        //        drone.Battery = Max(0.0, drone.Battery - delta * bl.BatteryUsages[pickedUp ? batteryUsage : DRONE_FREE]);
+                        //        double lat = drone.Location.Latitude + (customer.Location.Latitude - drone.Location.Latitude) * proportion;
+                        //        double lon = drone.Location.Longitude + (customer.Location.Longitude - drone.Location.Longitude) * proportion;
+                        //        drone.Location = new() { Latitude = lat, Longitude = lon };
+                        //    }
+                        //}
                         break;
 
                     default:
-                        throw new BadStatusException("Internal error: not available after Delivery...");
+                        //throw new BadStatusException("Internal error: not available after Delivery...");
+                        break;
 
                 }
 
                 update();
             }
-            
+
         }
 
         private static bool sleepSimulator()
@@ -111,5 +112,6 @@ namespace BL
             return true;
         }
     }
+}
 
 

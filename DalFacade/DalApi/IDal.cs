@@ -37,7 +37,6 @@ namespace DalApi
         void UpdateCustomer(Customer c);
         void UpdateStation(Station s);
         #endregion
-
       
         #region Delete part of C.R.U.d
         void DeleteParcel(Parcel p);

@@ -154,5 +154,18 @@ namespace BL
             }
         }
 
+
+        public void DeleteParcel(int id)
+        {
+            try
+            {
+                dal.DeleteParcel(dal.GetParcel(id));
+            }
+            catch(DO.NoMatchingIdException ex)
+            {
+                throw new BO.NoMatchingIdException(ex.Message);
+            }
+
+        }
     }
 }
