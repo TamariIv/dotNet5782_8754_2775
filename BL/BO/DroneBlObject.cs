@@ -542,7 +542,7 @@ namespace BL
             double senderLatitude = sender.Location.Latitude;
             double targetLongitude = target.Location.Longitude;
             double targetLatitude = target.Location.Latitude;
-            double battery = getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLatitude);
+            double battery = getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLongitude);
             DO.Station station = getClosestStation(targetLatitude, targetLongitude);
             battery += electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude);
             if (parcel.PickedUp is null)

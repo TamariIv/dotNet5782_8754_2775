@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DroneCharge>
     <DroneId>6063</DroneId>
@@ -1734,5 +1734,80 @@
     <DroneId>1208</DroneId>
     <StationId>20040</StationId>
     <ChargingTime>2022-01-30T01:16:10.7906574+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>6040</DroneId>
+    <StationId>59593</StationId>
+    <ChargingTime>2022-01-30T02:25:31.8237912+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2869</DroneId>
+    <StationId>59593</StationId>
+    <ChargingTime>2022-01-30T02:25:31.844121+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5540</DroneId>
+    <StationId>59593</StationId>
+    <ChargingTime>2022-01-30T02:25:31.8505+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2977</DroneId>
+    <StationId>59593</StationId>
+    <ChargingTime>2022-01-30T02:25:31.8670002+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>7110</DroneId>
+    <StationId>54543</StationId>
+    <ChargingTime>2022-01-30T02:25:31.8700988+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>9663</DroneId>
+    <StationId>54460</StationId>
+    <ChargingTime>2022-01-30T02:26:26.6398556+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>4180</DroneId>
+    <StationId>42143</StationId>
+    <ChargingTime>2022-01-30T02:26:26.6543578+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>4986</DroneId>
+    <StationId>54460</StationId>
+    <ChargingTime>2022-01-30T02:26:26.6606424+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>8656</DroneId>
+    <StationId>42143</StationId>
+    <ChargingTime>2022-01-30T02:26:26.669098+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2354</DroneId>
+    <StationId>42143</StationId>
+    <ChargingTime>2022-01-30T02:26:26.6766585+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>3465</DroneId>
+    <StationId>42143</StationId>
+    <ChargingTime>2022-01-30T02:26:26.6843881+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5533</DroneId>
+    <StationId>59227</StationId>
+    <ChargingTime>2022-01-30T23:09:05.7645638+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1141</DroneId>
+    <StationId>59227</StationId>
+    <ChargingTime>2022-01-30T23:09:05.8093067+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>3487</DroneId>
+    <StationId>59227</StationId>
+    <ChargingTime>2022-01-30T23:09:05.8258217+02:00</ChargingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>5613</DroneId>
+    <StationId>59227</StationId>
+    <ChargingTime>2022-01-30T23:09:05.8563121+02:00</ChargingTime>
   </DroneCharge>
 </ArrayOfDroneCharge>
