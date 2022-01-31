@@ -31,24 +31,32 @@ namespace Dal
         {
             DataSource.Initialize();
 
-            //List<DroneCharge> droneCharge = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
-            //foreach (var item in droneCharge)
-            //{
-            //    //UpdatePluseChargeSlots(item.StationId);
-            //}
-            //droneCharge.Clear();
-            //XMLTools.SaveListToXmlSerializer(droneCharge, droneChargesPath);
+        //    List<DroneCharge> droneCharge = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
+        //    foreach (var item in droneCharge)
+        //    {
+        //        UpdatePluseChargeSlots(item.StationId);
+        //    }
+        //    droneCharge.Clear();
+        //    XMLTools.SaveListToXmlSerializer(droneCharge, droneChargesPath);
         }
+
+        //private void UpdatePluseChargeSlots(int stationId)
+        //{
+        //    Station s = GetStation(stationId);
+        //    s.AvailableChargeSlots++;
+        //    UpdateStation(s);
+        //}
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] GetElectricity()
         {
-            var temp1 = XMLTools.LoadListFromXmlElement(configPath);
-            var temp2 = temp1.Element("electricityRates").Elements();
-            var temp3 = temp2.Select(e => Convert.ToDouble(e.Value)).ToArray();
-            return temp3;
-            //return XMLTools.LoadListFromXmlElement(Path.Combine(configPath, configFilename)).Element("electricityRates").Elements()
-            //    .Select(e => Convert.ToDouble(e.Value)).ToArray();
+            //var temp1 = XMLTools.LoadListFromXmlElement(configPath);
+            //var temp2 = temp1.Element("electricityRates").Elements();
+            //var temp3 = temp2.Select(e => Convert.ToDouble(e.Value)).ToArray();
+            //return temp3;
+
+            return XMLTools.LoadListFromXmlElement(configPath).Element("electricityRates").Elements()
+            .Select(e => Convert.ToDouble(e.Value)).ToArray();
         }
 
         #region Get Entity

@@ -61,7 +61,7 @@ namespace BL
         /// the function receives an id and rerturns the parcel eith that id
         /// </summary>
         /// <param name="id">id of parcel to search</param>
-        /// <returns>the parcel with the id that was eceived</returns>
+        /// <returns>the parcel with the id that was received</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Parcel GetParcel(int id)
         {
@@ -165,7 +165,10 @@ namespace BL
             }
         }
 
-
+        /// <summary>
+        /// get ID of parcel and delete it
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteParcel(int id)
         {
             try

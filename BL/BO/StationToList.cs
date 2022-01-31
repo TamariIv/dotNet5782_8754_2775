@@ -12,7 +12,7 @@ namespace BO
         public string Name { get; set; }
         public int AvailableChargeSlots { get; set; }
         public int OccupiedChargeSlots { get; set; }
-        public bool isActive { get; set; }
+        public bool isActive { get; set; }  //Bonus - a boolean field that marks if the station is active and wasn't deleted
 
         public override string ToString()
         {

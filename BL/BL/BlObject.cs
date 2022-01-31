@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    //Blobject is a singelton - restricts the instantiation of the class to one "single" instance
     sealed partial class BlObject : IBL
     {
         public static IBL instance = new BlObject();
@@ -18,7 +19,7 @@ namespace BL
                 return instance;
             }
         }
-        internal readonly IDal dal; //l = DalFactory.GetDal();
+        internal readonly IDal dal; 
         static BlObject() { }
 
 
@@ -45,6 +46,9 @@ namespace BL
             initializeDrones();
         }
 
+        /// <summary>
+        /// initialize all the fields of all the drones according to their status
+        /// </summary>
         void initializeDrones()
         {
             List<DO.Parcel> parcels = dal.GetParcels().ToList();
@@ -64,6 +68,7 @@ namespace BL
                 {
                     DO.Parcel parcel = parcels[parcelIndex];
                     droneBl.ParcelInDeliveryId = parcel.Id;
+                    
                     //assigned but wasn't delivered:
                     if (parcel.Delivered == null)
                     {

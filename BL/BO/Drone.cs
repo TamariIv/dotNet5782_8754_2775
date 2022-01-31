@@ -13,9 +13,9 @@ namespace BO
         public WeightCategories MaxWeight { get; set; }
         public double Battery { get; set; }
         public DroneStatus DroneStatus { get; set; }
-        public ParcelInDelivey ParcelInDelivery { get; set; }
+        public ParcelInDelivey ParcelInDelivery { get; set; } 
         public Location CurrentLocation { get; set; }
-        public bool isActive { get; set; }
+        public bool isActive { get; set; }  //Bonus - a boolean field that marks if the drone is active and wasn't deleted
 
         public override string ToString()
         {

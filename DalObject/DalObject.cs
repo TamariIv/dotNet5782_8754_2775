@@ -418,6 +418,9 @@ namespace Dal
         #endregion
 
         #region delete functioins
+        
+        //All the delete functions get the object for delete and change it to be not active
+
 
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(Drone d)
@@ -438,6 +441,10 @@ namespace Dal
             UpdateCustomer(c);
         }
         //[MethodImpl(MethodImplOptions.Synchronized)]
+       /// <summary>
+       /// Remove the parcel from the parcels list
+       /// </summary>
+       /// <param name="p"></param>
         public void DeleteParcel(Parcel p)
         {
             GetParcels().ToList().Remove(p);
@@ -446,6 +453,10 @@ namespace Dal
         #endregion
 
         //[MethodImpl(MethodImplOptions.Synchronized)]
+        /// <summary>
+        /// Create an array that contains the electricity rates
+        /// </summary>
+        /// <returns>array with the electricity rates</returns>
         public double[] GetElectricity()
         {
             double[] electricityRates =

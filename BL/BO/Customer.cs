@@ -12,9 +12,9 @@ namespace BO
         public string Name { get; set; }
         public string Phone { get; set; }
         public Location Location { get; set; }
-        public List<ParcelInCustomer> Send { get; set; }
-        public List<ParcelInCustomer> Receive { get; set; }
-        public bool isActive { get; set; }
+        public List<ParcelInCustomer> Send { get; set; } //list of all the parcels that this customer sent
+        public List<ParcelInCustomer> Receive { get; set; } //list of all the parcels that this customer received
+        public bool isActive { get; set; } //Bonus - a boolean field that marks if the customer is active and wasn't deleted
 
 
 

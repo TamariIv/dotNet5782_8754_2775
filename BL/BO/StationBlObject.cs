@@ -119,9 +119,7 @@ namespace BL
             {
                 lock (dal)
                 {
-                    DO.Station dalStation = dal.GetStation(id);
-                    //if (!dalStation.isActive)
-                    //    throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
+                    DO.Station dalStation = dal.GetStation(id);                
                     List<BO.DroneInCharging> dronesCharging = new List<BO.DroneInCharging>();
                     foreach (var droneCharge in dal.GetDroneCharges())
                     {
@@ -183,7 +181,7 @@ namespace BL
                 foreach (var droneCharge in dal.GetDroneCharges())
                 {
                     if (droneCharge.StationId == dalStation.Id)
-                        // once you find another droneCharge with the station ID add ine to the number of occupied slots
+                        // once you find another droneCharge with the station ID add one to the number of occupied slots
                         OccupiedChargeSlots++;
                 }
                 BO.StationToList blStation = new BO.StationToList

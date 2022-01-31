@@ -26,6 +26,7 @@ namespace PL
         IBL bl;
         Drone drone;
         int stationId;
+        public event Action Update = delegate { };
 
         // add drone ctor
         public DroneWindow(IBL bl)

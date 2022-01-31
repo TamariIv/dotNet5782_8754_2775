@@ -17,7 +17,7 @@ namespace BO
         public DateTime? Requested { get; set; } // creating parcel time
         public DateTime? Scheduled { get; set; } // assigning drone to parcel time
         public DateTime? PickedUp { get; set; }  // pick up time
-        public DateTime? Delivered { get; set; } // delivey time
+        public DateTime? Delivered { get; set; } // delivery time
 
         public override string ToString()
         {

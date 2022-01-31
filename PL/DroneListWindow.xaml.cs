@@ -100,28 +100,10 @@ namespace PL
 
         private void cboxStatusSort_Checked(object sender, RoutedEventArgs e)
         {
-            //var groupingData = (from dr in bl.GetListOfDrones()
-            //                    group dr by dr.DroneStatus into g
-            //                    select g).ToList();
-
-            //DronesListView.ItemsSource = groupingData;
-
+            
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
             view.GroupDescriptions.Add(groupDescription);
-
-
-            ////var result = from d in bl.GetListOfDrones()
-            ////             group d by d.DroneStatus into g
-            //             select new { status = g.Key, Drones = g };
-            //DronesListView.ItemsSource = result;
-
-            //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
-            //                             group item by item.DroneStatus;
-
-            //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
-            //             group item by item.DroneStatus;
-            //DronesListView.ItemsSource = (CollectionView)DronesListView.ItemsSource;
         }
 
         private void cboxStatusSort_Unchecked(object sender, RoutedEventArgs e)

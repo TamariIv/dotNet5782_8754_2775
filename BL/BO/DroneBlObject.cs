@@ -200,27 +200,13 @@ namespace BL
         /// <returns> a bl droneToList with the id that was received </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneToList GetDroneToList(int id)
-        {
-            //int droneIndex = dronesToList.FindIndex(d => d.Id == id);
-            //if (droneIndex != -1) //this id of drone exists
-            //    return dronesToList[droneIndex];
+        {         
             DroneToList tmp = new DroneToList();
             if (dronesToList.Exists(d => d.Id == id))
                 return dronesToList.Find(d => d.Id == id);
-            //DO.Drone dalDrone= dal.GetDrone(id);
-
              else throw new NoMatchingIdException($"drone with id {id} doesn't exist !!");
         }
 
-        //private DroneToList convertDroneToDroneToList(DO.Drone dalDrone)
-        //{
-        //    DroneToList tmp = ge
-        //    return new DroneToList()
-        //    {
-        //        Id= dalDrone.Id,
-        //         Battery =
-        //    }
-        //}
 
         /// <summary>
         /// the function receives an id and returns the bl drone with the same id
@@ -265,6 +251,7 @@ namespace BL
                             Target = new CustomerInParcel { Id = dal.GetCustomer(parcel.TargetId).Id, Name = dal.GetCustomer(parcel.TargetId).Name },
                             PickUpLocation = new Location { Latitude = dal.GetCustomer(parcel.SenderId).Latitude, Longitude = dal.GetCustomer(parcel.SenderId).Longitude },
                             TargetLocation = new Location { Latitude = dal.GetCustomer(parcel.TargetId).Latitude, Longitude = dal.GetCustomer(parcel.TargetId).Longitude },
+                            //calculate the distance between the sender and the target:
                             Distance = Tools.Utils.DistanceCalculation(dal.GetCustomer(parcel.SenderId).Latitude, dal.GetCustomer(parcel.SenderId).Longitude, dal.GetCustomer(parcel.TargetId).Latitude, dal.GetCustomer(parcel.TargetId).Longitude)
                         };
 
@@ -333,6 +320,8 @@ namespace BL
                             double droneToSenderBatterty = Tools.Utils.DistanceCalculation(blDrone.Location.Latitude, blDrone.Location.Longitude, tempSender.Latitude, tempSender.Longitude) * whenAvailable;
                             double senderToTargetBattery = Tools.Utils.DistanceCalculation(tempSender.Latitude, tempSender.Longitude, tempTarget.Latitude, tempTarget.Longitude) * getBatteryConsumption(p.Weight);
                             double targetToStationBattery = Tools.Utils.DistanceCalculation(tempTarget.Latitude, tempTarget.Longitude, closestStation.Latitude, closestStation.Longitude) * whenAvailable;
+                            
+                            //after calculation the battery consumption check if there is enough in the battery
                             if (droneToSenderBatterty + senderToTargetBattery + targetToStationBattery <= blDrone.Battery)
                             {
                                 parcelWasFound = true;
@@ -428,6 +417,10 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// complete the delivery action
+        /// </summary>
+        /// <param name="drone"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void deliveryPackage(Drone drone)
         {
@@ -436,7 +429,7 @@ namespace BL
                 lock (dal)
                 {
                     DroneToList droneToList = GetDroneToList(drone.Id);
-                    if (droneToList.ParcelInDeliveryId != 0)
+                    if (droneToList.ParcelInDeliveryId != 0) //the drone carries a parcel
                     {
                         DO.Parcel dalParcel = dal.GetParcel(droneToList.ParcelInDeliveryId);
                         if (dalParcel.PickedUp != null && dalParcel.Delivered == null)
@@ -451,7 +444,7 @@ namespace BL
                                 Id = droneToList.Id,
                                 Model = droneToList.Model,
                                 MaxWeight = droneToList.MaxWeight,
-                                Battery = Math.Max( droneToList.Battery - battery,0),
+                                Battery = Math.Max( droneToList.Battery - battery,0), 
                                 Location = new Location { Latitude = target.Latitude, Longitude = target.Longitude },
                                 DroneStatus = DroneStatus.Available,
                                 isActive = droneToList.isActive
@@ -521,7 +514,7 @@ namespace BL
             }
             catch (DO.NoMatchingIdException ex)
             {
-                throw new BO.NoMatchingIdException(ex.Message);
+                throw new NoMatchingIdException(ex.Message);
             }
         }
 
