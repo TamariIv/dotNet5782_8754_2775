@@ -52,7 +52,7 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-
+          
             drone = bl.GetDrone(d.Id);
             DataContext = drone;
 
@@ -369,6 +369,13 @@ namespace PL
             try
             {
                 bl.deliveryPackage(drone);
+                //List<DroneToList> drones = bl.GetListOfDrones().ToList();
+                //int index = drones.FindIndex(d => d.Id == drone.Id);
+                //DroneToList tmpDrone = drones[index];
+                //tmpDrone.DroneStatus = DroneStatus.Available;
+                //drones.RemoveAt(index);
+                //drones.Insert(index, tmpDrone);
+
                 MessageBox.Show($"Drone {drone.Id} completed delivery successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -382,7 +389,7 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue, else press Cancel", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            this.Close();
+            Close();
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
@@ -422,26 +429,26 @@ namespace PL
 
 
 
-        BackgroundWorker worker;
-        private void updateDrone() => worker.ReportProgress(0);
-        private bool checkStop() => worker.CancellationPending;
+        //BackgroundWorker worker;
+        //private void updateDrone() => worker.ReportProgress(0);
+        //private bool checkStop() => worker.CancellationPending;
 
-        private void Auto_Click(object sender, RoutedEventArgs e)
-        {
+        //private void Auto_Click(object sender, RoutedEventArgs e)
+        //{
             
-        }
+        //}
 
-        private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();
+        //private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();
 
-        bool closing = false;
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (worker != null)
-            {
-                closing = true;
-                e.Cancel = true;
-            }
-        }
+        //bool closing = false;
+        //private void Window_Closing(object sender, CancelEventArgs e)
+        //{
+        //    if (worker != null)
+        //    {
+        //        closing = true;
+        //        e.Cancel = true;
+        //    }
+        //}
 
     }
 }

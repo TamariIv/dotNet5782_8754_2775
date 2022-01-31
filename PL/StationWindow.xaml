@@ -8,6 +8,8 @@
         Title="StationWindow" Height="450" Width="800">
 
     <Window.Resources>
+        <local:NotBooleanToVisibilityConverter x:Key="notBooleanToVisibilityConverter"/>
+
         <Style x:Key="lbldata" TargetType="Label">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -130,7 +132,7 @@
             <Label x:Name="lblPossibleDetails" Content="Click to view drone details" FontSize="9" HorizontalAlignment="Left" Grid.Column="3" Grid.Row="1" Foreground="DimGray" VerticalAlignment="Top" Height="57" Width="182" Margin="0,18,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
 
             <Button x:Name="btnClose" Content="Close" Style="{StaticResource btnDetails}" Grid.Column="1" Grid.Row="6" Click="btnClose_Click" />
-            <Button x:Name="btnUpdate" Content="Update" Style="{StaticResource btnDetails}" Grid.Column="2" Grid.Row="6" Click="btnUpdate_Click"/>
+            <Button x:Name="btnUpdate" Content="Update" Style="{StaticResource btnDetails}" Grid.Column="2" Grid.Row="6" Visibility="{Binding ElementName=isActive, Path=true, Converter={StaticResource notBooleanToVisibilityConverter}}" Click="btnUpdate_Click"/>
             <Button x:Name="btnDelete" Content="Delete" Style="{StaticResource btnDetails}" Grid.Column="3" Grid.Row="6" Click="btnDelete_Click"/>
 
             <Grid.ColumnDefinitions>

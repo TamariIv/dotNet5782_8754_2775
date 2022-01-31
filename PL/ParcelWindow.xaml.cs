@@ -75,21 +75,6 @@ namespace PL
             AddParcelGrid.Visibility = Visibility.Hidden;
         }
 
-
-        private void TextBox_TextChanged_SenderId(object sender, TextChangedEventArgs e)
-        {
-            CustomerInParcel customerInParcel = new CustomerInParcel();
-            customerInParcel.Id = Convert.ToInt32(txtSenderId.Text);
-            parcel.Sender = customerInParcel;
-        }
-
-        private void TextBox_TextChanged_ReceiverId(object sender, TextChangedEventArgs e)
-        {
-            CustomerInParcel customerInParcel = new CustomerInParcel();
-            customerInParcel.Id = Convert.ToInt32(txtTargetId.Text);
-            parcel.Target = customerInParcel;
-        }
-
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
@@ -108,6 +93,16 @@ namespace PL
             {
                 if (string.IsNullOrEmpty(txtSenderId.Text) || string.IsNullOrEmpty(txtTargetId.Text) || string.IsNullOrEmpty(comboWeightSelcetor.Text) || string.IsNullOrEmpty(comboPrioritySelcetor.Text))
                     throw new EmptyInputException("Insert all details of the parcel!");
+
+                CustomerInParcel s = new CustomerInParcel();
+                s.Id = Convert.ToInt32(txtSenderId.Text);
+                parcel.Sender = s;
+
+                CustomerInParcel target = new CustomerInParcel();
+                target.Id = Convert.ToInt32(txtTargetId.Text);
+                parcel.Target = target;
+
+
                 bl.AddParcel(parcel);
                 MessageBox.Show("Parcel was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -118,7 +113,12 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (NoMatchingIdException ex)
+            catch (BO.NoMatchingIdException ex) //Exception of BL
+            {
+                MessageBox.Show(ex.Message, "Error Occurred",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (NoMatchingIdException ex) //Exception of PL
             {
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);

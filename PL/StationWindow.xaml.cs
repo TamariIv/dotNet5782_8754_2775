@@ -39,6 +39,11 @@ namespace PL
             this.station = bl.GetStation(station.Id);
             DataContext = this.station;
             AddStationGrid.Visibility = Visibility.Hidden;
+            if(!station.isActive) //if this station is deleted, don't enable the user to delete or update this station
+            {
+                btnDelete.Visibility = Visibility.Hidden;
+                btnUpdate.Visibility = Visibility.Hidden;
+            }
         }
 
         // STATION DETAILS FUNCTIONS
@@ -61,20 +66,25 @@ namespace PL
                 MessageBox.Show("No update was made \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            this.Close();
+            catch (ImpossibleOprationException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Close();
             new StationWindow(bl, bl.GetStationToList(station.Id)).Show(); 
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         // ADD STATION FUNCTIONS
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -95,7 +105,7 @@ namespace PL
                 bl.AddStation(tmpStation);
                 station = tmpStation;
                 MessageBox.Show("Station was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                Close();
             }
             catch (IdAlreadyExistsException ex)
             {
@@ -124,8 +134,9 @@ namespace PL
             try
             {
                 bl.DeleteStation(station.Id);
+                MessageBox.Show($"Stsation {station.Id} was deleted succesffuly", "success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(BO.NoMatchingIdException ex)
+            catch (BO.NoMatchingIdException ex)
             {
                 MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
             }

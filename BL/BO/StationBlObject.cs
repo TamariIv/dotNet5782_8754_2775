@@ -120,8 +120,8 @@ namespace BL
                 lock (dal)
                 {
                     DO.Station dalStation = dal.GetStation(id);
-                    if (!dalStation.isActive)
-                        throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
+                    //if (!dalStation.isActive)
+                    //    throw new BO.NoMatchingIdException($"station with ID {dalStation.Id} does not exist !!");
                     List<BO.DroneInCharging> dronesCharging = new List<BO.DroneInCharging>();
                     foreach (var droneCharge in dal.GetDroneCharges())
                     {
