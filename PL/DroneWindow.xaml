@@ -152,7 +152,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="btnClose" Style="{StaticResource btnHandCursor}" Content="Close" Grid.Column="0" Click="btnClose_Click" />
-                <Button x:Name="btnDelete" Style="{StaticResource btnHandCursor}" Content="Delete" Grid.Column="2" Margin="0,0,0,31" VerticalAlignment="Stretch" Height="Auto" Click="btnDelete_Click"/>
+                <Button x:Name="btnDelete" Style="{StaticResource btnHandCursor}" Content="Delete" Grid.Column="2" Click="btnDelete_Click"/>
                 <Button x:Name="btnFinalUpdate" Style="{StaticResource btnHandCursor}" Content="Update Model" Grid.Column="3" Click="btnFinalUpdate_Click"/>
                 <Button x:Name="btnSendToCharge" Style="{StaticResource btnHandCursor}" Content="Send to Charge" Grid.Column="4" Click="btnSendToCharge_Click"/>
                 <Button x:Name="btnFreeDroneFromCharging" Style="{StaticResource btnHandCursor}" Content="Free" Grid.Column="4" Click="btnFreeDroneFromCharging_Click" />

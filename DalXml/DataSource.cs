@@ -97,7 +97,8 @@ namespace Dal
                     Name = namesArray[i],
                     Phone = firstDigits[r.Next(3)] + r.Next(1000000, 10000000).ToString(),
                     Latitude = minLat + (maxLat - minLat) * r.NextDouble(),
-                    Longitude = minLon + (maxLon - minLon) * r.NextDouble()
+                    Longitude = minLon + (maxLon - minLon) * r.NextDouble(),
+                    isActive = true
                 };
                 Customers.Add(c);
             }

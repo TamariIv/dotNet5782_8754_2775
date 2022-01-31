@@ -36,7 +36,7 @@
             <Image Source="/images/manager.png" Margin="426,242,9,42" />
 
         </Grid>
-        <Grid x:Name="managerPageGrid" d:IsHidden="True">
+        <Grid x:Name="managerPageGrid">
             <Grid.Background>
                 <ImageBrush ImageSource="\images\Drone1.jpg" Stretch="UniformToFill"/>
             </Grid.Background>
