@@ -11,6 +11,7 @@ namespace Dal
 {
     internal class DataSource
     {
+        //initialize lists for each entity:
         internal static List<Drone> Drones = new List<Drone>();
         internal static List<Station> Stations = new List<Station>();
         internal static List<Customer> Customers = new List<Customer>();
