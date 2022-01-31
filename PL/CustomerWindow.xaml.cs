@@ -23,6 +23,11 @@ namespace PL
     {
         IBL bl;
         Customer customer;
+
+        /// <summary>
+        /// add customer window constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public CustomerWindow(IBL bl)
         {
             this.bl = bl;
@@ -32,6 +37,12 @@ namespace PL
             // hide action mode grid
             ActionsGrid.Visibility = Visibility.Hidden;
         }
+
+        /// <summary>
+        /// customer details constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
+        /// <param name="c">customer to display</param>
         public CustomerWindow(IBL bl, Customer c)
         {
             InitializeComponent();
@@ -43,12 +54,10 @@ namespace PL
             AddCustomerGrid.Visibility = Visibility.Hidden;
 
         }
-        //public void RefreshList(object obj, EventArgs e)
-        //{
-        //    //    // ParcelsSentListView.ItemsSource = newCustomer.ParcelsFromCustomer;
-        //    //    //ParcelsReceivedListView.ItemsSource = newCustomer.ParcelsToCustomer;
-        //    DataContext = customer;
-        //}
+
+        /// <summary>
+        /// send the updated customer to update function in bl
+        /// </summary>
         private void btnFinalUpdate_Click(object sender, RoutedEventArgs e)
         {
             Customer tmpCustomer = customer;
@@ -75,11 +84,17 @@ namespace PL
             new CustomerWindow(bl, bl.GetCustomer(customer.Id)).Show();
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// create a new customer with the data and send to add in bl
+        /// </summary>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -100,7 +115,6 @@ namespace PL
                 bl.AddCustomer(c);
                 customer = c;
                 MessageBox.Show("Customer was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
                 Close();
             }
             catch (IdAlreadyExistsException ex)
@@ -118,14 +132,19 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// validation of input - only allow numbers
+        /// </summary>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             //allow get out of the text box
@@ -153,6 +172,10 @@ namespace PL
 
             return;
         }
+
+        /// <summary>
+        /// open parcel details window of the parcel that was double clicked
+        /// </summary>
         private void ReceivedlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -165,8 +188,11 @@ namespace PL
             {
                 MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
+
+        /// <summary>
+        /// open parcel details window of the parcel that was double clicked
+        /// </summary>
         private void DeliveredlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -181,11 +207,17 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// allow customer to add a new parcel and opan add parcel window
+        /// </summary>
         private void btnNewParcel_Click(object sender, RoutedEventArgs e)
         {
             new ParcelWindow(bl).Show();
         }
 
+        /// <summary>
+        /// delete current customer 
+        /// </summary>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try

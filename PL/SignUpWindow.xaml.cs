@@ -22,22 +22,35 @@ namespace PL
     public partial class SignUpWindow : Window
     {
         IBL bl;
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public SignUpWindow(IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
         }
 
+        /// <summary>
+        /// enables user to drag the window arounf the screen
+        /// </summary>
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void txtboxClose_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// create a new customer with the data that was inserted
+        /// </summary>
         private void btnSignUp_Click(object sender, RoutedEventArgs e)
         {
             try

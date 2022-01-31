@@ -22,16 +22,25 @@ namespace PL
     public partial class ParcelListWindow : Window
     {
         IBL bl;
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public ParcelListWindow(IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
 
+            // assign sources
             ParcelsListView.ItemsSource = bl.GetListofParcels();
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(ParcelStatus));
             comboWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             comboPrioritySelector.ItemsSource = Enum.GetValues(typeof(Priorities));
         }
+
+        /// <summary>
+        /// open the parcel that was double clicked details page 
+        /// </summary>
         private void ParcelsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ParcelToList tmpParcel = new ParcelToList();
@@ -40,6 +49,10 @@ namespace PL
             pw.Closed += Pw_Closed;
             pw.Show();
         }
+
+        /// <summary>
+        /// occurs before a window closes and refresh the list
+        /// </summary>
         private void Pw_Closed(object sender, EventArgs e)
         {
             ParcelsListView.Items.Refresh();
@@ -47,6 +60,9 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// add the parcel that was freated with the data
+        /// </summary>
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             ParcelToList parcel = new ParcelToList();
@@ -56,10 +72,17 @@ namespace PL
             pw.Show();
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+        /// <summary>
+        /// the combobox filters the list of parcels 
+        /// </summary>
         private void comboCombineAllFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboWeightSelector.SelectedItem != null && comboStatusSelector.SelectedItem != null && comboPrioritySelector.SelectedItem != null)
@@ -80,6 +103,10 @@ namespace PL
                     ParcelsListView.ItemsSource = bl.GetListofParcels().Where(p => p.Priority == (Priorities)comboPrioritySelector.SelectedItem);
             }
         }
+
+        /// <summary>
+        /// clear all filters and return to original list
+        /// </summary>
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {            
             ParcelsListView.ItemsSource = bl.GetListofParcels();

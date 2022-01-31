@@ -23,6 +23,11 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         IBL bl;
+
+        /// <summary>
+        /// drone list window constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public DroneListWindow(IBL bl)
         {
             this.bl = bl;
@@ -33,6 +38,9 @@ namespace PL
             comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
+        /// <summary>
+        /// combobox filters the list with a specific weight and/or priority
+        /// </summary>
         private void comboCombineStatusAndWeight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -45,6 +53,9 @@ namespace PL
                 DronesListView.ItemsSource = bl.GetListOfDrones().Where(d => d.DroneStatus == (DroneStatus)comboStatusSelector.SelectedItem);
         }
 
+        /// <summary>
+        /// open add drone window
+        /// </summary>
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
             DroneToList tmpDrone = new DroneToList();
@@ -54,11 +65,17 @@ namespace PL
             dw.Show();
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// open the details page of the drone that was double clicked
+        /// </summary>
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -69,7 +86,7 @@ namespace PL
                     tmpDrone = (DroneToList)DronesListView.SelectedItem;
                     if (!tmpDrone.isActive)
                         throw new NoMatchingIdException("The drone is not active !!");
-                    DroneWindow dw = new DroneWindow(bl, tmpDrone);
+                    DroneWindow dw = new DroneWindow(bl, bl.GetDroneToList(tmpDrone.Id));
                     dw.Closed += Dw_Closed;
                     dw.Show();
                 }
@@ -82,48 +99,39 @@ namespace PL
             {
                 MessageBox.Show("Error\npress OK to continue, else press Cancel", "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
+        /// <summary>
+        /// occurs before a drone details window closes and updates the list
+        /// </summary>
         private void Dw_Closed(object sender, EventArgs e)
         {
             DronesListView.Items.Refresh();
             comboCombineStatusAndWeight_SelectionChanged(this, null);
         }
         
-
+        /// <summary>
+        /// clear grouping
+        /// </summary>
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             cboxStatusSort.IsChecked = false;
             DronesListView.ItemsSource = bl.GetListOfDrones();
         }
 
+        /// <summary>
+        /// group drones list by status
+        /// </summary>
         private void cboxStatusSort_Checked(object sender, RoutedEventArgs e)
         {
-            //var groupingData = (from dr in bl.GetListOfDrones()
-            //                    group dr by dr.DroneStatus into g
-            //                    select g).ToList();
-
-            //DronesListView.ItemsSource = groupingData;
-
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
             view.GroupDescriptions.Add(groupDescription);
-
-
-            ////var result = from d in bl.GetListOfDrones()
-            ////             group d by d.DroneStatus into g
-            //             select new { status = g.Key, Drones = g };
-            //DronesListView.ItemsSource = result;
-
-            //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
-            //                             group item by item.DroneStatus;
-
-            //DronesListView.ItemsSource = from item in bl.GetListOfDrones()
-            //             group item by item.DroneStatus;
-            //DronesListView.ItemsSource = (CollectionView)DronesListView.ItemsSource;
         }
 
+        /// <summary>
+        /// un-group the drones list
+        /// </summary>
         private void cboxStatusSort_Unchecked(object sender, RoutedEventArgs e)
         {
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);

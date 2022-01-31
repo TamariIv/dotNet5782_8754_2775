@@ -24,6 +24,10 @@ namespace PL
         private IBL bl;
         Station station;
 
+        /// <summary>
+        /// add station constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public StationWindow(IBL bl)
         {
             InitializeComponent();
@@ -32,13 +36,18 @@ namespace PL
             StationDetailsGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// station details constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
+        /// <param name="station">the station that is going to be diplayed</param>
         public StationWindow(IBL bl, StationToList station)
         {
             InitializeComponent();
             this.bl = bl;
             this.station = bl.GetStation(station.Id);
             DataContext = this.station;
-            AddStationGrid.Visibility = Visibility.Hidden;
+            AddStationGrid.Visibility = Visibility.Hidden; // hide the grid for adding station
             if(!station.isActive) //if this station is deleted, don't enable the user to delete or update this station
             {
                 btnDelete.Visibility = Visibility.Hidden;
@@ -48,6 +57,9 @@ namespace PL
 
         // STATION DETAILS FUNCTIONS
 
+        /// <summary>
+        /// the function sends the station with the updated field to update function in bl
+        /// </summary>
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -75,6 +87,9 @@ namespace PL
             new StationWindow(bl, bl.GetStationToList(station.Id)).Show(); 
         }
 
+        /// <summary>
+        /// the function receives the event clicl on the close button and closes the wundow
+        /// </summary>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -82,11 +97,17 @@ namespace PL
 
         // ADD STATION FUNCTIONS
 
+        /// <summary>
+        /// the function receives the event clicl on the close button and closes the wundow
+        /// </summary>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// the function collects the data that was inserted, creates a new station with the data and sends to bl to add
+        /// </summary>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -100,7 +121,6 @@ namespace PL
                     Location = new Location() { Latitude = Convert.ToDouble(txtEnterLatitude.Text), Longitude = Convert.ToDouble(txtEnterLongitude.Text) },
                     AvailableChargeSlots = Convert.ToInt32(txtEnterAvailableSlots.Text)
                 };
-
 
                 bl.AddStation(tmpStation);
                 station = tmpStation;
@@ -124,11 +144,18 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// the function receives an event of double clicking on a drone in the list of dronesthat are being charged
+        /// and opens that drone details page
+        /// </summary>
         private void listvDronesChargingData_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             new DroneWindow(bl, bl.GetDroneToList(((DroneInCharging)listvDronesChargingData.SelectedItem).Id)).Show();
         }
 
+        /// <summary>
+        /// the button deletes the current stations
+        /// </summary>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
