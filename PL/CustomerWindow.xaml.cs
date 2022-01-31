@@ -155,15 +155,30 @@ namespace PL
         }
         private void ReceivedlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelInCustomer tmpParcel = (ParcelInCustomer)ParcelsReceivedListView.SelectedItem;
-            Parcel p = bl.GetParcel(tmpParcel.Id);
-            new ParcelWindow(bl, p).Show();
+            try
+            {
+                ParcelInCustomer tmpParcel = (ParcelInCustomer)ParcelsReceivedListView.SelectedItem;
+                Parcel p = bl.GetParcel(tmpParcel.Id);
+                new ParcelWindow(bl, p).Show();
+            }
+            catch(BO.NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
         private void DeliveredlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelInCustomer tmpParcel = (ParcelInCustomer)ParcelsSentListView.SelectedItem;
-            Parcel p = bl.GetParcel(tmpParcel.Id);
-            new ParcelWindow(bl, p).Show();
+            try
+            {
+                ParcelInCustomer tmpParcel = (ParcelInCustomer)ParcelsSentListView.SelectedItem;
+                Parcel p = bl.GetParcel(tmpParcel.Id);
+                new ParcelWindow(bl, p).Show();
+            }
+            catch (BO.NoMatchingIdException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnNewParcel_Click(object sender, RoutedEventArgs e)

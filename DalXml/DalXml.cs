@@ -77,7 +77,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int requestedId)
         {
-            return XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath).Find(parcel => parcel.Id == requestedId);
+            Parcel p = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath).Find(parcel => parcel.Id == requestedId);
+            if (p.Id == 0)
+                throw new NoMatchingIdException($"parcel with ID {requestedId} was not found");
+            return p;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -433,7 +436,7 @@ namespace Dal
             }
             else
                 throw new NoMatchingIdException($"parcel {p.Id} doesn't exist");
-            XMLTools.SaveListToXmlSerializer(parcels, customersPath);
+            XMLTools.SaveListToXmlSerializer(parcels, parcelsPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

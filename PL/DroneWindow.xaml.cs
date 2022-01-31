@@ -52,8 +52,6 @@ namespace PL
         {
             InitializeComponent();
             this.bl = bl;
-            //MessageBox.Show("ERROR");
-            //this.Close();
 
             drone = bl.GetDrone(d.Id);
             DataContext = drone;
@@ -64,7 +62,7 @@ namespace PL
             AddDroneGrid.Visibility = Visibility.Hidden;
 
 
-            // find the 
+            // find the drone status
             int status;
             if (d.ParcelInDeliveryId == 0)
             //if the drone doesn't carry a parcel
