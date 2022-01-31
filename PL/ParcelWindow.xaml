@@ -69,7 +69,7 @@
         <Ellipse Fill="SandyBrown" Grid.Column="1" Margin="574,217,-109,-105" Opacity="0.7"/>
         </Grid>
 
-        <Grid  x:Name="AddParcelGrid" d:IsHidden="True">
+        <Grid  x:Name="AddParcelGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
@@ -87,9 +87,9 @@
             
             <Label Content="Insert details of parcel you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Height="48" Width="472" Grid.ColumnSpan="3"/>
             <Label x:Name="lblEnterSenderId" Content="Enter Id of Sender:" Style="{StaticResource lblEnter}" Grid.Row="1"/>
-            <TextBox x:Name="txtSenderId" Style="{StaticResource txtboxEnter}" MaxLength="9" TextChanged="TextBox_TextChanged_SenderId" Grid.Row="1"/>
+            <TextBox x:Name="txtSenderId" Style="{StaticResource txtboxEnter}" MaxLength="9" Grid.Row="1"/>
             <Label x:Name="lblEnterTargerId" Content="Enter Id of Receiver:"  Style="{StaticResource lblEnter}" Grid.Row="2"/>
-            <TextBox x:Name="txtTargetId" Style="{StaticResource txtboxEnter}" MaxLength="9" TextChanged="TextBox_TextChanged_ReceiverId" Grid.Row="2"/>
+            <TextBox x:Name="txtTargetId" Style="{StaticResource txtboxEnter}" MaxLength="9" Grid.Row="2"/>
             <Label x:Name="lblChooseWeight" Content="Choose Weight of Parcel:" Style="{StaticResource lblEnter}" Grid.Row="3"/>
             <ComboBox x:Name="comboWeightSelcetor" Style="{StaticResource comboEnter}" Grid.Row="3" SelectionChanged="comboWeightSelcetor_SelectionChanged"/>
             <Label x:Name="lblChoosePriority" Content="Choose Priority of Parcel:" Style="{StaticResource lblEnter}" Grid.Row="4"/>
@@ -101,7 +101,7 @@
         </Grid>
 
 
-        <Grid x:Name="ViewGrid">
+        <Grid x:Name="ViewGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition Width="*"/>

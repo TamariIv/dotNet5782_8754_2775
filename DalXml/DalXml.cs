@@ -30,6 +30,7 @@ namespace Dal
         private DalXml()
         {
             DataSource.Initialize();
+
             //List<DroneCharge> droneCharge = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
             //foreach (var item in droneCharge)
             //{
@@ -149,18 +150,12 @@ namespace Dal
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station addBaseStation)
-        {
-            XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-            stations.Add(
-                new XElement("Station",
-                    new XElement("Id", addBaseStation.Id),
-                    new XElement("Name", addBaseStation.Name),
-                    new XElement("Longitude", addBaseStation.Longitude),
-                    new XElement("Latitude", addBaseStation.Latitude),
-                    new XElement("AvailableChargeSlots", addBaseStation.AvailableChargeSlots),
-                    new XElement("isActive", addBaseStation.isActive)
-                )
-            );
+        {            
+            List<Station> stations = XMLTools.LoadListFromXmlSerializer<Station>(baseStationsPath);
+            if (stations.FindIndex(x => x.Id == addBaseStation.Id) != -1) //this station exists
+                throw new IdAlreadyExistsException("This station already exists");
+            stations.Add(addBaseStation);
+            XMLTools.SaveListToXmlSerializer(stations, baseStationsPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -433,7 +428,7 @@ namespace Dal
             }
             else
                 throw new NoMatchingIdException($"parcel {p.Id} doesn't exist");
-            XMLTools.SaveListToXmlSerializer(parcels, customersPath);
+            XMLTools.SaveListToXmlSerializer(parcels, parcelsPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -473,32 +468,48 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {
-            XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-            XElement removeElement = (from station in stations.Elements()
-                                      where station.Element("Id").Value == $"{s.Id}" && station.Element("isActive").Value == "true"
-                                      select station).FirstOrDefault();
-            removeElement.Remove();
-            stations.Add(
-           new XElement("Station",
-               new XElement("Id", s.Id),
-               new XElement("Name", s.Name),
-               new XElement("Longitude", s.Longitude),
-               new XElement("Latitude", s.Latitude),
-               new XElement("AvailableChargeSlots", s.AvailableChargeSlots),
-               new XElement("isActive", false)
-               )
-           );
+            //// XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
+            //// XElement removeElement = (from station in stations.Elements()
+            ////                           where station.Element("Id").Value == $"{s.Id}" && station.Element("isActive").Value == "true"
+            ////                           select station).FirstOrDefault();
+            //// removeElement.Remove();
+            //// stations.Add(
+            ////new XElement("Station",
+            ////    new XElement("Id", s.Id),
+            ////    new XElement("Name", s.Name),
+            ////    new XElement("Longitude", s.Longitude),
+            ////    new XElement("Latitude", s.Latitude),
+            ////    new XElement("AvailableChargeSlots", s.AvailableChargeSlots),
+            ////    new XElement("isActive", false)
+            ////    )
+            ////);
 
-            //List <Station> stations = XMLTools.LoadListFromXmlSerializer<Station>(baseStationsPath);
-            //int idx = stations.FindIndex(p => p.Id == s.Id && p.isActive);
-            //if (idx != -1)
+            //List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
+            //int clientIndex = customers.FindIndex(p => p.Id == c.Id);
+            //if (clientIndex != -1)
             //{
-            //    s.isActive = false;
-            //    stations.Remove(stations[idx]);
-            //    stations.Add(s);
+            //    c.isActive = false;
+            //    customers.RemoveAt(clientIndex);
+            //    customers.Insert(clientIndex, c);
             //}
             //else
-            //    throw new NoMatchingIdException($"station {s.Id} doesn't exist");
+            //    throw new NoMatchingIdException($"customer {c.Id} doesn't exist");
+            //XMLTools.SaveListToXmlSerializer(customers, customersPath);
+
+
+
+            List<Station> stations = XMLTools.LoadListFromXmlSerializer<Station>(baseStationsPath);
+            int idx = stations.FindIndex(p => p.Id == s.Id && p.isActive);
+            if (idx != -1)
+            {
+                s.isActive = false;
+                stations.RemoveAt(idx);
+                stations.Insert(idx, s);
+            }
+            else
+                throw new NoMatchingIdException($"station {s.Id} doesn't exist");
+            XMLTools.SaveListToXmlSerializer(stations, baseStationsPath);
+
         }
         #endregion
     }

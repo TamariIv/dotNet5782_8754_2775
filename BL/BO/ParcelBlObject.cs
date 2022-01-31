@@ -21,6 +21,17 @@ namespace BL
             {
                 lock (dal)
                 {
+                    //check if the ID of sender and receiver exist. if not, throw an exception
+
+                    if (!GetListOfCustomers().ToList().Exists(c => c.Id == newParcel.Sender.Id))
+                    {
+                        throw new BO.NoMatchingIdException($"ID of sender {newParcel.Sender.Id} doesn't exist!");
+                    }
+                    if (!GetListOfCustomers().ToList().Exists(c => c.Id == newParcel.Target.Id))
+                    {
+                        throw new BO.NoMatchingIdException($"ID of receiver {newParcel.Target.Id} doesn't exist!");
+                    }
+
                     DO.Parcel parcel = new DO.Parcel
                     {
                         SenderId = newParcel.Sender.Id,

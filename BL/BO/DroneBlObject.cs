@@ -117,9 +117,8 @@ namespace BL
 
                 DO.Station tempStation = getClosestStation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude);
                 double distance = Tools.Utils.DistanceCalculation(drone.CurrentLocation.Latitude, drone.CurrentLocation.Longitude, tempStation.Latitude, tempStation.Longitude);
-                double rate = whenAvailable;
 
-                if (tempStation.AvailableChargeSlots > 0 && distance * rate < drone.Battery)
+                if (tempStation.AvailableChargeSlots > 0 && distance * whenAvailable < drone.Battery)
                 {
                     DO.Drone dalDrone = ConvertDroneToDal(drone);
                     dal.SendDroneToCharge(tempStation, dalDrone);
@@ -129,7 +128,7 @@ namespace BL
                         Id = drone.Id,
                         MaxWeight = drone.MaxWeight,
                         Model = drone.Model,
-                        Battery = drone.Battery - distance * rate,
+                        Battery =  Math.Max(0.0,drone.Battery - distance * whenAvailable),
                         Location = new Location { Latitude = tempStation.Latitude, Longitude = tempStation.Longitude },
                         DroneStatus = DroneStatus.Maintenance,
                         isActive = true
@@ -173,7 +172,7 @@ namespace BL
                         DO.DroneCharge dc = dal.GetDroneCharge(blDrone.Id);
 
                         TimeSpan timeOfRelease = DateTime.Now - dc.ChargingTime; //calculate the time of charging
-                        blDrone.Battery += timeOfRelease.TotalMinutes * chargeRate;
+                        blDrone.Battery += Math.Min(timeOfRelease.TotalMinutes * chargeRate, 100);
                         blDrone.DroneStatus = DroneStatus.Available;
                         dronesToList.Add(blDrone);
 
@@ -275,7 +274,7 @@ namespace BL
                     {
                         Id = d.Id,
                         Model = d.Model,
-                        MaxWeight = (WeightCategories)d.MaxWeight,
+                        MaxWeight = d.MaxWeight,
                         Battery = d.Battery,
                         DroneStatus = d.DroneStatus,
                         ParcelInDelivery = parcelInDrone,
@@ -303,14 +302,14 @@ namespace BL
             try
             {
                 lock (dal)
-                {
+                { 
                     DroneToList blDrone = GetDroneToList(id);
                     if (!blDrone.isActive)
                         throw new NoMatchingIdException($"drone with ID {id} in not active");
                     if (blDrone.DroneStatus == DroneStatus.Available)
                     {
                         // delete from the list parcels that are too heavy for the drone
-                        List<DO.Parcel> parcels = dal.GetParcels().Where(parcel => (int)parcel.Weight >= (int)blDrone.MaxWeight).ToList();
+                        List<DO.Parcel> parcels = dal.GetParcels().Where(parcel => (int)parcel.Weight >= (int)blDrone.MaxWeight && parcel.Scheduled == null).ToList();
 
                         // make list of parcels with highest priority possible
                         parcels = parcels.Where(parcel => parcel.Priority == DO.Priorities.Emergency && parcel.Scheduled==null).ToList();
@@ -405,7 +404,7 @@ namespace BL
                             Id = drone.Id,
                             Model = drone.Model,
                             MaxWeight = drone.MaxWeight,
-                            Battery = drone.Battery - batteryWaste,
+                            Battery = Math.Max (drone.Battery - batteryWaste,0),
                             DroneStatus = GetDroneToList(drone.Id).DroneStatus,
                             Location = new Location { Latitude = sender.Latitude, Longitude = sender.Longitude },
                             ParcelInDeliveryId = oldDalParcel.Id,
@@ -452,7 +451,7 @@ namespace BL
                                 Id = droneToList.Id,
                                 Model = droneToList.Model,
                                 MaxWeight = droneToList.MaxWeight,
-                                Battery = droneToList.Battery - battery,
+                                Battery = Math.Max( droneToList.Battery - battery,0),
                                 Location = new Location { Latitude = target.Latitude, Longitude = target.Longitude },
                                 DroneStatus = DroneStatus.Available,
                                 isActive = droneToList.isActive
@@ -547,7 +546,7 @@ namespace BL
             double targetLatitude = target.Location.Latitude;
             double battery = getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLongitude);
             DO.Station station = getClosestStation(targetLatitude, targetLongitude);
-            battery += electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude);
+            battery = Math.Min(100,battery + electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude));
             if (parcel.PickedUp is null)
                 battery += electricity[0] * Tools.Utils.DistanceCalculation(drone.Location.Latitude, drone.Location.Longitude, senderLatitude, senderLongitude);    
             return battery;
