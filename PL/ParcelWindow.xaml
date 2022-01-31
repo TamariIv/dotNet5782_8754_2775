@@ -85,7 +85,7 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             
-            <Label Content="Insert details of parcel you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Height="48" Width="472"/>
+            <Label Content="Insert details of parcel you want to add:" FontWeight="Bold" Foreground="Gray" FontSize="20" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Height="48" Width="472" Grid.ColumnSpan="3"/>
             <Label x:Name="lblEnterSenderId" Content="Enter Id of Sender:" Style="{StaticResource lblEnter}" Grid.Row="1"/>
             <TextBox x:Name="txtSenderId" Style="{StaticResource txtboxEnter}" MaxLength="9" TextChanged="TextBox_TextChanged_SenderId" Grid.Row="1"/>
             <Label x:Name="lblEnterTargerId" Content="Enter Id of Receiver:"  Style="{StaticResource lblEnter}" Grid.Row="2"/>

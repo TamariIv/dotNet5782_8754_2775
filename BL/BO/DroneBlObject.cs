@@ -309,20 +309,20 @@ namespace BL
                         throw new NoMatchingIdException($"drone with ID {id} in not active");
                     if (blDrone.DroneStatus == DroneStatus.Available)
                     {
+                        // delete from the list parcels that are too heavy for the drone
+                        List<DO.Parcel> parcels = dal.GetParcels().Where(parcel => (int)parcel.Weight >= (int)blDrone.MaxWeight).ToList();
 
                         // make list of parcels with highest priority possible
-                        List<DO.Parcel> parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Emergency && parcel.Scheduled == null).ToList();
+                        parcels = parcels.Where(parcel => parcel.Priority == DO.Priorities.Emergency && parcel.Scheduled==null).ToList();
+
                         if (!parcels.Any())
-                            parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Rapid).ToList();
+                            parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Rapid && parcel.Scheduled == null).ToList();
                         if (!parcels.Any())
-                            parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Regular).ToList();
+                            parcels = dal.GetParcels().Where(parcel => parcel.Priority == DO.Priorities.Regular && parcel.Scheduled == null).ToList();
                         if (!parcels.Any())
                             throw new EmptyListException("no parcel was found\n");
 
-                        // delete from the list parcels that are too heavy for the drone
-                        parcels = parcels.Where(parcel => (int)parcel.Weight >= (int)blDrone.MaxWeight).ToList();
-
-                        // find a parcel in that is [ossible for the drone to take
+                        // find a parcel in that is possible for the drone to take
                         DO.Parcel posibleDistanceParcel = parcels.First();
                         Parcel finalParcel = new Parcel();
                         bool parcelWasFound = false;
@@ -453,8 +453,8 @@ namespace BL
                                 Model = droneToList.Model,
                                 MaxWeight = droneToList.MaxWeight,
                                 Battery = droneToList.Battery - battery,
-                                Location = new BO.Location { Latitude = target.Latitude, Longitude = target.Longitude },
-                                DroneStatus = BO.DroneStatus.Available,
+                                Location = new Location { Latitude = target.Latitude, Longitude = target.Longitude },
+                                DroneStatus = DroneStatus.Available,
                                 isActive = droneToList.isActive
                             };
                             dronesToList.Remove(droneToList);
@@ -545,7 +545,7 @@ namespace BL
             double senderLatitude = sender.Location.Latitude;
             double targetLongitude = target.Location.Longitude;
             double targetLatitude = target.Location.Latitude;
-            double battery = getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLatitude);
+            double battery = getBatteryConsumption(parcel.Weight) * Tools.Utils.DistanceCalculation(senderLatitude, senderLongitude, targetLatitude, targetLongitude);
             DO.Station station = getClosestStation(targetLatitude, targetLongitude);
             battery += electricity[0] * Tools.Utils.DistanceCalculation(targetLatitude, targetLongitude, station.Latitude, station.Longitude);
             if (parcel.PickedUp is null)
