@@ -46,13 +46,20 @@
             <ListView x:Name="CustomersListView" Margin="15,20,15,20" MouseDoubleClick="CustomersListView_MouseDoubleClick" Grid.ColumnSpan="8">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="ID" Width="80" DisplayMemberBinding="{Binding Id}" />
                         <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Header="Phone" Width="100" DisplayMemberBinding="{Binding Phone}" />
+                        <GridViewColumn Header="Phone" Width="90" DisplayMemberBinding="{Binding Phone}" />
                         <GridViewColumn Header="Parcels Delivered" Width="100" DisplayMemberBinding="{Binding SentAndDelivered}" />
                         <GridViewColumn Header="Parcels not Delivered" Width="120" DisplayMemberBinding="{Binding SentAndNotDeliverd}" />
                         <GridViewColumn Header="Parcels received" Width="100" DisplayMemberBinding="{Binding Recieved}" />
                         <GridViewColumn Header="Parcels on the way" Width="120" DisplayMemberBinding="{Binding InDeliveryToCustomer}" />
+                        <GridViewColumn Header="Is active" Width="50" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding isActive}" IsEnabled="False" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
 
                 </ListView.View>

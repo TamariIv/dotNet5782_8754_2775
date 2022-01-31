@@ -123,8 +123,6 @@ namespace PL
         /// <summary>
         /// the event saves id the user input in a drone
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void TextBox_TextChanged_DroneId(object sender, TextChangedEventArgs e)
         {
             drone.Id = Convert.ToInt32(txtDroneId.Text);
@@ -134,8 +132,6 @@ namespace PL
         /// function will only allow user to enter numbers
         /// other chars won't e shown in the textbosx
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             //allow get out of the text box
@@ -167,8 +163,6 @@ namespace PL
         /// <summary>
         /// the event saves the weight the user chose in drone
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
@@ -178,8 +172,6 @@ namespace PL
         /// <summary>
         /// the event saves the model user input in a drone
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void TextBox_TextChanged_DroneModel(object sender, TextChangedEventArgs e)
         {
             drone.Model = Convert.ToString(txtDroneModel.Text);
@@ -188,8 +180,6 @@ namespace PL
         /// <summary>
         /// the event saves the station the user chose in drone
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void comboStationSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             drone.DroneStatus = DroneStatus.Maintenance;
@@ -199,8 +189,6 @@ namespace PL
         /// <summary>
         /// the event sends the new drone to the addDrone method in BL
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -227,19 +215,22 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
 
-
-
         // ACTIONS WITH DRONE FUNCTIONS
 
+        /// <summary>
+        /// send the updated drone to update function in bl
+        /// </summary>
         private void btnFinalUpdate_Click(object sender, RoutedEventArgs e)
         {
             Drone tmpDrone = drone;
@@ -265,6 +256,10 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
+
+        /// <summary>
+        /// send available drone to charge 
+        /// </summary>
         private void btnSendToCharge_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -283,12 +278,13 @@ namespace PL
                 MessageBox.Show("Error \npress OK to continue", "Error Occurred",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
             this.Close();
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
-
         }
 
+        /// <summary>
+        /// send available drone on a delivery and match it to a parcel
+        /// </summary>
         private void btnSendToDelivery_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -316,6 +312,9 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
+        /// <summary>
+        /// free drone in maintenance from charging
+        /// </summary>
         private void btnFreeDroneFromCharging_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -338,6 +337,9 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
+        /// <summary>
+        /// send drone that was assigned to a parcel tp pick up that parcel
+        /// </summary>
         private void btnPickUpParcel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -365,18 +367,14 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
+        /// <summary>
+        /// complete a delivery and make the drone available again 
+        /// </summary>
         private void btnDeliverParcel_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 bl.deliveryPackage(drone);
-                //List<DroneToList> drones = bl.GetListOfDrones().ToList();
-                //int index = drones.FindIndex(d => d.Id == drone.Id);
-                //DroneToList tmpDrone = drones[index];
-                //tmpDrone.DroneStatus = DroneStatus.Available;
-                //drones.RemoveAt(index);
-                //drones.Insert(index, tmpDrone);
-
                 MessageBox.Show($"Drone {drone.Id} completed delivery successfully\npress OK to continue", "Success",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -394,11 +392,17 @@ namespace PL
             new DroneWindow(bl, bl.GetDroneToList(drone.Id)).Show();
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// send drone to delete in bl
+        /// </summary>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -425,9 +429,6 @@ namespace PL
         //    worker.ProgressChanged += (sender, args) => updateDroneView();
         //    worker.RunWorkerAsync(drone.Id);
         //}
-
-
-
 
 
         //BackgroundWorker worker;

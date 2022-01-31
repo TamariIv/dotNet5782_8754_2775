@@ -9,6 +9,7 @@ using System.Windows.Data;
 
 namespace PL
 {
+    // class converts boolean variable to visibilty
     public class NotBooleanToVisibilityConverter : IValueConverter
     {
         //convert from source property type to target property type

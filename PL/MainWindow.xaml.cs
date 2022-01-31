@@ -23,6 +23,10 @@ namespace PL
     public partial class MainWindow : Window
     {
         IBL mybl;
+
+        /// <summary>
+        /// main window constructor
+        /// </summary>
         public MainWindow()
         {
             mybl = BlFactory.GetBl();
@@ -32,26 +36,46 @@ namespace PL
             CustomerGrid.Visibility = Visibility.Hidden;
         }
 
+        // MANAGER PAGE
+
+        /// <summary>
+        /// button opens list of drones window
+        /// </summary>
         private void showListOfDronesBtn_Click(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(mybl).Show();
         }
 
+        /// <summary>
+        /// button opens list of stations window
+        /// </summary>
         private void btnShowListOfStations_Click(object sender, RoutedEventArgs e)
         {
             new StationListWindow(mybl).Show();
         }
 
+        /// <summary>
+        /// button opens list of customers window
+        /// </summary>
         private void btnShowListOfCustomers_Click(object sender, RoutedEventArgs e)
         {
             new CustomerListWindow(mybl).Show();
         }
+
+        /// <summary>
+        /// button opens list of parels window
+        /// </summary>
         private void btnShowListOfParcels_Click(object sender, RoutedEventArgs e)
         {
             new ParcelListWindow(mybl).Show();
         }
 
 
+        // SIGN IN PAGE
+
+        /// <summary>
+        /// try sighning in with the account details the customer entered 
+        /// </summary>
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -70,17 +94,28 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// for new customers - open sign up page
+        /// </summary>
         private void lblNoAccount_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             new SignUpWindow(mybl).Show();
         }
 
+        // FIRST GRID - CHOOSE ACCESS
+
+        /// <summary>
+        /// show manager page 
+        /// </summary>
         private void managerBtn_Click(object sender, RoutedEventArgs e)
         {
             FirstWindow.Visibility = Visibility.Hidden;
             managerPageGrid.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// show customer page
+        /// </summary>
         private void customerBtn_Click(object sender, RoutedEventArgs e)
         {
             FirstWindow.Visibility = Visibility.Hidden;

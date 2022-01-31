@@ -22,14 +22,20 @@ namespace PL
     public partial class StationListWindow : Window
     {
         IBL bl;
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public StationListWindow(IBL bl)
         {
             InitializeComponent();
             this.bl = bl;
             StationsListView.ItemsSource = bl.GetListOfStations();
-
         }
 
+        /// <summary>
+        /// the function receives an event of double clicking on a station and opens that station details page
+        /// </summary>
         private void StationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             StationToList tmpStation = new StationToList();
@@ -39,16 +45,20 @@ namespace PL
             sw.Show();
         }
 
+        /// <summary>
+        /// the function is called before a window is closed and takes care of refreshing the list
+        /// </summary>
         private void Sw_Closed(object sender, EventArgs e)
         {
             StationsListView.Items.Refresh();
             StationsListView.ItemsSource = bl.GetListOfStations();
         }
 
-
+        /// <summary>
+        /// the combobox orders the list by the requested order
+        /// </summary>
         private void comboChooseSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (((ComboBoxItem)comboChooseSort.SelectedItem).Content.ToString() == "Only available stations")
             {
                 StationsListView.ItemsSource = from s in bl.GetListOfStations()
@@ -70,6 +80,9 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// the function opens an add station page
+        /// </summary>
         private void btnAddStation_Click(object sender, RoutedEventArgs e)
         {
             StationToList tmpDrone = new StationToList();
@@ -79,6 +92,9 @@ namespace PL
             sw.Show();
         }
 
+        /// <summary>
+        /// clear the oreders and return to the original list order
+        /// </summary>
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             StationsListView.ItemsSource = bl.GetListOfStations();

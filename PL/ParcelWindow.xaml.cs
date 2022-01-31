@@ -23,6 +23,11 @@ namespace PL
     {
         IBL bl;
         Parcel parcel;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="bl">instance of bl</param>
         public ParcelWindow(IBL bl)
         {
             InitializeComponent();
@@ -35,6 +40,7 @@ namespace PL
             comboWeightSelcetor.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             comboPrioritySelcetor.ItemsSource = Enum.GetValues(typeof(Priorities));
         }
+
         /// <summary>
         /// constructor for view the details of specific parcel from the parcels list
         /// </summary>
@@ -75,18 +81,30 @@ namespace PL
             AddParcelGrid.Visibility = Visibility.Hidden;
         }
 
+
+        // ADD PARCEL PAGE
+
+        /// <summary>
+        /// weight selector for the new parcel
+        /// </summary>
         private void comboWeightSelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)Convert.ToInt32(comboWeightSelcetor.SelectedItem);
             parcel.Weight = weight;
         }
 
+        /// <summary>
+        /// priority selector for the new parcel
+        /// </summary>
         private void comboPrioritySelcetor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Priorities priority = (Priorities)Convert.ToInt32(comboPrioritySelcetor.SelectedItem);
             parcel.Priority = priority;
         }
 
+        /// <summary>
+        /// create a new parcel with the data that was inserted and add it in bl
+        /// </summary>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -101,7 +119,6 @@ namespace PL
                 CustomerInParcel target = new CustomerInParcel();
                 target.Id = Convert.ToInt32(txtTargetId.Text);
                 parcel.Target = target;
-
 
                 bl.AddParcel(parcel);
                 MessageBox.Show("Parcel was added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -118,7 +135,7 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (NoMatchingIdException ex) //Exception of PL
+            catch (NoMatchingIdException ex)
             {
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
@@ -131,20 +148,27 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        // DETAILS PAGE FUNCTIONS
+
+        /// <summary>
+        /// close window
+        /// </summary>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+        
         /// <summary>
         /// when the user press double-tap, the window with the details of this drone will be opened
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void DetailsOfDrone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -164,17 +188,28 @@ namespace PL
             }
 
         }
+
+        /// <summary>
+        /// double click opens the customer details page of the sender 
+        /// </summary>
         private void DetailsOfSender_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Customer tmpCustomer = bl.GetCustomer(Convert.ToInt32(txtSenderData.Text));
             new CustomerWindow(bl, bl.GetCustomer(tmpCustomer.Id)).Show();
         }
+
+        /// <summary>
+        /// double click opens the customer details page of the sender 
+        /// </summary>
         private void DetailsOfTarget_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Customer tmpCustomer = bl.GetCustomer(Convert.ToInt32(txtTargetData.Text));
             new CustomerWindow(bl, bl.GetCustomer(tmpCustomer.Id)).Show();
         }
 
+        /// <summary>
+        /// dend the station to delete in bl
+        /// </summary>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try

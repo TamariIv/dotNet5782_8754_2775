@@ -4,6 +4,7 @@ namespace Tools
     public static class Utils
     {
         /// <summary>
+        /// the function receive two locations and calculates the difference between them
         /// https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
         /// </summary>
         /// <param name="currentLocation"></param>
