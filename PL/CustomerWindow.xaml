@@ -59,7 +59,7 @@
             <Ellipse Fill="SandyBrown" Margin="264,166,-141,-54" Opacity="0.7" Grid.Column="1"/>
         </Grid>
 
-        <Grid  x:Name="AddCustomerGrid" d:IsHidden="True">
+        <Grid  x:Name="AddCustomerGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
@@ -99,7 +99,7 @@
         </Grid>
         
         
-        <Grid x:Name="ActionsGrid">
+        <Grid x:Name="ActionsGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
