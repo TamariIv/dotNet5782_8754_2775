@@ -408,8 +408,13 @@ namespace PL
             try
             {
                 bl.DeleteDrone(drone.Id);
-                MessageBox.Show($"Drone {drone.Id} was deleted successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                btnDelete.Visibility = Visibility.Hidden;
+                btnDeliverParcel.Visibility = Visibility.Hidden;
+                btnFinalUpdate.Visibility = Visibility.Hidden;
+                btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
+                btnPickUpParcel.Visibility = Visibility.Hidden;
+                btnSendToCharge.Visibility = Visibility.Hidden;
+                btnSendToDelivery.Visibility = Visibility.Hidden;
             }
             catch (NoMatchingIdException ex)
             {

@@ -60,4 +60,10 @@
     <MaxWeight>Heavy</MaxWeight>
     <isActive>true</isActive>
   </Drone>
+  <Drone>
+    <Id>6481</Id>
+    <Model>HE880</Model>
+    <MaxWeight>Light</MaxWeight>
+    <isActive>true</isActive>
+  </Drone>
 </ArrayOfDrone>
