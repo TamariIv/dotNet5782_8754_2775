@@ -124,11 +124,7 @@ namespace PL
         /// </summary>
         private void cboxStatusSort_Checked(object sender, RoutedEventArgs e)
         {
-            //                    group dr by dr.DroneStatus into g
-            //                    select g).ToList();
-
-            //DronesListView.ItemsSource = groupingData;
-
+            
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
             view.GroupDescriptions.Add(groupDescription);

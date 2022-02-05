@@ -469,7 +469,6 @@ namespace Dal
             };
             return electricityRates;
         }
-
     }
 
 }

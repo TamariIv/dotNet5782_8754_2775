@@ -181,6 +181,7 @@ namespace Dal
                     new XElement("isActive", droneDO.isActive)
                 )
             );
+            XMLTools.SaveListToXmlElement(drones, dronesPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -212,19 +213,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone d)
         {
-            // XElement drones = XMLTools.LoadListFromXmlElement(dronesPath);
-            // XElement removeElement = (from dr in drones.Elements()
-            //                           where dr.Element("Id").Value == $"{d.Id}"
-            //                           select dr).FirstOrDefault();
-            // removeElement.Remove();
-            // drones.Add(
-            //new XElement("Drone",
-            //    new XElement("Id", d.Id),
-            //    new XElement("MaxWeight", d.MaxWeight),
-            //    new XElement("Model", d.Model)
-            //)
-
-
+           
             List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
             int index = drones.FindIndex(dr => dr.Id == dr.Id);
             if (index != -1)
@@ -266,20 +255,7 @@ namespace Dal
             else
                 throw new NoMatchingIdException($"station {s.Id} doesn't exist");
             XMLTools.SaveListToXmlSerializer(stations, baseStationsPath);
-            //     XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-            //     XElement removeElement = (from st in stations.Elements()
-            //                               where st.Element("Id").Value == $"{s.Id}"
-            //                               select st).FirstOrDefault();
-            //     removeElement.Remove();
-            //     stations.Add(
-            //    new XElement("Station",
-            //        new XElement("Id", s.Id),
-            //        new XElement("Name", s.Name),
-            //        new XElement("Longitude", s.Longitude),
-            //        new XElement("Latitude", s.Latitude),
-            //        new XElement("AvailableChargeSlots", s.AvailableChargeSlots)
-            //    )
-            //);
+          
         }
         #endregion
 
@@ -288,14 +264,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void MatchDroneToParcel(Parcel p, Drone d)
         {
-            //XElement parcels = XMLTools.LoadListFromXmlElement(parcelsPath);
-            //XElement parcel = (from prcl in parcels.Elements()
-            //                   where Convert.ToInt32(prcl.Element("Id").Value) == p.Id
-            //                   select prcl).FirstOrDefault();
-            //parcel.Element("DroneId").Value = d.Id.ToString();
-            //parcel.Element("Scheduled").Value = DateTime.Now;
-
-            //XMLTools.SaveListToXmlElement(parcels, parcelsPath);
+          
             List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
             List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
             Parcel parcel = parcels.Find(prcl => prcl.Id == p.Id);
@@ -328,12 +297,7 @@ namespace Dal
             parcels.RemoveAt(index);
             parcels.Insert(index, parcel);
             XMLTools.SaveListToXmlSerializer<Parcel>(parcels, parcelsPath);
-            //XElement parcels = XMLTools.LoadListFromXmlElement(parcelsPath);
-            //XElement parcel = (from prcl in parcels.Elements()
-            //                   where Convert.ToInt32(prcl.Element("Id").Value) == p.Id
-            //                   select prcl).FirstOrDefault();
-            //parcel.Element("PickedUp").Value = DateTime.Now.ToString("O"); // datetime iso-8601 format
-            //XMLTools.SaveListToXmlElement(parcels, parcelsPath);
+         
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -349,14 +313,6 @@ namespace Dal
             parcels.Insert(index, parcel);
             XMLTools.SaveListToXmlSerializer<Parcel>(parcels, parcelsPath);
 
-
-            //XElement parcels = XMLTools.LoadListFromXmlElement(parcelsPath);
-            //XElement parcel = (from prcl in parcels.Elements()
-            //                   where Convert.ToInt32(prcl.Element("Id").Value) == p.Id
-            //                   select prcl).FirstOrDefault();
-            //parcel.Element("Delivered").Value = DateTime.Now.ToString("O"); // datetime iso-8601 format
-
-            //XMLTools.SaveListToXmlElement(parcels, parcelsPath);
         }
         #endregion
 
@@ -382,25 +338,7 @@ namespace Dal
             XMLTools.SaveListToXmlSerializer<DroneCharge>(droneCharges, droneChargesPath);
 
 
-            //XElement baseStations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-            //XElement baseStation = (from bs in baseStations.Elements()
-            //                        where bs.Element("Id").Value == $"{s.Id}"
-            //                        select bs).FirstOrDefault();
-            //int availableChargingPorts = Convert.ToInt32(baseStation.Element("AvailableChargeSlots").Value);
-            //--availableChargingPorts; //update the available charge slots
-            //baseStation.Element("AvailableChargeSlots").Value = availableChargingPorts.ToString();
 
-            //XMLTools.SaveListToXmlElement(baseStations, baseStationsPath);
-
-            ////add one drone to the list of drone charges
-            //XElement droneCharges = XMLTools.LoadListFromXmlElement(droneChargesPath);
-            //droneCharges.Add(
-            //    new XElement("DroneCharge",
-            //        new XElement("DroneId", d.Id),
-            //        new XElement("StationId", s.Id),
-            //        new XElement("ChargingTime", DateTime.Now.ToString("O"))
-            //        )
-            //    );
 
         }
 
@@ -474,41 +412,12 @@ namespace Dal
                new XElement("isActive", false)
            )
        );
+            XMLTools.SaveListToXmlElement(drones, dronesPath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {
-            //// XElement stations = XMLTools.LoadListFromXmlElement(baseStationsPath);
-            //// XElement removeElement = (from station in stations.Elements()
-            ////                           where station.Element("Id").Value == $"{s.Id}" && station.Element("isActive").Value == "true"
-            ////                           select station).FirstOrDefault();
-            //// removeElement.Remove();
-            //// stations.Add(
-            ////new XElement("Station",
-            ////    new XElement("Id", s.Id),
-            ////    new XElement("Name", s.Name),
-            ////    new XElement("Longitude", s.Longitude),
-            ////    new XElement("Latitude", s.Latitude),
-            ////    new XElement("AvailableChargeSlots", s.AvailableChargeSlots),
-            ////    new XElement("isActive", false)
-            ////    )
-            ////);
-
-            //List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
-            //int clientIndex = customers.FindIndex(p => p.Id == c.Id);
-            //if (clientIndex != -1)
-            //{
-            //    c.isActive = false;
-            //    customers.RemoveAt(clientIndex);
-            //    customers.Insert(clientIndex, c);
-            //}
-            //else
-            //    throw new NoMatchingIdException($"customer {c.Id} doesn't exist");
-            //XMLTools.SaveListToXmlSerializer(customers, customersPath);
-
-
-
             List<Station> stations = XMLTools.LoadListFromXmlSerializer<Station>(baseStationsPath);
             int idx = stations.FindIndex(p => p.Id == s.Id && p.isActive);
             if (idx != -1)

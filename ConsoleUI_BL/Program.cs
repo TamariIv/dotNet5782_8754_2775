@@ -12,8 +12,7 @@ namespace ConsoleUI_BL
         enum ListOptions { Exit, BaseStations, Drones, Customers, Parcels, ParcelsWithoutDrone, AvailableChargingStation }
         enum UpdateOptions { Exit, Drone, Station, Customer, Recharge, FreeDrone, DroneToParcel, PickUpParcel, DeliveryPackageByDrone }
 
-        static IBL mybl = BlFactory.GetBl();
-
+        static IBL mybl = BlFactory.GetBl();        
         static void Main(string[] args)
         {
             Console.WriteLine("press 1 to add an item");

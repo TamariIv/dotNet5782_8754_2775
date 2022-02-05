@@ -23,7 +23,6 @@ namespace PL
     {
         private IBL bl;
         Station station;
-
         /// <summary>
         /// add station constructor
         /// </summary>

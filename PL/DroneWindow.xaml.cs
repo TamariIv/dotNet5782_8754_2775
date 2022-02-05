@@ -408,6 +408,8 @@ namespace PL
             try
             {
                 bl.DeleteDrone(drone.Id);
+                MessageBox.Show($"Drone {drone.Id} was deleted successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
             }
             catch (NoMatchingIdException ex)
             {

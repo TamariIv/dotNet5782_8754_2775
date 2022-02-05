@@ -69,7 +69,7 @@
         <Ellipse Fill="SandyBrown" Grid.Column="1" Margin="574,217,-109,-105" Opacity="0.7"/>
         </Grid>
 
-        <Grid  x:Name="AddParcelGrid">
+        <Grid  x:Name="AddParcelGrid" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
@@ -101,7 +101,7 @@
         </Grid>
 
 
-        <Grid x:Name="ViewGrid" d:IsHidden="True">
+        <Grid x:Name="ViewGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition Width="*"/>

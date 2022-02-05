@@ -43,7 +43,7 @@ namespace Dal
                 else
                 {
                     XElement rootElem = new XElement(filePath);
-                    rootElem.Save( filePath);
+                    rootElem.Save(filePath);
                     return rootElem;
                 }
             }
