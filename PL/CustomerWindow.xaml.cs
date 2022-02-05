@@ -105,7 +105,7 @@ namespace PL
                 if (Math.Abs(Convert.ToDouble(txtCustomerLong.Text)) > 180 || Math.Abs(Convert.ToDouble(txtCustomerLat.Text)) > 180)
                     throw new InvalidInputException("The longitude or latitude are no valid");
                 if (Convert.ToDouble(txtCustomerLat.Text) < 31.79 || Convert.ToDouble(txtCustomerLat.Text) > 31.81
-                        || Convert.ToInt32(txtCustomerLong.Text) < 35.1 || Convert.ToInt32(txtCustomerLong.Text) > 35.21)
+                        || Convert.ToDouble(txtCustomerLong.Text) < 35.1 || Convert.ToDouble(txtCustomerLong.Text) > 35.21)
                     throw new InvalidInputException("We operate our delivery services in Jerusalem only");
 
                 Customer c = new Customer

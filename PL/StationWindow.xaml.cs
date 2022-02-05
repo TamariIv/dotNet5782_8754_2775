@@ -114,7 +114,7 @@ namespace PL
                 if (string.IsNullOrEmpty(txtEnterId.Text) || string.IsNullOrEmpty(txtEnterName.Text) || string.IsNullOrEmpty(txtEnterLatitude.Text) || string.IsNullOrEmpty(txtEnterLongitude.Text) || string.IsNullOrEmpty(txtEnterAvailableSlots.Text))
                     throw new EmptyInputException("Insert all details of the station!");
                 if (Convert.ToDouble(txtEnterLatitude.Text) < 31.79 || Convert.ToDouble(txtEnterLatitude.Text) > 31.81
-                        || Convert.ToInt32(txtEnterLongitude.Text) < 35.1 || Convert.ToInt32(txtEnterLongitude.Text) > 35.21)
+                        || Convert.ToDouble(txtEnterLongitude.Text) < 35.1 || Convert.ToDouble(txtEnterLongitude.Text) > 35.21)
                     throw new InvalidInputException("The longitude or latitude are not valid\n Location should be in Jerusalem");
 
                 Station tmpStation = new Station()
