@@ -99,8 +99,15 @@ namespace PL
         {
             try
             {
-                if (string.IsNullOrEmpty(txtCustomerId.Text) || string.IsNullOrEmpty(txtCustomerName.Text) || string.IsNullOrEmpty(txtCustomerPhone.Text) || string.IsNullOrEmpty(txtCustomerLat.Text) || string.IsNullOrEmpty(txtCustomerLong.Text))
+                if (string.IsNullOrEmpty(txtCustomerId.Text) || string.IsNullOrEmpty(txtCustomerName.Text) || 
+                    string.IsNullOrEmpty(txtCustomerPhone.Text) || string.IsNullOrEmpty(txtCustomerLat.Text) || string.IsNullOrEmpty(txtCustomerLong.Text))
                     throw new EmptyInputException("Insert all details of the customer!");
+                if (Math.Abs(Convert.ToDouble(txtCustomerLong.Text)) > 180 || Math.Abs(Convert.ToDouble(txtCustomerLat.Text)) > 180)
+                    throw new InvalidInputException("The longitude or latitude are no valid");
+                if (Convert.ToDouble(txtCustomerLat.Text) < 31.79 || Convert.ToDouble(txtCustomerLat.Text) > 31.81
+                        || Convert.ToInt32(txtCustomerLong.Text) < 35.1 || Convert.ToInt32(txtCustomerLong.Text) > 35.21)
+                    throw new InvalidInputException("We operate our delivery services in Jerusalem only");
+
                 Customer c = new Customer
                 {
                     Id = Convert.ToInt32(txtCustomerId.Text),
@@ -131,6 +138,16 @@ namespace PL
             {
                 MessageBox.Show(ex.Message, "Error Occurred",
                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidInputException ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occurred",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error Occurred", "Error Occurred",
+                MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

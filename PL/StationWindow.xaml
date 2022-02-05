@@ -68,7 +68,7 @@
             <Rectangle Fill="AliceBlue" Grid.Column="0"/>
             <Ellipse Fill="SandyBrown" Opacity="0.7" Margin="71,-42,-71,217" Grid.Column="1"/>
         </Grid>
-        <Grid x:Name="AddStationGrid" d:IsHidden="True">
+        <Grid x:Name="AddStationGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.6*"/>
                 <ColumnDefinition Width="*"/>
@@ -89,6 +89,9 @@
             <Label x:Name="lblEnterName" Content="Enter station name:" Style="{StaticResource lblEnter}" Grid.Column="1" Grid.Row="2" />
             <TextBox x:Name="txtEnterName" Style="{StaticResource txtboxEnter}" Grid.Column="2" Grid.Row="2"/>
             <Label x:Name="lblEntrLocation" Content="Enter location:" Style="{StaticResource lblEnter}" Grid.Column="1" Grid.Row="3" />
+            <Label x:Name="lblLongitudeLimits" Content="Longitude should be between 35.1 and 35.21" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Foreground="DimGray"/>
+            <Label x:Name="lblLatitudeLimits" Content="Latitude should be between 31.79 and 31.81" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Foreground="DimGray"  Margin="0,47,0,0"/>
+
             <Label x:Name="lblEnterLongitude" Content="Longitude:" Grid.Column="2" HorizontalAlignment="Left" Margin="0,66,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.RowSpan="2" Height="29" Width="74"/>
             <Label x:Name="lblEnterLatitude" Content="Latitude:" Grid.Column="2" HorizontalAlignment="Left" Margin="0,39,0,0" Grid.Row="3" VerticalAlignment="Top" Height="28" Width="74"/>
             <TextBox x:Name="txtEnterLongitude" Grid.Column="2" HorizontalAlignment="Left" Margin="74,1,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="80"  Height="28"/>
@@ -109,7 +112,7 @@
         </Grid>
 
 
-        <Grid x:Name="StationDetailsGrid" >
+        <Grid x:Name="StationDetailsGrid" d:IsHidden="True" >
             <Label x:Name="lblIdData" Style="{StaticResource lbldata}" Content="Station ID:" Grid.Row="1"  Grid.Column="1"/>
             <TextBox x:Name="txtIdData" IsReadOnly="True" Style="{StaticResource txtboxData}" Text="{Binding Id, Mode=OneWay}" Grid.Row="1" Grid.Column="2" />
             <Label x:Name="lblNameData" Style="{StaticResource lbldata}" Content="Name:" Grid.Row="2" Grid.Column="1"/>
