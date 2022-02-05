@@ -408,6 +408,13 @@ namespace PL
             try
             {
                 bl.DeleteDrone(drone.Id);
+                btnDelete.Visibility = Visibility.Hidden;
+                btnDeliverParcel.Visibility = Visibility.Hidden;
+                btnFinalUpdate.Visibility = Visibility.Hidden;
+                btnFreeDroneFromCharging.Visibility = Visibility.Hidden;
+                btnPickUpParcel.Visibility = Visibility.Hidden;
+                btnSendToCharge.Visibility = Visibility.Hidden;
+                btnSendToDelivery.Visibility = Visibility.Hidden;
             }
             catch (NoMatchingIdException ex)
             {

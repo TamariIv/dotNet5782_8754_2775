@@ -55,6 +55,7 @@ namespace BL
                     Phone = newCustomer.Phone,
                     Longitude = newCustomer.Location.Longitude,
                     Latitude = newCustomer.Location.Latitude,
+                    isActive = true
                 };
                 dal.AddCustomer(dalCustomer);
             }
