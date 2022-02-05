@@ -53,6 +53,11 @@ namespace PL
             ParcelsReceivedListView.ItemsSource = customer.Receive;
             AddCustomerGrid.Visibility = Visibility.Hidden;
 
+            if (!customer.isActive) //if this customer is deleted, don't enable the user to delete or update this customer
+            {
+                btnDelete.Visibility = Visibility.Hidden;
+                btnFinalUpdate.Visibility = Visibility.Hidden;
+            }
         }
 
         /// <summary>
@@ -117,7 +122,8 @@ namespace PL
                     {
                         Longitude = Convert.ToDouble(txtCustomerLong.Text),
                         Latitude = Convert.ToDouble(txtCustomerLat.Text)
-                    }
+                    },
+                    isActive = true
                 };
                 bl.AddCustomer(c);
                 customer = c;

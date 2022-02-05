@@ -122,6 +122,7 @@ namespace PL
                     Id = Convert.ToInt32(txtEnterId.Text),
                     Name = txtEnterName.Text,
                     Location = new Location() { Latitude = Convert.ToDouble(txtEnterLatitude.Text), Longitude = Convert.ToDouble(txtEnterLongitude.Text) },
+                    isActive = true,
                     AvailableChargeSlots = Convert.ToInt32(txtEnterAvailableSlots.Text)
                 };
 

@@ -55,6 +55,7 @@ namespace BL
                     Phone = newCustomer.Phone,
                     Longitude = newCustomer.Location.Longitude,
                     Latitude = newCustomer.Location.Latitude,
+                    isActive = true
                 };
                 dal.AddCustomer(dalCustomer);
             }
@@ -125,6 +126,7 @@ namespace BL
                         Location = new BO.Location { Latitude = dalCustomer.Latitude, Longitude = dalCustomer.Longitude },
                         Send = convertParcelsToParcelsCustomer(parcelsOfsender, id).ToList(),
                         Receive = convertParcelsToParcelsCustomer(parcelsOfreceiver, id).ToList(),
+                        isActive = dalCustomer.isActive
                     };
                     return customer;
                 }
