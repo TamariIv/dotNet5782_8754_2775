@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
-    <Id>37680</Id>
+    <Id>38120</Id>
     <Name>Romema</Name>
     <Longitude>35.20553</Longitude>
     <Latitude>31.7916</Latitude>
-    <AvailableChargeSlots>5</AvailableChargeSlots>
+    <AvailableChargeSlots>6</AvailableChargeSlots>
     <isActive>true</isActive>
   </Station>
   <Station>
-    <Id>38628</Id>
+    <Id>61783</Id>
     <Name>Givat Shaul</Name>
     <Longitude>35.195144</Longitude>
     <Latitude>31.790835</Latitude>

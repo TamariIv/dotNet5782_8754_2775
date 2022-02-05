@@ -146,7 +146,7 @@ namespace PL
             }
             catch (Exception)
             {
-                MessageBox.Show("Error Occurred", "Error Occurred",
+                MessageBox.Show("Error Occured", "Error Occurred",
                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
